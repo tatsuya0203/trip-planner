@@ -1,0 +1,77 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+    // 管理者かどうかを認証トークンから判定するヘルパー関数
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+
+    // ユーザープロフィール用のルール
+    match /users/{userId} {
+      // 管理者、または自分自身のプロフィールは読み書き可能
+      allow read, update: if isAdmin() || (request.auth != null && request.auth.uid == userId);
+      // ユーザーが自分のドキュメントを作成することを許可
+      allow create: if request.auth != null && request.auth.uid == userId;
+      
+      // メールボックスのサブコレクション
+      match /mailbox/{messageId} {
+        // 自分のメールボックスのみ読み取り・更新可能
+        allow read, update: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    // 旅行プラン用のルール
+    match /plans/{userId} {
+      // isAdmin() を使用
+      allow read: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // お気に入り用のルール
+    match /favorites/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // 全体へのお知らせ用のルール
+    match /announcements/{announcementId} {
+      allow read: if true;
+      // isAdmin() を使用
+      allow write: if isAdmin();
+    }
+
+    // スポット提案用のルール
+    match /spot_submissions/{submissionId} {
+      allow create: if request.auth != null;
+      // isAdmin() を使用
+      allow read, update, delete: if isAdmin();
+    }
+    
+    // 画像レポート用のルール
+    match /image_reports/{reportId} {
+      allow create: if request.auth != null;
+      // isAdmin() を使用
+      allow read, delete: if isAdmin();
+    }
+
+    // リンク切れレポート用のルール
+    match /link_reports/{reportId} {
+      // isAdmin() を使用
+      allow read, delete: if isAdmin();
+    }
+
+    // ▼▼▼ ここに追加しました ▼▼▼
+    // スポット報告用のルール
+    match /spot_reports/{reportId} {
+      allow create: if request.auth != null;
+      allow read, update, delete: if isAdmin();
+    }
+    // ▲▲▲ 追加はここまで ▲▲▲
+    
+    // 管理者招待用のルール
+    match /admin_invitations/{tokenId} {
+      // クライアントからの直接アクセスは不可
+      allow read, write: if false;
+    }
+  }
+}

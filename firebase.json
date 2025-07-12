@@ -1,0 +1,36 @@
+{
+  "hosting": {
+    "public": "public",  
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/admin-panel-7x3k9m1z",
+        "destination": "/admin/admin.html" 
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"     
+      }
+    ]
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    }
+  ],
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}

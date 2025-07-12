@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅プランナー 仕様解説書</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #f9fafb;
+            color: #1f2937;
+            scroll-behavior: smooth;
+        }
+        .section-title {
+            border-left: 5px solid #ef4444;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .code-block {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: 'Menlo', 'Consolas', monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+        .code-block .comment {
+            color: #6a9955;
+        }
+        .code-block .keyword {
+            color: #569cd6;
+        }
+        .code-block .string {
+            color: #ce9178;
+        }
+        .code-block .function {
+            color: #dcdcaa;
+        }
+        .code-block .variable {
+            color: #9cdcfe;
+        }
+        details > summary {
+            cursor: pointer;
+            font-weight: 600;
+            background-color: #f3f4f6;
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s;
+        }
+        details > summary:hover {
+            background-color: #e5e7eb;
+        }
+        details[open] > summary {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 1.5rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800">旅プランナー 仕様解説書</h1>
+            <p class="mt-4 text-lg text-gray-600">アプリケーションの仕組みを徹底解剖！</p>
+        </header>
+
+        <nav class="bg-white p-4 rounded-lg shadow-md sticky top-4 z-10 mb-12">
+            <h2 class="text-xl font-bold mb-2">目次</h2>
+            <ul class="space-y-1">
+                <li><a href="#overview" class="text-red-600 hover:underline">1. アプリケーション概要</a></li>
+                <li><a href="#architecture" class="text-red-600 hover:underline">2. システム構成図（アーキテクチャ）</a></li>
+                <li><a href="#files" class="text-red-600 hover:underline">3. ファイル構成と役割</a></li>
+                <li><a href="#features" class="text-red-600 hover:underline">4. 主要機能と実装の解説</a></li>
+                <li><a href="#code-dive" class="text-red-600 hover:underline">5. コード深掘り解説</a></li>
+                <li><a href="#ui-events" class="text-red-600 hover:underline">6. UI要素とイベントリスナー解説</a></li>
+            </ul>
+        </nav>
+
+        <main class="space-y-16">
+            <!-- 1. アプリケーション概要 -->
+            <section id="overview">
+                <h2 class="text-3xl font-bold section-title">1. アプリケーション概要</h2>
+                <div class="card space-y-4 text-gray-700">
+                    <p>この「VLOG旅プランナー」は、専門学生が旅行の計画を立てるのを手助けするためのインタラクティブなウェブアプリケーションです。</p>
+                    <p>主な機能は以下の通りです：</p>
+                    <ul class="list-disc list-inside space-y-2 pl-4">
+                        <li>日本全国の観光・グルメスポットを検索・閲覧できる。</li>
+                        <li>気に入ったスポットを組み合わせて、自分だけの旅行プランを作成できる。</li>
+                        <li>作成したプランの合計時間や移動ルートを確認できる。</li>
+                        <li>新しいスポットを提案すると、AIが内容を分析して自動で情報を作成してくれる。</li>
+                        <li>管理者向けの機能も充実しており、ユーザーからの提案を承認したり、お知らせを配信したりできる。</li>
+                    </ul>
+                    <p>このアプリケーションは、見た目を担当する「フロントエンド」と、裏でデータを処理する「バックエンド」が連携して動作しています。最新のWeb技術を使い、ユーザーにとって使いやすく、管理者にとって運用しやすいシステムを目指しています。</p>
+                </div>
+            </section>
+
+            <!-- 2. アーキテクチャ -->
+            <section id="architecture">
+                <h2 class="text-3xl font-bold section-title">2. システム構成図（アーキテクチャ）</h2>
+                <div class="card">
+                    <p class="mb-4">このアプリケーションは、複数のサービスを連携させて構築されています。それぞれの役割は以下のようになっています。</p>
+                    <div class="bg-gray-50 p-6 rounded-lg border">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                            <div>
+                                <h3 class="font-bold text-lg mb-2">① フロントエンド (ユーザーが見る画面)</h3>
+                                <p class="text-sm">HTML, CSS (Tailwind CSS), JavaScriptで作成されています。ユーザーの操作に応じて、バックエンドに指示を出します。</p>
+                                <div class="mt-2 text-xs text-gray-500">担当ファイル: `index.html`, `admin.html`</div>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg mb-2">② バックエンド (裏方の処理)</h3>
+                                <p class="text-sm">Firebase Cloud Functions (Node.js)で構築。AIとの連携やデータベース操作など、重要な処理はここで行います。</p>
+                                <div class="mt-2 text-xs text-gray-500">担当ファイル: `index.js`</div>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg mb-2">③ データベース & 認証</h3>
+                                <p class="text-sm">Firebase (Firestore, Authentication, Storage)を使用。ユーザー情報や旅行プラン、画像などを安全に保管します。</p>
+                            </div>
+                        </div>
+                        <div class="text-center text-2xl my-4">↕️</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+                             <div>
+                                <h3 class="font-bold text-lg mb-2">④ 外部AIサービス</h3>
+                                <p class="text-sm">Google Gemini APIを利用。スポット情報の自動生成や画像の品質チェックなど、高度な処理を担います。</p>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg mb-2">⑤ データソース (Git-based CMS)</h3>
+                                <p class="text-sm">GitHub上のJSONファイルを観光スポットのマスターデータとして利用。管理者が承認すると、バックエンドがこのファイルを自動で更新します。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-6">このように、各サービスが得意なことを分担することで、高機能でメンテナンスしやすいシステムを実現しています。</p>
+                </div>
+            </section>
+
+            <!-- 3. ファイル構成 -->
+            <section id="files">
+                <h2 class="text-3xl font-bold section-title">3. ファイル構成と役割</h2>
+                <div class="card space-y-6">
+                    <div>
+                        <h3 class="font-semibold text-lg">📄 `index.html`</h3>
+                        <p class="text-sm text-gray-600">ユーザーが実際に操作するメイン画面のファイルです。スポットの一覧表示、プラン作成、検索など、アプリのほぼ全ての見た目と基本的な操作がこのファイルに記述されています。</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg">🔑 `admin.html`</h3>
+                        <p class="text-sm text-gray-600">管理者専用のページです。ここからユーザーに管理者権限を与えたり、全体へのお知らせを送信したりできます。</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg">🧠 `functions/index.js`</h3>
+                        <p class="text-sm text-gray-600">アプリケーションの「脳」にあたる部分。Firebase Cloud Functionsとして動作し、AIとの通信、データベースの読み書き、GitHub上のファイル更新など、複雑なバックエンド処理をすべて担当します。</p>
+                    </div>
+                     <div>
+                        <h3 class="font-semibold text-lg">🗺️ `data/` ディレクトリ内のJSONファイル (例: `tokyo.json`)</h3>
+                        <p class="text-sm text-gray-600">各都道府県のスポット情報が格納されたデータファイルです。このアプリはこれらのファイルを直接読み込んで画面に表示します。管理者が提案を承認すると、`index.js`がこのファイルを自動で書き換えます。</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg">⚙️ `firebase.json`</h3>
+                        <p class="text-sm text-gray-600">Firebaseの設定ファイル。どのファイルを公開するか、特定のURLにアクセスしたときにどのファイルを表示するか(`rewrites`)などを定義しています。</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-lg">📦 `package.json`</h3>
+                        <p class="text-sm text-gray-600">`functions/index.js`が動作するために必要なライブラリ（部品）のリストです。`firebase-admin`や`node-fetch`などが含まれています。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. 主要機能 -->
+            <section id="features">
+                <h2 class="text-3xl font-bold section-title">4. 主要機能と実装の解説</h2>
+                <div class="space-y-8">
+                    <div class="card">
+                        <h3 class="text-xl font-bold mb-3">ユーザー認証とデータ管理</h3>
+                        <p class="text-gray-700">Firebase Authenticationを利用して、メールアドレス/パスワード認証とゲストログインを実現しています。ユーザーごとの旅行プランやお気に入り情報は、FirestoreというデータベースにユーザーIDと紐付けて保存されます。これにより、他のユーザーにプランを見られることなく、安全にデータを管理できます。</p>
+                    </div>
+                    <div class="card">
+                        <h3 class="text-xl font-bold mb-3">AIによるスポット提案・分析</h3>
+                        <p class="text-gray-700">このアプリの目玉機能です。ユーザーがスポットの公式サイトURLなどを入力して提案すると、以下の流れで処理が進みます。</p>
+                        <ol class="list-decimal list-inside space-y-2 mt-4 pl-4 text-sm">
+                            <li><span class="font-bold">`index.html`</span>: ユーザーが入力したURLをCloud Functions(`index.js`)に送信。</li>
+                            <li><span class="font-bold">`index.js` (`analyzeSpotSuggestion`関数)</span>: 受け取ったURLとスポット名を基に、GoogleのAI「Gemini」に「このサイトの内容を分析して、説明文やカテゴリ、タグなどをJSON形式で作成して」という指示（プロンプト）を送信。</li>
+                            <li><span class="font-bold">`Gemini API`</span>: 指示に従ってサイトを分析し、結果をJSON形式で`index.js`に返す。</li>
+                            <li><span class="font-bold">`index.js`</span>: AIからの返却データをFirestoreの`spot_submissions`コレクション（提案箱）に保存。</li>
+                            <li><span class="font-bold">`index.html`</span>: 管理者ユーザーが管理パネルを開くと、提案が表示される。</li>
+                        </ol>
+                    </div>
+                    <div class="card">
+                        <h3 class="text-xl font-bold mb-3">Git-based CMS: GitHub連携によるデータ更新</h3>
+                        <p class="text-gray-700">管理者が提案を「承認」すると、単にデータベースが更新されるだけではありません。裏側では、Cloud FunctionsがGitHubにアクセスし、観光スポットのマスターデータであるJSONファイルを直接更新します。この仕組みのメリットは以下の通りです。</p>
+                         <ul class="list-disc list-inside space-y-2 mt-4 pl-4 text-sm">
+                            <li><span class="font-bold">データのバージョン管理:</span> Gitの履歴として「いつ、誰が、どのスポットを追加したか」が自動的に記録されます。</li>
+                            <li><span class="font-bold">データの可搬性:</span> データが特定のデータベースに縛られず、ただのJSONファイルなので、他のシステムでも再利用しやすいです。</li>
+                            <li><span class="font-bold">静的サイトとしてのパフォーマンス:</span> アプリは常にGitHub上の最新のJSONを読み込むため、高速に動作します。</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 5. コード深掘り -->
+            <section id="code-dive">
+                <h2 class="text-3xl font-bold section-title">5. コード深掘り解説</h2>
+                <div class="space-y-8">
+                    <details>
+                        <summary>Firebase初期化と認証監視 (`index.html`)</summary>
+                        <div class="p-4 border border-t-0 rounded-b-lg">
+                            <p class="mb-4 text-sm">アプリの起動時にFirebaseの各サービス（認証、DB、ストレージ、Functions）を使えるように準備し、ログイン状態を監視します。</p>
+                            <div class="code-block">
+<pre><code><span class="comment">// Firebase SDK（ソフトウェア開発キット）をインポート</span>
+<span class="keyword">import</span> { initializeApp } <span class="keyword">from</span> <span class="string">"https://.../firebase-app.js"</span>;
+<span class="keyword">import</span> { getAuth, onAuthStateChanged } <span class="keyword">from</span> <span class="string">"https://.../firebase-auth.js"</span>;
+<span class="keyword">import</span> { getFirestore } <span class="keyword">from</span> <span class="string">"https://.../firebase-firestore.js"</span>;
+<span class="comment">// ... 他のサービスも同様にインポート ...</span>
+
+<span class="comment">// Firebaseプロジェクトの設定情報</span>
+<span class="keyword">const</span> <span class="variable">firebaseConfig</span> = {
+  apiKey: <span class="string">"..."</span>,
+  authDomain: <span class="string">"..."</span>,
+  <span class="comment">// ...</span>
+};
+
+<span class="comment">// Firebaseの初期化</span>
+<span class="keyword">const</span> <span class="variable">app</span> = <span class="function">initializeApp</span>(firebaseConfig);
+<span class="keyword">const</span> <span class="variable">auth</span> = <span class="function">getAuth</span>(app); <span class="comment">// 認証機能の準備</span>
+<span class="keyword">const</span> <span class="variable">db</span> = <span class="function">getFirestore</span>(app); <span class="comment">// Firestoreデータベースの準備</span>
+<span class="keyword">const</span> <span class="variable">functions</span> = <span class="function">getFunctions</span>(app, <span class="string">'asia-northeast1'</span>); <span class="comment">// Cloud Functionsの準備</span>
+
+<span class="comment">// ログイン状態の変化を監視する</span>
+<span class="function">onAuthStateChanged</span>(auth, <span class="variable">user</span> => {
+  <span class="keyword">if</span> (user) {
+    <span class="comment">// ユーザーがログインしている場合</span>
+    <span class="variable">currentUser</span> = user;
+    <span class="function">initAppForUser</span>(user); <span class="comment">// ユーザー向けにアプリを初期化</span>
+  } <span class="keyword">else</span> {
+    <span class="comment">// ユーザーがログアウトしている場合</span>
+    <span class="function">showOverlay</span>(authModal); <span class="comment">// ログイン画面を表示</span>
+  }
+});</code></pre>
+                        </div>
+                        </div>
+                    </details>
+                    
+                    <details>
+                        <summary>AIへの指示（プロンプト）の組み立て (`index.js`)</summary>
+                        <div class="p-4 border border-t-0 rounded-b-lg">
+                            <p class="mb-4 text-sm">Cloud Functions内で、Google Gemini APIにどのような指示を送っているかの部分です。具体的で詳細な指示（プロンプト）を与えることで、AIに期待通りの形式で情報を生成させています。</p>
+                            <div class="code-block">
+<pre><code><span class="keyword">exports</span>.<span class="variable">analyzeSpotSuggestion</span> = <span class="variable">functions</span>.<span class="function">region</span>(<span class="string">"asia-northeast1"</span>).<span class="variable">https</span>.<span class="function">onCall</span>(<span class="keyword">async</span> (data, context) => {
+    <span class="comment">// ...</span>
+    <span class="keyword">const</span> <span class="variable">prompt</span> = <span class="string">`あなたは旅行情報サイトの優秀な編集者です。以下の情報を基に、...JSON形式で生成してください。
+# コンテキスト：
+- 既存のエリアマップ情報: <span class="comment">${JSON.stringify(areaPositions, null, 2)}</span>
+- 現在対応している都道府県リスト: <span class="comment">${supportedPrefectureNames.join(', ')}</span>
+# 入力情報
+- スポット名: <span class="comment">${spotName}</span>
+- 参考URL: <span class="comment">${spotUrl}</span>
+# 生成ルール
+1. 参考URLの内容を分析し、...
+...
+# 出力フォーマット (JSONのみを出力)
+{
+  "prefecture": "（都道府県名）",
+  "name": "<span class="comment">${spotName}</span>",
+  <span class="comment">// ...</span>
+}`</span>;
+    
+    <span class="keyword">try</span> {
+        <span class="comment">// AIにリクエストを送信</span>
+        <span class="keyword">const</span> <span class="variable">response</span> = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">`https://.../gemini-1.5-flash-latest:generateContent?key=<span class="comment">${GEMINI_API_KEY}</span>`</span>, {
+            method: <span class="string">"POST"</span>,
+            headers: { <span class="string">"Content-Type"</span>: <span class="string">"application/json"</span> },
+            body: <span class="function">JSON</span>.<span class="function">stringify</span>({ contents: [{ parts: [{ text: prompt }] }] }),
+        });
+        <span class="comment">// ...レスポンスの処理...</span>
+    } <span class="keyword">catch</span> (error) {
+        <span class="comment">// ...エラー処理...</span>
+    }
+});</code></pre>
+                        </div>
+                        </div>
+                    </details>
+                    
+                    <details>
+                        <summary>GitHub上のJSONファイルを更新する処理 (`index.js`)</summary>
+                        <div class="p-4 border border-t-0 rounded-b-lg">
+                            <p class="mb-4 text-sm">管理者がスポットを承認した際に、Cloud FunctionsがGitHub APIを叩いてリポジトリ内のJSONファイルを更新する部分です。これにより、手動でファイルを編集することなく、アプリのデータを最新の状態に保ちます。</p>
+                            <div class="code-block">
+<pre><code><span class="comment">// GitHub上のファイルを更新するヘルパー関数</span>
+<span class="keyword">async function</span> <span class="function">updateGitHubFile</span>(filePath, newContent, sha, commitMessage) {
+    <span class="keyword">const</span> <span class="variable">url</span> = <span class="string">`https://api.github.com/repos/<span class="comment">${GITHUB_OWNER}</span>/<span class="comment">${GITHUB_REPO}</span>/contents/<span class="comment">${filePath}</span>`</span>;
+    
+    <span class="comment">// 新しい内容をBase64形式にエンコードする</span>
+    <span class="keyword">const</span> <span class="variable">contentEncoded</span> = <span class="variable">Buffer</span>.<span class="function">from</span>(<span class="variable">JSON</span>.<span class="function">stringify</span>(newContent, <span class="keyword">null</span>, 2)).<span class="function">toString</span>(<span class="string">"base64"</span>);
+
+    <span class="keyword">const</span> <span class="variable">response</span> = <span class="keyword">await</span> <span class="function">fetch</span>(url, {
+        method: <span class="string">"PUT"</span>,
+        headers: {
+            <span class="string">"Authorization"</span>: <span class="string">`token <span class="comment">${GITHUB_TOKEN}</span>`</span>, <span class="comment">// 認証トークン</span>
+            <span class="string">"Accept"</span>: <span class="string">"application/vnd.github.v3+json"</span>,
+        },
+        body: <span class="variable">JSON</span>.<span class="function">stringify</span>({
+            message: commitMessage, <span class="comment">// コミットメッセージ</span>
+            content: contentEncoded, <span class="comment">// 更新後の内容</span>
+            sha: sha, <span class="comment">// 更新前のファイルのSHA値（必須）</span>
+            branch: GITHUB_BRANCH, <span class="comment">// 対象ブランチ</span>
+        }),
+    });
+
+    <span class="keyword">if</span> (!response.ok) {
+        <span class="comment">// ...エラー処理...</span>
+        <span class="keyword">throw new</span> <span class="variable">functions</span>.<span class="variable">https</span>.<span class="function">HttpsError</span>(<span class="string">"internal"</span>, <span class="string">"GitHubファイルの更新に失敗しました。"</span>);
+    }
+    <span class="keyword">return await</span> response.<span class="function">json</span>();
+}</code></pre>
+                        </div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <!-- 6. UI要素とイベントリスナー解説 -->
+            <section id="ui-events">
+                <h2 class="text-3xl font-bold section-title">6. UI要素とイベントリスナー解説</h2>
+                <div class="card space-y-4">
+                    <p>このセクションでは、画面に表示されるボタンなどが、いつ・どのように機能するのかを解説します。「イベントリスナー」とは、「〇〇がクリックされたら、△△の処理を実行する」というような、ユーザーの操作を待ち受ける仕組みのことです。</p>
+                
+                    <details>
+                        <summary>メイン画面 (`index.html`) の要素</summary>
+                        <div class="p-4 border border-t-0 rounded-b-lg space-y-6">
+                            <div>
+                                <h4 class="font-bold text-md">ログイン・認証関連</h4>
+                                <ul class="list-disc list-inside mt-2 space-y-2 text-sm">
+                                    <li><span class="font-semibold text-red-700">`#auth-btn` (ログイン/新規登録ボタン):</span> クリックされると、入力されたメールアドレスとパスワードを使ってFirebaseにログインまたは新規登録処理を試みます。処理は `handleAuth` 関数が担当します。</li>
+                                    <li><span class="font-semibold text-red-700">`#guest-login-btn` (ゲストとして続けるボタン):</span> 匿名でログインし、アプリの機能を試せるようにします。`handleGuestLogin` 関数が呼ばれます。</li>
+                                    <li><span class="font-semibold text-red-700">`#auth-switch-link` (新規登録/ログインはこちらリンク):</span> ログイン画面と新規登録画面を切り替えます。`toggleAuthMode` 関数が実行されます。</li>
+                                    <li><span class="font-semibold text-red-700">`#logout-btn-settings` (ログアウトボタン):</span> ユーザー設定画面内のボタン。クリックするとFirebaseからログアウトし、ログイン画面に戻ります。`handleLogout` 関数が呼ばれます。</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-md">スポット表示・絞り込み関連</h4>
+                                <ul class="list-disc list-inside mt-2 space-y-2 text-sm">
+                                    <li><span class="font-semibold text-red-700">`#category-filters .filter-btn` (カテゴリボタン):</span> 「観光」「グルメ」などのボタン。クリックすると、そのカテゴリに属するスポットのみが一覧に表示されます。</li>
+                                    <li><span class="font-semibold text-red-700">`#prefecture-filter` (都道府県セレクトボックス):</span> 都道府県を選ぶと、その県のスポットのみが表示されます。</li>
+                                    <li><span class="font-semibold text-red-700">`#search-input` (検索ボックス):</span> 文字を入力するたびに、スポット名にその文字が含まれるものだけをリアルタイムで絞り込み表示します。</li>
+                                    <li><span class="font-semibold text-red-700">`#sort-order` (並び替えセレクトボックス):</span> 「五十音順」などを選ぶと、表示されているスポットの並び順を変更します。</li>
+                                </ul>
+                            </div>
+                             <div>
+                                <h4 class="font-bold text-md">プラン作成関連</h4>
+                                <ul class="list-disc list-inside mt-2 space-y-2 text-sm">
+                                    <li><span class="font-semibold text-red-700">`.add-to-plan-btn` (プランに追加ボタン):</span> 各スポットカードにあるボタン。クリックすると、そのスポットが右側の「マイプラン」パネルに追加されます。処理は `addToPlan` 関数が担当します。</li>
+                                    <li><span class="font-semibold text-red-700">`.favorite-btn` (お気に入りボタン):</span> ハートのアイコン。クリックするとお気に入り状態が切り替わり、Firestoreに保存されます。`toggleFavorite` 関数が呼ばれます。</li>
+                                    <li><span class="font-semibold text-red-700">`#my-plan-btn` (マイプランボタン):</span> 画面右下の丸いボタン。クリックすると「マイプラン」パネルが表示されます。</li>
+                                    <li><span class="font-semibold text-red-700">`.remove-from-plan-btn` (プランから削除ボタン):</span> マイプラン内の各項目の削除ボタン。クリックするとそのスポットがプランから削除されます。</li>
+                                    <li><span class="font-semibold text-red-700">`#clear-plan-btn` (一括削除ボタン):</span> プラン内のすべてのスポットを削除します。</li>
+                                    <li><span class="font-semibold text-red-700">`#copy-plan-btn` (プランをコピーボタン):</span> 現在のプラン内容をテキストとしてクリップボードにコピーします。</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-md">管理者向け機能 (管理者のみ表示)</h4>
+                                <ul class="list-disc list-inside mt-2 space-y-2 text-sm">
+                                     <li><span class="font-semibold text-red-700">`#open-submission-panel-btn` (提案管理パネルボタン):</span> ユーザーから提案されたスポットを一覧で確認し、承認・却下するためのパネルを開きます。</li>
+                                     <li><span class="font-semibold text-red-700">`#approve-btn` (承認ボタン):</span> 提案管理パネル内で使用。提案されたスポットを承認し、GitHub上のマスターデータを更新する処理を開始します。</li>
+                                     <li><span class="font-semibold text-red-700">`#batch-update-images-btn` (画像一括更新ボタン):</span> プレースホルダー画像などを新しい画像に一括で更新するための機能を開始します。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>管理者画面 (`admin.html`) の要素</summary>
+                        <div class="p-4 border border-t-0 rounded-b-lg space-y-6">
+                             <div>
+                                <ul class="list-disc list-inside mt-2 space-y-2 text-sm">
+                                    <li><span class="font-semibold text-red-700">`#login-btn` (ログインボタン):</span> 管理者アカウントでログインします。</li>
+                                    <li><span class="font-semibold text-red-700">`#set-admin-btn` (管理者に設定ボタン):</span> 入力されたメールアドレスを持つユーザーに、管理者権限を付与します。バックエンドの `setAdminClaim` 関数を呼び出します。</li>
+                                    <li><span class="font-semibold text-red-700">`#send-announcement-btn` (お知らせを送信ボタン):</span> 入力されたタイトルと内容で、全ユーザー向けのお知らせを作成・配信します。`sendAnnouncement` 関数を呼び出します。</li>
+                                    <li><span class="font-semibold text-red-700">`.remove-admin-btn` (削除ボタン):</span> 管理者一覧の各ユーザーの横にあるボタン。クリックすると、そのユーザーから管理者権限を剥奪します。ただし、最高管理者は削除できないように保護されています。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center mt-16 pt-8 border-t border-gray-200">
+            <p class="text-gray-500 text-sm">解説書作成: Gemini</p>
+        </footer>
+    </div>
+</body>
+</html>

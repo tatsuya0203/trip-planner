@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅プランナー v1.5</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <link rel="stylesheet" href="css/style.css"> 
+</head>
+<body class="h-full">
+
+    <div id="auth-modal" class="overlay-base visible">
+        <div class="modal-base p-6 sm:p-8 max-w-sm text-center">
+            <h2 id="auth-title" class="text-2xl font-bold text-[#D35400] mb-4">ログイン</h2>
+            <p id="auth-error" class="text-red-500 text-sm mb-4 h-5"></p>
+            <div class="space-y-4">
+                <input type="text" id="display-name-input" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="ユーザー名">
+                <input type="email" id="email-input" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="メールアドレス">
+                <div class="relative">
+                    <input type="password" id="password-input" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="パスワード">
+                    <button id="password-toggle" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500"></button>
+                </div>
+                 <div class="relative hidden" id="confirm-password-wrapper">
+                    <input type="password" id="confirm-password-input" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="パスワード（確認用）">
+                    <button id="confirm-password-toggle" class="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500"></button>
+                </div>
+            </div>
+            <button id="auth-btn" class="w-full bg-[#E57373] text-white py-2.5 px-5 rounded-lg font-semibold hover:bg-[#D35400] transition-colors mt-6">ログイン</button>
+            <div class="my-4 flex items-center">
+                <div class="flex-grow border-t border-gray-300"></div>
+                <span class="flex-shrink mx-4 text-gray-500 text-sm">または</span>
+                <div class="flex-grow border-t border-gray-300"></div>
+            </div>
+            <button id="guest-login-btn" class="w-full bg-gray-200 text-gray-700 py-2.5 px-5 rounded-lg font-semibold hover:bg-gray-300 transition-colors">ゲストとして続ける</button>
+            <p class="mt-6 text-sm">
+                <span id="auth-switch-text">アカウントをお持ちでないですか？</span>
+                <a href="#" id="auth-switch-link" class="text-blue-600 hover:underline">新規登録はこちら</a>
+            </p>
+        </div>
+    </div>
+
+    <div id="app-container" class="hidden">
+        <div id="app" class="container mx-auto p-4 md:p-8 flex flex-col h-full">
+            <header class="mb-4 sm:mb-8 flex-shrink-0">
+                <div class="flex justify-center sm:justify-end items-center gap-2 flex-wrap mb-4">
+                    <div id="admin-controls" class="hidden items-center gap-2">
+                         <a id="admin-panel-link" href="/admin-panel-7x3k9m1z" target="_blank" class="text-sm font-semibold bg-purple-100 text-purple-800 py-2 px-4 rounded-full hover:bg-purple-200 transition-colors">
+                            管理者パネル
+                        </a>
+                        
+                        <select id="user-switcher" class="text-sm rounded-md border-gray-300 shadow-sm">
+                            <option value="">他のユーザーのプランを見る</option>
+                        </select>
+                    </div>
+                    <div id="user-display" class="flex items-center gap-2">
+                        </div>
+                    <button id="mailbox-btn" class="p-2 rounded-full hover:bg-gray-200 transition-colors relative">
+                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path></svg>
+                        <span id="mailbox-badge" class="hidden absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"></span>
+                    </button>
+                    <button id="user-settings-btn" class="p-2 rounded-full hover:bg-gray-200 transition-colors">
+                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066 2.573c-.94-1.543.826 3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    </button>
+                </div>
+                <div class="text-center">
+                    <h1 class="text-4xl md:text-5xl font-bold text-[#D35400]">旅プランナー</h1>
+                    <p class="mt-2 md:mt-4 text-base md:text-lg text-gray-600">専門学生のための究極ガイドをインタラクティブに体験！</p>
+                </div>
+            </header>
+
+            <nav id="app-nav" class="bg-white/70 backdrop-blur-md sticky top-4 z-20 p-2 sm:p-4 rounded-xl shadow-lg mb-6 flex-shrink-0">
+                <div class="md:hidden text-center mb-4">
+                    <button id="mobile-filter-toggle" class="w-full bg-white py-2 px-4 border border-gray-300 rounded-full shadow-sm font-semibold text-gray-700 flex items-center justify-center">
+                        <span id="mobile-filter-toggle-text">フィルターと検索を開く</span>
+                        <svg id="mobile-filter-toggle-icon" class="inline-block w-4 h-4 ml-2 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                </div>
+                
+                <div id="nav-content-wrapper" class="hidden md:block space-y-4">
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <div class="flex items-center gap-2 bg-stone-200 p-1 rounded-full">
+    <label for="prefecture-filter" class="pl-3 text-sm font-bold text-gray-600">都道府県:</label>
+    <select id="prefecture-filter" class="bg-white border-none rounded-full py-2 pl-3 pr-8 text-sm sm:text-base font-semibold focus:ring-2 focus:ring-orange-500 appearance-none">
+        <option value="all">すべての都道府県</option>
+        </select>
+    
+    <button id="open-japan-map-btn" class="p-2 rounded-full hover:bg-gray-200 transition-colors -ml-8">
+        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+    </button>
+    </div>
+                        <div id="category-filters" class="flex items-center gap-1 bg-stone-200 p-1 rounded-full">
+                            <button data-filter="all" class="filter-btn rounded-full py-2 px-3 sm:px-5 text-xs sm:text-base font-semibold transition-all duration-300 active-filter">すべて</button>
+                            <button data-filter="観光" class="filter-btn rounded-full py-2 px-3 sm:px-5 text-xs sm:text-base font-semibold transition-all duration-300">📸 観光</button>
+                            <button data-filter="グルメ" class="filter-btn rounded-full py-2 px-3 sm:px-5 text-xs sm:text-base font-semibold transition-all duration-300">🍽️ グルメ</button>
+                            <button data-filter="favorites" class="filter-btn rounded-full py-2 px-3 sm:px-5 text-xs sm:text-base font-semibold transition-all duration-300">❤️ お気に入り</button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-t pt-4">
+                        <div class="relative">
+                            <input type="text" id="search-input" placeholder="スポット名で検索..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-orange-500">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
+                            </div>
+                            <div id="search-suggestions" class="absolute z-10 w-full mt-1 bg-white rounded-md shadow-lg hidden"></div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <label for="sort-order" class="text-sm font-bold text-gray-600">並び替え:</label>
+                            <select id="sort-order" class="bg-white border-gray-300 rounded-full py-2 px-3 text-sm sm:text-base font-semibold focus:ring-2 focus:ring-orange-500 w-full">
+                                <option value="default">追加順（古い順）</option>
+                                <option value="default-desc">追加順（新しい順）</option>
+                                <option value="name-asc">五十音順</option>
+                                <option value="name-desc">五十音順（逆）</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-center gap-2 border-t pt-4 flex-wrap">
+                        <button id="open-area-filter-btn" class="w-full sm:w-auto text-sm font-semibold bg-blue-100 text-blue-800 py-2 px-4 rounded-full hover:bg-blue-200 transition-colors disabled:bg-gray-200 disabled:text-gray-500 disabled:cursor-not-allowed" disabled>🗺️ エリアで絞り込み</button>
+                        <button id="open-tag-filter-btn" class="w-full sm:w-auto text-sm font-semibold bg-teal-100 text-teal-800 py-2 px-4 rounded-full hover:bg-teal-200 transition-colors"># タグで絞り込み</button>
+                        <button id="add-spot-btn" class="w-full sm:w-auto text-sm font-semibold bg-green-100 text-green-800 py-2 px-4 rounded-full hover:bg-green-200 transition-colors">✨ スポットを追加</button>
+                    </div>
+                </div>
+            </nav>
+
+            <main id="main-content" class="flex-grow">
+                <section id="list-section">
+                    <h2 id="list-title" class="text-2xl font-bold mb-6 text-gray-800 text-center">すべてのスポット</h2>
+                    <div id="spots-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+                    <div id="loading-indicator" class="text-center py-10">
+                        <p class="text-lg text-gray-600">データを読み込んでいます...</p>
+                    </div>
+                </section>
+            </main>
+
+            <footer class="text-center mt-8 py-4 border-t border-stone-200 flex-shrink-0">
+                <p class="text-gray-500 text-sm">このアプリケーションは「専門学生のための究極の旅行ガイド」レポートを元に作成されました。</p>
+            </footer>
+        </div>
+
+        <div id="add-spot-overlay" class="overlay-base">
+            <div class="modal-base max-w-md p-6 overflow-hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold text-[#D35400]">新しいスポットを提案</h2>
+                    <button id="close-add-spot-btn" class="text-3xl font-light text-gray-500 hover:text-gray-900 transition">×</button>
+                </div>
+                <div id="add-spot-form-content">
+                    <p class="text-sm text-gray-600 mb-4">おすすめのスポット情報を入力してください。AIが内容を分析し、管理者の承認後にアプリに追加されます。</p>
+                    <div class="space-y-4">
+                        <input type="text" id="new-spot-name" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="スポットの名称">
+                        <input type="url" id="new-spot-url" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="公式サイトのURL">
+                    </div>
+                    <button id="submit-spot-btn" class="w-full bg-green-500 text-white py-2.5 px-5 rounded-lg font-semibold hover:bg-green-600 transition-colors mt-6 flex items-center justify-center gap-2">
+                        <div id="submit-spot-spinner" class="hidden w-5 h-5 border-t-2 border-b-2 border-white rounded-full animate-spin"></div>
+                        <span>AI分析と提案を送信</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="re-analysis-overlay" class="overlay-base z-[51]">
+            <div class="modal-base max-w-md p-6 overflow-hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold text-[#D35400]">都道府県の再分析</h2>
+                    <button id="close-re-analysis-btn" class="text-3xl font-light text-gray-500 hover:text-gray-900 transition">×</button>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-600 mb-4">AIが都道府県を特定できませんでした。このスポットのGoogleマップURLを貼り付けて、再度分析してください。</p>
+                    <div class="space-y-4">
+                        <input type="url" id="re-analysis-gmaps-url" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="GoogleマップのURL">
+                    </div>
+                    <button id="re-submit-spot-btn" class="w-full bg-orange-500 text-white py-2.5 px-5 rounded-lg font-semibold hover:bg-orange-600 transition-colors mt-6 flex items-center justify-center gap-2">
+                        <div id="re-submit-spot-spinner" class="hidden w-5 h-5 border-t-2 border-b-2 border-white rounded-full animate-spin"></div>
+                        <span>AIで再分析</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="area-filter-overlay" class="overlay-base">
+            <div class="modal-base max-w-4xl max-h-[85vh] flex flex-col p-4 sm:p-6 overflow-hidden">
+                <div class="flex justify-between items-center mb-4">
+                         <div class="flex items-center gap-4">
+                             <h2 class="text-2xl font-bold text-[#D35400]">エリアを選択</h2>
+                             <div id="area-view-switcher" class="view-switcher flex items-center gap-1 bg-gray-200 p-1 rounded-full">
+                                 <button data-view="map" class="filter-btn rounded-full py-1 px-3 text-xs">🗺️ マップ</button>
+                                 <button data-view="list" class="filter-btn rounded-full py-1 px-3 text-xs">🗂️ リスト</button>
+                             </div>
+                         </div>
+                    <button id="close-area-filter-btn" class="text-3xl font-light text-gray-500 hover:text-gray-900 transition">×</button>
+                </div>
+                <div id="area-list-container" class="hidden flex-grow overflow-y-auto flex flex-wrap justify-center content-start gap-3 p-4">
+                    </div>
+                <div id="map-container" class="flex-grow relative">
+                    </div>
+            </div>
+        </div>
+
+        <div id="tag-filter-overlay" class="overlay-base">
+              <div class="modal-base max-w-4xl max-h-[85vh] flex flex-col p-4 sm:p-6 overflow-hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold text-[#D35400]">タグを選択</h2>
+                    <button id="close-tag-filter-btn" class="text-3xl font-light text-gray-500 hover:text-gray-900 transition">×</button>
+                </div>
+                <div id="tag-filters" class="flex-grow overflow-y-auto flex flex-wrap justify-center content-start gap-3"></div>
+            </div>
+        </div>
+
+        <div id="user-settings-overlay" class="overlay-base">
+            <div class="modal-base max-w-md p-6 overflow-hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold text-[#D35400]">ユーザー設定</h2>
+                    <button id="close-user-settings-btn" class="text-3xl font-light text-gray-500 hover:text-gray-900 transition">×</button>
+                </div>
+                <div id="user-settings-content" class="space-y-6">
+                    <div id="settings-icon-section">
+                        <label class="block text-sm font-medium text-gray-700">アイコン</label>
+                        <div class="mt-2 flex items-center gap-4">
+                            <img id="settings-icon-preview" src="" class="profile-icon" alt="現在のアイコン">
+                            <input type="file" id="icon-upload-input" class="hidden" accept="image/*">
+                            <button id="icon-upload-btn" class="bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                変更
+                            </button>
+                        </div>
+                    </div>
+                    <div id="settings-username-section">
+                        <label for="settings-username-input" class="block text-sm font-medium text-gray-700">ユーザー名</label>
+                        <div class="mt-1">
+                            <input type="text" id="settings-username-input" class="block w-full px-3 py-2 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 shadow-sm">
+                        </div>
+                    </div>
+                    <div id="settings-email-section">
+                        <label class="block text-sm font-medium text-gray-700">メールアドレス</label>
+                        <p id="settings-email" class="mt-1 text-lg text-gray-500"></p>
+                    </div>
+                    <div class="border-t pt-6 space-y-4">
+                        <button id="save-settings-btn" class="w-full bg-orange-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-orange-600 transition-colors">設定を保存</button>
+                        <button id="logout-btn-settings" class="w-full bg-red-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-600 transition-colors">ログアウト</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="cropper-overlay" class="overlay-base z-[60]">
+            <div class="modal-base max-w-lg p-6 overflow-hidden">
+                <h2 class="text-2xl font-bold text-[#D35400] mb-4">アイコンを編集</h2>
+                <div id="cropper-image-container" class="mb-4 bg-gray-200">
+                    <img id="cropper-image" src="">
+                </div>
+                <div class="flex justify-end gap-4">
+                    <button id="cropper-cancel-btn" class="py-2 px-6 bg-gray-200 rounded-lg font-semibold hover:bg-gray-300">キャンセル</button>
+                    <button id="cropper-save-btn" class="py-2 px-6 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 flex items-center gap-2">
+                        <div id="icon-upload-spinner" class="hidden w-5 h-5 border-t-2 border-b-2 border-white rounded-full animate-spin"></div>
+                        <span>保存</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="confirmation-overlay" class="overlay-base z-[55]">
+              <div class="modal-base max-w-sm p-6 text-center">
+                <p id="confirmation-message" class="text-lg mb-6"></p>
+                <div class="flex justify-center gap-4">
+                    <button id="confirm-cancel-btn" class="py-2 px-6 bg-gray-200 rounded-lg font-semibold hover:bg-gray-300">キャンセル</button>
+                    <button id="confirm-action-btn" class="py-2 px-6 text-white rounded-lg font-semibold transition-colors">削除</button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="info-overlay" class="overlay-base z-[55]">
+            <div class="modal-base max-w-sm p-6 text-center">
+                <p id="info-message" class="text-lg mb-6"></p>
+                <button id="info-ok-btn" class="py-2 px-10 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600">OK</button>
+            </div>
+        </div>
+
+        <div id="cross-prefecture-overlay" class="overlay-base">
+            <div class="modal-base max-w-md p-6 text-center">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">プラン確認</h3>
+                <p id="cross-prefecture-message" class="text-base mb-6"></p>
+                <div class="flex flex-col gap-3">
+                    <button id="cross-prefecture-add-btn" class="w-full py-2 px-6 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600">そのまま追加する</button>
+                    <button id="cross-prefecture-favorite-btn" class="w-full py-2 px-6 bg-teal-500 text-white rounded-lg font-semibold hover:bg-teal-600">お気に入りに入れる</button>
+                    <button id="cross-prefecture-cancel-btn" class="w-full py-2 px-6 bg-gray-200 rounded-lg font-semibold hover:bg-gray-300">追加しない</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal" class="overlay-base" data-spot-name="">
+            <div id="modal-content" class="modal-base">
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="relative">
+                        <img id="modal-image" src="" alt="スポットの画像" class="w-full h-auto rounded-lg shadow-md object-cover aspect-video cursor-pointer" onerror="this.onerror=null;this.src='https://placehold.co/600x400/E57373/FFF?text=Image+Not+Found';">
+                        <div id="modal-image-spinner" class="absolute inset-0 flex items-center justify-center bg-gray-200 rounded-lg hidden">
+                            <div class="w-8 h-8 border-t-2 border-b-2 border-orange-500 rounded-full animate-spin"></div>
+                        </div>
+                        <a id="modal-image-source" href="#" target="_blank" rel="noopener noreferrer" class="absolute bottom-2 left-2 text-xs bg-black/50 text-white py-1 px-2 rounded hidden"></a>
+                        <div class="absolute bottom-2 right-2 z-10 flex gap-2">
+                            <button id="report-image-btn" class="bg-red-100 text-red-700 text-xs font-bold py-1 px-2 rounded-full hover:bg-red-200 transition-colors">
+                                画像の問題を報告
+                            </button>
+                            <button id="report-spot-btn" class="bg-yellow-100 text-yellow-800 text-xs font-bold py-1 px-2 rounded-full hover:bg-yellow-200 transition-colors">
+                                スポットの問題を報告
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 id="modal-title" class="text-3xl font-bold text-[#D35400] pr-4"></h3>
+                            <button id="modal-close" class="text-3xl font-light text-gray-500 hover:text-gray-900 transition">×</button>
+                        </div>
+                        <div id="modal-tags" class="flex flex-wrap gap-2 mb-4"></div>
+                        <p id="modal-description" class="text-gray-700 leading-relaxed"></p>
+                        <div class="mt-4 flex items-center gap-2 text-gray-600">
+                            <span class="text-xl">⏰</span>
+                            <span id="modal-stay-time" class="font-medium"></span>
+                        </div>
+                        <div class="mt-6 flex flex-wrap gap-4">
+                            <a id="modal-website" href="#" target="_blank" rel="noopener noreferrer" class="inline-block bg-[#E57373] text-white py-2 px-5 rounded-full font-semibold hover:bg-[#D35400] transition-colors">公式サイト 🔗</a>
+                            <a id="modal-map" href="#" target="_blank" rel="noopener noreferrer" class="inline-block bg-[#E57373] text-white py-2 px-5 rounded-full font-semibold hover:bg-[#D35400] transition-colors">Googleマップ 📍</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <button id="my-plan-btn" class="fixed bottom-6 right-6 bg-[#D35400] text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center z-30 transform hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+            <span id="plan-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+        </button>
+
+        <div id="my-plan-panel-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
+        <div id="my-plan-panel" class="fixed top-0 right-0 h-full w-full sm:w-11/12 max-w-md bg-white shadow-2xl z-40 transform translate-x-full p-6 flex flex-col">
+            <div class="flex-shrink-0 flex justify-between items-center pb-4 border-b">
+                <h2 id="my-plan-title" class="text-2xl font-bold text-[#D35400]">マイプラン</h2>
+                <button id="my-plan-close-btn" class="text-3xl font-light text-gray-500 hover:text-gray-900 transition">×</button>
+            </div>
+            
+            <div class="my-4">
+                <label for="plan-date-input" class="block text-sm font-medium text-gray-700">日付を選択:</label>
+                <input type="date" id="plan-date-input" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" disabled>
+            </div>
+            <div id="weather-display" class="my-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-center min-h-[80px] flex items-center justify-center">
+                <p class="text-gray-500">プランにスポットを追加し、日付を選択すると天気予報が表示されます。</p>
+            </div>
+            <div id="plan-items-list" class="flex-grow my-4 overflow-y-auto pr-4 min-h-0"></div>
+            <div id="plan-controls" class="flex-shrink-0 pt-4 border-t space-y-3">
+                <div class="flex justify-between items-center font-bold text-lg">
+                    <span>合計目安時間:</span>
+                    <span id="plan-total-time" class="text-[#D35400]">0分</span>
+                </div>
+                <p class="text-sm text-gray-500 -mt-2">※滞在・移動時間はあくまで目安です。</p>
+                <div class="flex gap-2 mt-4">
+                    <button id="clear-plan-btn" class="w-full bg-red-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-600 transition-colors">一括削除</button>
+                    <button id="copy-plan-btn" class="w-full bg-teal-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-teal-600 transition-colors">プランをコピー</button>
+                </div>
+                <div class="space-y-2 mt-2">
+                    <a id="route-map-btn" href="#" target="_blank" rel="noopener noreferrer" class="block w-full text-center bg-blue-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-600 transition-colors">ルートをマップで見る</a>
+                    <button id="route-map-from-current-btn" class="w-full bg-green-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-600 transition-colors">現在地からルートを見る</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="mailbox-panel-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
+        <div id="mailbox-panel" class="fixed top-0 right-0 h-full w-full sm:w-11/12 max-w-md bg-white shadow-2xl z-40 transform translate-x-full p-6 flex flex-col">
+            <div class="flex-shrink-0 flex justify-between items-center pb-4 border-b">
+                <h2 class="text-2xl font-bold text-[#D35400]">お知らせ</h2>
+                <button id="mailbox-close-btn" class="text-3xl font-light text-gray-500 hover:text-gray-900 transition">×</button>
+            </div>
+            <div id="mailbox-list" class="flex-grow my-4 overflow-y-auto pr-4 min-h-0"></div>
+            <div class="flex-shrink-0 pt-4 border-t">
+                <button id="mark-all-as-read-btn" class="w-full bg-gray-200 text-gray-700 py-2 px-4 rounded-lg font-semibold hover:bg-gray-300 transition-colors">すべて既読にする</button>
+            </div>
+        </div>
+
+        <div id="prefecture-select-overlay" class="overlay-base z-50">
+            <div class="modal-base max-w-3xl w-full max-h-[90vh] flex flex-col p-4 sm:p-6">
+                <div class="flex justify-between items-center mb-4 flex-shrink-0">
+                    <h2 id="prefecture-select-title" class="text-2xl font-bold text-[#D35400]">都道府県を選択</h2>
+                    <button id="prefecture-select-cancel-btn" class="text-3xl font-light text-gray-500 hover:text-gray-900 transition">×</button>
+                </div>
+                <p id="prefecture-select-message" class="text-sm text-gray-600 mb-4 flex-shrink-0">地図から行きたい都道府県を選んでください。</p>
+                <div class="flex-grow relative bg-gray-50 rounded-lg overflow-auto p-2">
+                    <div id="japan-map-container" class="relative w-full h-full min-h-[500px]">
+                        <!-- Map pins are injected here by JavaScript -->
+                    </div>
+                </div>
+                <div id="prefecture-select-buttons" class="mt-4 flex-shrink-0">
+                    <!-- Referenced by JS, kept for completeness -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ▼▼▼ ADD THIS BLOCK ▼▼▼ -->
+        <div id="image-viewer-overlay" class="overlay-base z-[70] p-4 flex items-center justify-center">
+            <img id="image-viewer-img" src="" class="max-w-full max-h-full object-contain shadow-lg rounded-lg">
+        </div>
+        <!-- ▲▲▲ END OF ADDITION ▲▲▲ -->
+
+    </div>
+    
+    <textarea id="copy-textarea" class="absolute -left-full"></textarea>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script type="module" src="js/main.js"></script> 
+</body>
+</html>

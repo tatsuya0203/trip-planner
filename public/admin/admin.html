@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理者パネル</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 基本スタイル */
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #f7fafc;
+        }
+        .spinner {
+            width: 1rem;
+            height: 1rem;
+            border-width: 2px;
+            border-color: transparent;
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        /* タブのアクティブ状態 */
+        .tab-btn.active {
+            border-color: #4f46e5;
+            color: #4f46e5;
+            font-weight: 700;
+        }
+        .secondary-tab-btn.active {
+            background-color: #4f46e5;
+            color: white;
+        }
+        /* アコーディオン（details/summary）のスタイル */
+        details > summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 1rem;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s;
+            position: relative;
+        }
+        details > summary:hover {
+            background-color: #f7fafc;
+        }
+        details > summary::marker,
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+        details > summary::after {
+            content: '▼';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%) rotate(0deg);
+            transition: transform 0.2s;
+        }
+        details[open] > summary::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+        details[open] > summary {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        details[open] > div {
+            border: 1px solid #e2e8f0;
+            border-top: none;
+            border-radius: 0 0 0.5rem 0.5rem;
+        }
+        /* スマホ用固定ヘッダー */
+        .mobile-header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+        }
+        #area-map-editor-container {
+            background-image: url('https://storage.googleapis.com/studio-images-prod/projects/gQQBE/assets/japan_map_outline.svg');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .area-pin {
+            position: absolute;
+            cursor: grab;
+            background-color: #3b82f6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            user-select: none;
+            white-space: nowrap;
+            transform: translate(-50%, -50%);
+        }
+        .area-pin:active {
+            cursor: grabbing;
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div id="app" class="w-full min-h-screen">
+        <!-- ログイン画面 -->
+        <div id="login-container" class="flex items-center justify-center min-h-screen bg-gray-100">
+            <div class="bg-white p-8 rounded-2xl shadow-lg max-w-md w-full">
+                <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">管理者ログイン</h1>
+                <div id="login-error" class="text-red-500 text-sm mb-4 text-center h-5"></div>
+                <div class="space-y-4">
+                    <input type="email" id="email-input" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="メールアドレス">
+                    <input type="password" id="password-input" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" placeholder="パスワード">
+                </div>
+                <button id="login-btn" class="w-full mt-6 bg-indigo-600 text-white py-3 px-5 rounded-lg font-semibold hover:bg-indigo-700 transition-colors text-lg">ログイン</button>
+            </div>
+        </div>
+
+        <!-- 管理者パネル -->
+        <div id="admin-panel" class="hidden">
+            <header class="bg-white shadow-md">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center h-16">
+                        <h1 class="text-xl sm:text-2xl font-bold text-gray-800">VLOG旅プランナー 管理者パネル</h1>
+                        <button id="logout-btn" class="text-sm font-semibold text-red-600 hover:underline">ログアウト</button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- モバイル用タブヘッダー -->
+            <div class="md:hidden bg-white shadow-md mobile-header">
+                 <div class="p-2">
+                    <select id="mobile-tab-switcher" class="w-full p-3 border border-gray-300 rounded-lg font-semibold">
+                        <option value="user">ユーザー管理</option>
+                        <option value="content">コンテンツ管理</option>
+                        <option value="settings">設定管理</option>
+                    </select>
+                </div>
+            </div>
+
+            <main class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+                <!-- PC用タブ -->
+                <div class="hidden md:block border-b border-gray-200 mb-6">
+                    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                        <button id="tab-btn-user" data-tab="user" class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg">ユーザー管理</button>
+                        <button id="tab-btn-content" data-tab="content" class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-gray-700 hover:border-gray-300">コンテンツ管理</button>
+                        <button id="tab-btn-settings" data-tab="settings" class="tab-btn whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg text-gray-500 hover:text-gray-700 hover:border-gray-300">設定管理</button>
+                    </nav>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- ユーザー管理パネル -->
+                    <div id="panel-user" class="tab-panel">
+                        <details class="bg-white shadow-sm rounded-lg" open>
+                            <summary class="flex justify-between items-center font-bold text-xl">
+                                <span>ユーザー管理</span>
+                            </summary>
+                            <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div>
+                                    <h2 class="text-xl font-bold text-gray-800 mb-4">管理者の招待</h2>
+                                    <div id="invite-message" class="text-sm mb-4 text-center h-5"></div>
+                                    <p class="text-sm text-gray-600 mb-4">招待したいユーザーのメールアドレスを入力してください。</p>
+                                    <input type="email" id="target-email-input" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="対象のメールアドレス">
+                                    <button id="invite-admin-btn" class="w-full mt-4 bg-indigo-600 text-white py-2.5 px-5 rounded-lg font-semibold hover:bg-indigo-700 flex items-center justify-center gap-2">
+                                        <div id="invite-spinner" class="hidden spinner"></div><span>招待リンクを送信</span>
+                                    </button>
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-gray-800 mb-4">現在の管理者一覧</h2>
+                                    <div id="admin-list-container" class="space-y-3 max-h-96 overflow-y-auto pr-2 border rounded-lg p-3 bg-gray-50"><p class="text-gray-500" id="admin-list-loading">読み込み中...</p></div>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- コンテンツ管理パネル -->
+                    <div id="panel-content" class="tab-panel hidden">
+                         <div class="space-y-6">
+                            <details class="bg-white shadow-sm rounded-lg">
+                                <summary class="font-bold text-xl">お知らせ</summary>
+                                <div class="p-6">
+                                    <h2 class="text-xl font-bold text-gray-800 mb-4">お知らせを送信</h2>
+                                    <div id="announcement-message-feedback" class="text-sm mb-4 text-center h-5"></div>
+                                    <div class="space-y-4">
+                                        <input type="text" id="announcement-title" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="お知らせのタイトル">
+                                        <textarea id="announcement-message" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="お知らせの内容" rows="3"></textarea>
+                                    </div>
+                                    <button id="send-announcement-btn" class="w-full sm:w-auto mt-4 bg-green-600 text-white py-2.5 px-8 rounded-lg font-semibold hover:bg-green-700 flex items-center justify-center gap-2">
+                                        <div id="announcement-spinner" class="hidden spinner"></div><span>お知らせを送信</span>
+                                    </button>
+                                </div>
+                            </details>
+
+                            <details class="bg-white shadow-sm rounded-lg">
+                                <summary class="font-bold text-xl">スポット・エリア情報</summary>
+                                <div class="p-6 space-y-4">
+                                    <label for="prefecture-selector" class="block text-sm font-medium text-gray-700">都道府県を選択</label>
+                                    <select id="prefecture-selector" class="w-full px-4 py-2 border border-gray-300 rounded-lg"></select>
+                                    <div id="edit-message" class="text-sm text-center h-5"></div>
+
+                                    <div id="prefecture-content-container" class="hidden space-y-4">
+                                        <details class="border rounded-lg">
+                                            <summary class="p-4 font-semibold">承認済みスポットの編集</summary>
+                                            <div class="p-4 border-t">
+                                                <div id="spot-list-for-edit-container">
+                                                    <div id="spot-list-for-edit" class="space-y-2 max-h-96 overflow-y-auto border rounded-lg p-3 bg-gray-50"></div>
+                                                </div>
+                                            </div>
+                                        </details>
+                                        
+                                        <details class="border rounded-lg">
+                                            <summary class="p-4 font-semibold">エリア・移動時間管理</summary>
+                                            <div class="p-4 border-t space-y-6">
+                                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                                                    <div class="relative">
+                                                        <h3 class="text-lg font-semibold text-gray-700 mb-2">エリアマップエディタ</h3>
+                                                        <div id="area-map-editor-container" class="relative w-full aspect-square bg-gray-100 border-2 border-dashed rounded-lg overflow-hidden">
+                                                            <div id="area-map-editor" class="w-full h-full"></div>
+                                                            <p id="map-editor-placeholder" class="absolute inset-0 flex items-center justify-center text-gray-500">エリアデータがありません</p>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <h3 class="text-lg font-semibold text-gray-700 mb-2">エリア情報</h3>
+                                                        <div id="area-list" class="mt-2 space-y-2 max-h-64 overflow-y-auto pr-2"></div>
+                                                        <div class="mt-4 p-4 border rounded-lg bg-gray-50">
+                                                            <h4 class="font-semibold mb-2">新しいエリアを追加</h4>
+                                                            <div class="flex items-center gap-2 flex-wrap">
+                                                                <input type="text" id="new-area-name" placeholder="エリア名" class="flex-grow px-3 py-2 border rounded-md">
+                                                                <input type="text" id="new-area-top" placeholder="Top (%)" class="w-24 px-3 py-2 border rounded-md">
+                                                                <input type="text" id="new-area-left" placeholder="Left (%)" class="w-24 px-3 py-2 border rounded-md">
+                                                                <button id="add-area-btn" class="bg-blue-500 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-600">追加</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <h3 class="text-lg font-semibold text-gray-700">エリア間 移動時間 (分)</h3>
+                                                    <div id="transit-time-matrix-container" class="mt-2 overflow-x-auto">
+                                                        <table id="transit-time-matrix" class="min-w-full bg-white border"></table>
+                                                    </div>
+                                                </div>
+                                                <div class="text-right flex justify-end gap-4">
+                                                    <button id="undo-area-change-btn" class="bg-gray-500 text-white py-2.5 px-8 rounded-lg font-semibold hover:bg-gray-600 flex items-center justify-center gap-2 disabled:bg-gray-300 disabled:cursor-not-allowed" disabled>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
+                                                        </svg>
+                                                        <span>元に戻す</span>
+                                                    </button>
+                                                    <button id="save-area-data-btn" class="bg-green-600 text-white py-2.5 px-8 rounded-lg font-semibold hover:bg-green-700 flex items-center justify-center gap-2">
+                                                        <div id="save-area-spinner" class="hidden spinner"></div>
+                                                        <span>この都道府県の変更を保存</span>
+                                                    </button>
+                                                </div>
+                                                <div id="area-management-message" class="text-sm text-center h-5"></div>
+                                            </div>
+                                        </details>
+                                    </div>
+                                </div>
+                            </details>
+                            
+                            <!-- ▼▼▼ NEW BLOCK ▼▼▼ -->
+                            <details class="bg-white shadow-sm rounded-lg">
+                                <summary class="font-bold text-xl">新規都道府県の追加</summary>
+                                <div class="p-6 space-y-4">
+                                    <div id="json-message" class="text-sm text-center h-5"></div>
+                                    <p class="text-sm text-gray-600">
+                                        AIで生成したJSONデータを以下に貼り付けて実行すると、新しい都道府県のデータファイルが作成されます。
+                                    </p>
+                                    <div>
+                                        <textarea id="json-import-textarea" class="w-full h-64 p-3 border border-gray-300 rounded-lg font-mono text-sm" placeholder="ここにJSONデータを貼り付け..."></textarea>
+                                    </div>
+                                    <button id="import-json-btn" class="bg-purple-600 text-white py-2.5 px-8 rounded-lg font-semibold hover:bg-purple-700 flex items-center justify-center gap-2">
+                                        <div id="json-import-spinner" class="hidden spinner"></div>
+                                        <span>JSONで新規追加</span>
+                                    </button>
+                                </div>
+                            </details>
+                            <!-- ▲▲▲ END OF NEW BLOCK ▲▲▲ -->
+
+                            <details class="bg-white shadow-sm rounded-lg">
+                                <summary class="font-bold text-xl">申請とレポート</summary>
+                                <div class="p-6">
+                                    <h2 class="text-xl font-bold text-gray-800 mb-4">申請とレポートの管理</h2>
+                                    <div class="my-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
+                                        <button id="manual-link-check-btn" class="bg-blue-600 text-white py-2 px-5 rounded-lg font-semibold hover:bg-blue-700 flex items-center justify-center gap-2 mx-auto">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
+                                            <span>リンク切れをチェック...</span>
+                                        </button>
+                                        <p id="link-check-message" class="text-sm text-gray-600 mt-2 h-5"></p>
+                                    </div>
+                                    
+                                    <div id="submission-tabs" class="border-b border-gray-200 mb-4">
+                                        <nav class="flex space-x-2 overflow-x-auto" aria-label="Tabs">
+                                            <button data-tab="submissions" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg">スポット提案 <span id="submissions-count-badge" class="count-badge"></span></button>
+                                            <button data-tab="image-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">画像レポート <span id="image-reports-count-badge" class="count-badge"></span></button>
+                                            <button data-tab="spot-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">スポット報告 <span id="spot-reports-count-badge" class="count-badge"></span></button>
+                                            <button data-tab="link-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">リンク切れ <span id="link-reports-count-badge" class="count-badge"></span></button>
+                                        </nav>
+                                    </div>
+                                    <div id="submission-content-panel" class="submission-panel space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
+                                    <div id="image-report-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
+                                    <div id="spot-report-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
+                                    <div id="link-report-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
+                                </div>
+                            </details>
+                         </div>
+                    </div>
+
+                    <!-- 設定管理パネル -->
+                    <div id="panel-settings" class="tab-panel hidden">
+                        <details class="bg-white shadow-sm rounded-lg">
+                            <summary class="font-bold text-xl">AIプロンプト設定</summary>
+                            <div class="p-6">
+                                <p class="text-sm text-gray-600 mb-4">AIがスポット情報を分析する際に使用するプロンプトを編集できます。変数を変更すると、AIの応答品質に影響が出る可能性があります。</p>
+                                <div id="settings-message" class="text-sm mb-4 text-center h-5"></div>
+                                
+                                <div class="space-y-6">
+                                    <div>
+                                        <label for="prompt-analyze-spot" class="block text-base font-semibold text-gray-700">スポット提案時のプロンプト</label>
+                                        <textarea id="prompt-analyze-spot" rows="15" class="w-full mt-2 p-3 border border-gray-300 rounded-lg font-mono text-sm"></textarea>
+                                    </div>
+                                    <div>
+                                        <label for="prompt-re-analyze-spot" class="block text-base font-semibold text-gray-700">都道府県 再分析時のプロンプト</label>
+                                        <textarea id="prompt-re-analyze-spot" rows="10" class="w-full mt-2 p-3 border border-gray-300 rounded-lg font-mono text-sm"></textarea>
+                                    </div>
+                                </div>
+
+                                <button id="save-settings-btn" class="mt-6 bg-blue-600 text-white py-2.5 px-8 rounded-lg font-semibold hover:bg-blue-700 flex items-center justify-center gap-2">
+                                    <div id="settings-spinner" class="hidden spinner"></div>
+                                    <span>設定を保存</span>
+                                </button>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- モーダルウィンドウ群 -->
+        <div id="edit-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+            <div class="p-5 border w-full max-w-xl shadow-lg rounded-md bg-white">
+                <div class="flex justify-between items-center mb-4"><h3 class="text-2xl font-bold">スポット情報の編集</h3><button id="modal-close-btn" class="text-3xl font-light text-gray-500 hover:text-gray-800">&times;</button></div>
+                <div id="modal-edit-message" class="text-sm mb-4 text-center h-5"></div>
+                <div class="space-y-4">
+                    <div><label class="block text-sm font-medium">スポット名</label><input type="text" id="edit-spot-name" class="w-full px-3 py-2 border border-gray-300 rounded-md"></div>
+                    <div><label class="block text-sm font-medium">説明文</label><textarea id="edit-spot-description" rows="5" class="w-full px-3 py-2 border border-gray-300 rounded-md"></textarea></div>
+                    <div><label class="block text-sm font-medium">公式サイトURL</label><input type="url" id="edit-spot-website" class="w-full px-3 py-2 border border-gray-300 rounded-md"></div>
+                    <div><label class="block text-sm font-medium">GoogleマップURL</label><input type="url" id="edit-spot-gmaps" class="w-full px-3 py-2 border border-gray-300 rounded-md"></div>
+                    <div class="flex justify-end gap-4 pt-4">
+                        <button id="cancel-edit-btn" class="bg-gray-200 text-gray-800 py-2 px-5 rounded-lg font-semibold hover:bg-gray-300">キャンセル</button>
+                        <button id="save-spot-btn" class="bg-blue-600 text-white py-2 px-5 rounded-lg font-semibold hover:bg-blue-700 flex items-center justify-center gap-2"><div id="save-spinner" class="hidden spinner"></div><span>変更を保存</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="image-candidate-overlay" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">新しい画像を選択してください</h2>
+                <div id="image-candidate-list" class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 min-h-[12rem]"></div>
+                <div id="image-candidate-loading" class="text-center py-10 hidden"><div class="spinner mx-auto" style="width: 2rem; height: 2rem; border-top-color: #4f46e5;"></div><p class="mt-2 text-gray-600">AIで候補を検索中...</p></div>
+                <div class="flex justify-end gap-4"><button id="image-candidate-cancel-btn" class="py-2 px-6 bg-gray-200 rounded-lg font-semibold">キャンセル</button><button id="image-candidate-confirm-btn" class="py-2 px-6 bg-blue-500 text-white rounded-lg font-semibold" disabled>この画像に決定</button></div>
+            </div>
+        </div>
+        <div id="link-check-prefecture-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+            <div class="p-6 border w-full max-w-md shadow-lg rounded-md bg-white">
+                <h3 class="text-xl font-bold mb-4">リンク切れチェック</h3>
+                <p class="text-sm text-gray-600 mb-4">チェック対象の都道府県を選択してください。「すべての都道府県」を選択すると、完了まで時間がかかる場合があります。</p>
+                <div>
+                    <label for="link-check-prefecture-selector" class="block text-sm font-medium text-gray-700">都道府県</label>
+                    <select id="link-check-prefecture-selector" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"></select>
+                </div>
+                <div class="mt-6 flex justify-end gap-4">
+                    <button id="link-check-cancel-btn" class="bg-gray-200 text-gray-800 py-2 px-5 rounded-lg font-semibold hover:bg-gray-300">キャンセル</button>
+                    <button id="link-check-run-btn" class="bg-blue-600 text-white py-2 px-5 rounded-lg font-semibold hover:bg-blue-700 flex items-center justify-center gap-2">
+                        <div id="link-check-modal-spinner" class="hidden spinner"></div>
+                        <span>チェック実行</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-functions.js";
+        import { getFirestore, doc, deleteDoc, updateDoc, getDoc, collection, query, where, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Firebase & Functions Initialization ---
+        const firebaseConfig = {
+          apiKey: "AIzaSyDe8piUl7dbuR_FAn1pQkUfVtugh5HF4FU",
+          authDomain: "studio-gqqbe.firebaseapp.com",
+          projectId: "studio-gqqbe",
+          storageBucket: "studio-gqqbe.appspot.com",
+          messagingSenderId: "369252587708",
+          appId: "1:369252587708:web:86f2413bd89967e2a858b9"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const functions = getFunctions(app, 'asia-northeast1');
+        
+        const getAdminUsers = httpsCallable(functions, 'getAdminUsers'), 
+              inviteAdmin = httpsCallable(functions, 'inviteAdmin'), 
+              removeAdminClaim = httpsCallable(functions, 'removeAdminClaim'), 
+              sendAnnouncement = httpsCallable(functions, 'sendAnnouncement'), 
+              getPrefectureList = httpsCallable(functions, 'getPrefectureList'), 
+              updateSpot = httpsCallable(functions, 'updateSpot'), 
+              approveSubmission = httpsCallable(functions, 'approveSubmission'), 
+              resolveImageReport = httpsCallable(functions, 'resolveImageReport'), 
+              triggerLinkCheck = httpsCallable(functions, 'triggerLinkCheck'),
+              findUrlCandidates = httpsCallable(functions, 'findUrlCandidates'),
+              reportSpot = httpsCallable(functions, 'reportSpot'),
+              deleteSpot = httpsCallable(functions, 'deleteSpot'),
+              getAppSettings = httpsCallable(functions, 'getAppSettings'),
+              updateAppSettings = httpsCallable(functions, 'updateAppSettings'),
+              updatePrefectureData = httpsCallable(functions, 'updatePrefectureData'),
+              fetchImageForSpot = httpsCallable(functions, 'fetchImageForSpot'),
+              createPrefectureFile = httpsCallable(functions, 'createPrefectureFile');
+
+        // --- Global State & Data ---
+        let currentUser = null, allSpotsData = {}, selectedSpotOriginalName = '', activeImageReportData = {}, 
+            unsubscribeSpotSubmissions = null, unsubscribeImageReports = null, unsubscribeLinkReports = null, unsubscribeSpotReports = null,
+            fullPrefectureData = {},
+            areaHistory = [];
+
+        // --- DOM Elements ---
+        const loginContainer = document.getElementById('login-container'), adminPanel = document.getElementById('admin-panel'), loginBtn = document.getElementById('login-btn'), logoutBtn = document.getElementById('logout-btn'), emailInput = document.getElementById('email-input'), passwordInput = document.getElementById('password-input'), loginError = document.getElementById('login-error');
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+        const mobileTabSwitcher = document.getElementById('mobile-tab-switcher');
+
+        const inviteAdminBtn = document.getElementById('invite-admin-btn'), targetEmailInput = document.getElementById('target-email-input'), inviteMessage = document.getElementById('invite-message'), inviteSpinner = document.getElementById('invite-spinner'), adminListContainer = document.getElementById('admin-list-container'), adminListLoading = document.getElementById('admin-list-loading');
+        const sendAnnouncementBtn = document.getElementById('send-announcement-btn'), announcementTitleInput = document.getElementById('announcement-title'), announcementMessageInput = document.getElementById('announcement-message'), announcementSpinner = document.getElementById('announcement-spinner'), announcementMessageFeedback = document.getElementById('announcement-message-feedback');
+        const prefectureSelector = document.getElementById('prefecture-selector'), spotListContainer = document.getElementById('spot-list-for-edit-container'), spotListDiv = document.getElementById('spot-list-for-edit');
+        const editModal = document.getElementById('edit-modal'), modalCloseBtn = document.getElementById('modal-close-btn'), modalEditMessage = document.getElementById('modal-edit-message'), editSpotName = document.getElementById('edit-spot-name'), editSpotDescription = document.getElementById('edit-spot-description'), editSpotWebsite = document.getElementById('edit-spot-website'), editSpotGmaps = document.getElementById('edit-spot-gmaps'), cancelEditBtn = document.getElementById('cancel-edit-btn'), saveSpotBtn = document.getElementById('save-spot-btn'), saveSpinner = document.getElementById('save-spinner');
+        
+        const submissionTabs = document.getElementById('submission-tabs');
+        const submissionPanels = document.querySelectorAll('.submission-panel');
+        const submissionContentPanel = document.getElementById('submission-content-panel');
+        const imageReportContentPanel = document.getElementById('image-report-content-panel');
+        const spotReportContentPanel = document.getElementById('spot-report-content-panel');
+        const linkReportContentPanel = document.getElementById('link-report-content-panel');
+
+        const imageCandidateOverlay = document.getElementById('image-candidate-overlay'), imageCandidateList = document.getElementById('image-candidate-list'), imageCandidateLoading = document.getElementById('image-candidate-loading'), imageCandidateCancelBtn = document.getElementById('image-candidate-cancel-btn'), imageCandidateConfirmBtn = document.getElementById('image-candidate-confirm-btn');
+        const manualLinkCheckBtn = document.getElementById('manual-link-check-btn'), linkCheckMessage = document.getElementById('link-check-message');
+        const linkCheckPrefectureModal = document.getElementById('link-check-prefecture-modal'), linkCheckPrefectureSelector = document.getElementById('link-check-prefecture-selector'), linkCheckCancelBtn = document.getElementById('link-check-cancel-btn'), linkCheckRunBtn = document.getElementById('link-check-run-btn'), linkCheckModalSpinner = document.getElementById('link-check-modal-spinner');
+        
+        const promptAnalyzeSpot = document.getElementById('prompt-analyze-spot'), promptReAnalyzeSpot = document.getElementById('prompt-re-analyze-spot'), saveSettingsBtn = document.getElementById('save-settings-btn'), settingsSpinner = document.getElementById('settings-spinner'), settingsMessage = document.getElementById('settings-message');
+        
+        const prefectureContentContainer = document.getElementById('prefecture-content-container');
+        const areaList = document.getElementById('area-list'), newAreaName = document.getElementById('new-area-name'), newAreaTop = document.getElementById('new-area-top'), newAreaLeft = document.getElementById('new-area-left'), addAreaBtn = document.getElementById('add-area-btn');
+        const transitTimeMatrix = document.getElementById('transit-time-matrix'), saveAreaDataBtn = document.getElementById('save-area-data-btn'), saveAreaSpinner = document.getElementById('save-area-spinner'), areaManagementMessage = document.getElementById('area-management-message');
+        const areaMapEditor = document.getElementById('area-map-editor'), mapEditorPlaceholder = document.getElementById('map-editor-placeholder'), undoAreaChangeBtn = document.getElementById('undo-area-change-btn');
+        
+        const jsonImportTextarea = document.getElementById('json-import-textarea');
+        const importJsonBtn = document.getElementById('import-json-btn');
+        const jsonImportSpinner = document.getElementById('json-import-spinner');
+        const jsonMessage = document.getElementById('json-message');
+
+        // --- Auth & Initializer ---
+        onAuthStateChanged(auth, user => {
+            currentUser = user;
+            if (user) {
+                user.getIdTokenResult(true).then(idTokenResult => {
+                    if (idTokenResult.claims.admin) {
+                        loginContainer.style.display = 'none'; adminPanel.style.display = 'block';
+                        switchTab('user');
+                        loadAndRenderAdmins(); 
+                        loadPrefectureList(); 
+                        listenForSubmissions(); 
+                        listenForImageReports();
+                        listenForSpotReports();
+                        listenForLinkReports();
+                        loadAppSettings();
+                    } else { loginError.textContent = "管理者権限がありません。"; signOut(auth); }
+                });
+            } else { loginContainer.style.display = 'flex'; adminPanel.style.display = 'none'; }
+        });
+        loginBtn.addEventListener('click', () => signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value).catch(err => loginError.textContent = "ログイン情報が正しくありません。"));
+        logoutBtn.addEventListener('click', () => signOut(auth));
+
+        // --- UI & Tab Control ---
+        function switchTab(activeTabId) {
+            tabPanels.forEach(panel => {
+                panel.style.display = panel.id === `panel-${activeTabId}` ? 'block' : 'none';
+            });
+            tabButtons.forEach(button => {
+                button.classList.toggle('active', button.dataset.tab === activeTabId);
+                button.classList.toggle('text-gray-500', button.dataset.tab !== activeTabId);
+            });
+            if (mobileTabSwitcher.value !== activeTabId) {
+                mobileTabSwitcher.value = activeTabId;
+            }
+        }
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => switchTab(button.dataset.tab));
+        });
+        mobileTabSwitcher.addEventListener('change', (e) => switchTab(e.target.value));
+
+        function switchSecondaryTab(tabName) {
+            submissionTabs.querySelectorAll('button').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tabName);
+            });
+            submissionPanels.forEach(panel => {
+                panel.style.display = panel.id.startsWith(tabName.split('-')[0]) ? 'block' : 'none';
+            });
+        }
+        submissionTabs.addEventListener('click', (e) => {
+            const button = e.target.closest('button');
+            if (button && button.dataset.tab) {
+                switchSecondaryTab(button.dataset.tab);
+            }
+        });
+        
+        function updateReportCountBadge(collectionName, badgeId) {
+            let q;
+            if (collectionName === 'link_reports') {
+                q = query(collection(db, collectionName));
+            } else {
+                q = query(collection(db, collectionName), where("status", "==", "pending"));
+            }
+            return onSnapshot(q, (snapshot) => {
+                const badge = document.getElementById(badgeId);
+                if (badge) {
+                    const count = snapshot.size;
+                    badge.textContent = count > 0 ? count : '';
+                    badge.style.display = count > 0 ? 'inline-block' : 'none';
+                    badge.className = 'count-badge ml-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 inline-flex items-center justify-center';
+                }
+            });
+        }
+
+        function listenForSubmissions() {
+            if (unsubscribeSpotSubmissions) unsubscribeSpotSubmissions();
+            unsubscribeSpotSubmissions = updateReportCountBadge('spot_submissions', 'submissions-count-badge');
+            const q = query(collection(db, "spot_submissions"), where("status", "==", "pending"));
+            onSnapshot(q, (snapshot) => {
+                submissionContentPanel.innerHTML = '';
+                if (snapshot.empty) { submissionContentPanel.innerHTML = '<p class="text-center text-gray-500 py-10">承認待ちの提案はありません。</p>'; return; }
+                snapshot.docs.forEach(doc => renderSubmissionCard(doc.id, doc.data()));
+            });
+        }
+        function listenForImageReports() {
+            if (unsubscribeImageReports) unsubscribeImageReports();
+            unsubscribeImageReports = updateReportCountBadge('image_reports', 'image-reports-count-badge');
+            const q = query(collection(db, "image_reports"), where("status", "==", "pending"));
+            onSnapshot(q, (snapshot) => {
+                imageReportContentPanel.innerHTML = '';
+                if (snapshot.empty) { imageReportContentPanel.innerHTML = '<p class="text-center text-gray-500 py-10">対応待ちの画像レポートはありません。</p>'; return; }
+                snapshot.docs.forEach(doc => renderImageReportCard(doc.id, doc.data()));
+            });
+        }
+        function listenForSpotReports() {
+            if (unsubscribeSpotReports) unsubscribeSpotReports();
+            unsubscribeSpotReports = updateReportCountBadge('spot_reports', 'spot-reports-count-badge');
+            const q = query(collection(db, "spot_reports"), where("status", "==", "pending"));
+            onSnapshot(q, (snapshot) => {
+                spotReportContentPanel.innerHTML = '';
+                if (snapshot.empty) { spotReportContentPanel.innerHTML = '<p class="text-center text-gray-500 py-10">対応待ちのスポット報告はありません。</p>'; return; }
+                snapshot.docs.forEach(doc => renderSpotReportCard(doc.id, doc.data()));
+            });
+        }
+        function listenForLinkReports() {
+            if (unsubscribeLinkReports) unsubscribeLinkReports();
+            unsubscribeLinkReports = updateReportCountBadge('link_reports', 'link-reports-count-badge');
+            const q = query(collection(db, "link_reports"));
+            onSnapshot(q, (snapshot) => {
+                linkReportContentPanel.innerHTML = '';
+                if (snapshot.empty) { linkReportContentPanel.innerHTML = '<p class="text-center text-gray-500 py-10">リンク切れレポートはありません。</p>'; return; }
+                snapshot.docs.forEach(doc => renderLinkReportCard(doc.id, doc.data()));
+            });
+        }
+        
+        async function loadAndRenderAdmins() {
+            adminListLoading.textContent = "読み込み中..."; adminListLoading.style.display = 'block'; adminListContainer.innerHTML = ''; adminListContainer.appendChild(adminListLoading);
+            try {
+                const result = await getAdminUsers(); adminListLoading.style.display = 'none';
+                if (!result.data || result.data.length === 0) { adminListContainer.innerHTML = '<p class="text-gray-500">管理者は見つかりませんでした。</p>'; return; }
+                result.data.forEach(admin => {
+                    const isCurrentUser = currentUser && currentUser.uid === admin.uid;
+                    const el = document.createElement('div'); el.className = 'flex items-center justify-between p-2.5 rounded-md border';
+                    el.innerHTML = `<div><p class="font-semibold text-gray-800">${admin.displayName || '（表示名なし）'}</p><p class="text-sm text-gray-500">${admin.email}</p></div> ${!isCurrentUser ? `<button data-uid="${admin.uid}" data-email="${admin.email}" class="remove-admin-btn text-xs bg-red-100 text-red-700 py-1 px-3 rounded-full hover:bg-red-200">削除</button>` : '<span class="text-xs text-gray-400 font-bold">自分</span>'}`;
+                    adminListContainer.appendChild(el);
+                });
+            } catch (error) { adminListContainer.innerHTML = `<p class="text-red-500">管理者リストの取得に失敗しました。</p>`; }
+        }
+        inviteAdminBtn.addEventListener('click', async () => {
+            const email = targetEmailInput.value; if (!email) { inviteMessage.textContent = "メールアドレスを入力してください。"; inviteMessage.className = "text-sm mb-4 text-center h-5 text-red-500"; return; }
+            inviteSpinner.style.display = 'block'; inviteAdminBtn.disabled = true; inviteMessage.textContent = '';
+            try {
+                const result = await inviteAdmin({ email });
+                inviteMessage.textContent = result.data.message; inviteMessage.className = "text-sm mb-4 text-center h-5 text-green-600"; targetEmailInput.value = '';
+            } catch (error) { inviteMessage.textContent = error.message || "エラーが発生しました。"; inviteMessage.className = "text-sm mb-4 text-center h-5 text-red-500";
+            } finally { inviteSpinner.style.display = 'none'; inviteAdminBtn.disabled = false; }
+        });
+        adminListContainer.addEventListener('click', async (e) => {
+             if (e.target.classList.contains('remove-admin-btn')) {
+                const button = e.target, uid = button.dataset.uid, email = button.dataset.email;
+                if (confirm(`本当に ${email} の管理者権限を削除しますか？`)) {
+                    button.disabled = true; button.textContent = '...';
+                    try {
+                        await removeAdminClaim({ uid }); inviteMessage.textContent = `${email} の管理者権限を削除しました。`; inviteMessage.className = "text-sm mb-4 text-center h-5 text-green-600"; loadAndRenderAdmins();
+                    } catch (error) {
+                        inviteMessage.textContent = error.message || "権限の削除に失敗しました。"; inviteMessage.className = "text-sm mb-4 text-center h-5 text-red-500"; button.disabled = false; button.textContent = '削除';
+                    }
+                }
+            }
+        });
+        
+        sendAnnouncementBtn.addEventListener('click', async () => {
+            const title = announcementTitleInput.value.trim(), message = announcementMessageInput.value.trim();
+            if (!title || !message) { announcementMessageFeedback.textContent = "タイトルと内容の両方を入力してください。"; announcementMessageFeedback.className = "text-sm mb-4 text-center h-5 text-red-500"; return; }
+            announcementSpinner.style.display = 'block'; sendAnnouncementBtn.disabled = true; announcementMessageFeedback.textContent = '';
+            try {
+                const result = await sendAnnouncement({ title, message }); announcementMessageFeedback.textContent = result.data.message; announcementMessageFeedback.className = "text-sm mb-4 text-center h-5 text-green-600"; announcementTitleInput.value = ''; announcementMessageInput.value = '';
+            } catch (error) { announcementMessageFeedback.textContent = error.message || "お知らせの送信に失敗しました。"; announcementMessageFeedback.className = "text-sm mb-4 text-center h-5 text-red-500";
+            } finally { announcementSpinner.style.display = 'none'; sendAnnouncementBtn.disabled = false; }
+        });
+
+        async function loadPrefectureList() {
+            try {
+                const result = await getPrefectureList();
+                prefectureSelector.innerHTML = '<option value="">選択してください</option>';
+                linkCheckPrefectureSelector.innerHTML = '<option value="all">すべての都道府県</option>';
+                result.data.forEach(pref => {
+                    prefectureSelector.add(new Option(pref.name, pref.id));
+                    linkCheckPrefectureSelector.add(new Option(pref.name, pref.id));
+                });
+            } catch (error) { document.getElementById('edit-message').textContent = '都道府県リストの読込失敗'; }
+        }
+        prefectureSelector.addEventListener('change', async (e) => {
+            const prefId = e.target.value;
+            const container = document.getElementById('prefecture-content-container');
+            container.style.display = 'none';
+            spotListDiv.innerHTML = '';
+            areaHistory = [];
+            updateUndoButtonState();
+
+            if (!prefId) return;
+            try {
+                const res = await fetch(`https://raw.githubusercontent.com/tatsuya0203/trip-planner/main/data/${prefId}.json?v=${new Date().getTime()}`);
+                if (!res.ok) throw new Error('スポットデータの取得に失敗');
+                const data = await res.json();
+                fullPrefectureData[prefId] = data;
+                allSpotsData[prefId] = data.spots;
+
+                data.spots.sort((a,b) => a.name.localeCompare(b.name, 'ja')).forEach(spot => {
+                    const el = document.createElement('div'); el.className = 'flex justify-between items-center p-2 hover:bg-gray-100 rounded-md';
+                    el.innerHTML = `<span class="text-sm">${spot.name}</span><button data-spot-name="${spot.name}" class="edit-spot-item-btn text-xs bg-blue-100 text-blue-800 py-1 px-3 rounded-full hover:bg-blue-200">編集</button>`;
+                    spotListDiv.appendChild(el);
+                });
+                renderAreaManagementUI(prefId);
+                container.style.display = 'block';
+            } catch (error) { document.getElementById('edit-message').textContent = 'スポットの読み込みに失敗しました。'; }
+        });
+        spotListDiv.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('edit-spot-item-btn')) return;
+            const spotName = e.target.dataset.spotName, prefId = prefectureSelector.value, spot = allSpotsData[prefId].find(s => s.name === spotName);
+            if (spot) {
+                selectedSpotOriginalName = spot.name;
+                editSpotName.value = spot.name || ''; editSpotDescription.value = spot.description || ''; editSpotWebsite.value = spot.website || ''; editSpotGmaps.value = spot.gmaps || '';
+                editModal.style.display = 'flex';
+            }
+        });
+        function closeModal() {
+            editModal.style.display = 'none';
+            modalEditMessage.textContent = '';
+            delete saveSpotBtn.dataset.reportId; 
+        }
+        modalCloseBtn.addEventListener('click', closeModal);
+        cancelEditBtn.addEventListener('click', closeModal);
+        saveSpotBtn.addEventListener('click', async () => {
+            const updatedSpotData = { name: editSpotName.value.trim(), description: editSpotDescription.value.trim(), website: editSpotWebsite.value.trim(), gmaps: editSpotGmaps.value.trim() };
+            if (!updatedSpotData.name) { alert('スポット名は必須です。'); return; }
+            saveSpinner.style.display = 'inline-block'; saveSpotBtn.disabled = true; modalEditMessage.textContent = '';
+            try {
+                const prefId = prefectureSelector.value;
+                if (!prefId) { throw new Error("都道府県が選択されていません。"); }
+                
+                const result = await updateSpot({ 
+                    prefectureId: prefId, 
+                    originalSpotName: selectedSpotOriginalName, 
+                    updatedSpotData: updatedSpotData 
+                });
+                
+                if (saveSpotBtn.dataset.reportId) {
+                    await deleteDoc(doc(db, "spot_reports", saveSpotBtn.dataset.reportId));
+                }
+
+                modalEditMessage.textContent = result.data.message;
+                modalEditMessage.className = 'text-sm mb-4 text-center h-5 text-green-600';
+                setTimeout(() => { closeModal(); prefectureSelector.dispatchEvent(new Event('change')); }, 1500);
+
+            } catch (error) { 
+                modalEditMessage.textContent = error.message; 
+                modalEditMessage.className = 'text-sm mb-4 text-center h-5 text-red-500';
+            } finally { 
+                saveSpinner.style.display = 'none'; 
+                saveSpotBtn.disabled = false; 
+            }
+        });
+
+        function updateUndoButtonState() {
+            undoAreaChangeBtn.disabled = areaHistory.length === 0;
+        }
+
+        function saveAreaState(prefId) {
+            if (!fullPrefectureData[prefId]) return;
+            const currentState = {
+                areaPositions: JSON.parse(JSON.stringify(fullPrefectureData[prefId].areaPositions || [])),
+                transitData: JSON.parse(JSON.stringify(fullPrefectureData[prefId].transitData || {}))
+            };
+            areaHistory.push(currentState);
+            updateUndoButtonState();
+        }
+
+        function undoAreaChange() {
+            if (areaHistory.length === 0) return;
+            const prefId = prefectureSelector.value;
+            const lastState = areaHistory.pop();
+            
+            fullPrefectureData[prefId].areaPositions = lastState.areaPositions;
+            fullPrefectureData[prefId].transitData = lastState.transitData;
+            
+            renderAreaManagementUI(prefId);
+            updateUndoButtonState();
+        }
+        undoAreaChangeBtn.addEventListener('click', undoAreaChange);
+
+        function renderAreaManagementUI(prefId) {
+            const data = fullPrefectureData[prefId];
+            if (!data) return;
+            const areas = data.areaPositions || [];
+            
+            areaList.innerHTML = '';
+            areas.forEach((area, index) => {
+                const areaEl = document.createElement('div');
+                areaEl.className = 'flex items-center gap-2 p-2 bg-white rounded-md border';
+                areaEl.innerHTML = `
+                    <input type="text" value="${area.name}" data-index="${index}" class="area-name-input flex-grow px-2 py-1 border rounded-md">
+                    <input type="text" value="${area.top}" data-index="${index}" class="area-top-input w-20 px-2 py-1 border rounded-md" placeholder="Top %">
+                    <input type="text" value="${area.left}" data-index="${index}" class="area-left-input w-20 px-2 py-1 border rounded-md" placeholder="Left %">
+                    <button data-index="${index}" class="delete-area-btn text-red-500 hover:text-red-700 p-1">✖</button>
+                `;
+                areaList.appendChild(areaEl);
+            });
+
+            renderAreaMapEditor(prefId);
+            renderTransitMatrix(prefId);
+        }
+
+        function renderAreaMapEditor(prefId) {
+            const data = fullPrefectureData[prefId];
+            const areas = data.areaPositions || [];
+            areaMapEditor.innerHTML = '';
+            mapEditorPlaceholder.style.display = areas.length === 0 ? 'flex' : 'none';
+
+            areas.forEach((area, index) => {
+                const pin = document.createElement('div');
+                pin.className = 'area-pin';
+                pin.textContent = area.name;
+                pin.style.left = area.left;
+                pin.style.top = area.top;
+                pin.dataset.index = index;
+                
+                let offsetX, offsetY, isDragging = false;
+
+                const startDrag = (e) => {
+                    if (!isDragging) {
+                        saveAreaState(prefId);
+                    }
+                    isDragging = true;
+                    const event = e.touches ? e.touches[0] : e;
+                    offsetX = event.clientX - pin.getBoundingClientRect().left;
+                    offsetY = event.clientY - pin.getBoundingClientRect().top;
+                    pin.style.cursor = 'grabbing';
+                    pin.style.zIndex = 10;
+                };
+
+                const drag = (e) => {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                    const event = e.touches ? e.touches[0] : e;
+                    const containerRect = areaMapEditor.getBoundingClientRect();
+                    let newX = event.clientX - containerRect.left - offsetX;
+                    let newY = event.clientY - containerRect.top - offsetY;
+
+                    newX = Math.max(0, Math.min(newX, containerRect.width - pin.offsetWidth));
+                    newY = Math.max(0, Math.min(newY, containerRect.height - pin.offsetHeight));
+
+                    const leftPercent = (newX / containerRect.width) * 100;
+                    const topPercent = (newY / containerRect.height) * 100;
+                    
+                    pin.style.left = `${leftPercent.toFixed(2)}%`;
+                    pin.style.top = `${topPercent.toFixed(2)}%`;
+                };
+                
+                const stopDrag = () => {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    pin.style.cursor = 'grab';
+                    pin.style.zIndex = 1;
+
+                    const topInput = document.querySelector(`.area-top-input[data-index="${index}"]`);
+                    const leftInput = document.querySelector(`.area-left-input[data-index="${index}"]`);
+                    if (topInput && leftInput) {
+                        topInput.value = pin.style.top;
+                        leftInput.value = pin.style.left;
+                    }
+                };
+
+                pin.addEventListener('mousedown', startDrag);
+                pin.addEventListener('touchstart', startDrag);
+
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('touchmove', drag, { passive: false });
+                
+                document.addEventListener('mouseup', stopDrag);
+                document.addEventListener('touchend', stopDrag);
+
+                areaMapEditor.appendChild(pin);
+            });
+        }
+
+        function renderTransitMatrix(prefId) {
+            const data = fullPrefectureData[prefId];
+            const areas = data.areaPositions || [];
+            const transitData = data.transitData || {};
+            transitTimeMatrix.innerHTML = '';
+
+            const headerRow = document.createElement('tr');
+            headerRow.innerHTML = '<th></th>' + areas.map(a => `<th class="font-semibold p-2">${a.name}</th>`).join('');
+            transitTimeMatrix.appendChild(headerRow);
+
+            areas.forEach((rowArea, rowIndex) => {
+                const row = document.createElement('tr');
+                let rowHtml = `<th class="font-semibold p-2">${rowArea.name}</th>`;
+                areas.forEach((colArea, colIndex) => {
+                    if (rowIndex === colIndex) {
+                        rowHtml += '<td><input type="number" value="0" class="w-20 text-center bg-gray-200" disabled></td>';
+                    } else {
+                        const time = transitData[rowArea.name]?.[colArea.name] ?? '';
+                        rowHtml += `<td><input type="number" data-row="${rowArea.name}" data-col="${colArea.name}" value="${time}" class="transit-time-input w-20 text-center border rounded-md px-2 py-1"></td>`;
+                    }
+                });
+                row.innerHTML = rowHtml;
+                transitTimeMatrix.appendChild(row);
+            });
+        }
+        
+        addAreaBtn.addEventListener('click', () => {
+            const prefId = prefectureSelector.value;
+            saveAreaState(prefId);
+            const name = newAreaName.value.trim();
+            const top = newAreaTop.value.trim();
+            const left = newAreaLeft.value.trim();
+
+            if (!name || !top || !left) {
+                alert('エリア名、Top、Leftをすべて入力してください。');
+                return;
+            }
+
+            const data = fullPrefectureData[prefId];
+            if (!data.areaPositions) data.areaPositions = [];
+            data.areaPositions.push({ name, top, left });
+            
+            newAreaName.value = '';
+            newAreaTop.value = '';
+            newAreaLeft.value = '';
+            renderAreaManagementUI(prefId);
+        });
+
+        areaList.addEventListener('click', (e) => {
+            if (e.target.classList.contains('delete-area-btn')) {
+                const prefId = prefectureSelector.value;
+                saveAreaState(prefId);
+                const index = parseInt(e.target.dataset.index, 10);
+                if (confirm('このエリアを削除しますか？関連する移動時間も削除されます。')) {
+                    const data = fullPrefectureData[prefId];
+                    const deletedAreaName = data.areaPositions[index].name;
+                    data.areaPositions.splice(index, 1);
+
+                    if (data.transitData) {
+                        delete data.transitData[deletedAreaName];
+                        for (const key in data.transitData) {
+                            delete data.transitData[key][deletedAreaName];
+                        }
+                    }
+                    renderAreaManagementUI(prefId);
+                }
+            }
+        });
+
+        saveAreaDataBtn.addEventListener('click', async () => {
+            const prefId = prefectureSelector.value;
+            if (!prefId) return;
+
+            saveAreaSpinner.classList.remove('hidden');
+            saveAreaDataBtn.disabled = true;
+            areaManagementMessage.textContent = '';
+
+            try {
+                const newAreaPositions = [];
+                document.querySelectorAll('.area-name-input').forEach((input, index) => {
+                    newAreaPositions.push({
+                        name: input.value,
+                        top: document.querySelector(`.area-top-input[data-index="${index}"]`).value,
+                        left: document.querySelector(`.area-left-input[data-index="${index}"]`).value,
+                    });
+                });
+
+                const newTransitData = {};
+                document.querySelectorAll('.transit-time-input').forEach(input => {
+                    const row = input.dataset.row;
+                    const col = input.dataset.col;
+                    const value = input.value.trim();
+                    if (value !== '') {
+                        if (!newTransitData[row]) newTransitData[row] = {};
+                        newTransitData[row][col] = parseInt(value, 10);
+                    }
+                });
+
+                await updatePrefectureData({
+                    prefectureId: prefId,
+                    areaPositions: newAreaPositions,
+                    transitData: newTransitData,
+                });
+
+                areaManagementMessage.textContent = 'エリア情報を保存しました。';
+                areaManagementMessage.className = 'text-sm mt-4 text-center h-5 text-green-600';
+                areaHistory = [];
+                updateUndoButtonState();
+
+            } catch (error) {
+                areaManagementMessage.textContent = `エラー: ${error.message}`;
+                areaManagementMessage.className = 'text-sm mt-4 text-center h-5 text-red-500';
+            } finally {
+                saveAreaSpinner.classList.add('hidden');
+                saveAreaDataBtn.disabled = false;
+            }
+        });
+        
+        function renderSubmissionCard(id, data) {
+            const card = document.createElement('div');
+            card.className = 'bg-white p-4 rounded-lg border shadow-sm';
+            const newAreaBadge = data.isNewArea ? `<span class="text-xs font-bold bg-blue-100 text-blue-800 px-2 py-1 rounded-full">新規エリア</span>` : '';
+            card.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="font-bold text-lg text-gray-800">${data.name}</p>
+                        <p class="text-sm text-gray-600">${data.prefecture} / ${data.area} ${newAreaBadge}</p>
+                    </div>
+                    <div class="text-right flex-shrink-0 ml-4">
+                        <p class="text-xs text-gray-500">推奨度: <span class="font-bold ${data.recommendation === 'yes' ? 'text-green-600' : 'text-red-600'}">${data.recommendation === 'yes' ? 'Yes' : 'No'}</span></p>
+                        <p class="text-xs text-gray-400">名称一致: ${data.isNameConsistent ? '✔' : '✖'}</p>
+                    </div>
+                </div>
+                <div class="mt-2 p-3 bg-gray-50 rounded-md">
+                    <p class="text-sm text-gray-700">${data.description}</p>
+                    <p class="text-xs text-gray-500 mt-2"><b>理由:</b> ${data.reasoning}</p>
+                </div>
+                <div class="mt-3 text-xs">
+                    <a href="${data.website}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">公式サイト</a> | 
+                    <a href="${data.gmaps}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Googleマップ</a> |
+                    滞在時間: ${data.stayTime}
+                </div>
+                <div class="mt-2 space-x-1">
+                    ${(data.tags || []).map(tag => `<span class="text-xs bg-gray-200 px-2 py-1 rounded-full">${tag}</span>`).join('')}
+                </div>
+                <div class="mt-4 flex gap-3">
+                    <button data-id="${id}" class="approve-submission-btn w-full bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 text-sm">承認</button>
+                    <button data-id="${id}" class="reject-submission-btn w-full bg-red-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-700 text-sm">否認</button>
+                </div>
+            `;
+            submissionContentPanel.appendChild(card);
+        }
+        
+        function renderImageReportCard(id, data) {
+            const card = document.createElement('div');
+            card.className = 'bg-white p-4 rounded-lg border shadow-sm';
+            card.innerHTML = `
+                <div>
+                    <p class="font-bold text-lg text-gray-800">${data.spotName}</p>
+                    <p class="text-sm text-gray-600">${data.prefecture}</p>
+                    <img src="${data.currentImageUrl}" alt="報告された画像" class="mt-2 rounded-md max-h-40 w-auto" onerror="this.style.display='none'">
+                </div>
+                <div class="mt-4 flex gap-3">
+                    <button data-id="${id}" class="find-new-image-btn w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 text-sm">新しい画像を探す</button>
+                    <button data-id="${id}" class="dismiss-image-report-btn w-full bg-gray-200 text-gray-700 py-2 px-4 rounded-lg font-semibold hover:bg-gray-300 text-sm">報告を無視</button>
+                </div>
+            `;
+            imageReportContentPanel.appendChild(card);
+        }
+
+        function renderSpotReportCard(id, data) {
+            const card = document.createElement('div');
+            card.className = 'bg-white p-4 rounded-lg border shadow-sm';
+            const detailsHtml = data.details ? `<div class="mt-2 p-2 bg-gray-100 rounded"><p class="text-xs text-gray-500 font-bold">詳細:</p><p class="text-sm text-gray-700 whitespace-pre-wrap">${data.details}</p></div>` : '';
+            card.innerHTML = `
+                <div>
+                    <p class="font-bold text-lg text-gray-800">${data.spotName}</p>
+                    <p class="text-sm text-gray-600">${data.prefecture} / ${data.area}</p>
+                    <div class="mt-2"><p class="text-sm font-semibold text-red-700">理由: ${data.reason || '理由未記載'}</p></div>
+                    ${detailsHtml}
+                    <p class="text-xs text-gray-400 mt-2">報告者ID: ${data.reportedBy}</p>
+                </div>
+                <div class="mt-4 flex gap-2">
+                    <button data-id="${id}" data-spot-name="${data.spotName}" data-prefecture="${data.prefecture}" class="edit-spot-from-report-btn w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 text-sm">編集</button>
+                    <button data-id="${id}" data-spot-name="${data.spotName}" data-prefecture="${data.prefecture}" class="delete-spot-btn w-full bg-red-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-700 text-sm">削除</button>
+                    <button data-id="${id}" class="dismiss-spot-report-btn w-full bg-gray-200 text-gray-700 py-2 px-4 rounded-lg font-semibold hover:bg-gray-300 text-sm">無視</button>
+                </div>
+            `;
+            spotReportContentPanel.appendChild(card);
+        }
+
+        function renderLinkReportCard(id, data) {
+            const card = document.createElement('div');
+            card.id = `link-report-${id}`;
+            card.className = 'bg-white p-4 rounded-lg border shadow-sm space-y-3';
+            const urlTypeDisplay = data.urlType === 'website' ? '公式サイト' : 'Googleマップ';
+            const statusColor = data.status === 'FETCH_ERROR' ? 'text-yellow-600' : 'text-red-600';
+            card.innerHTML = `
+                <div class="flex justify-between items-start gap-4">
+                    <div>
+                        <p class="font-bold">${data.spotName} <span class="text-sm font-normal text-gray-500">(${data.prefectureId})</span></p>
+                        <p class="text-sm ${statusColor} font-semibold">${urlTypeDisplay}のリンク切れ (ステータス: ${data.status})</p>
+                        <p class="text-xs text-gray-500 break-all mt-1">URL: <a href="${data.url}" target="_blank" rel="noopener noreferrer" class="underline hover:text-blue-500">${data.url}</a></p>
+                    </div>
+                    <button data-id="${id}" class="dismiss-link-report-btn text-xs bg-gray-200 py-1 px-3 rounded-full hover:bg-gray-300 flex-shrink-0">削除</button>
+                </div>
+                <div id="link-candidates-${id}" class="space-y-2"></div>
+                <div class="flex gap-2">
+                    <button data-id="${id}" class="find-url-candidates-btn w-full bg-blue-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-600 text-sm">新しい候補を検索</button>
+                </div>
+            `;
+            linkReportContentPanel.appendChild(card);
+        }
+        
+        submissionContentPanel.addEventListener('click', async (e) => {
+            const button = e.target.closest('button');
+            if (!button) return;
+            const submissionId = button.dataset.id;
+            if (!submissionId) return;
+
+            if (button.classList.contains('reject-submission-btn')) {
+                if (confirm('この提案を否認してリストから削除しますか？')) {
+                    button.disabled = true; button.innerHTML = '<span class="spinner"></span> 否認中...';
+                    try { await deleteDoc(doc(db, "spot_submissions", submissionId)); } catch (error) { alert(`提案の否認に失敗しました: ${error.message}`); button.disabled = false; button.textContent = '否認'; }
+                }
+            }
+            if (button.classList.contains('approve-submission-btn')) {
+                button.disabled = true; button.innerHTML = '<span class="spinner"></span> 承認中...';
+                try {
+                    const submissionDoc = await getDoc(doc(db, "spot_submissions", submissionId));
+                    if (!submissionDoc.exists()) throw new Error("提案データが見つかりません。");
+                    const submissionData = submissionDoc.data();
+                    let approveNewArea = false;
+                    if (submissionData.isNewArea) {
+                        if (confirm(`このスポットは新しいエリア「${submissionData.area}」に属しています。\nこの新しいエリアも一緒に承認しますか？`)) { approveNewArea = true; }
+                    }
+                    const result = await approveSubmission({ submissionId, submissionData, approveNewArea });
+                    alert(result.data.message);
+                } catch (error) { alert(`承認処理に失敗しました: ${error.message}`); button.disabled = false; button.textContent = '承認'; }
+            }
+        });
+
+        imageReportContentPanel.addEventListener('click', async (e) => {
+            const button = e.target.closest('button');
+            if (!button) return;
+            const reportId = button.dataset.id;
+            const card = button.closest('.bg-white');
+            const spotName = card.querySelector('.font-bold').textContent;
+            const prefecture = card.querySelector('.text-sm').textContent;
+            
+            if (button.classList.contains('dismiss-image-report-btn')) {
+                if (confirm('この報告を無視してリストから削除しますか？')) { await deleteDoc(doc(db, "image_reports", reportId)); }
+            }
+            if (button.classList.contains('find-new-image-btn')) {
+                imageCandidateOverlay.style.display = 'flex'; imageCandidateList.innerHTML = ''; imageCandidateLoading.style.display = 'block'; imageCandidateConfirmBtn.disabled = true;
+                activeImageReportData = { reportId, spotName, prefecture };
+                try {
+                    const result = await fetchImageForSpot({ spot: { name: spotName, prefecture: prefecture } });
+                    imageCandidateLoading.style.display = 'none';
+                    if (result.data && result.data.length > 0) {
+                        result.data.forEach(candidate => {
+                            const wrapper = document.createElement('div'); wrapper.className = 'candidate-image-wrapper p-2 rounded-lg border-2 border-gray-200 cursor-pointer';
+                            wrapper.innerHTML = `<img src="${candidate.url}" class="w-full h-32 object-cover rounded-md" onerror="this.parentElement.style.display='none'">`;
+                            wrapper.addEventListener('click', () => {
+                                document.querySelectorAll('.candidate-image-wrapper').forEach(w => w.classList.remove('selected', 'border-indigo-500'));
+                                wrapper.classList.add('selected', 'border-indigo-500');
+                                imageCandidateConfirmBtn.disabled = false;
+                            });
+                            imageCandidateList.appendChild(wrapper);
+                        });
+                    } else { imageCandidateList.innerHTML = '<p class="text-center text-gray-500 col-span-full">候補が見つかりませんでした。</p>'; }
+                } catch (error) { imageCandidateLoading.style.display = 'none'; imageCandidateList.innerHTML = `<p class="text-center text-red-500 col-span-full">画像の検索に失敗しました: ${error.message}</p>`; }
+            }
+        });
+
+        imageCandidateCancelBtn.addEventListener('click', () => { imageCandidateOverlay.style.display = 'none'; });
+        imageCandidateConfirmBtn.addEventListener('click', async () => {
+            const selectedWrapper = imageCandidateList.querySelector('.candidate-image-wrapper.selected');
+            if (!selectedWrapper) return;
+            const newImageUrl = selectedWrapper.querySelector('img').src;
+            const { reportId, spotName, prefecture } = activeImageReportData;
+            imageCandidateConfirmBtn.disabled = true; imageCandidateConfirmBtn.innerHTML = '<span class="spinner"></span> 更新中...';
+            try {
+                const result = await resolveImageReport({ reportId, spotName, newImageUrl, prefecture });
+                alert(result.data.message); imageCandidateOverlay.style.display = 'none';
+            } catch (error) { alert(`画像の更新に失敗しました: ${error.message}`);
+            } finally { imageCandidateConfirmBtn.disabled = false; imageCandidateConfirmBtn.textContent = 'この画像に決定'; }
+        });
+
+        spotReportContentPanel.addEventListener('click', async (e) => {
+            const button = e.target.closest('button');
+            if (!button) return;
+            const reportId = button.dataset.id, spotName = button.dataset.spotName, prefecture = button.dataset.prefecture;
+            if (button.classList.contains('dismiss-spot-report-btn')) { if (confirm('この報告を無視してリストから削除しますか？')) await deleteDoc(doc(db, "spot_reports", reportId)); }
+            if (button.classList.contains('delete-spot-btn')) {
+                if (confirm(`本当にスポット「${spotName}」を完全に削除しますか？この操作は取り消せません。`)) {
+                    button.disabled = true; button.innerHTML = '<span class="spinner"></span> 削除中...';
+                    try { const result = await deleteSpot({ reportId, spotName, prefecture }); alert(result.data.message); } catch (error) { alert(`削除に失敗しました: ${error.message}`); button.disabled = false; button.textContent = 'スポットを削除'; }
+                }
+            }
+            if (button.classList.contains('edit-spot-from-report-btn')) {
+                button.disabled = true; button.textContent = '読込中...';
+                try {
+                    const prefOption = Array.from(prefectureSelector.options).find(opt => opt.text === prefecture);
+                    if (!prefOption || !prefOption.value) throw new Error("都道府県リストに一致するものがありません。");
+                    const prefId = prefOption.value;
+                    if (!allSpotsData[prefId]) {
+                         const res = await fetch(`https://raw.githubusercontent.com/tatsuya0203/trip-planner/main/data/${prefId}.json?v=${new Date().getTime()}`);
+                         if (!res.ok) throw new Error('スポットデータの取得に失敗');
+                         const data = await res.json(); allSpotsData[prefId] = data.spots;
+                    }
+                    const spotData = allSpotsData[prefId].find(s => s.name === spotName);
+                    if (!spotData) throw new Error(`「${spotName}」のデータが見つかりませんでした。`);
+                    selectedSpotOriginalName = spotData.name; prefectureSelector.value = prefId; editSpotName.value = spotData.name || ''; editSpotDescription.value = spotData.description || ''; editSpotWebsite.value = spotData.website || ''; editSpotGmaps.value = spotData.gmaps || ''; saveSpotBtn.dataset.reportId = reportId; editModal.style.display = 'flex';
+                } catch (error) { alert(`編集の準備に失敗しました: ${error.message}`);
+                } finally { button.disabled = false; button.textContent = '編集'; }
+            }
+        });
+        
+        linkReportContentPanel.addEventListener('click', async (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            const card = btn.closest('[id^="link-report-"]');
+            if (!card) return;
+            const reportId = card.id.replace('link-report-', '');
+            if (btn.classList.contains('dismiss-link-report-btn')) { if (confirm('このレポートを削除しますか？')) await deleteDoc(doc(db, 'link_reports', reportId)); return; }
+            const docSnap = await getDoc(doc(db, 'link_reports', reportId));
+            if (!docSnap.exists()) return;
+            const reportData = docSnap.data();
+            const prefectureName = Array.from(prefectureSelector.options).find(opt => opt.value === reportData.prefectureId)?.text || reportData.prefectureId;
+            if (btn.classList.contains('find-url-candidates-btn')) {
+                btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> 検索中...';
+                try {
+                    const result = await findUrlCandidates({ spotName: reportData.spotName, prefecture: prefectureName, urlType: reportData.urlType });
+                    renderUrlCandidates(reportId, result.data.candidates || []);
+                } catch (error) { alert(`候補の検索に失敗しました: ${error.message}`);
+                } finally { btn.disabled = false; btn.textContent = '新しい候補を再検索'; }
+            } else if (btn.classList.contains('update-link-btn')) {
+                const newUrl = btn.dataset.url; if (!newUrl) return;
+                if (!confirm(`「${reportData.spotName}」の${reportData.urlType === 'website' ? '公式サイト' : 'Googleマップ'}を新しいURLに更新しますか？`)) return;
+                btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> 更新中...';
+                try {
+                    const updatedSpotData = {}; updatedSpotData[reportData.urlType] = newUrl;
+                    await updateSpot({ prefectureId: reportData.prefectureId, originalSpotName: reportData.spotName, updatedSpotData: updatedSpotData });
+                    await deleteDoc(doc(db, 'link_reports', reportId));
+                    alert('スポット情報が更新されました。メインアプリへの反映には数分かかる場合があります。');
+                } catch (error) { alert(`更新に失敗しました: ${error.message}`); btn.disabled = false; btn.textContent = 'このURLに更新'; }
+            }
+        });
+        
+        function renderUrlCandidates(reportId, candidates) {
+            const container = document.getElementById(`link-candidates-${reportId}`);
+            container.innerHTML = '';
+            if (candidates.length === 0) { container.innerHTML = '<p class="text-sm text-center text-gray-600 py-2">候補が見つかりませんでした。</p>'; return; }
+            const list = document.createElement('div'); list.className = 'p-3 bg-blue-50 border border-blue-200 rounded-md space-y-3';
+            candidates.forEach(candidate => {
+                const item = document.createElement('div'); item.className = 'p-2 rounded hover:bg-blue-100';
+                item.innerHTML = `
+                    <p class="text-sm font-semibold truncate text-blue-800">${candidate.title}</p>
+                    <a href="${candidate.link}" target="_blank" class="text-xs text-green-700 underline truncate block" title="${candidate.link}">${candidate.link}</a>
+                    <p class="text-xs text-gray-600 mt-1">${candidate.snippet}</p>
+                    <button data-id="${reportId}" data-url="${candidate.link}" class="update-link-btn mt-2 text-xs bg-green-500 text-white py-1 px-3 rounded-full hover:bg-green-600">このURLに更新</button>
+                `;
+                list.appendChild(item);
+            });
+            container.appendChild(list);
+        }
+
+        manualLinkCheckBtn.addEventListener('click', () => { linkCheckPrefectureModal.style.display = 'flex'; });
+        linkCheckCancelBtn.addEventListener('click', () => { linkCheckPrefectureModal.style.display = 'none'; });
+        linkCheckRunBtn.addEventListener('click', async () => {
+            const selectedPrefectureId = linkCheckPrefectureSelector.value;
+            const selectedPrefectureName = linkCheckPrefectureSelector.options[linkCheckPrefectureSelector.selectedIndex].text;
+            linkCheckModalSpinner.style.display = 'inline-block'; linkCheckRunBtn.disabled = true; linkCheckMessage.textContent = `${selectedPrefectureName}のチェックを開始しました...（完了までお待ちください）`; linkCheckPrefectureModal.style.display = 'none';
+            try {
+                const result = await triggerLinkCheck({ prefectureId: selectedPrefectureId });
+                linkCheckMessage.textContent = result.data.message; switchSecondaryTab('link-reports');
+            } catch (error) { linkCheckMessage.textContent = `エラーが発生しました: ${error.message}`;
+            } finally { linkCheckModalSpinner.style.display = 'none'; linkCheckRunBtn.disabled = false; }
+        });
+
+        async function loadAppSettings() {
+            try {
+                const result = await getAppSettings(); const settings = result.data;
+                if (settings.analyzeSpot) { promptAnalyzeSpot.value = settings.analyzeSpot; }
+                if (settings.reAnalyzeSpot) { promptReAnalyzeSpot.value = settings.reAnalyzeSpot; }
+            } catch (error) { console.error("Failed to load app settings:", error); settingsMessage.textContent = "設定の読み込みに失敗しました。"; settingsMessage.className = "text-sm mb-4 text-center h-5 text-red-500"; }
+        }
+
+        saveSettingsBtn.addEventListener('click', async () => {
+            const newSettings = { analyzeSpot: promptAnalyzeSpot.value, reAnalyzeSpot: promptReAnalyzeSpot.value, };
+            settingsSpinner.style.display = 'inline-block'; saveSettingsBtn.disabled = true; settingsMessage.textContent = '';
+            try {
+                const result = await updateAppSettings(newSettings);
+                settingsMessage.textContent = result.data.message; settingsMessage.className = "text-sm mb-4 text-center h-5 text-green-600";
+            } catch (error) { settingsMessage.textContent = `保存に失敗しました: ${error.message}`; settingsMessage.className = "text-sm mb-4 text-center h-5 text-red-500";
+            } finally { settingsSpinner.style.display = 'none'; saveSettingsBtn.disabled = false; }
+        });
+
+        importJsonBtn.addEventListener('click', async () => {
+            const jsonString = jsonImportTextarea.value.trim();
+            if (!jsonString) {
+                jsonMessage.textContent = 'JSONデータを貼り付けてください。';
+                jsonMessage.className = 'text-sm text-center h-5 text-red-500';
+                return;
+            }
+
+            let jsonData;
+            try {
+                jsonData = JSON.parse(jsonString);
+            } catch (e) {
+                jsonMessage.textContent = 'JSONの形式が正しくありません。';
+                jsonMessage.className = 'text-sm text-center h-5 text-red-500';
+                return;
+            }
+
+            if (!jsonData.id || !jsonData.name) {
+                jsonMessage.textContent = 'JSONに `id` と `name` プロパティが含まれていません。';
+                jsonMessage.className = 'text-sm text-center h-5 text-red-500';
+                return;
+            }
+
+            if (!confirm(`新しい都道府県「${jsonData.name}」を追加しますか？\nファイル名: ${jsonData.id}.json`)) {
+                return;
+            }
+
+            jsonImportSpinner.classList.remove('hidden');
+            importJsonBtn.disabled = true;
+            jsonMessage.textContent = '';
+
+            try {
+                const result = await createPrefectureFile({ jsonData });
+                jsonMessage.textContent = result.data.message;
+                jsonMessage.className = 'text-sm text-center h-5 text-green-600';
+                jsonImportTextarea.value = '';
+                // Refresh prefecture list to show the new one
+                loadPrefectureList();
+            } catch (error) {
+                jsonMessage.textContent = `エラー: ${error.message}`;
+                jsonMessage.className = 'text-sm text-center h-5 text-red-500';
+            } finally {
+                jsonImportSpinner.classList.add('hidden');
+                importJsonBtn.disabled = false;
+            }
+        });
+
+    </script>
+</body>
+</html>
