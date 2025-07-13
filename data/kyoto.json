@@ -2,22 +2,99 @@
   "name": "京都府",
   "id": "kyoto",
   "areaPositions": [
-    { "name": "河原町・烏丸", "top": "45%", "left": "50%" },
-    { "name": "祇園・東山", "top": "50%", "left": "65%" },
-    { "name": "嵐山", "top": "35%", "left": "20%" },
-    { "name": "伏見", "top": "80%", "left": "70%" },
-    { "name": "金閣寺・北野", "top": "20%", "left": "40%" },
-    { "name": "京都駅周辺", "top": "70%", "left": "50%" },
-    { "name": "宇治", "top": "95%", "left": "80%" }
+    {
+      "name": "河原町・烏丸",
+      "top": "45%",
+      "left": "50%"
+    },
+    {
+      "name": "祇園・東山",
+      "top": "50%",
+      "left": "65%"
+    },
+    {
+      "name": "嵐山",
+      "top": "35%",
+      "left": "20%"
+    },
+    {
+      "name": "伏見",
+      "top": "80%",
+      "left": "70%"
+    },
+    {
+      "name": "金閣寺・北野",
+      "top": "20%",
+      "left": "40%"
+    },
+    {
+      "name": "京都駅周辺",
+      "top": "70%",
+      "left": "50%"
+    },
+    {
+      "name": "宇治",
+      "top": "95%",
+      "left": "80%"
+    }
   ],
   "transitData": {
-    "河原町・烏丸": { "祇園・東山": 5, "嵐山": 25, "伏見": 20, "金閣寺・北野": 35, "京都駅周辺": 15, "宇治": 40 },
-    "祇園・東山": { "河原町・烏丸": 5, "嵐山": 30, "伏見": 15, "金閣寺・北野": 40, "京都駅周辺": 20, "宇治": 35 },
-    "嵐山": { "河原町・烏丸": 25, "祇園・東山": 30, "伏見": 45, "金閣寺・北野": 25, "京都駅周辺": 20, "宇治": 50 },
-    "伏見": { "河原町・烏丸": 20, "祇園・東山": 15, "嵐山": 45, "金閣寺・北野": 50, "京都駅周辺": 10, "宇治": 20 },
-    "金閣寺・北野": { "河原町・烏丸": 35, "祇園・東山": 40, "嵐山": 25, "伏見": 50, "京都駅周辺": 30, "宇治": 60 },
-    "京都駅周辺": { "河原町・烏丸": 15, "祇園・東山": 20, "嵐山": 20, "伏見": 10, "金閣寺・北野": 30, "宇治": 25 },
-    "宇治": { "河原町・烏丸": 40, "祇園・東山": 35, "嵐山": 50, "伏見": 20, "金閣寺・北野": 60, "京都駅周辺": 25 }
+    "河原町・烏丸": {
+      "祇園・東山": 5,
+      "嵐山": 25,
+      "伏見": 20,
+      "金閣寺・北野": 35,
+      "京都駅周辺": 15,
+      "宇治": 40
+    },
+    "祇園・東山": {
+      "河原町・烏丸": 5,
+      "嵐山": 30,
+      "伏見": 15,
+      "金閣寺・北野": 40,
+      "京都駅周辺": 20,
+      "宇治": 35
+    },
+    "嵐山": {
+      "河原町・烏丸": 25,
+      "祇園・東山": 30,
+      "伏見": 45,
+      "金閣寺・北野": 25,
+      "京都駅周辺": 20,
+      "宇治": 50
+    },
+    "伏見": {
+      "河原町・烏丸": 20,
+      "祇園・東山": 15,
+      "嵐山": 45,
+      "金閣寺・北野": 50,
+      "京都駅周辺": 10,
+      "宇治": 20
+    },
+    "金閣寺・北野": {
+      "河原町・烏丸": 35,
+      "祇園・東山": 40,
+      "嵐山": 25,
+      "伏見": 50,
+      "京都駅周辺": 30,
+      "宇治": 60
+    },
+    "京都駅周辺": {
+      "河原町・烏丸": 15,
+      "祇園・東山": 20,
+      "嵐山": 20,
+      "伏見": 10,
+      "金閣寺・北野": 30,
+      "宇治": 25
+    },
+    "宇治": {
+      "河原町・烏丸": 40,
+      "祇園・東山": 35,
+      "嵐山": 50,
+      "伏見": 20,
+      "金閣寺・北野": 60,
+      "京都駅周辺": 25
+    }
   },
   "spots": [
     {
@@ -31,7 +108,13 @@
       "website": "http://www.yasakakousin.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=八坂庚申堂",
       "stayTime": "約30分",
-      "tags": ["インスタ映え", "定番スポット", "レトロ", "カワイイ", "無料"],
+      "tags": [
+        "インスタ映え",
+        "定番スポット",
+        "レトロ",
+        "カワイイ",
+        "無料"
+      ],
       "image": "https://images.unsplash.com/photo-1594936336949-5e4be328223c?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "http://www.yasakakousin.jp/"
@@ -47,7 +130,14 @@
       "website": "https://www.kyoto-arashiyama.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=嵐山キモノフォレスト",
       "stayTime": "約20分",
-      "tags": ["絶景", "インスタ映え", "夜景", "アート・建築", "定番スポット", "無料"],
+      "tags": [
+        "絶景",
+        "インスタ映え",
+        "夜景",
+        "アート・建築",
+        "定番スポット",
+        "無料"
+      ],
       "image": "https://images.unsplash.com/photo-1545277189-353d94453a85?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.kyoto-arashiyama.jp/"
@@ -63,7 +153,13 @@
       "website": "http://inari.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=伏見稲荷大社",
       "stayTime": "約90分",
-      "tags": ["定番スポット", "絶景", "インスタ映え", "自然・癒し", "無料"],
+      "tags": [
+        "定番スポット",
+        "絶景",
+        "インスタ映え",
+        "自然・癒し",
+        "無料"
+      ],
       "image": "https://images.unsplash.com/photo-1599354976767-a815a587974e?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "http://inari.jp/"
@@ -79,7 +175,13 @@
       "website": "https://www.kiyomizudera.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=清水寺",
       "stayTime": "約90分",
-      "tags": ["定番スポット", "絶景", "インスタ映え", "アート・建築", "夜景"],
+      "tags": [
+        "定番スポット",
+        "絶景",
+        "インスタ映え",
+        "アート・建築",
+        "夜景"
+      ],
       "image": "https://images.unsplash.com/photo-1554152834-37a8216173a1?q=80&w=2669&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.kiyomizudera.or.jp/"
@@ -95,7 +197,12 @@
       "website": "https://www.shokoku-ji.jp/kinkakuji/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=金閣寺",
       "stayTime": "約60分",
-      "tags": ["定番スポット", "絶景", "インスタ映え", "アート・建築"],
+      "tags": [
+        "定番スポット",
+        "絶景",
+        "インスタ映え",
+        "アート・建築"
+      ],
       "image": "https://images.unsplash.com/photo-1528133499812-7a59e13e414c?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.shokoku-ji.jp/kinkakuji/"
@@ -111,7 +218,13 @@
       "website": "https://nanzenji.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=南禅寺+水路閣",
       "stayTime": "約45分",
-      "tags": ["アート・建築", "レトロ", "インスタ映え", "定番スポット", "無料"],
+      "tags": [
+        "アート・建築",
+        "レトロ",
+        "インスタ映え",
+        "定番スポット",
+        "無料"
+      ],
       "image": "https://images.unsplash.com/photo-1633454688226-ce3885c3514a?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://nanzenji.or.jp/"
@@ -127,7 +240,13 @@
       "website": "http://shoujuin.boo.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=正寿院",
       "stayTime": "約60分",
-      "tags": ["絶景", "インスタ映え", "カワイイ", "自然・癒し", "予約推奨"],
+      "tags": [
+        "絶景",
+        "インスタ映え",
+        "カワイイ",
+        "自然・癒し",
+        "予約推奨"
+      ],
       "image": "https://www.insidekyoto.com/wp-content/uploads/2019/08/shojuin-temple-kyoto-1.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "http://shoujuin.boo.jp/"
@@ -143,7 +262,14 @@
       "website": "https://awomb.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=AWOMB+烏丸本店",
       "stayTime": "約90分",
-      "tags": ["ランチ", "ディナー", "インスタ映え", "おしゃれ", "予約推奨", "体験"],
+      "tags": [
+        "ランチ",
+        "ディナー",
+        "インスタ映え",
+        "おしゃれ",
+        "予約推奨",
+        "体験"
+      ],
       "image": "https://awomb.com/wp-content/uploads/2022/10/AWOMB-karasuma-honten-iori-1-scaled.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://awomb.com/"
@@ -159,7 +285,13 @@
       "website": "https://www.soiree-kyoto.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=喫茶ソワレ",
       "stayTime": "約60分",
-      "tags": ["カフェ・喫茶店", "スイーツ", "レトロ", "インスタ映え", "カワイイ"],
+      "tags": [
+        "カフェ・喫茶店",
+        "スイーツ",
+        "レトロ",
+        "インスタ映え",
+        "カワイイ"
+      ],
       "image": "https://www.soiree-kyoto.com/images/menu_photo_jelly.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.soiree-kyoto.com/"
@@ -175,7 +307,12 @@
       "website": "https://arabica.coffee/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%+ARABICA+京都+東山",
       "stayTime": "約30分",
-      "tags": ["カフェ・喫茶店", "おしゃれ", "インスタ映え", "食べ歩き"],
+      "tags": [
+        "カフェ・喫茶店",
+        "おしゃれ",
+        "インスタ映え",
+        "食べ歩き"
+      ],
       "image": "https://media.cntraveler.com/photos/5a70f034036307435e6a0d31/master/w_2580%2Cc_limit/Arabica-Kyoto-Higashiyama_2018_Arabica_Kurasu_01_25_2018_25.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://arabica.coffee/"
@@ -191,7 +328,14 @@
       "website": "https://www.inden-style.jp/excafe/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=eXcafe京都嵐山本店",
       "stayTime": "約75分",
-      "tags": ["カフェ・喫茶店", "スイーツ", "体験", "インスタ映え", "レトロ", "予約推奨"],
+      "tags": [
+        "カフェ・喫茶店",
+        "スイーツ",
+        "体験",
+        "インスタ映え",
+        "レトロ",
+        "予約推奨"
+      ],
       "image": "https://www.inden-style.jp/excafe/wp-content/uploads/2021/04/%E3%81%8A%E5%9B%A3%E5%AD%90-1-1024x768.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.inden-style.jp/excafe/"
@@ -207,170 +351,233 @@
       "website": "https://www.tokichi.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=中村藤吉本店+宇治本店",
       "stayTime": "約60分",
-      "tags": ["スイーツ", "カフェ・喫茶店", "ご当地グルメ", "定番スポット", "予約推奨"],
+      "tags": [
+        "スイーツ",
+        "カフェ・喫茶店",
+        "ご当地グルメ",
+        "定番スポット",
+        "予約推奨"
+      ],
       "image": "https://www.tokichi.jp/wp-content/uploads/2023/04/namachazeri_maruto_01.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.tokichi.jp/"
     },
     {
-        "prefecture": "京都府",
-        "name": "伊藤久右衛門 宇治本店",
-        "yomigana": "いとうきゅうえもん うじほんてん",
-        "area": "宇治",
-        "category": "グルメ",
-        "subCategory": "スイーツ",
-        "description": "季節ごとに変わる豪華な「抹茶パフェ」は、まさに食べられる芸術品！グラスの中で層になった美しいビジュアルは、VLOGの主役級。食べる前に、色々な角度からじっくり撮影したくなること間違いなしです。お土産選びも楽しめます。",
-        "website": "https://www.itohkyuemon.co.jp/",
-        "gmaps": "https://www.google.com/maps/search/?api=1&query=伊藤久右衛門+宇治本店",
-        "stayTime": "約60分",
-        "tags": ["スイーツ", "カフェ・喫茶店", "ご当地グルメ", "インスタ映え", "お土産"],
-        "image": "https://www.itohkyuemon.co.jp/fs/ujicha/c/images/2023_grandmenu/uji-honten_parfait_02.jpg",
-        "imageSource": "AI生成データ",
-        "imageSourceUrl": "https://www.itohkyuemon.co.jp/"
+      "prefecture": "京都府",
+      "name": "伊藤久右衛門 宇治本店",
+      "yomigana": "いとうきゅうえもん うじほんてん",
+      "area": "宇治",
+      "category": "グルメ",
+      "subCategory": "スイーツ",
+      "description": "季節ごとに変わる豪華な「抹茶パフェ」は、まさに食べられる芸術品！グラスの中で層になった美しいビジュアルは、VLOGの主役級。食べる前に、色々な角度からじっくり撮影したくなること間違いなしです。お土産選びも楽しめます。",
+      "website": "https://www.itohkyuemon.co.jp/",
+      "gmaps": "https://www.google.com/maps/search/?api=1&query=伊藤久右衛門+宇治本店",
+      "stayTime": "約60分",
+      "tags": [
+        "スイーツ",
+        "カフェ・喫茶店",
+        "ご当地グルメ",
+        "インスタ映え",
+        "お土産"
+      ],
+      "image": "https://www.itohkyuemon.co.jp/fs/ujicha/c/images/2023_grandmenu/uji-honten_parfait_02.jpg",
+      "imageSource": "AI生成データ",
+      "imageSourceUrl": "https://www.itohkyuemon.co.jp/"
     },
     {
-        "prefecture": "京都府",
-        "name": "よーじやカフェ 嵯峨野嵐山店",
-        "yomigana": "よーじやかふぇ さがのあらしやまてん",
-        "area": "嵐山",
-        "category": "グルメ",
-        "subCategory": "カフェ・喫茶店",
-        "description": "あぶらとり紙で有名なよーじやのカフェ。おなじみのロゴが描かれた「顔パフェ」や「カプチーノ」は、キュートで写真映え抜群！飲むのがもったいないくらい可愛いラテアートを、ぜひ動画で紹介してみて。",
-        "website": "https://www.yojiya.co.jp/cafe/",
-        "gmaps": "https://www.google.com/maps/search/?api=1&query=よーじやカフェ+嵯峨野嵐山店",
-        "stayTime": "約60分",
-        "tags": ["カフェ・喫茶店", "スイーツ", "カワイイ", "インスタ映え", "定番スポット"],
-        "image": "https://yojiyacafe.com/wp-content/uploads/2021/11/1637827829.jpg",
-        "imageSource": "AI生成データ",
-        "imageSourceUrl": "https://www.yojiya.co.jp/cafe/"
+      "prefecture": "京都府",
+      "name": "よーじやカフェ 嵯峨野嵐山店",
+      "yomigana": "よーじやかふぇ さがのあらしやまてん",
+      "area": "嵐山",
+      "category": "グルメ",
+      "subCategory": "カフェ・喫茶店",
+      "description": "あぶらとり紙で有名なよーじやのカフェ。おなじみのロゴが描かれた「顔パフェ」や「カプチーノ」は、キュートで写真映え抜群！飲むのがもったいないくらい可愛いラテアートを、ぜひ動画で紹介してみて。",
+      "website": "https://yojiyacafe.com/",
+      "gmaps": "https://www.google.com/maps/search/?api=1&query=よーじやカフェ+嵯峨野嵐山店",
+      "stayTime": "約60分",
+      "tags": [
+        "カフェ・喫茶店",
+        "スイーツ",
+        "カワイイ",
+        "インスタ映え",
+        "定番スポット"
+      ],
+      "image": "https://yojiyacafe.com/wp-content/uploads/2021/11/1637827829.jpg",
+      "imageSource": "AI生成データ",
+      "imageSourceUrl": "https://www.yojiya.co.jp/cafe/"
     },
     {
-        "prefecture": "京都府",
-        "name": "Walden Woods Kyoto",
-        "yomigana": "うぉーるでんうっずきょうと",
-        "area": "河原町・烏丸",
-        "category": "グルメ",
-        "subCategory": "カフェ・喫茶店",
-        "description": "ランプが灯る真っ白な空間が幻想的で美しいと話題のカフェ。ミニマルで洗練された店内は、どこを切り取ってもおしゃれな写真や動画が撮れます。こだわりのコーヒーを片手に、非日常的な世界観に浸る様子をVLOGに収めてみて。",
-        "website": "https://www.walden-woods.com/",
-        "gmaps": "https://www.google.com/maps/search/?api=1&query=Walden+Woods+Kyoto",
-        "stayTime": "約45分",
-        "tags": ["カフェ・喫茶店", "おしゃれ", "インスタ映え", "ユニーク"],
-        "image": "https://images.squarespace-cdn.com/content/v1/5a697116692ebe7342932233/1516867702580-P9S71G2P54OKWM7SZX49/WWK+2.jpg?format=2500w",
-        "imageSource": "AI生成データ",
-        "imageSourceUrl": "https://www.walden-woods.com/"
+      "prefecture": "京都府",
+      "name": "Walden Woods Kyoto",
+      "yomigana": "うぉーるでんうっずきょうと",
+      "area": "河原町・烏丸",
+      "category": "グルメ",
+      "subCategory": "カフェ・喫茶店",
+      "description": "ランプが灯る真っ白な空間が幻想的で美しいと話題のカフェ。ミニマルで洗練された店内は、どこを切り取ってもおしゃれな写真や動画が撮れます。こだわりのコーヒーを片手に、非日常的な世界観に浸る様子をVLOGに収めてみて。",
+      "website": "https://www.walden-woods.com/",
+      "gmaps": "https://www.google.com/maps/search/?api=1&query=Walden+Woods+Kyoto",
+      "stayTime": "約45分",
+      "tags": [
+        "カフェ・喫茶店",
+        "おしゃれ",
+        "インスタ映え",
+        "ユニーク"
+      ],
+      "image": "https://images.squarespace-cdn.com/content/v1/5a697116692ebe7342932233/1516867702580-P9S71G2P54OKWM7SZX49/WWK+2.jpg?format=2500w",
+      "imageSource": "AI生成データ",
+      "imageSourceUrl": "https://www.walden-woods.com/"
     },
     {
-        "prefecture": "京都府",
-        "name": "パンとエスプレッソと嵐山庭園",
-        "yomigana": "ぱんとえすぷれっそとあらしやまていえん",
-        "area": "嵐山",
-        "category": "グルメ",
-        "subCategory": "カフェ・喫茶店",
-        "description": "築210年の古民家をリノベーションしたベーカリーカフェ。美しい庭園を眺めながら、焼きたてのパンやコーヒーを楽しめます。縁側でのんびり過ごすシーンは、チルな雰囲気のVLOGにぴったり。和と洋が融合した空間が魅力です。",
-        "website": "https://bread-espresso.jp/shop/arashiyama-cafe/",
-        "gmaps": "https://www.google.com/maps/search/?api=1&query=パンとエスプレッソと嵐山庭園",
-        "stayTime": "約75分",
-        "tags": ["カフェ・喫茶店", "ランチ", "おしゃれ", "レトロ", "自然・癒し", "予約推奨"],
-        "image": "https://bread-espresso.jp/wp-content/uploads/2019/06/DSC01940.jpg",
-        "imageSource": "AI生成データ",
-        "imageSourceUrl": "https://bread-espresso.jp/shop/arashiyama-cafe/"
+      "prefecture": "京都府",
+      "name": "パンとエスプレッソと嵐山庭園",
+      "yomigana": "ぱんとえすぷれっそとあらしやまていえん",
+      "area": "嵐山",
+      "category": "グルメ",
+      "subCategory": "カフェ・喫茶店",
+      "description": "築210年の古民家をリノベーションしたベーカリーカフェ。美しい庭園を眺めながら、焼きたてのパンやコーヒーを楽しめます。縁側でのんびり過ごすシーンは、チルな雰囲気のVLOGにぴったり。和と洋が融合した空間が魅力です。",
+      "website": "https://bread-espresso.jp/shop/arashiyama-cafe/",
+      "gmaps": "https://www.google.com/maps/search/?api=1&query=パンとエスプレッソと嵐山庭園",
+      "stayTime": "約75分",
+      "tags": [
+        "カフェ・喫茶店",
+        "ランチ",
+        "おしゃれ",
+        "レトロ",
+        "自然・癒し",
+        "予約推奨"
+      ],
+      "image": "https://bread-espresso.jp/wp-content/uploads/2019/06/DSC01940.jpg",
+      "imageSource": "AI生成データ",
+      "imageSourceUrl": "https://bread-espresso.jp/shop/arashiyama-cafe/"
     },
     {
-        "prefecture": "京都府",
-        "name": "嵯峨野湯",
-        "yomigana": "さがのゆ",
-        "area": "嵐山",
-        "category": "グルメ",
-        "subCategory": "カフェ・喫茶店",
-        "description": "昔ながらの銭湯をリノベーションしたユニークなカフェ。タイルやカランなど、銭湯だった頃の面影が随所に残っていて、レトロで可愛い写真が撮れます。豆腐パスタなど、ヘルシーで美味しいフードメニューも人気です。",
-        "website": "http://www.sagano-yu.com/",
-        "gmaps": "https://www.google.com/maps/search/?api=1&query=嵯峨野湯",
-        "stayTime": "約75分",
-        "tags": ["カフェ・喫茶店", "ランチ", "レトロ", "ユニーク", "おしゃれ"],
-        "image": "https://www.sagano-yu.com/images/concept/img_01.jpg",
-        "imageSource": "AI生成データ",
-        "imageSourceUrl": "http://www.sagano-yu.com/"
+      "prefecture": "京都府",
+      "name": "嵯峨野湯",
+      "yomigana": "さがのゆ",
+      "area": "嵐山",
+      "category": "グルメ",
+      "subCategory": "カフェ・喫茶店",
+      "description": "昔ながらの銭湯をリノベーションしたユニークなカフェ。タイルやカランなど、銭湯だった頃の面影が随所に残っていて、レトロで可愛い写真が撮れます。豆腐パスタなど、ヘルシーで美味しいフードメニューも人気です。",
+      "website": "http://www.sagano-yu.com/",
+      "gmaps": "https://www.google.com/maps/search/?api=1&query=嵯峨野湯",
+      "stayTime": "約75分",
+      "tags": [
+        "カフェ・喫茶店",
+        "ランチ",
+        "レトロ",
+        "ユニーク",
+        "おしゃれ"
+      ],
+      "image": "https://www.sagano-yu.com/images/concept/img_01.jpg",
+      "imageSource": "AI生成データ",
+      "imageSourceUrl": "http://www.sagano-yu.com/"
     },
     {
-        "prefecture": "京都府",
-        "name": "雲ノ茶カフェ 嵐山店",
-        "yomigana": "くものちゃかふぇ あらしやまてん",
-        "area": "嵐山",
-        "category": "グルメ",
-        "subCategory": "カフェ・喫茶店",
-        "description": "雲の形をした「雲ノムース」が可愛すぎるとSNSで大人気！ぷるぷる揺れるムースを動画に撮れば、たくさんの「いいね」がもらえるかも。和モダンで落ち着いた雰囲気の店内で、癒しのスイーツタイムを過ごせます。",
-        "website": "https://www.kumonocha.com/",
-        "gmaps": "https://www.google.com/maps/search/?api=1&query=雲ノ茶カフェ+嵐山店",
-        "stayTime": "約60分",
-        "tags": ["カフェ・喫茶店", "スイーツ", "カワイイ", "インスタ映え", "ユニーク"],
-        "image": "https://www.kumonocha.com/wp-content/themes/kumonocha/assets/images/arashiyama/img_arashiyama01.jpg",
-        "imageSource": "AI生成データ",
-        "imageSourceUrl": "https://www.kumonocha.com/"
+      "prefecture": "京都府",
+      "name": "雲ノ茶カフェ 嵐山店",
+      "yomigana": "くものちゃかふぇ あらしやまてん",
+      "area": "嵐山",
+      "category": "グルメ",
+      "subCategory": "カフェ・喫茶店",
+      "description": "雲の形をした「雲ノムース」が可愛すぎるとSNSで大人気！ぷるぷる揺れるムースを動画に撮れば、たくさんの「いいね」がもらえるかも。和モダンで落ち着いた雰囲気の店内で、癒しのスイーツタイムを過ごせます。",
+      "website": "https://www.kumonocha.com/",
+      "gmaps": "https://www.google.com/maps/search/?api=1&query=雲ノ茶カフェ+嵐山店",
+      "stayTime": "約60分",
+      "tags": [
+        "カフェ・喫茶店",
+        "スイーツ",
+        "カワイイ",
+        "インスタ映え",
+        "ユニーク"
+      ],
+      "image": "https://www.kumonocha.com/wp-content/themes/kumonocha/assets/images/arashiyama/img_arashiyama01.jpg",
+      "imageSource": "AI生成データ",
+      "imageSourceUrl": "https://www.kumonocha.com/"
     },
     {
-        "prefecture": "京都府",
-        "name": "安井金比羅宮",
-        "yomigana": "やすいこんぴらぐう",
-        "area": "祇園・東山",
-        "category": "観光",
-        "subCategory": "定番スポット",
-        "description": "悪縁を切り、良縁を結ぶご利益で有名な神社。願い事を書いた形代を持って、中央に穴のあいた「縁切り縁結び碑」をくぐる体験は、VLOGの面白いコンテンツになるはず。友達との関係や、新しい出会いを願って訪れてみては。",
-        "website": "http://www.yasui-konpira.or.jp/",
-        "gmaps": "https://www.google.com/maps/search/?api=1&query=安井金比羅宮",
-        "stayTime": "約45分",
-        "tags": ["定番スポット", "ユニーク", "体験", "無料"],
-        "image": "http://www.yasui-konpira.or.jp/stone/img/pic_stone_01.jpg",
-        "imageSource": "AI生成データ",
-        "imageSourceUrl": "http://www.yasui-konpira.or.jp/"
+      "prefecture": "京都府",
+      "name": "安井金比羅宮",
+      "yomigana": "やすいこんぴらぐう",
+      "area": "祇園・東山",
+      "category": "観光",
+      "subCategory": "定番スポット",
+      "description": "悪縁を切り、良縁を結ぶご利益で有名な神社。願い事を書いた形代を持って、中央に穴のあいた「縁切り縁結び碑」をくぐる体験は、VLOGの面白いコンテンツになるはず。友達との関係や、新しい出会いを願って訪れてみては。",
+      "website": "http://www.yasui-konpira.or.jp/",
+      "gmaps": "https://www.google.com/maps/search/?api=1&query=安井金比羅宮",
+      "stayTime": "約45分",
+      "tags": [
+        "定番スポット",
+        "ユニーク",
+        "体験",
+        "無料"
+      ],
+      "image": "http://www.yasui-konpira.or.jp/stone/img/pic_stone_01.jpg",
+      "imageSource": "AI生成データ",
+      "imageSourceUrl": "http://www.yasui-konpira.or.jp/"
     },
     {
-        "prefecture": "京都府",
-        "name": "錦市場",
-        "yomigana": "にしきいちば",
-        "area": "河原町・烏丸",
-        "category": "グルメ",
-        "subCategory": "食べ歩き",
-        "description": "「京の台所」として知られる活気あふれる商店街。新鮮な海鮮や京野菜、お漬物、スイーツなど、美味しいものが目白押し！様々なグルメを少しずつ味わいながら食べ歩きする様子は、VLOGを最高に盛り上げてくれます。",
-        "website": "https://www.kyoto-nishiki.or.jp/",
-        "gmaps": "https://www.google.com/maps/search/?api=1&query=錦市場",
-        "stayTime": "約90分",
-        "tags": ["食べ歩き", "ご当地グルメ", "B級グルメ", "定番スポット", "雨の日OK"],
-        "image": "https://www.kyoto-nishiki.or.jp/upload/spot/1/1-20210217122114-1.jpg",
-        "imageSource": "AI生成データ",
-        "imageSourceUrl": "https://www.kyoto-nishiki.or.jp/"
+      "prefecture": "京都府",
+      "name": "錦市場",
+      "yomigana": "にしきいちば",
+      "area": "河原町・烏丸",
+      "category": "グルメ",
+      "subCategory": "食べ歩き",
+      "description": "「京の台所」として知られる活気あふれる商店街。新鮮な海鮮や京野菜、お漬物、スイーツなど、美味しいものが目白押し！様々なグルメを少しずつ味わいながら食べ歩きする様子は、VLOGを最高に盛り上げてくれます。",
+      "website": "https://www.kyoto-nishiki.or.jp/",
+      "gmaps": "https://www.google.com/maps/search/?api=1&query=錦市場",
+      "stayTime": "約90分",
+      "tags": [
+        "食べ歩き",
+        "ご当地グルメ",
+        "B級グルメ",
+        "定番スポット",
+        "雨の日OK"
+      ],
+      "image": "https://www.kyoto-nishiki.or.jp/upload/spot/1/1-20210217122114-1.jpg",
+      "imageSource": "AI生成データ",
+      "imageSourceUrl": "https://www.kyoto-nishiki.or.jp/"
     },
     {
-        "prefecture": "京都府",
-        "name": "平等院",
-        "yomigana": "びょうどういん",
-        "area": "宇治",
-        "category": "観光",
-        "subCategory": "定番スポット",
-        "description": "10円玉に描かれていることでおなじみの「鳳凰堂」。水面に映るその姿は、シンメトリーで完璧な美しさです。壮大で優美な建物を、様々な角度から映像に収めてみて。歴史の重みと日本の美を感じられる、特別な場所です。",
-        "website": "https://www.byodoin.or.jp/",
-        "gmaps": "https://www.google.com/maps/search/?api=1&query=平等院",
-        "stayTime": "約75分",
-        "tags": ["定番スポット", "絶景", "アート・建築", "インスタ映え"],
-        "image": "https://www.byodoin.or.jp/ja/assets/images/top/img-slide-sp-01.jpg",
-        "imageSource": "AI生成データ",
-        "imageSourceUrl": "https://www.byodoin.or.jp/"
+      "prefecture": "京都府",
+      "name": "平等院",
+      "yomigana": "びょうどういん",
+      "area": "宇治",
+      "category": "観光",
+      "subCategory": "定番スポット",
+      "description": "10円玉に描かれていることでおなじみの「鳳凰堂」。水面に映るその姿は、シンメトリーで完璧な美しさです。壮大で優美な建物を、様々な角度から映像に収めてみて。歴史の重みと日本の美を感じられる、特別な場所です。",
+      "website": "https://www.byodoin.or.jp/",
+      "gmaps": "https://www.google.com/maps/search/?api=1&query=平等院",
+      "stayTime": "約75分",
+      "tags": [
+        "定番スポット",
+        "絶景",
+        "アート・建築",
+        "インスタ映え"
+      ],
+      "image": "https://www.byodoin.or.jp/ja/assets/images/top/img-slide-sp-01.jpg",
+      "imageSource": "AI生成データ",
+      "imageSourceUrl": "https://www.byodoin.or.jp/"
     },
     {
-        "prefecture": "京都府",
-        "name": "京都タワー",
-        "yomigana": "きょうとたわー",
-        "area": "京都駅周辺",
-        "category": "観光",
-        "subCategory": "夜景",
-        "description": "京都の街並みを360度見渡せる展望台。昼間の景色も素晴らしいですが、おすすめは日没後の夜景。ライトアップされた寺社仏閣が浮かび上がる幻想的な光景は、VLOGのエンディングをドラマチックに彩ります。",
-        "website": "https://www.kyoto-tower.jp/",
-        "gmaps": "https://www.google.com/maps/search/?api=1&query=京都タワー",
-        "stayTime": "約60分",
-        "tags": ["夜景", "絶景", "定番スポット", "雨の日OK"],
-        "image": "https://www.keihanhotels-resorts.co.jp/kyoto-tower/wp-content/uploads/2023/10/%E4%BA%AC%E9%83%BD%E3%82%BF%E3%83%AF%E3%83%BC%E5%A4%9C%E6%99%AF-scaled.jpg",
-        "imageSource": "AI生成データ",
-        "imageSourceUrl": "https://www.kyoto-tower.jp/"
+      "prefecture": "京都府",
+      "name": "京都タワー",
+      "yomigana": "きょうとたわー",
+      "area": "京都駅周辺",
+      "category": "観光",
+      "subCategory": "夜景",
+      "description": "京都の街並みを360度見渡せる展望台。昼間の景色も素晴らしいですが、おすすめは日没後の夜景。ライトアップされた寺社仏閣が浮かび上がる幻想的な光景は、VLOGのエンディングをドラマチックに彩ります。",
+      "website": "https://www.kyoto-tower.jp/",
+      "gmaps": "https://www.google.com/maps/search/?api=1&query=京都タワー",
+      "stayTime": "約60分",
+      "tags": [
+        "夜景",
+        "絶景",
+        "定番スポット",
+        "雨の日OK"
+      ],
+      "image": "https://www.keihanhotels-resorts.co.jp/kyoto-tower/wp-content/uploads/2023/10/%E4%BA%AC%E9%83%BD%E3%82%BF%E3%83%AF%E3%83%BC%E5%A4%9C%E6%99%AF-scaled.jpg",
+      "imageSource": "AI生成データ",
+      "imageSourceUrl": "https://www.kyoto-tower.jp/"
     }
   ]
 }
