@@ -18,6 +18,7 @@ const Papa = require("papaparse");
 setGlobalOptions({ region: "asia-northeast1" });
 
 admin.initializeApp();
+const db = admin.firestore();
 
 // --- 環境変数の読み込み (V2の正しい方法) ---
 const GEMINI_API_KEY = defineString("GEMINI_KEY");
@@ -110,6 +111,7 @@ async function getPrefectureIdMap() {
 }
 
 // --- AI関数 (V2形式) ---
+// ... (analyzeSpotSuggestion, reAnalyzeSpotSuggestion, _fetchImageForSpotLogic, fetchImageForSpot は変更なし)
 exports.analyzeSpotSuggestion = onCall(async (request) => {
     const { spotName, spotUrl, areaPositions, standardTags } = request.data;
     if (!spotName || !spotUrl) {
@@ -194,7 +196,6 @@ ${standardTags.join(', ')}
         throw new HttpsError("internal", "AIによる分析中にサーバーでエラーが発生しました。");
     }
 });
-
 exports.reAnalyzeSpotSuggestion = onCall(async (request) => {
     const { originalName, originalUrl, gmapsUrl, areaPositions } = request.data;
     if (!gmapsUrl) throw new HttpsError("invalid-argument", "GoogleマップのURLは必須です。");
@@ -240,7 +241,6 @@ ${JSON.stringify(areaPositions, null, 2)}
         console.error("Cloud Function (reAnalyze)内でエラー:", error); throw new HttpsError("internal", "AIによる再分析中にサーバーでエラーが発生しました。");
     }
 });
-
 const _fetchImageForSpotLogic = async ({ spot, reportedImageUrl = null }) => {
     if (!GOOGLE_SEARCH_KEY.value() || !GOOGLE_SEARCH_ID.value()) {
         console.error("Google Search APIキーが設定されていません。");
@@ -275,7 +275,6 @@ const _fetchImageForSpotLogic = async ({ spot, reportedImageUrl = null }) => {
         return [];
     }
 };
-
 exports.fetchImageForSpot = onRequest(async (req, res) => {
     cors(req, res, async () => {
         if (req.method !== 'POST') {
@@ -298,6 +297,7 @@ exports.fetchImageForSpot = onRequest(async (req, res) => {
 });
 
 // --- Settings Management Functions ---
+// ... (getAppSettings, updateAppSettings は変更なし)
 exports.getAppSettings = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");
@@ -325,12 +325,14 @@ exports.getAppSettings = onCall(async (request) => {
 4. **名称の一致確認**: 参考URLの内容がスポット名と関連している場合は「isNameConsistent」を \`true\` に、全く関係ない場合は \`false\` にしてください。
 5. **タグと分類**: 「subCategory」と「tags」は、必ず利用可能なタグリストの中から選んでください。リストにない単語は使用しないでください。
 6. **推奨**: ターゲットユーザー（専門学生、VLOGクリエイター）の視点で、このスポットをアプリに追加すべきか「recommendation」を「yes」か「no」で判断し、その理由を「reasoning」に記述してください。
+7.スポット名をひらがなでも入力できるように漢字をひらがなに変換して「yomigana」に書いてください（例：桜→さくら）
 # 利用可能なタグリスト
 \${standardTags.join(', ')}
 # 出力フォーマット (JSONのみを出力)
 {
   "prefecture": "（都道府県名）",
   "name": "\${spotName}",
+  "yomigana": "（スポット名の読み仮名）",
   "area": "（AIが決定したエリア名）",
   "isNewArea": false,
   "newAreaPosition": null,
@@ -372,7 +374,6 @@ exports.getAppSettings = onCall(async (request) => {
         throw new HttpsError("internal", "設定の取得に失敗しました。");
     }
 });
-
 exports.updateAppSettings = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");
@@ -394,8 +395,8 @@ exports.updateAppSettings = onCall(async (request) => {
     }
 });
 
-
 // --- GitHub連携関数 (V2形式) ---
+// ... (approveSubmission, resolveImageReport, getPrefectureList, updatePrefectureData は変更なし)
 exports.approveSubmission = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");
@@ -478,7 +479,6 @@ exports.approveSubmission = onCall(async (request) => {
         throw new HttpsError("internal", "スポットの承認処理に失敗しました。");
     }
 });
-
 exports.resolveImageReport = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");
@@ -518,7 +518,6 @@ exports.resolveImageReport = onCall(async (request) => {
         throw new HttpsError("internal", "画像レポートの解決に失敗しました。");
     }
 });
-
 async function _getPrefectureListLogic() {
     const url = `https://api.github.com/repos/${GITHUB_OWNER.value()}/${GITHUB_REPO.value()}/contents/data?ref=${GITHUB_BRANCH.value()}`;
     try {
@@ -565,7 +564,6 @@ async function _getPrefectureListLogic() {
         throw new Error("都道府県リストの取得中にサーバーでエラーが発生しました。");
     }
 }
-
 exports.getPrefectureList = onCall(async (request) => {
     try {
         return await _getPrefectureListLogic();
@@ -574,8 +572,6 @@ exports.getPrefectureList = onCall(async (request) => {
         throw new HttpsError("internal", error.message);
     }
 });
-
-// ▼▼▼ ADD THIS NEW FUNCTION ▼▼▼
 exports.updatePrefectureData = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");
@@ -605,8 +601,103 @@ exports.updatePrefectureData = onCall(async (request) => {
         throw new HttpsError("internal", "データの更新中にエラーが発生しました。");
     }
 });
-// ▲▲▲ END OF NEW FUNCTION ▲▲▲
 
+// --- ▼▼▼ NEW Analytics Functions ▼▼▼ ---
+
+/**
+ * ユーザーの行動イベントを記録するための関数
+ * @param {object} data - { eventType: string, payload: object }
+ * @param {object} context - 認証情報など
+ */
+exports.recordAnalyticsEvent = onCall(async (request) => {
+    if (!request.auth) {
+        // ログインしていないユーザーの行動は記録しない（または匿名として記録も可）
+        return { success: true, message: "Not authenticated. Event not logged." };
+    }
+
+    const { eventType, payload } = request.data;
+    if (!eventType) {
+        throw new HttpsError("invalid-argument", "eventType is a required field.");
+    }
+
+    try {
+        await db.collection("analyticsEvents").add({
+            uid: request.auth.uid,
+            eventType: eventType,
+            payload: payload || {},
+            timestamp: admin.firestore.FieldValue.serverTimestamp(),
+        });
+        return { success: true };
+    } catch (error) {
+        console.error("Error recording analytics event:", error);
+        throw new HttpsError("internal", "Failed to record event.");
+    }
+});
+
+/**
+ * 統計ダッシュボード用のデータを集計して返す関数
+ */
+exports.getDashboardStats = onCall(async (request) => {
+    if (!request.auth || !request.auth.token.admin) {
+        throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");
+    }
+
+    try {
+        // 1. ユーザー数の推移 (過去30日)
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        const userSnapshot = await db.collection("users").where('createdAt', '>=', thirtyDaysAgo).get();
+        const userCountsByDay = {};
+        userSnapshot.forEach(doc => {
+            const date = doc.data().createdAt.toDate().toISOString().split('T')[0];
+            userCountsByDay[date] = (userCountsByDay[date] || 0) + 1;
+        });
+
+        // 2. 人気のスポット（プラン追加数）
+        const planEvents = await db.collection("analyticsEvents").where("eventType", "==", "addToPlan").limit(1000).get();
+        const planCounts = {};
+        planEvents.forEach(doc => {
+            const spotName = doc.data().payload.spotName;
+            if(spotName) planCounts[spotName] = (planCounts[spotName] || 0) + 1;
+        });
+        const popularInPlans = Object.entries(planCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
+
+        // 3. 人気のスポット（お気に入り登録数）
+        const favoriteEvents = await db.collection("analyticsEvents").where("eventType", "==", "favoriteSpot").limit(1000).get();
+        const favoriteCounts = {};
+        favoriteEvents.forEach(doc => {
+            const spotName = doc.data().payload.spotName;
+             if(spotName) favoriteCounts[spotName] = (favoriteCounts[spotName] || 0) + 1;
+        });
+        const popularInFavorites = Object.entries(favoriteCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
+        
+        // 4. 人気の検索キーワード
+        const searchEvents = await db.collection("analyticsEvents").where("eventType", "==", "search").limit(1000).get();
+        const searchCounts = {};
+        searchEvents.forEach(doc => {
+            const term = doc.data().payload.term;
+            if(term) searchCounts[term] = (searchCounts[term] || 0) + 1;
+        });
+        const popularSearchTerms = Object.entries(searchCounts).sort((a, b) => b[1] - a[1]).slice(0, 20);
+
+        return {
+            userCountsByDay,
+            popularInPlans,
+            popularInFavorites,
+            popularSearchTerms
+        };
+
+    } catch (error) {
+        console.error("Error getting dashboard stats:", error);
+        throw new HttpsError("internal", "Failed to get dashboard stats.");
+    }
+});
+
+// --- ▲▲▲ END OF NEW Analytics Functions ▲▲▲ ---
+
+
+// --- Admin & Other Functions ---
+// ... (setAdminClaim, inviteAdmin, verifyAdminInvitation, getAdminUsers, removeAdminClaim, sendAnnouncement, updateSpot, exportSpotsToCSV, importSpotsFromCSV, triggerLinkCheck, findUrlCandidates, reportSpot, deleteSpot, getWeatherForecast は変更なし)
 exports.setAdminClaim = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError( "permission-denied", "この機能は管理者のみが実行できます。");
@@ -624,7 +715,6 @@ exports.setAdminClaim = onCall(async (request) => {
         throw new HttpsError("internal", "ユーザーが見つからないか、内部的なエラーが発生しました。");
     }
 });
-
 exports.inviteAdmin = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この機能は管理者のみが実行できます。");
@@ -662,7 +752,6 @@ exports.inviteAdmin = onCall(async (request) => {
         throw new HttpsError("internal", error.message || "招待の送信に失敗しました。");
     }
 });
-
 exports.verifyAdminInvitation = onCall(async (request) => {
     if (!request.auth) {
         throw new HttpsError("unauthenticated", "この操作にはログインが必要です。");
@@ -694,7 +783,6 @@ exports.verifyAdminInvitation = onCall(async (request) => {
         throw new HttpsError("internal", "権限の付与に失敗しました。");
     }
 });
-
 exports.getAdminUsers = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この機能は管理者のみが実行できます。");
@@ -717,7 +805,6 @@ exports.getAdminUsers = onCall(async (request) => {
         throw new HttpsError("internal", "管理者リストの取得に失敗しました。");
     }
 });
-
 exports.removeAdminClaim = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この機能は管理者のみが実行できます。");
@@ -744,7 +831,6 @@ exports.removeAdminClaim = onCall(async (request) => {
         throw new HttpsError("internal", "権限の削除に失敗しました。");
     }
 });
-
 exports.sendAnnouncement = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この機能は管理者のみが実行できます。");
@@ -765,7 +851,6 @@ exports.sendAnnouncement = onCall(async (request) => {
         throw new HttpsError("internal", "お知らせの作成に失敗しました。");
     }
 });
-
 exports.updateSpot = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");
@@ -794,7 +879,6 @@ exports.updateSpot = onCall(async (request) => {
         throw new HttpsError("internal", "スポットの更新に失敗しました。");
     }
 });
-
 exports.exportSpotsToCSV = onRequest(async (req, res) => {
     cors(req, res, async () => {
         const prefectureId = req.query.prefectureId;
@@ -815,7 +899,6 @@ exports.exportSpotsToCSV = onRequest(async (req, res) => {
         }
     });
 });
-
 exports.importSpotsFromCSV = onCall({ timeoutSeconds: 300, memory: '1GiB' }, async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "管理者権限が必要です。");
@@ -847,8 +930,6 @@ exports.importSpotsFromCSV = onCall({ timeoutSeconds: 300, memory: '1GiB' }, asy
         throw new HttpsError("internal", "インポート処理に失敗しました。");
     }
 });
-
-
 exports.triggerLinkCheck = onCall({ timeoutSeconds: 540, memory: "1GiB" }, async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "管理者権限が必要です。");
@@ -938,7 +1019,6 @@ exports.triggerLinkCheck = onCall({ timeoutSeconds: 540, memory: "1GiB" }, async
 
     return { success: true, message: `チェックが完了しました。${brokenLinks.length}件のリンク切れの可能性があります。` };
 });
-
 exports.findUrlCandidates = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");
@@ -985,7 +1065,6 @@ exports.findUrlCandidates = onCall(async (request) => {
         throw new HttpsError("internal", "URL候補の検索中にサーバーエラーが発生しました。");
     }
 });
-
 exports.reportSpot = onCall(async (request) => {
     if (!request.auth) {
         throw new HttpsError("unauthenticated", "この操作には認証が必要です。");
@@ -1015,7 +1094,6 @@ exports.reportSpot = onCall(async (request) => {
         throw new HttpsError("internal", "報告の保存に失敗しました。");
     }
 });
-
 exports.deleteSpot = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");
@@ -1057,7 +1135,6 @@ exports.deleteSpot = onCall(async (request) => {
         throw new HttpsError("internal", "スポットの削除処理に失敗しました。");
     }
 });
-
 exports.getWeatherForecast = onCall(async (request) => {
     const apiKey = OPENWEATHER_KEY.value();
     if (!apiKey) {

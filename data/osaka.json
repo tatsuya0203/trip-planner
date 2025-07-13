@@ -1,106 +1,34 @@
 {
   "name": "大阪府",
+  "id": "osaka",
   "areaPositions": [
-    {
-      "name": "梅田",
-      "top": "35%",
-      "left": "50%"
-    },
-    {
-      "name": "心斎橋",
-      "top": "55%",
-      "left": "40%"
-    },
-    {
-      "name": "難波",
-      "top": "65%",
-      "left": "50%"
-    },
-    {
-      "name": "天王寺",
-      "top": "85%",
-      "left": "60%"
-    },
-    {
-      "name": "大阪城",
-      "top": "50%",
-      "left": "75%"
-    },
-    {
-      "name": "ベイエリア",
-      "top": "65%",
-      "left": "15%"
-    },
-    {
-      "name": "新世界",
-      "top": "85%",
-      "left": "40%"
-    },
-    {
-      "name": "鶴橋",
-      "top": "75%",
-      "left": "70%"
-    },
-    {
-      "name": "中崎町",
-      "top": "20%",
-      "left": "60%"
-    },
-    {
-      "name": "その他",
-      "top": "95%",
-      "left": "95%"
-    }
+    { "name": "梅田", "top": "35%", "left": "50%" },
+    { "name": "心斎橋", "top": "55%", "left": "40%" },
+    { "name": "難波", "top": "65%", "left": "50%" },
+    { "name": "天王寺", "top": "85%", "left": "60%" },
+    { "name": "大阪城", "top": "50%", "left": "75%" },
+    { "name": "ベイエリア", "top": "65%", "left": "15%" },
+    { "name": "新世界", "top": "85%", "left": "40%" },
+    { "name": "鶴橋", "top": "75%", "left": "70%" },
+    { "name": "中崎町", "top": "20%", "left": "60%" },
+    { "name": "その他", "top": "95%", "left": "95%" }
   ],
   "transitData": {
-    "梅田": {
-      "心斎橋": 8,
-      "難波": 9,
-      "天王寺": 15,
-      "大阪城": 10
-    },
-    "心斎橋": {
-      "梅田": 8,
-      "難波": 2,
-      "天王寺": 7
-    },
-    "難波": {
-      "梅田": 9,
-      "心斎橋": 2,
-      "天王寺": 6,
-      "新世界": 5
-    },
-    "天王寺": {
-      "梅田": 15,
-      "心斎橋": 7,
-      "難波": 6,
-      "新世界": 3
-    },
-    "大阪城": {
-      "梅田": 10,
-      "天王寺": 10,
-      "大阪万博会場": 30
-    },
-    "ベイエリア": {
-      "梅田": 15,
-      "難波": 15
-    },
-    "新世界": {
-      "難波": 5,
-      "天王寺": 3
-    },
-    "大阪万博会場": {
-      "大阪城": 30,
-      "鶴橋": 20
-    },
-    "鶴橋": {
-      "大阪万博会場": 20
-    }
+    "梅田": { "心斎橋": 8, "難波": 9, "天王寺": 15, "大阪城": 10 },
+    "心斎橋": { "梅田": 8, "難波": 2, "天王寺": 7 },
+    "難波": { "梅田": 9, "心斎橋": 2, "天王寺": 6, "新世界": 5 },
+    "天王寺": { "梅田": 15, "心斎橋": 7, "難波": 6, "新世界": 3 },
+    "大阪城": { "梅田": 10, "天王寺": 10, "大阪万博会場": 30 },
+    "ベイエリア": { "梅田": 15, "難波": 15 },
+    "新世界": { "難波": 5, "天王寺": 3 },
+    "大阪万博会場": { "大阪城": 30, "鶴橋": 20 },
+    "鶴橋": { "大阪万博会場": 20 }
   },
   "spots": [
     {
       "prefecture": "大阪府",
       "name": "ユニバーサル・スタジオ・ジャパン",
+      "yomigana": "ゆにばーさるすたじおじゃぱん",
       "area": "ベイエリア",
       "category": "観光",
       "subCategory": "テーマパーク",
@@ -108,11 +36,7 @@
       "website": "https://www.usj.co.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=ユニバーサル・スタジオ・ジャパン",
       "stayTime": "1日",
-      "tags": [
-        "定番スポット",
-        "体験",
-        "インスタ映え"
-      ],
+      "tags": ["定番スポット", "体験", "インスタ映え"],
       "image": "https://www.img-ikyu.com/contents/dg/yahoo_contents/kanko/spot/00003471_01.jpg",
       "imageSource": "travel.yahoo.co.jp",
       "imageSourceUrl": "https://travel.yahoo.co.jp/kanko/spot-00003471/"
@@ -120,6 +44,7 @@
     {
       "prefecture": "大阪府",
       "name": "道頓堀",
+      "yomigana": "どうとんぼり",
       "area": "難波",
       "category": "観光",
       "subCategory": "繁華街",
@@ -127,11 +52,7 @@
       "website": "http://www.dotonbori.or.jp/ja/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=道頓堀",
       "stayTime": "約2-3時間",
-      "tags": [
-        "定番スポット",
-        "食べ歩き",
-        "夜景"
-      ],
+      "tags": ["定番スポット", "食べ歩き", "夜景"],
       "image": "https://img-cdn.guide.travel.co.jp/article/963/30248/1F5104BF26B24BF3AA47072C5B00FADF_L.jpg",
       "imageSource": "管理者更新",
       "imageSourceUrl": "https://img-cdn.guide.travel.co.jp/article/963/30248/1F5104BF26B24BF3AA47072C5B00FADF_L.jpg"
@@ -139,6 +60,7 @@
     {
       "prefecture": "大阪府",
       "name": "アメリカ村",
+      "yomigana": "あめりかむら",
       "area": "心斎橋",
       "category": "観光",
       "subCategory": "ショッピング・ファッション",
@@ -146,11 +68,7 @@
       "website": "http://americamura.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=アメリカ村",
       "stayTime": "約3-4時間",
-      "tags": [
-        "ショッピング",
-        "おしゃれ",
-        "ユニーク"
-      ],
+      "tags": ["ショッピング", "おしゃれ", "ユニーク"],
       "image": "https://img01.jalannews.jp/img/2021/11/20211125_americamura_main-670x443.jpg",
       "imageSource": "管理者更新",
       "imageSourceUrl": "https://img01.jalannews.jp/img/2021/11/20211125_americamura_main-670x443.jpg"
@@ -158,6 +76,7 @@
     {
       "prefecture": "大阪府",
       "name": "梅田スカイビル・空中庭園展望台",
+      "yomigana": "うめだすかいびるくうちゅうていえんてんぼうだい",
       "area": "梅田",
       "category": "観光",
       "subCategory": "展望台",
@@ -165,11 +84,7 @@
       "website": "https://www.skybldg.co.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=梅田スカイビル+空中庭園展望台",
       "stayTime": "約90分",
-      "tags": [
-        "絶景",
-        "夜景",
-        "アート・建築"
-      ],
+      "tags": ["絶景", "夜景", "アート・建築"],
       "image": "https://s3-media0.fl.yelpcdn.com/bphoto/Nek6aX_IAOKvu_X1p_amjg/348s.jpg",
       "imageSource": "m.yelp.com",
       "imageSourceUrl": "https://m.yelp.com/biz/%E6%A2%85%E7%94%B0%E3%82%B9%E3%82%AB%E3%82%A4%E3%83%93%E3%83%AB-%E7%A9%BA%E4%B8%AD%E5%BA%AD%E5%9C%92-%E5%B1%95%E6%9C%9B%E5%8F%B0-%E5%A4%A7%E9%98%AA%E5%B8%82-%E5%8C%97%E5%8C%BA-4"
@@ -177,6 +92,7 @@
     {
       "prefecture": "大阪府",
       "name": "海遊館",
+      "yomigana": "かいゆうかん",
       "area": "ベイエリア",
       "category": "観光",
       "subCategory": "水族館",
@@ -184,11 +100,7 @@
       "website": "https://www.kaiyukan.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=海遊館",
       "stayTime": "約2-3時間",
-      "tags": [
-        "雨の日OK",
-        "自然・癒し",
-        "定番スポット"
-      ],
+      "tags": ["雨の日OK", "自然・癒し", "定番スポット"],
       "image": "https://osaka-city-hotel.com/wp-content/uploads/2021/12/204006d29db8cd094a3de2bac14c4410-edited.jpeg",
       "imageSource": "osaka-city-hotel.com",
       "imageSourceUrl": "https://osaka-city-hotel.com/sightseeing/bayarea/"
@@ -196,6 +108,7 @@
     {
       "prefecture": "大阪府",
       "name": "通天閣",
+      "yomigana": "つうてんかく",
       "area": "新世界",
       "category": "観光",
       "subCategory": "展望台",
@@ -203,11 +116,7 @@
       "website": "https://www.tsutenkaku.co.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=通天閣",
       "stayTime": "約60分",
-      "tags": [
-        "定番スポット",
-        "レトロ",
-        "展望台"
-      ],
+      "tags": ["定番スポット", "レトロ", "展望台"],
       "image": "https://upload.wikimedia.org/wikipedia/commons/7/73/%E9%80%9A%E5%A4%A9%E9%96%A303.jpg",
       "imageSource": "commons.wikimedia.org",
       "imageSourceUrl": "https://commons.wikimedia.org/wiki/File:%E9%80%9A%E5%A4%A9%E9%96%A303.jpg"
@@ -215,6 +124,7 @@
     {
       "prefecture": "大阪府",
       "name": "あべのハルカス300（展望台）",
+      "yomigana": "あべのはるかすさんびゃく（てんぼうだい）",
       "area": "天王寺",
       "category": "観光",
       "subCategory": "展望台",
@@ -222,11 +132,7 @@
       "website": "https://www.abenoharukas-300.jp/observatory/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=あべのハルカス300",
       "stayTime": "約90分",
-      "tags": [
-        "絶景",
-        "夜景",
-        "定番スポット"
-      ],
+      "tags": ["絶景", "夜景", "定番スポット"],
       "image": "https://www.upon.co.jp/usj/ss/img/05070101.jpg",
       "imageSource": "www.upon.co.jp",
       "imageSourceUrl": "https://www.upon.co.jp/usj/ss/050701.html"
@@ -234,6 +140,7 @@
     {
       "prefecture": "大阪府",
       "name": "大阪城天守閣",
+      "yomigana": "おおさかじょうてんしゅかく",
       "area": "大阪城",
       "category": "観光",
       "subCategory": "城・歴史的建造物",
@@ -241,11 +148,7 @@
       "website": "https://www.osakacastle.net/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=大阪城天守閣",
       "stayTime": "約90分",
-      "tags": [
-        "定番スポット",
-        "アート・建築",
-        "絶景"
-      ],
+      "tags": ["定番スポット", "アート・建築", "絶景"],
       "image": "https://www.osakacastle.net/img/top/keyvisual_bg_01.jpg",
       "imageSource": "www.osakacastle.net",
       "imageSourceUrl": "https://www.osakacastle.net/"
@@ -253,6 +156,7 @@
     {
       "prefecture": "大阪府",
       "name": "黒門市場",
+      "yomigana": "くろもんいちば",
       "area": "難波",
       "category": "グルメ",
       "subCategory": "市場・食べ歩き",
@@ -260,11 +164,7 @@
       "website": "http://www.kuromon.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=黒門市場",
       "stayTime": "約90分",
-      "tags": [
-        "食べ歩き",
-        "ご当地グルメ",
-        "ランチ"
-      ],
+      "tags": ["食べ歩き", "ご当地グルメ", "ランチ"],
       "image": "https://ebisubashi-magazine.com/wp-content/uploads/2019/04/IMG_3630.jpg",
       "imageSource": "ebisubashi-magazine.com",
       "imageSourceUrl": "https://ebisubashi-magazine.com/osaka-kuromon-ichiba-guide/"
@@ -272,6 +172,7 @@
     {
       "prefecture": "大阪府",
       "name": "なんばグランド花月",
+      "yomigana": "なんばぐらんどかげつ",
       "area": "難波",
       "category": "観光",
       "subCategory": "エンターテイメント・劇場",
@@ -279,11 +180,7 @@
       "website": "https://ngk.yoshimoto.co.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=なんばグランド花月",
       "stayTime": "約2.5時間",
-      "tags": [
-        "体験",
-        "雨の日OK",
-        "ユニーク"
-      ],
+      "tags": ["体験", "雨の日OK", "ユニーク"],
       "image": "https://ngk.yoshimoto.co.jp/assets/images/about/about-img01.jpg",
       "imageSource": "ngk.yoshimoto.co.jp",
       "imageSourceUrl": "https://ngk.yoshimoto.co.jp/about/"
@@ -291,6 +188,7 @@
     {
       "prefecture": "大阪府",
       "name": "法善寺横丁",
+      "yomigana": "ほうぜんじよこちょう",
       "area": "難波",
       "category": "観光",
       "subCategory": "歴史的街並み",
@@ -298,11 +196,7 @@
       "website": "https://houzenji.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=法善寺横丁",
       "stayTime": "約45分",
-      "tags": [
-        "レトロ",
-        "夜景",
-        "パワースポット"
-      ],
+      "tags": ["レトロ", "夜景", "パワースポット"],
       "image": "https://s3-media0.fl.yelpcdn.com/bphoto/2iDWAzCKHXtL5Os5FeLetg/348s.jpg",
       "imageSource": "m.yelp.com",
       "imageSourceUrl": "https://m.yelp.com/biz/%E6%B3%95%E5%96%84%E5%AF%BA%E6%A8%AA%E4%B8%81-%E3%82%84%E3%81%8D%E7%84%B6-%E5%A4%A7%E9%98%AA%E5%B8%82"
@@ -310,6 +204,7 @@
     {
       "prefecture": "大阪府",
       "name": "スパワールド 世界の大温泉",
+      "yomigana": "すぱわーるど せかいのだいおんせん",
       "area": "新世界",
       "category": "観光",
       "subCategory": "温泉・スパ",
@@ -317,11 +212,7 @@
       "website": "https://www.spaworld.co.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=スパワールド+世界の大温泉",
       "stayTime": "約3-5時間",
-      "tags": [
-        "自然・癒し",
-        "雨の日OK",
-        "ユニーク"
-      ],
+      "tags": ["自然・癒し", "雨の日OK", "ユニーク"],
       "image": "https://img-www.knt.co.jp/meito/images/spa_world_mv.jpg",
       "imageSource": "www.knt.co.jp",
       "imageSourceUrl": "https://www.knt.co.jp/meito/sp/spa_world/"
@@ -329,6 +220,7 @@
     {
       "prefecture": "大阪府",
       "name": "天保山大観覧車",
+      "yomigana": "てんぽうざんだいかんらんしゃ",
       "area": "ベイエリア",
       "category": "観光",
       "subCategory": "展望・アトラクション",
@@ -336,11 +228,7 @@
       "website": "http://www.senyo.co.jp/tempozan/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=天保山大観覧車",
       "stayTime": "約20分",
-      "tags": [
-        "絶景",
-        "夜景",
-        "定番スポット"
-      ],
+      "tags": ["絶景", "夜景", "定番スポット"],
       "image": "https://www.upon.co.jp/usj/ss/img/01010101.jpg",
       "imageSource": "www.upon.co.jp",
       "imageSourceUrl": "https://www.upon.co.jp/usj/ss/010101.html"
@@ -348,6 +236,7 @@
     {
       "prefecture": "大阪府",
       "name": "カップヌードルミュージアム 大阪池田",
+      "yomigana": "かっぷぬーどるみゅーじあむ おおさかいけだ",
       "area": "池田市",
       "category": "観光",
       "subCategory": "体験型ミュージアム",
@@ -355,11 +244,7 @@
       "website": "https://www.cupnoodles-museum.jp/ja/osaka_ikeda/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=カップヌードルミュージアム+大阪池田",
       "stayTime": "約90分",
-      "tags": [
-        "体験",
-        "雨の日OK",
-        "ユニーク"
-      ],
+      "tags": ["体験", "雨の日OK", "ユニーク"],
       "image": "https://www.ikedashi-kanko.jp/wp-content/uploads/5a497226e54ffd4d3a77fdc9f34d91c9.jpg",
       "imageSource": "www.ikedashi-kanko.jp",
       "imageSourceUrl": "https://www.ikedashi-kanko.jp/spot/recommend-spot03"
@@ -367,6 +252,7 @@
     {
       "prefecture": "大阪府",
       "name": "万博記念公園",
+      "yomigana": "ばんぱくきねんこうえん",
       "area": "吹田市",
       "category": "観光",
       "subCategory": "公園・アート",
@@ -374,11 +260,7 @@
       "website": "https://www.expo70-park.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=万博記念公園",
       "stayTime": "約2-3時間",
-      "tags": [
-        "公園",
-        "アート・建築",
-        "自然・癒し"
-      ],
+      "tags": ["公園", "アート・建築", "自然・癒し"],
       "image": "https://parkful.net/wp-content/uploads/2016/05/expo70-park1.jpg",
       "imageSource": "parkful.net",
       "imageSourceUrl": "https://parkful.net/2016/07/expo70-park/"
@@ -386,6 +268,7 @@
     {
       "prefecture": "大阪府",
       "name": "天王寺動物園",
+      "yomigana": "てんのうじどうぶつえん",
       "area": "天王寺",
       "category": "観光",
       "subCategory": "動物園",
@@ -393,11 +276,7 @@
       "website": "https://www.tennojizoo.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=天王寺動物園",
       "stayTime": "約2-3時間",
-      "tags": [
-        "自然・癒し",
-        "定番スポット",
-        "カワイイ"
-      ],
+      "tags": ["自然・癒し", "定番スポット", "カワイイ"],
       "image": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Tennoji-Zoo1.jpg",
       "imageSource": "zh.wikipedia.org",
       "imageSourceUrl": "https://zh.wikipedia.org/zh-cn/%E5%A4%A9%E7%8E%8B%E5%AF%BA%E5%8B%95%E7%89%A9%E5%9C%92"
@@ -405,6 +284,7 @@
     {
       "prefecture": "大阪府",
       "name": "オレンジストリート（立花通り）",
+      "yomigana": "おれんじすとりーと（たちばなどおり）",
       "area": "堀江",
       "category": "観光",
       "subCategory": "ショッピング・ファッション",
@@ -412,11 +292,7 @@
       "website": "https://osaka-info.jp/spot/tachibana-dori-orange-street/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=オレンジストリート+大阪",
       "stayTime": "約2-3時間",
-      "tags": [
-        "ショッピング",
-        "おしゃれ",
-        "カフェ・喫茶店"
-      ],
+      "tags": ["ショッピング", "おしゃれ", "カフェ・喫茶店"],
       "image": "https://cdn.osaka-info.jp/page_translation/content/e819a212-1568-11e8-9037-06326e701dd4.jpeg",
       "imageSource": "osaka-info.jp",
       "imageSourceUrl": "https://osaka-info.jp/spot/tachibana-dori-orange-street/"
@@ -424,6 +300,7 @@
     {
       "prefecture": "大阪府",
       "name": "鶴橋コリアンタウン（御幸通商店街）",
+      "yomigana": "つるはしこりあんたうん（みゆきどおりしょうてんがい）",
       "area": "鶴橋",
       "category": "グルメ",
       "subCategory": "食べ歩き・韓国文化",
@@ -431,11 +308,7 @@
       "website": "https://osaka-koreatown.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=鶴橋コリアンタウン",
       "stayTime": "約2-3時間",
-      "tags": [
-        "食べ歩き",
-        "ご当地グルメ",
-        "ショッピング"
-      ],
+      "tags": ["食べ歩き", "ご当地グルメ", "ショッピング"],
       "image": "https://cdn.osaka-info.jp/page_translation/content/cd067810-04bf-11e8-8e67-06326e701dd4.jpeg",
       "imageSource": "osaka-info.jp",
       "imageSourceUrl": "https://osaka-info.jp/spot/miyuki-dori-korea-town/"
@@ -443,6 +316,7 @@
     {
       "prefecture": "大阪府",
       "name": "裏天満ちょうちん通り",
+      "yomigana": "うらてんまちょうちんどおり",
       "area": "天神橋",
       "category": "観光",
       "subCategory": "飲み屋街・フォトスポット",
@@ -450,11 +324,7 @@
       "website": "https://www.tenmaichiba.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=裏天満ちょうちん通り",
       "stayTime": "約60-90分",
-      "tags": [
-        "インスタ映え",
-        "レトロ",
-        "夜景"
-      ],
+      "tags": ["インスタ映え", "レトロ", "夜景"],
       "image": "https://cdn.clipkit.co/tenants/568/articles/images/000/004/163/large/2551abd0-0654-49ac-951b-3274db8f3f37.jpg?1652245109",
       "imageSource": "genic-web.com",
       "imageSourceUrl": "https://genic-web.com/articles/2190091"
@@ -462,6 +332,7 @@
     {
       "prefecture": "大阪府",
       "name": "難波八阪神社",
+      "yomigana": "なんばやさかじんじゃ",
       "area": "難波",
       "category": "観光",
       "subCategory": "神社",
@@ -469,11 +340,7 @@
       "website": "https://nambayasaka.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=難波八阪神社",
       "stayTime": "約30分",
-      "tags": [
-        "パワースポット",
-        "ユニーク",
-        "インスタ映え"
-      ],
+      "tags": ["パワースポット", "ユニーク", "インスタ映え"],
       "image": "https://nambayasaka.jp/wp-content/themes/hpb20T20131110141444/front_yasaka.png",
       "imageSource": "nambayasaka.jp",
       "imageSourceUrl": "https://nambayasaka.jp/"
@@ -481,6 +348,7 @@
     {
       "prefecture": "大阪府",
       "name": "北加賀屋ウォールアート",
+      "yomigana": "きたかがやうぉーるあーと",
       "area": "住之江",
       "category": "観光",
       "subCategory": "アート・街歩き",
@@ -488,11 +356,7 @@
       "website": "https://chishima-foundation.com/cruising",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=北加賀屋+ウォールアート",
       "stayTime": "約90分",
-      "tags": [
-        "アート・建築",
-        "おしゃれ",
-        "インスタ映え"
-      ],
+      "tags": ["アート・建築", "おしゃれ", "インスタ映え"],
       "image": "https://cdn.osaka-info.jp/page_translation/content/506224a6-074e-11ea-9e41-06326e701dd4.jpeg",
       "imageSource": "osaka-info.jp",
       "imageSourceUrl": "https://osaka-info.jp/special/features-art-kitakagaya/"
@@ -500,6 +364,7 @@
     {
       "prefecture": "大阪府",
       "name": "食堂PLUG",
+      "yomigana": "しょくどうぷらぐ",
       "area": "中崎町",
       "category": "グルメ",
       "subCategory": "カフェ・アメリカンダイナー",
@@ -507,11 +372,7 @@
       "website": "https://www.instagram.com/plug_shokudou/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=食堂PLUG+中崎町",
       "stayTime": "約60-90分",
-      "tags": [
-        "カフェ・喫茶店",
-        "おしゃれ",
-        "ランチ"
-      ],
+      "tags": ["カフェ・喫茶店", "おしゃれ", "ランチ"],
       "image": "https://imgfp.hotp.jp/IMGH/62/59/P038176259/P038176259_480.jpg",
       "imageSource": "www.hotpepper.jp",
       "imageSourceUrl": "https://www.hotpepper.jp/strJ001127835/"
@@ -519,6 +380,7 @@
     {
       "prefecture": "大阪府",
       "name": "喫茶ドレミ",
+      "yomigana": "きっさどれみ",
       "area": "新世界",
       "category": "グルメ",
       "subCategory": "喫茶店",
@@ -526,11 +388,7 @@
       "website": "https://retty.me/area/PRE27/ARE97/SUB9702/100000423323/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=喫茶ドレミ+新世界",
       "stayTime": "約60分",
-      "tags": [
-        "カフェ・喫茶店",
-        "レトロ",
-        "スイーツ"
-      ],
+      "tags": ["カフェ・喫茶店", "レトロ", "スイーツ"],
       "image": "https://cdn-ak.f.st-hatena.com/images/fotolife/s/simba07ljx/20220815/20220815212718.jpg",
       "imageSource": "simba07ljx.hatenablog.com",
       "imageSourceUrl": "https://simba07ljx.hatenablog.com/entry/2022/08/16/170912"
@@ -538,6 +396,7 @@
     {
       "prefecture": "大阪府",
       "name": "千成屋珈琲",
+      "yomigana": "せんなりやこーひー",
       "area": "新世界",
       "category": "グルメ",
       "subCategory": "喫茶店",
@@ -545,11 +404,7 @@
       "website": "https://www.sennariya-coffee.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=千成屋珈琲+新世界",
       "stayTime": "約60分",
-      "tags": [
-        "カフェ・喫茶店",
-        "レトロ",
-        "ご当地グルメ"
-      ],
+      "tags": ["カフェ・喫茶店", "レトロ", "ご当地グルメ"],
       "image": "https://static.gltjp.com/glt/data/directory/15000/14725/20230828_212910_170a1cdd_w1920.webp",
       "imageSource": "www.gltjp.com",
       "imageSourceUrl": "https://www.gltjp.com/zh-hans/directory/item/14725/"
@@ -557,6 +412,7 @@
     {
       "prefecture": "大阪府",
       "name": "古着屋JAM アメリカ村店",
+      "yomigana": "ふるぎやじゃむ あめりかむらてん",
       "area": "心斎橋",
       "category": "観光",
       "subCategory": "古着屋",
@@ -564,11 +420,7 @@
       "website": "https://jamtrading.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=古着屋JAM+アメリカ村店",
       "stayTime": "約60-90分",
-      "tags": [
-        "ショッピング",
-        "おしゃれ",
-        "レトロ"
-      ],
+      "tags": ["ショッピング", "おしゃれ", "レトロ"],
       "image": "https://prcdn.freetls.fastly.net/release_image/26444/30/26444-30-d7d0d898087d7e6eeeb2ce63dde28b0b-1600x1200.jpg?format=jpeg&auto=webp&quality=85%2C65&width=1950&height=1350&fit=bounds",
       "imageSource": "prtimes.jp",
       "imageSourceUrl": "https://prtimes.jp/main/html/rd/p/000000030.000026444.html"
@@ -576,6 +428,7 @@
     {
       "prefecture": "大阪府",
       "name": "W大阪 LIVING ROOM",
+      "yomigana": "だぶりゅーおおさか りびんぐるーむ",
       "area": "心斎橋",
       "category": "グルメ",
       "subCategory": "アフタヌーンティー・バー",
@@ -583,11 +436,7 @@
       "website": "https://livingroom.wosaka.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=W大阪+LIVING+ROOM",
       "stayTime": "約2時間",
-      "tags": [
-        "スイーツ",
-        "おしゃれ",
-        "ディナー"
-      ],
+      "tags": ["スイーツ", "おしゃれ", "ディナー"],
       "image": "https://restaurant.img-ikyu.com/rsDatas/rsData117000/r116598/orig/116598ga10000017.jpg?auto=compress%2Cformat&lossless=0&fit=crop&w=1400&h=700",
       "imageSource": "restaurant.ikyu.com",
       "imageSourceUrl": "https://restaurant.ikyu.com/116598"
@@ -595,6 +444,7 @@
     {
       "prefecture": "大阪府",
       "name": "北浜レトロ",
+      "yomigana": "きたはまれとろ",
       "area": "北浜",
       "category": "グルメ",
       "subCategory": "カフェ・アフタヌーンティー",
@@ -602,11 +452,7 @@
       "website": "https://www.kitahama-retro.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=北浜レトロ",
       "stayTime": "約90分",
-      "tags": [
-        "カフェ・喫茶店",
-        "レトロ",
-        "おしゃれ"
-      ],
+      "tags": ["カフェ・喫茶店", "レトロ", "おしゃれ"],
       "image": "https://tblg.k-img.com/restaurant/images/Rvw/22773/640x640_rect_22773844.jpg",
       "imageSource": "tabelog.com",
       "imageSourceUrl": "https://tabelog.com/osaka/A2701/A270102/27000121/"
@@ -614,6 +460,7 @@
     {
       "prefecture": "大阪府",
       "name": "cafe 太陽ノ塔 本店",
+      "yomigana": "かふぇ たいようのとう ほんてん",
       "area": "中崎町",
       "category": "グルメ",
       "subCategory": "カフェ",
@@ -621,11 +468,7 @@
       "website": "http://taiyounotou.com/home/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=cafe+太陽ノ塔+本店+中崎町",
       "stayTime": "約60-90分",
-      "tags": [
-        "カフェ・喫茶店",
-        "レトロ",
-        "スイーツ"
-      ],
+      "tags": ["カフェ・喫茶店", "レトロ", "スイーツ"],
       "image": "https://taiyounotou.com/wp-content/uploads/2020/03/honten_main.jpg",
       "imageSource": "taiyounotou.com",
       "imageSourceUrl": "https://taiyounotou.com/cafe/honten/"
@@ -633,6 +476,7 @@
     {
       "prefecture": "大阪府",
       "name": "てんしば",
+      "yomigana": "てんしば",
       "area": "天王寺",
       "category": "観光",
       "subCategory": "公園・広場",
@@ -640,11 +484,7 @@
       "website": "https://www.tennoji-park.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=てんしば",
       "stayTime": "約1-2時間",
-      "tags": [
-        "公園",
-        "自然・癒し",
-        "カフェ・喫茶店"
-      ],
+      "tags": ["公園", "自然・癒し", "カフェ・喫茶店"],
       "image": "https://svcstrg.cld.navitime.jp/travelguide/p27070004/p27070004_01.jpg",
       "imageSource": "www.seidcraneservice.com",
       "imageSourceUrl": "https://www.seidcraneservice.com/?e=02207100179601&channel=76bc32&from=news.php%3Fid%3D1001796-4201%26name%3D%E3%81%A6%E3%82%93%E3%81%97"
@@ -652,6 +492,7 @@
     {
       "prefecture": "大阪府",
       "name": "MAMACARON（ママカロン）",
+      "yomigana": "ままかろん",
       "area": "鶴橋",
       "category": "グルメ",
       "subCategory": "スイーツ・マカロン",
@@ -659,11 +500,7 @@
       "website": "https://ameblo.jp/mamacaron3",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=MAMACARON+鶴橋",
       "stayTime": "約30分",
-      "tags": [
-        "スイーツ",
-        "食べ歩き",
-        "カワイイ"
-      ],
+      "tags": ["スイーツ", "食べ歩き", "カワイイ"],
       "image": "https://osaka.goguynet.jp/wp-content/uploads/sites/265/2022/02/2335F753-776F-4DF9-9246-0F096D741B8A.jpeg",
       "imageSource": "管理者更新",
       "imageSourceUrl": "https://osaka.goguynet.jp/wp-content/uploads/sites/265/2022/02/2335F753-776F-4DF9-9246-0F096D741B8A.jpeg"
@@ -671,18 +508,15 @@
     {
       "prefecture": "大阪府",
       "name": "PIGSTY アメ村店",
+      "yomigana": "ぴぐすてぃ あめむらてん",
       "area": "心斎橋",
       "category": "観光",
       "subCategory": "古着屋",
       "description": "アメリカ村の中心部に位置する人気古着屋。アメリカから直接買い付けたヴィンテージアイテムが豊富で、古着好きならずとも楽しめる。常時3000点以上の品揃えの中から、自分だけの一着を見つける過程をVLOGにするのも面白い。デニムの大きな看板が目印。",
       "website": "https://www.pigsty1999.com/shop/amemura/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=PIGSTY+アメ村店",
-      "stayTime": "約60分",
-      "tags": [
-        "ショッピング",
-        "おしゃれ",
-        "レトロ"
-      ],
+      "stayTime": "約60-90分",
+      "tags": ["ショッピング", "おしゃれ", "レトロ"],
       "image": "https://www.pigsty1999.com/img/uploads/img01.jpg",
       "imageSource": "www.pigsty1999.com",
       "imageSourceUrl": "https://www.pigsty1999.com/shop/amemura/"
@@ -690,6 +524,7 @@
     {
       "prefecture": "大阪府",
       "name": "SPOONBILL 天王寺",
+      "yomigana": "すぷーんびる てんのうじ",
       "area": "天王寺",
       "category": "グルメ",
       "subCategory": "カフェ・ボタニカルショップ",
@@ -697,11 +532,7 @@
       "website": "https://www.spoon-bill.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=SPOONBILL+天王寺",
       "stayTime": "約90分",
-      "tags": [
-        "カフェ・喫茶店",
-        "自然・癒し",
-        "ランチ"
-      ],
+      "tags": ["カフェ・喫茶店", "自然・癒し", "ランチ"],
       "image": "https://cdn.r-corona.jp/prd.rb.r-corona.jp/assets/site_files/lnxulhb0/26283950/2b4v_w750h750.jpg",
       "imageSource": "spoonbill.owst.jp",
       "imageSourceUrl": "https://spoonbill.owst.jp/"
@@ -709,6 +540,7 @@
     {
       "prefecture": "大阪府",
       "name": "コンラッド大阪 40スカイバー＆ラウンジ",
+      "yomigana": "こんらっどおおさか よんじゅうすかいばーあんどらうんじ",
       "area": "中之島",
       "category": "グルメ",
       "subCategory": "アフタヌーンティー・バー",
@@ -716,12 +548,7 @@
       "website": "https://conrad-osaka.hiltonjapan.co.jp/restaurants/40skybar",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=コンラッド大阪+40スカイバー＆ラウンジ",
       "stayTime": "約2時間",
-      "tags": [
-        "スイーツ",
-        "絶景",
-        "夜景",
-        "ディナー"
-      ],
+      "tags": ["スイーツ", "絶景", "夜景", "ディナー"],
       "image": "https://conrad-osaka.hiltonjapan.co.jp/img/restaurants/up_img/20221222172338_sp_img_2.jpg",
       "imageSource": "conrad-osaka.hiltonjapan.co.jp",
       "imageSourceUrl": "https://conrad-osaka.hiltonjapan.co.jp/restaurants/40skybar"
@@ -729,6 +556,7 @@
     {
       "prefecture": "大阪府",
       "name": "ザ・リッツ・カールトン大阪 ザ・ロビーラウンジ",
+      "yomigana": "ざりっつかーるとんおおさか ざろびーらうんじ",
       "area": "梅田",
       "category": "グルメ",
       "subCategory": "アフタヌーンティー・ラウンジ",
@@ -736,11 +564,7 @@
       "website": "https://lounge.ritzcarltonosaka.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=ザ・リッツ・カールトン大阪+ザ・ロビーラウンジ",
       "stayTime": "約2時間",
-      "tags": [
-        "スイーツ",
-        "おしゃれ",
-        "レトロ"
-      ],
+      "tags": ["スイーツ", "おしゃれ", "レトロ"],
       "image": "https://restaurant.img-ikyu.com/rsDatas/rsData101500/r101378/orig/101378ga10000143.jpg?auto=compress%2Cformat&lossless=0&fit=crop&w=1400&h=700",
       "imageSource": "restaurant.ikyu.com",
       "imageSourceUrl": "https://restaurant.ikyu.com/101378"
@@ -748,6 +572,7 @@
     {
       "prefecture": "大阪府",
       "name": "セントレジスホテル大阪 セントレジスバー",
+      "yomigana": "せんとれじすほてるおおさか せんとれじすばー",
       "area": "本町",
       "category": "グルメ",
       "subCategory": "アフタヌーンティー・バー",
@@ -755,11 +580,7 @@
       "website": "https://www.stregisbar.stregisosaka.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=セントレジスホテル大阪+セントレジスバー",
       "stayTime": "約2時間",
-      "tags": [
-        "スイーツ",
-        "おしゃれ",
-        "ユニーク"
-      ],
+      "tags": ["スイーツ", "おしゃれ", "ユニーク"],
       "image": "https://restaurant.img-ikyu.com/rsDatas/rsData101500/r101313/orig/101313ga10000216.jpg?auto=compress%2Cformat&lossless=0&fit=crop&w=1400&h=700",
       "imageSource": "restaurant.ikyu.com",
       "imageSourceUrl": "https://restaurant.ikyu.com/101313"
@@ -767,6 +588,7 @@
     {
       "prefecture": "大阪府",
       "name": "大阪市立東洋陶磁美術館",
+      "yomigana": "おおさかしりつとうようとうじびじゅつかん",
       "area": "中之島",
       "category": "観光",
       "subCategory": "美術館",
@@ -774,11 +596,7 @@
       "website": "https://www.moco.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=大阪市立東洋陶磁美術館",
       "stayTime": "約90分",
-      "tags": [
-        "美術館",
-        "アート・建築",
-        "雨の日OK"
-      ],
+      "tags": ["美術館", "アート・建築", "雨の日OK"],
       "image": "https://upload.wikimedia.org/wikipedia/commons/e/e4/The_Museum_of_Oriental_Ceramics%2C_Osaka_20200306.jpg",
       "imageSource": "zh.wikipedia.org",
       "imageSourceUrl": "https://zh.wikipedia.org/zh-cn/%E5%A4%A7%E9%98%AA%E5%B8%82%E7%AB%8B%E6%9D%B1%E6%B4%8B%E9%99%B6%E7%93%B7%E7%BE%8E%E8%A1%93%E9%A4%A8"
@@ -786,6 +604,7 @@
     {
       "prefecture": "大阪府",
       "name": "ニフレル",
+      "yomigana": "にふれる",
       "area": "吹田市",
       "category": "観光",
       "subCategory": "水族館・動物園・美術館",
@@ -793,11 +612,7 @@
       "website": "https://www.nifrel.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=ニフレル",
       "stayTime": "約2時間",
-      "tags": [
-        "体験",
-        "アート・建築",
-        "ユニーク"
-      ],
+      "tags": ["体験", "アート・建築", "ユニーク"],
       "image": "https://www.nifrel.jp/assets/area/img/exhibition/sp-mv.jpg",
       "imageSource": "www.nifrel.jp",
       "imageSourceUrl": "https://www.nifrel.jp/area/exhibition.html"
@@ -805,6 +620,7 @@
     {
       "prefecture": "大阪府",
       "name": "ひらかたパーク",
+      "yomigana": "ひらかたぱーく",
       "area": "枚方市",
       "category": "観光",
       "subCategory": "遊園地",
@@ -812,11 +628,7 @@
       "website": "http://www.hirakatapark.co.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=ひらかたパーク",
       "stayTime": "半日-1日",
-      "tags": [
-        "定番スポット",
-        "体験",
-        "夜景"
-      ],
+      "tags": ["定番スポット", "体験", "夜景"],
       "image": "https://img.rurubu.jp/img_srw/andmore/images/0000478516/GyljFgw6gsduuEe0AnFK4snMiDeiKE21nUE2DdWV.jpg",
       "imageSource": "navkkarjewellers.com",
       "imageSourceUrl": "https://navkkarjewellers.com/nbes.php?27067145068"
@@ -824,6 +636,7 @@
     {
       "prefecture": "大阪府",
       "name": "りんくうプレミアム・アウトレット",
+      "yomigana": "りんくうぷれみあむあうとれっと",
       "area": "泉佐野市",
       "category": "観光",
       "subCategory": "ショッピングモール",
@@ -831,11 +644,7 @@
       "website": "https://www.premiumoutlets.co.jp/rinku/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=りんくうプレミアム・アウトレット",
       "stayTime": "約3-4時間",
-      "tags": [
-        "ショッピング",
-        "絶景",
-        "コスパ"
-      ],
+      "tags": ["ショッピング", "絶景", "コスパ"],
       "image": "https://s3-media0.fl.yelpcdn.com/bphoto/uYiZLyXt0b1NkTcGYBIdbQ/348s.jpg",
       "imageSource": "m.yelp.com",
       "imageSourceUrl": "https://m.yelp.com/biz/%E3%82%8A%E3%82%93%E3%81%8F%E3%81%86%E3%83%97%E3%83%AC%E3%83%9F%E3%82%A2%E3%83%A0%E3%82%A2%E3%82%A6%E3%83%88%E3%83%AC%E3%83%83%E3%83%88-%E6%B3%89%E4%BD%90%E9%87%8E%E5%B8%82"
@@ -843,6 +652,7 @@
     {
       "prefecture": "大阪府",
       "name": "堺・緑のミュージアム ハーベストの丘",
+      "yomigana": "さかいみどりのみゅーじあむ はーべすとのおか",
       "area": "堺市",
       "category": "観光",
       "subCategory": "農業公園・テーマパーク",
@@ -850,11 +660,7 @@
       "website": "https://farm.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=ハーベストの丘",
       "stayTime": "半日",
-      "tags": [
-        "公園",
-        "自然・癒し",
-        "体験"
-      ],
+      "tags": ["公園", "自然・癒し", "体験"],
       "image": "https://farm.or.jp/wp-content/uploads/2017/09/harvest_og.jpg",
       "imageSource": "farm.or.jp",
       "imageSourceUrl": "https://farm.or.jp/"
@@ -862,6 +668,7 @@
     {
       "prefecture": "大阪府",
       "name": "大阪くらしの今昔館",
+      "yomigana": "おおさかくらしのこんじゃくかん",
       "area": "天神橋",
       "category": "観光",
       "subCategory": "ミュージアム",
@@ -869,11 +676,7 @@
       "website": "https://www.osaka-angenet.jp/konjyakukan/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=大阪くらしの今昔館",
       "stayTime": "約2時間",
-      "tags": [
-        "体験",
-        "レトロ",
-        "雨の日OK"
-      ],
+      "tags": ["体験", "レトロ", "雨の日OK"],
       "image": "https://s3-media0.fl.yelpcdn.com/bphoto/RZslt9T18puFHsvbKudJ_A/348s.jpg",
       "imageSource": "m.yelp.com",
       "imageSourceUrl": "https://m.yelp.com/biz/%E5%A4%A7%E9%98%AA%E3%81%8F%E3%82%89%E3%81%97%E3%81%AE%E4%BB%8A%E6%98%94%E9%A4%A8-%E5%A4%A7%E9%98%AA%E5%B8%82-2"
@@ -881,6 +684,7 @@
     {
       "prefecture": "大阪府",
       "name": "国立国際美術館",
+      "yomigana": "こくりつこくさいびじゅつかん",
       "area": "中之島",
       "category": "観光",
       "subCategory": "美術館",
@@ -888,11 +692,7 @@
       "website": "https://www.nmao.go.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=国立国際美術館",
       "stayTime": "約2時間",
-      "tags": [
-        "美術館",
-        "アート・建築",
-        "雨の日OK"
-      ],
+      "tags": ["美術館", "アート・建築", "雨の日OK"],
       "image": "https://www.nmao.go.jp/wp-content/themes/nmao/images/ogp.png",
       "imageSource": "www.nmao.go.jp",
       "imageSourceUrl": "https://www.nmao.go.jp/"
@@ -900,6 +700,7 @@
     {
       "prefecture": "大阪府",
       "name": "大阪市立科学館",
+      "yomigana": "おおさかしりつかがくかん",
       "area": "中之島",
       "category": "観光",
       "subCategory": "科学館・プラネタリウム",
@@ -907,11 +708,7 @@
       "website": "https://www.sci-museum.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=大阪市立科学館",
       "stayTime": "約2-3時間",
-      "tags": [
-        "体験",
-        "雨の日OK",
-        "ユニーク"
-      ],
+      "tags": ["体験", "雨の日OK", "ユニーク"],
       "image": "https://www.sci-museum.jp/wp-content/uploads/2023/05/map.jpg",
       "imageSource": "www.sci-museum.jp",
       "imageSourceUrl": "https://www.sci-museum.jp/info/access/"
@@ -919,6 +716,7 @@
     {
       "prefecture": "大阪府",
       "name": "HEP FIVE観覧車",
+      "yomigana": "へっぷふぁいぶかんらんしゃ",
       "area": "梅田",
       "category": "観光",
       "subCategory": "展望・アトラクション",
@@ -926,11 +724,7 @@
       "website": "https://www.hepfive.jp/ferriswheel/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=HEP+FIVE観覧車",
       "stayTime": "約20分",
-      "tags": [
-        "定番スポット",
-        "夜景",
-        "絶景"
-      ],
+      "tags": ["定番スポット", "夜景", "絶景"],
       "image": "https://www.hepfive.jp/common/img/ferriswheel/photo_list08.jpg",
       "imageSource": "www.hepfive.jp",
       "imageSourceUrl": "https://www.hepfive.jp/ferriswheel"
@@ -938,6 +732,7 @@
     {
       "prefecture": "大阪府",
       "name": "空庭温泉 OSAKA BAY TOWER",
+      "yomigana": "そらにわおんせん おおさかべいたわー",
       "area": "ベイエリア",
       "category": "観光",
       "subCategory": "温泉・テーマパーク",
@@ -945,11 +740,7 @@
       "website": "https://solaniwa.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=空庭温泉+OSAKA+BAY+TOWER",
       "stayTime": "約3-4時間",
-      "tags": [
-        "体験",
-        "レトロ",
-        "インスタ映え"
-      ],
+      "tags": ["体験", "レトロ", "インスタ映え"],
       "image": "https://cdn.jalan.jp/jalan/img/7/spot/0207/KM/guide000000207816_49.jpg",
       "imageSource": "www.jalan.net",
       "imageSourceUrl": "https://www.jalan.net/kankou/sta_990553/"
@@ -957,6 +748,7 @@
     {
       "prefecture": "大阪府",
       "name": "大阪中之島美術館",
+      "yomigana": "おおさかなかのしまびじゅつかん",
       "area": "中之島",
       "category": "観光",
       "subCategory": "美術館",
@@ -964,11 +756,7 @@
       "website": "https://nakka-art.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=大阪中之島美術館",
       "stayTime": "約2時間",
-      "tags": [
-        "アート・建築",
-        "おしゃれ",
-        "ユニーク"
-      ],
+      "tags": ["アート・建築", "おしゃれ", "ユニーク"],
       "image": "https://nakka-art.jp/wp10/wp-content/uploads/2024/12/koumyaku_WEB_thumbnail-624x374.jpg",
       "imageSource": "nakka-art.jp",
       "imageSourceUrl": "https://nakka-art.jp/en/"
@@ -976,6 +764,7 @@
     {
       "prefecture": "大阪府",
       "name": "なにわ食いしんぼ横丁",
+      "yomigana": "なにわくいしんぼよこちょう",
       "area": "ベイエリア",
       "category": "グルメ",
       "subCategory": "フードテーマパーク",
@@ -983,11 +772,7 @@
       "website": "https://www.kaiyukan.com/thv/marketplace/kuishinbo/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=なにわ食いしんぼ横丁",
       "stayTime": "約60-90分",
-      "tags": [
-        "食べ歩き",
-        "レトロ",
-        "ご当地グルメ"
-      ],
+      "tags": ["食べ歩き", "レトロ", "ご当地グルメ"],
       "image": "https://www.upon.co.jp/usj/ss/img/01050401.jpg",
       "imageSource": "管理者更新",
       "imageSourceUrl": "https://www.upon.co.jp/usj/ss/img/01050401.jpg"
@@ -995,6 +780,7 @@
     {
       "prefecture": "大阪府",
       "name": "スマートボール ニュースター",
+      "yomigana": "すまーとぼーる にゅーすたー",
       "area": "新世界",
       "category": "観光",
       "subCategory": "レトロゲーム",
@@ -1002,11 +788,7 @@
       "website": "#",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=スマートボール+ニュースター",
       "stayTime": "約30-60分",
-      "tags": [
-        "体験",
-        "レトロ",
-        "コスパ"
-      ],
+      "tags": ["体験", "レトロ", "コスパ"],
       "image": "https://www.upon.co.jp/usj/ss/img/05010201.jpg",
       "imageSource": "www.upon.co.jp",
       "imageSourceUrl": "https://www.upon.co.jp/usj/ss/050102.html"
@@ -1014,6 +796,7 @@
     {
       "prefecture": "大阪府",
       "name": "麦の家",
+      "yomigana": "むぎのいえ",
       "area": "鶴橋",
       "category": "グルメ",
       "subCategory": "キンパ・テイクアウト",
@@ -1021,11 +804,7 @@
       "website": "https://www.borizip.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=麦の家+鶴橋",
       "stayTime": "約15分（テイクアウト）",
-      "tags": [
-        "食べ歩き",
-        "ご当地グルメ",
-        "ランチ"
-      ],
+      "tags": ["食べ歩き", "ご当地グルメ", "ランチ"],
       "image": "https://higashinari-ikuno.goguynet.jp/wp-content/uploads/sites/275/2023/03/3-1.jpg",
       "imageSource": "管理者更新",
       "imageSourceUrl": "https://higashinari-ikuno.goguynet.jp/wp-content/uploads/sites/275/2023/03/3-1.jpg"
@@ -1033,6 +812,7 @@
     {
       "prefecture": "大阪府",
       "name": "りんくう公園",
+      "yomigana": "りんくうこうえん",
       "area": "その他",
       "category": "観光",
       "subCategory": "自然・癒し",
@@ -1040,11 +820,7 @@
       "website": "https://rinku.osaka-park.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E3%82%8A%E3%82%93%E3%81%8F%E3%81%86%E5%85%AC%E5%9C%92",
       "stayTime": "約120分",
-      "tags": [
-        "自然・癒し",
-        "インスタ映え",
-        "絶景"
-      ],
+      "tags": ["自然・癒し", "インスタ映え", "絶景"],
       "image": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3469862425329970156",
       "imageSource": "管理者更新",
       "imageSourceUrl": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3469862425329970156"
@@ -1052,6 +828,7 @@
     {
       "prefecture": "大阪府",
       "name": "大阪万博",
+      "yomigana": "おおさかばんぱく",
       "area": "その他",
       "category": "観光",
       "subCategory": "体験",
@@ -1059,11 +836,7 @@
       "website": "https://www.expo2025.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E5%A4%A7%E9%98%AA%E4%B8%87%E5%8D%9A",
       "stayTime": "約4時間",
-      "tags": [
-        "体験",
-        "ユニーク",
-        "アート・建築"
-      ],
+      "tags": ["体験", "ユニーク", "アート・建築"],
       "image": "https://travel.rakuten.co.jp/mytrip/sites/mytrip/files/styles/main_image/public/2025-04/expo2025-guide-key.jpg?itok=HKChgJXm",
       "imageSource": "管理者更新",
       "imageSourceUrl": "https://travel.rakuten.co.jp/mytrip/sites/mytrip/files/styles/main_image/public/2025-04/expo2025-guide-key.jpg?itok=HKChgJXm"

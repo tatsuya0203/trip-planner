@@ -31,13 +31,12 @@ import {
     uploadBytes,
     getDownloadURL
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
-// Firebase Functions SDKのインポートを追加
 import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-functions.js";
 
 
 // Firebase Configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDe8piUl7dbuR_FAn1pQkUfVtugh5HF4FU", // このキーは公開しても安全です
+  apiKey: "AIzaSyDe8piUl7dbuR_FAn1pQkUfVtugh5HF4FU",
   authDomain: "studio-gqqbe.firebaseapp.com",
   projectId: "studio-gqqbe",
   storageBucket: "studio-gqqbe.appspot.com",
@@ -52,6 +51,16 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 const functions = getFunctions(app, 'asia-northeast1');
 
+// Cloud Functions
+const recordAnalyticsEvent = httpsCallable(functions, 'recordAnalyticsEvent');
+const getWeatherForecast = httpsCallable(functions, 'getWeatherForecast');
+const getPrefectureList = httpsCallable(functions, 'getPrefectureList');
+const verifyAdminInvitation = httpsCallable(functions, 'verifyAdminInvitation');
+const analyzeSpotSuggestion = httpsCallable(functions, 'analyzeSpotSuggestion');
+const reAnalyzeSpotSuggestion = httpsCallable(functions, 'reAnalyzeSpotSuggestion');
+const reportSpot = httpsCallable(functions, 'reportSpot');
+
+
 // 各都道府県の代表的な緯度経度
 const prefectureCoords = { "北海道": {lat: 43.06, lng: 141.35}, "青森県": {lat: 40.82, lng: 140.74}, "岩手県": {lat: 39.7, lng: 141.15}, "宮城県": {lat: 38.26, lng: 140.87}, "秋田県": {lat: 39.72, lng: 140.1}, "山形県": {lat: 38.25, lng: 140.33}, "福島県": {lat: 37.75, lng: 140.47}, "茨城県": {lat: 36.34, lng: 140.44}, "栃木県": {lat: 36.56, lng: 139.88}, "群馬県": {lat: 36.39, lng: 139.06}, "埼玉県": {lat: 35.86, lng: 139.64}, "千葉県": {lat: 35.6, lng: 140.12}, "東京都": {lat: 35.68, lng: 139.76}, "神奈川県": {lat: 35.44, lng: 139.64}, "新潟県": {lat: 37.9, lng: 139.02}, "富山県": {lat: 36.69, lng: 137.21}, "石川県": {lat: 36.59, lng: 136.62}, "福井県": {lat: 36.06, lng: 136.22}, "山梨県": {lat: 35.66, lng: 138.56}, "長野県": {lat: 36.65, lng: 138.18}, "岐阜県": {lat: 35.39, lng: 136.72}, "静岡県": {lat: 34.97, lng: 138.38}, "愛知県": {lat: 35.18, lng: 136.9}, "三重県": {lat: 34.73, lng: 136.5}, "滋賀県": {lat: 35.0, lng: 135.86}, "京都府": {lat: 35.02, lng: 135.75}, "大阪府": {lat: 34.68, lng: 135.52}, "兵庫県": {lat: 34.69, lng: 135.18}, "奈良県": {lat: 34.68, lng: 135.83}, "和歌山県": {lat: 34.23, lng: 135.16}, "鳥取県": {lat: 35.5, lng: 134.23}, "島根県": {lat: 35.47, lng: 133.05}, "岡山県": {lat: 34.66, lng: 133.93}, "広島県": {lat: 34.39, lng: 132.45}, "山口県": {lat: 34.18, lng: 131.47}, "徳島県": {lat: 34.07, lng: 134.55}, "香川県": {lat: 34.34, lng: 134.04}, "愛媛県": {lat: 33.84, lng: 132.76}, "高知県": {lat: 33.55, lng: 133.53}, "福岡県": {lat: 33.6, lng: 130.41}, "佐賀県": {lat: 33.24, lng: 130.3}, "長崎県": {lat: 32.75, lng: 129.87}, "熊本県": {lat: 32.79, lng: 130.7}, "大分県": {lat: 33.23, lng: 131.6}, "宮崎県": {lat: 31.91, lng: 131.42}, "鹿児島県": {lat: 31.56, lng: 130.55}, "沖縄県": {lat: 26.21, lng: 127.68}}; 
 
@@ -60,28 +69,17 @@ let allSpotsData = {};
 let areaPositions = {};
 let allTransitData = {};
 let combinedSpots = [];
-let availablePrefectures = []; // Functionsから取得する都道府県リスト (例: [{id: 'tokyo', name: '東京都'}, ...])
-let supportedPrefectureNames = []; // 日本語の都道府県名リスト (例: ['東京都', '大阪府'])
-let originalJsonData = {}; // To store the original structure for saving
-let prefectureMapPositions = {}; // NEW: For Japan map positions (prefecture_positions.json のデータ)
+let availablePrefectures = []; 
+let supportedPrefectureNames = [];
+let originalJsonData = {};
+let prefectureMapPositions = {};
 
-const standardTags = [
-    "絶景", "インスタ映え", "レトロ", "おしゃれ", "カワイイ", "ユニーク", "自然・癒し",
-    "食べ歩き", "ショッピング", "体験", "アート・建築", "夜景", "定番スポット",
-    "カフェ・喫茶店", "スイーツ", "ご当地グルメ", "B級グルメ", "ランチ", "ディナー",
-    "雨の日OK", "予約推奨", "コスパ", "無料"
-];
+const standardTags = [ "絶景", "インスタ映え", "レトロ", "おしゃれ", "カワイイ", "ユニーク", "自然・癒し", "食べ歩き", "ショッピング", "体験", "アート・建築", "夜景", "定番スポット", "カフェ・喫茶店", "スイーツ", "ご当地グルメ", "B級グルメ", "ランチ", "ディナー", "雨の日OK", "予約推奨", "コスパ", "無料" ];
+const subCategories = { "観光": ["定番スポット", "絶景", "夜景", "自然・癒し", "アート・建築", "レトロ", "体験"], "グルメ": ["カフェ・喫茶店", "スイーツ", "ご当地グルメ", "B級グルメ", "ランチ", "ディナー", "食べ歩き"] };
 
-const subCategories = {
-    "観光": ["定番スポット", "絶景", "夜景", "自然・癒し", "アート・建築", "レトロ", "体験"],
-    "グルメ": ["カフェ・喫茶店", "スイーツ", "ご当地グルメ", "B級グルメ", "ランチ", "ディナー", "食べ歩き"]
-};
-
-// 都道府県IDと日本語名の相互変換マップ
 let prefectureIdToNameMap = {}; 
 let prefectureNameToIdMap = {};
 
-// availablePrefectures が設定された後にマップを作成するヘルパー関数
 const _createPrefectureMaps = () => {
     prefectureIdToNameMap = {};
     prefectureNameToIdMap = {};
@@ -91,24 +89,20 @@ const _createPrefectureMaps = () => {
     });
 };
 
-// --- MODIFIED Data Loading Function ---
 async function loadAllData() {
     const loadingIndicator = document.getElementById('loading-indicator');
     const prefectureFilter = document.getElementById('prefecture-filter');
     loadingIndicator.classList.remove('hidden');
     
-    // 1. Fetch the list of available prefectures from the Cloud Function
     try {
-        const getPrefectureList = httpsCallable(functions, 'getPrefectureList');
         const result = await getPrefectureList();
-        availablePrefectures = result.data; // availablePrefectures にデータが格納される
+        availablePrefectures = result.data;
     } catch (error) {
         console.error("都道府県リストの取得に失敗しました:", error);
         loadingIndicator.innerHTML = `<p class="text-red-500">都道府県リストの取得に失敗しました。ページを再読み込みしてください。</p>`;
         return false;
     }
 
-    // 2. Dynamically populate the prefecture filter dropdown
     prefectureFilter.innerHTML = '<option value="all">すべての都道府県</option>';
     availablePrefectures.forEach(pref => {
         const option = document.createElement('option');
@@ -117,27 +111,23 @@ async function loadAllData() {
         prefectureFilter.appendChild(option);
     });
 
-    // 3. Dynamically create the list of files to fetch
     const prefectureFiles = availablePrefectures.map(p => `data/${p.id}.json`);
     
-    // 4. Fetch all data files from GitHub
     const localSpots = [];
-    supportedPrefectureNames = []; // Reset before loading
+    supportedPrefectureNames = [];
     try {
         const owner = 'tatsuya0203';
         const repo = 'trip-planner';
         const branch = 'main';
 
-        // Fetch prefecture data and map positions in parallel
         const responses = await Promise.all([
             ...prefectureFiles.map(file => fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${file}?v=${new Date().getTime()}`)),
-            // prefecture_positions.json をここで読み込む
             fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture_positions.json?v=${new Date().getTime()}`)
         ]);
 
         const positionResponse = responses.pop();
         if (positionResponse.ok) {
-            prefectureMapPositions = await positionResponse.json(); // ★ここにデータが格納される
+            prefectureMapPositions = await positionResponse.json();
         } else {
             console.warn('prefecture_positions.jsonの読み込みに失敗しました。');
         }
@@ -165,20 +155,29 @@ async function loadAllData() {
     }
 
     combinedSpots = [...localSpots];
-
     loadingIndicator.classList.add('hidden');
     return true;
 }
 
+/**
+ * カタカナをひらがなに変換するヘルパー関数
+ * @param {string} src 変換する文字列
+ * @returns {string} 変換後の文字列
+ */
+function katakanaToHiragana(src) {
+    if (!src) return '';
+    return src.replace(/[\u30a1-\u30f6]/g, function(match) {
+        var chr = match.charCodeAt(0) - 0x60;
+        return String.fromCharCode(chr);
+    });
+}
+
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // loadAllData が完了してから _createPrefectureMaps を呼び出す
     const dataLoaded = await loadAllData();
     if (!dataLoaded) return;
     
-    _createPrefectureMaps(); // availablePrefectures がセットされた後にマップを作成
-
-    const getWeatherForecast = httpsCallable(functions, 'getWeatherForecast');
+    _createPrefectureMaps();
 
     // Get all DOM elements
     const appContainer = document.getElementById('app-container');
@@ -276,7 +275,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const mailboxBtn = document.getElementById('mailbox-btn');
     const mailboxBadge = document.getElementById('mailbox-badge');
     const mailboxPanel = document.getElementById('mailbox-panel');
-    const mailboxPanelOverlay = document.getElementById('mailbox-panel-overlay');
+    const mailboxPanelOverlay = document.getElementById('my-plan-panel-overlay');
     const mailboxCloseBtn = document.getElementById('mailbox-close-btn');
     const mailboxList = document.getElementById('mailbox-list');
     const markAllAsReadBtn = document.getElementById('mark-all-as-read-btn');
@@ -285,9 +284,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const prefectureSelectMessage = document.getElementById('prefecture-select-message');
     const prefectureSelectButtons = document.getElementById('prefecture-select-buttons');
     const prefectureSelectCancelBtn = document.getElementById('prefecture-select-cancel-btn');
-    const progressOverlay = document.getElementById('progress-overlay');
-    const progressMessage = document.getElementById('progress-message');
-    const progressBar = document.getElementById('progress-bar');
     const reportImageBtn = document.getElementById('report-image-btn');
     const reportSpotBtn = document.getElementById('report-spot-btn');
     const searchInput = document.getElementById('search-input');
@@ -306,7 +302,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentFilters = { category: 'all', area: 'all', tag: 'all' };
     let currentSearchTerm = '';
     let currentSortOrder = 'default';
-    let onPrefectureSelectCallback = null; // 都道府県選択時のコールバック
+    let onPrefectureSelectCallback = null;
 
     let currentUser = null;
     let localFavorites = [];
@@ -314,13 +310,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     let unsubscribePlan = null;
     let unsubscribeFavorites = null;
     let unsubscribeMailbox = null;
-    let unsubscribeAnnouncements = null; // Listener for public announcements
-    let localAnnouncements = []; // To store public announcements
+    let unsubscribeAnnouncements = null;
+    let localAnnouncements = [];
     
     let isLoginMode = true;
     let viewedUserId = null;
     let cropper = null;
-    let areaFilterView = 'map'; // 'map' or 'list'
+    let areaFilterView = 'map';
     let pendingReAnalysisData = null;
 
     async function fetchAndDisplayWeather() {
@@ -349,20 +345,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         const diffTime = targetDate.getTime() - today.getTime();
         const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
 
-        if (diffDays < 0 || diffDays > 4) { // 5日間 (0-4) の予報に制限
+        if (diffDays < 0 || diffDays > 4) {
             weatherDisplay.innerHTML = '<p class="text-gray-500">5日後までの天気予報が取得できます。</p>';
             return;
         }
         
-        console.log("天気予報APIへ送信されるデータ:"); // デバッグ用ログ
-        console.log("  lat:", coords.lat);             // デバッグ用ログ
-        console.log("  lng:", coords.lng);             // デバッグ用ログ
-        console.log("  date:", selectedDate);           // デバッグ用ログ
-
-
         try {
             const result = await getWeatherForecast({ lat: coords.lat, lng: coords.lng, date: selectedDate });
-            const forecastData = result.data.daily; // Functions側で整形した `daily` 配列を取得
+            const forecastData = result.data.daily;
             
             const dayForecast = forecastData.find(f => {
                 const forecastDt = new Date(f.dt * 1000);
@@ -406,7 +396,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function hideOverlay(overlayElement) {
         overlayElement.classList.remove('visible');
-        // Check if any other overlays are still visible before unlocking scroll
         const isAnyOverlayVisible = document.querySelector('.overlay-base.visible');
         if (!isAnyOverlayVisible) {
             toggleBodyScroll(false);
@@ -434,6 +423,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     onAuthStateChanged(auth, user => {
         if (user) {
+            if (sessionStorage.getItem('isNewUser') === 'true') {
+                recordAnalyticsEvent({ eventType: 'userSignup' }).catch(console.error);
+                sessionStorage.removeItem('isNewUser');
+            }
             currentUser = user;
             viewedUserId = user.uid;
             hideOverlay(authModal);
@@ -458,7 +451,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function verifyAdminInvitationWithToken(token) {
         try {
-            const verifyAdminInvitation = httpsCallable(functions, 'verifyAdminInvitation');
             const result = await verifyAdminInvitation({ token: token });
             alert(result.data.message); 
             location.reload(); 
@@ -502,8 +494,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     await setDoc(doc(db, "users", user.uid), {
                         displayName: displayName,
                         email: user.email,
-                        photoURL: null, 
+                        photoURL: null,
+                        createdAt: serverTimestamp()
                     });
+                    sessionStorage.setItem('isNewUser', 'true');
                     showInfoModal('アカウントを作成しました！ログインしてください。');
                     toggleAuthMode();
                 })
@@ -700,8 +694,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         };
 
+        const isFavorited = localFavorites.includes(spotName);
+        if (!isFavorited) {
+            const spot = combinedSpots.find(s => s.name === spotName);
+            if (spot) {
+                recordAnalyticsEvent({
+                    eventType: 'favoriteSpot',
+                    payload: { spotName: spot.name, prefecture: spot.prefecture }
+                }).catch(console.error);
+            }
+        }
+
         const favDocRef = doc(db, "favorites", currentUser.uid);
-        const newFavorites = localFavorites.includes(spotName)
+        const newFavorites = isFavorited
             ? localFavorites.filter(name => name !== spotName)
             : [...localFavorites, spotName];
         await setDoc(favDocRef, { spots: newFavorites }, { merge: true });
@@ -710,6 +715,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function _addSpotToPlan(spotName) {
         if (!currentUser || viewedUserId !== currentUser.uid) return;
         if (localPlan.includes(spotName)) return;
+
+        const spot = combinedSpots.find(s => s.name === spotName);
+        if (spot) {
+            recordAnalyticsEvent({
+                eventType: 'addToPlan',
+                payload: { spotName: spot.name, prefecture: spot.prefecture }
+            }).catch(console.error);
+        }
+
         const planDocRef = doc(db, "plans", currentUser.uid);
         const newPlan = [...localPlan, spotName];
         await setDoc(planDocRef, { spots: newPlan }, { merge: true });
@@ -810,18 +824,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         spotsList.innerHTML = '';
         let sourceSpots = combinedSpots;
 
-        // 1. Prefecture Filter
         if (currentPrefecture !== 'all') {
             const selectedPrefectureName = prefectureFilter.options[prefectureFilter.selectedIndex].text;
             sourceSpots = sourceSpots.filter(spot => spot.prefecture === selectedPrefectureName);
         }
         
-        // 2. Category Filter (for 'favorites')
         if (currentFilters.category === 'favorites') {
             sourceSpots = sourceSpots.filter(spot => localFavorites.includes(spot.name));
         }
 
-        // 3. Main Filters (Category, Area, Tag)
         let filteredSpots = sourceSpots.filter(spot => {
             const categoryMatch = currentFilters.category === 'all' || currentFilters.category === 'favorites' || spot.category === currentFilters.category;
             const areaMatch = currentFilters.area === 'all' || spot.area === currentFilters.area;
@@ -829,14 +840,21 @@ document.addEventListener('DOMContentLoaded', async () => {
             return categoryMatch && areaMatch && tagMatch;
         });
 
-        // 4. Search Filter
         if (currentSearchTerm) {
-            filteredSpots = filteredSpots.filter(spot => 
-                spot.name.toLowerCase().includes(currentSearchTerm)
-            );
+            const searchTermLower = currentSearchTerm.toLowerCase();
+            const searchTermHiragana = katakanaToHiragana(searchTermLower);
+    
+            filteredSpots = filteredSpots.filter(spot => {
+                const spotNameLower = spot.name.toLowerCase();
+                // yomiganaフィールドが存在し、かつ文字列であることを確認
+                const spotYomigana = (spot.yomigana && typeof spot.yomigana === 'string') ? katakanaToHiragana(spot.yomigana.toLowerCase()) : '';
+    
+                // 1. スポット名に検索語が含まれるかチェック (漢字、英語など)
+                // 2. よみがな(ひらがな化済み)に検索語(ひらがな化済み)が含まれるかチェック
+                return spotNameLower.includes(searchTermLower) || (spotYomigana && spotYomigana.includes(searchTermHiragana));
+            });
         }
 
-        // 5. Sorting
         switch (currentSortOrder) {
             case 'name-asc':
                 filteredSpots.sort((a, b) => a.name.localeCompare(b.name, 'ja'));
@@ -844,15 +862,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             case 'name-desc':
                 filteredSpots.sort((a, b) => b.name.localeCompare(a.name, 'ja'));
                 break;
-            case 'default-desc': // Newest first
+            case 'default-desc':
                 filteredSpots.reverse();
                 break;
-            case 'default': // Oldest first
+            case 'default':
             default:
                 break;
         }
 
-        // 6. Render
         if (filteredSpots.length > 0) {
             filteredSpots.forEach(spot => spotsList.appendChild(createCard(spot)));
         } else {
@@ -940,7 +957,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             mapContainer.classList.remove('hidden');
             areaListContainer.classList.add('hidden');
             renderAreaMap();
-        } else { // 'list'
+        } else {
             mapContainer.classList.add('hidden');
             areaListContainer.classList.remove('hidden');
             renderAreaList();
@@ -975,11 +992,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function parseStayTime(timeString) {
         if (!timeString) return 0;
-        
-        if (timeString.includes('1日')) {
-            return 8 * 60;
-        }
-
+        if (timeString.includes('1日')) return 8 * 60;
         const numbers = timeString.match(/\d+/g)?.map(Number) || [];
         if (numbers.length === 0) return 0;
         
@@ -999,14 +1012,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function generateGoogleMapsRouteUrl() {
         const plan = localPlan;
-
         if (plan.length === 1) {
             const spot = combinedSpots.find(s => s.name === plan[0]);
             return spot ? spot.gmaps : '#';
         }
-        
         if (plan.length < 2) return '#';
-
         const baseUrl = 'https://www.google.com/maps/dir/';
         const waypoints = plan.map(spotName => {
             const spot = combinedSpots.find(s => s.name === spotName);
@@ -1019,7 +1029,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return encodeURIComponent(spot.name);
             }
         }).filter(Boolean);
-
         return baseUrl + waypoints.join('/');
     }
 
@@ -1569,7 +1578,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             settingsUsernameInput.value = currentUser.displayName || '';
             settingsEmail.textContent = currentUser.email || 'N/A';
-            settingsIconPreview.src = currentUser.photoURL || 'https://placehold.co/40x40/D35400/FFF?text=�';
+            settingsIconPreview.src = currentUser.photoURL || 'https://placehold.co/40x40/D35400/FFF?text=';
         }
         showOverlay(userSettingsOverlay);
     });
@@ -1659,18 +1668,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, 'image/png');
     });
     
-    // ▼▼▼ MODIFIED FUNCTION ▼▼▼
-    // 日本地図上のピン（ボタン）をレンダリングする関数
     function renderJapanMapButtons() {
-        // 既存のピンをすべて削除
         const existingButtons = japanMapContainer.querySelectorAll('.prefecture-map-button');
         existingButtons.forEach(btn => btn.remove());
 
-        // 利用可能な都道府県のIDリストを取得
         const availablePrefectureIds = availablePrefectures.map(p => p.id);
 
         Object.entries(prefectureMapPositions).forEach(([id, pos]) => {
-            // 利用可能な都道府県のピンのみを生成
             if (availablePrefectureIds.includes(id)) {
                 const button = document.createElement('button');
                 button.className = 'prefecture-map-button'; 
@@ -1691,9 +1695,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
-    // ▲▲▲ END OF MODIFICATION ▲▲▲
 
-    // 都道府県選択オーバーレイを表示する関数
     function showPrefectureSelectOverlay(title, message, callback) {
         prefectureSelectTitle.textContent = title;
         prefectureSelectMessage.textContent = message;
@@ -1756,7 +1758,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         submitSpotBtn.disabled = true;
         
         try {
-            const analyzeSpotSuggestion = httpsCallable(functions, 'analyzeSpotSuggestion');
             const result = await analyzeSpotSuggestion({
                 spotName: spotName,
                 spotUrl: spotUrl,
@@ -1815,7 +1816,6 @@ document.addEventListener('DOMContentLoaded', async () => {
          reSubmitSpotBtn.disabled = true;
 
          try {
-             const reAnalyzeSpotSuggestion = httpsCallable(functions, 'reAnalyzeSpotSuggestion');
              const result = await reAnalyzeSpotSuggestion({
                  ...pendingReAnalysisData,
                  gmapsUrl: gmapsUrl,
@@ -1933,7 +1933,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         localStorage.setItem('lastReadAnnouncementTimestamp', latestTimestamp);
     });
     
-    // --- Image Report Logic ---
     reportImageBtn.addEventListener('click', async () => {
         try {
             const spotName = modal.dataset.spotName;
@@ -1987,11 +1986,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             "bg-yellow-500",
             async () => {
                 try {
-                    const reportSpot = httpsCallable(functions, 'reportSpot');
                     await reportSpot({ 
                         spotName: spot.name, 
                         prefecture: spot.prefecture,
                         area: spot.area,
+                        reason: '情報が古い/誤っている' // Example reason
                     });
                     showInfoModal("ご報告ありがとうございます。管理者が内容を確認します。");
                     closeModal();
@@ -2003,9 +2002,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         );
     });
     
+    let searchDebounceTimer;
     searchInput.addEventListener('input', (e) => {
-        currentSearchTerm = e.target.value.trim().toLowerCase();
+        currentSearchTerm = e.target.value.trim();
         renderSpots();
+    
+        clearTimeout(searchDebounceTimer);
+        if (currentSearchTerm) {
+            searchDebounceTimer = setTimeout(() => {
+                recordAnalyticsEvent({
+                    eventType: 'search',
+                    payload: { term: currentSearchTerm }
+                }).catch(console.error);
+            }, 1000);
+        }
     });
 
     sortOrder.addEventListener('change', (e) => {
@@ -2013,7 +2023,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderSpots();
     });
 
-    // --- Image Viewer Logic ---
     function showImageViewer(imageUrl) {
         imageViewerImg.src = imageUrl;
         showOverlay(imageViewerOverlay);
@@ -2042,23 +2051,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         mobileFilterToggleText.textContent = isOpen ? 'フィルターと検索を開く' : 'フィルターと検索を閉じる';
     });
     
-    // open-japan-map-btn のイベントリスナー
     openJapanMapBtn.addEventListener('click', () => {
-        console.log("オープンジャパンマップボタンがクリックされました！");
-        // 都道府県選択オーバーレイを表示し、地図ボタンをレンダリング
         showPrefectureSelectOverlay(
             '都道府県を選択',
             '地図から行きたい都道府県を選んでください。',
             (selectedPrefectureName) => {
-                // 選択された都道府県でフィルターを更新するロジック
-                const selectedPrefectureId = prefectureNameToIdMap[selectedPrefectureName] || 'all'; // 日本語名からIDを取得
+                const selectedPrefectureId = prefectureNameToIdMap[selectedPrefectureName] || 'all';
                 prefectureFilter.value = selectedPrefectureId;
-                prefectureFilter.dispatchEvent(new Event('change')); // changeイベントを発火させてフィルターを適用
+                prefectureFilter.dispatchEvent(new Event('change'));
             }
         );
     });
 
-    // 都道府県選択オーバーレイ関連のイベントリスナー
     prefectureSelectCancelBtn.addEventListener('click', () => {
         hideOverlay(prefectureSelectOverlay);
     });
@@ -2076,4 +2080,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     renderAll();
 
-}); // DOMContentLoaded の閉じ括弧
+});

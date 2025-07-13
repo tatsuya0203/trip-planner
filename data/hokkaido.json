@@ -23,6 +23,7 @@
     {
       "prefecture": "北海道",
       "name": "白い恋人パーク",
+      "yomigana": "しろいこいびとぱーく",
       "area": "札幌",
       "category": "観光",
       "subCategory": "体験",
@@ -38,6 +39,7 @@
     {
       "prefecture": "北海道",
       "name": "さっぽろテレビ塔",
+      "yomigana": "さっぽろてれびとう",
       "area": "札幌",
       "category": "観光",
       "subCategory": "夜景",
@@ -53,6 +55,7 @@
     {
       "prefecture": "北海道",
       "name": "モエレ沼公園",
+      "yomigana": "もえれぬまこうえん",
       "area": "札幌",
       "category": "観光",
       "subCategory": "アート・建築",
@@ -68,6 +71,7 @@
     {
       "prefecture": "北海道",
       "name": "JRタワー展望室T38",
+      "yomigana": "じぇいあーるたわーてんぼうしつてぃーさんじゅうはち",
       "area": "札幌",
       "category": "観光",
       "subCategory": "夜景",
@@ -83,6 +87,7 @@
     {
         "prefecture": "北海道",
         "name": "スープカレー GARAKU",
+        "yomigana": "すーぷかれー がらく",
         "area": "札幌",
         "category": "グルメ",
         "subCategory": "ご当地グルメ",
@@ -98,6 +103,7 @@
       {
         "prefecture": "北海道",
         "name": "パフェ、珈琲、酒、佐藤",
+        "yomigana": "ぱふぇ、こーひー、さけ、さとう",
         "area": "札幌",
         "category": "グルメ",
         "subCategory": "スイーツ",
@@ -113,6 +119,7 @@
       {
         "prefecture": "北海道",
         "name": "えびそば一幻 総本店",
+        "yomigana": "えびそばいちげん そうほんてん",
         "area": "札幌",
         "category": "グルメ",
         "subCategory": "ご当地グルメ",
@@ -128,6 +135,7 @@
     {
       "prefecture": "北海道",
       "name": "小樽運河",
+      "yomigana": "おたるうんが",
       "area": "小樽",
       "category": "観光",
       "subCategory": "定番スポット",
@@ -143,6 +151,7 @@
     {
         "prefecture": "北海道",
         "name": "北一硝子三号館",
+        "yomigana": "きたいちがらすさんごうかん",
         "area": "小樽",
         "category": "観光",
         "subCategory": "アート・建築",
@@ -158,6 +167,7 @@
     {
         "prefecture": "北海道",
         "name": "小樽オルゴール堂 本館",
+        "yomigana": "おたるおるごーるどう ほんかん",
         "area": "小樽",
         "category": "観光",
         "subCategory": "ショッピング",
@@ -173,6 +183,7 @@
       {
         "prefecture": "北海道",
         "name": "小樽洋菓子舗ルタオ本店",
+        "yomigana": "おたるようがしほるたおほんてん",
         "area": "小樽",
         "category": "グルメ",
         "subCategory": "スイーツ",
@@ -188,6 +199,7 @@
       {
         "prefecture": "北海道",
         "name": "かま栄 工場直売店",
+        "yomigana": "かまえい こうじょうちょくばいてん",
         "area": "小樽",
         "category": "グルメ",
         "subCategory": "食べ歩き",
@@ -203,6 +215,7 @@
     {
       "prefecture": "北海道",
       "name": "函館山展望台",
+      "yomigana": "はこだてやまてんぼうだい",
       "area": "函館",
       "category": "観光",
       "subCategory": "夜景",
@@ -218,6 +231,7 @@
     {
       "prefecture": "北海道",
       "name": "五稜郭タワー",
+      "yomigana": "ごりょうかくたわー",
       "area": "函館",
       "category": "観光",
       "subCategory": "絶景",
@@ -233,6 +247,7 @@
     {
         "prefecture": "北海道",
         "name": "金森赤レンガ倉庫",
+        "yomigana": "かねもりあかれんがそうこ",
         "area": "函館",
         "category": "観光",
         "subCategory": "ショッピング",
@@ -248,6 +263,7 @@
       {
         "prefecture": "北海道",
         "name": "八幡坂",
+        "yomigana": "はちまんざか",
         "area": "函館",
         "category": "観光",
         "subCategory": "定番スポット",
@@ -263,6 +279,7 @@
       {
         "prefecture": "北海道",
         "name": "ラッキーピエロ ベイエリア本店",
+        "yomigana": "らっきーぴえろ べいえりあほんてん",
         "area": "函館",
         "category": "グルメ",
         "subCategory": "ご当地グルメ",
@@ -278,6 +295,7 @@
       {
         "prefecture": "北海道",
         "name": "ハセガワストア 焼き鳥弁当",
+        "yomigana": "はせがわすとあ やきとりべんとう",
         "area": "函館",
         "category": "グルメ",
         "subCategory": "B級グルメ",
@@ -293,6 +311,7 @@
     {
       "prefecture": "北海道",
       "name": "ファーム富田",
+      "yomigana": "ふぁーむとみた",
       "area": "富良野・美瑛",
       "category": "観光",
       "subCategory": "絶景",
@@ -308,6 +327,7 @@
     {
         "prefecture": "北海道",
         "name": "青い池",
+        "yomigana": "あおいいけ",
         "area": "富良野・美瑛",
         "category": "観光",
         "subCategory": "絶景",
@@ -323,6 +343,7 @@
       {
         "prefecture": "北海道",
         "name": "四季彩の丘",
+        "yomigana": "しきさいのおか",
         "area": "富良野・美瑛",
         "category": "観光",
         "subCategory": "絶景",
@@ -338,6 +359,7 @@
       {
         "prefecture": "北海道",
         "name": "ニングルテラス",
+        "yomigana": "にんぐるてらす",
         "area": "富良野・美瑛",
         "category": "観光",
         "subCategory": "ショッピング",
@@ -353,6 +375,7 @@
       {
         "prefecture": "北海道",
         "name": "唯我独尊",
+        "yomigana": "ゆいがどくそん",
         "area": "富良野・美瑛",
         "category": "グルメ",
         "subCategory": "ご当地グルメ",
@@ -368,6 +391,7 @@
     {
       "prefecture": "北海道",
       "name": "旭山動物園",
+      "yomigana": "あさひやまどうぶつえん",
       "area": "旭川",
       "category": "観光",
       "subCategory": "定番スポット",
@@ -383,6 +407,7 @@
     {
         "prefecture": "北海道",
         "name": "らーめん山頭火 本店",
+        "yomigana": "らーめんさんとうか ほんてん",
         "area": "旭川",
         "category": "グルメ",
         "subCategory": "ご当地グルメ",
@@ -398,6 +423,7 @@
       {
         "prefecture": "北海道",
         "name": "ジンギスカン 大黒屋",
+        "yomigana": "じんぎすかん だいこくや",
         "area": "旭川",
         "category": "グルメ",
         "subCategory": "ご当地グルメ",
@@ -413,6 +439,7 @@
     {
       "prefecture": "北海道",
       "name": "登別地獄谷",
+      "yomigana": "のぼりべつじごくだに",
       "area": "登別",
       "category": "観光",
       "subCategory": "絶景",
@@ -428,6 +455,7 @@
     {
         "prefecture": "北海道",
         "name": "のぼりべつクマ牧場",
+        "yomigana": "のぼりべつくまぼくじょう",
         "area": "登別",
         "category": "観光",
         "subCategory": "体験",
@@ -443,6 +471,7 @@
       {
         "prefecture": "北海道",
         "name": "大湯沼川天然足湯",
+        "yomigana": "おおゆぬまがわてんねんあしゆ",
         "area": "登別",
         "category": "観光",
         "subCategory": "自然・癒し",
@@ -458,6 +487,7 @@
       {
         "prefecture": "北海道",
         "name": "味の大王 総本店",
+        "yomigana": "あじのだいおう そうほんてん",
         "area": "登別",
         "category": "グルメ",
         "subCategory": "ご当地グルメ",
@@ -473,6 +503,7 @@
     {
       "prefecture": "北海道",
       "name": "知床五湖",
+      "yomigana": "しれとこごこ",
       "area": "道東",
       "category": "観光",
       "subCategory": "絶景",
@@ -488,6 +519,7 @@
     {
         "prefecture": "北海道",
         "name": "釧路湿原",
+        "yomigana": "くしろしつげん",
         "area": "道東",
         "category": "観光",
         "subCategory": "自然・癒し",
@@ -503,6 +535,7 @@
       {
         "prefecture": "北海道",
         "name": "摩周湖",
+        "yomigana": "ましゅうこ",
         "area": "道東",
         "category": "観光",
         "subCategory": "絶景",
@@ -518,6 +551,7 @@
       {
         "prefecture": "北海道",
         "name": "オシンコシンの滝",
+        "yomigana": "おしんこしんのたき",
         "area": "道東",
         "category": "観光",
         "subCategory": "絶景",
@@ -533,6 +567,7 @@
       {
         "prefecture": "北海道",
         "name": "和商市場",
+        "yomigana": "わしょういちば",
         "area": "道東",
         "category": "グルメ",
         "subCategory": "食べ歩き",
@@ -548,6 +583,7 @@
       {
         "prefecture": "北海道",
         "name": "博物館 網走監獄",
+        "yomigana": "はくぶつかん あばしりかんごく",
         "area": "道東",
         "category": "観光",
         "subCategory": "レトロ",
@@ -563,6 +599,7 @@
       {
         "prefecture": "北海道",
         "name": "大通公園",
+        "yomigana": "おおどおりこうえん",
         "area": "札幌",
         "category": "観光",
         "subCategory": "自然・癒し",
@@ -578,6 +615,7 @@
       {
         "prefecture": "北海道",
         "name": "北海道神宮",
+        "yomigana": "ほっかいどうじんぐう",
         "area": "札幌",
         "category": "観光",
         "subCategory": "自然・癒し",
@@ -593,6 +631,7 @@
       {
         "prefecture": "北海道",
         "name": "サッポロビール園",
+        "yomigana": "さっぽろびーるえん",
         "area": "札幌",
         "category": "グルメ",
         "subCategory": "ディナー",
@@ -608,6 +647,7 @@
       {
         "prefecture": "北海道",
         "name": "すみれ 札幌中の島本店",
+        "yomigana": "すみれ さっぽろなかのしまほんてん",
         "area": "札幌",
         "category": "グルメ",
         "subCategory": "ご当地グルメ",
@@ -623,6 +663,7 @@
       {
         "prefecture": "北海道",
         "name": "天狗山ロープウェイ",
+        "yomigana": "てんぐやまろーぷうぇい",
         "area": "小樽",
         "category": "観光",
         "subCategory": "夜景",
@@ -638,6 +679,7 @@
       {
         "prefecture": "北海道",
         "name": "三角市場",
+        "yomigana": "さんかくいちば",
         "area": "小樽",
         "category": "グルメ",
         "subCategory": "ランチ",
@@ -653,6 +695,7 @@
       {
         "prefecture": "北海道",
         "name": "旧函館区公会堂",
+        "yomigana": "きゅうはこだてくこうかいどう",
         "area": "函館",
         "category": "観光",
         "subCategory": "レトロ",
@@ -668,6 +711,7 @@
       {
         "prefecture": "北海道",
         "name": "クリスマスツリーの木",
+        "yomigana": "くりすますつりーのき",
         "area": "富良野・美瑛",
         "category": "観光",
         "subCategory": "絶景",
@@ -683,6 +727,7 @@
       {
         "prefecture": "北海道",
         "name": "ふらのチーズ工房",
+        "yomigana": "ふらのちーずこうぼう",
         "area": "富良野・美瑛",
         "category": "グルメ",
         "subCategory": "体験",
@@ -698,6 +743,7 @@
       {
         "prefecture": "北海道",
         "name": "星野リゾート トマム 雲海テラス",
+        "yomigana": "ほしのりぞーと とまむ うんかいてらす",
         "area": "富良野・美瑛",
         "category": "観光",
         "subCategory": "絶景",
@@ -713,6 +759,7 @@
       {
         "prefecture": "北海道",
         "name": "登別伊達時代村",
+        "yomigana": "のぼりべつだてじだいむら",
         "area": "登別",
         "category": "観光",
         "subCategory": "体験",
@@ -728,6 +775,7 @@
       {
         "prefecture": "北海道",
         "name": "オホーツク流氷館",
+        "yomigana": "おほーつくしりゅうひょうかん",
         "area": "道東",
         "category": "観光",
         "subCategory": "体験",
@@ -743,6 +791,7 @@
       {
         "prefecture": "北海道",
         "name": "神の子池",
+        "yomigana": "かみのこいけ",
         "area": "道東",
         "category": "観光",
         "subCategory": "絶景",
@@ -758,6 +807,7 @@
       {
         "prefecture": "北海道",
         "name": "阿寒湖アイヌコタン",
+        "yomigana": "あかんこあいぬこたん",
         "area": "道東",
         "category": "観光",
         "subCategory": "レトロ",

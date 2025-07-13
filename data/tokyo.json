@@ -1,154 +1,40 @@
 {
   "name": "東京都",
+  "id": "tokyo",
   "areaPositions": [
-    {
-      "name": "池袋",
-      "top": "12%",
-      "left": "60%"
-    },
-    {
-      "name": "新宿",
-      "top": "25%",
-      "left": "25%"
-    },
-    {
-      "name": "原宿",
-      "top": "50%",
-      "left": "15%"
-    },
-    {
-      "name": "渋谷",
-      "top": "75%",
-      "left": "25%"
-    },
-    {
-      "name": "品川",
-      "top": "90%",
-      "left": "50%"
-    },
-    {
-      "name": "お台場/豊洲",
-      "top": "75%",
-      "left": "75%"
-    },
-    {
-      "name": "銀座",
-      "top": "60%",
-      "left": "88%"
-    },
-    {
-      "name": "押上/浅草",
-      "top": "40%",
-      "left": "90%"
-    },
-    {
-      "name": "上野",
-      "top": "25%",
-      "left": "75%"
-    },
-    {
-      "name": "新大久保",
-      "top": "12%",
-      "left": "35%"
-    },
-    {
-      "name": "下北沢",
-      "top": "90%",
-      "left": "20%"
-    },
-    {
-      "name": "吉祥寺",
-      "top": "65%",
-      "left": "10%"
-    },
-    {
-      "name": "その他",
-      "top": "5%",
-      "left": "5%"
-    }
+    { "name": "池袋", "top": "12%", "left": "60%" },
+    { "name": "新宿", "top": "25%", "left": "25%" },
+    { "name": "原宿", "top": "50%", "left": "15%" },
+    { "name": "渋谷", "top": "75%", "left": "25%" },
+    { "name": "品川", "top": "90%", "left": "50%" },
+    { "name": "お台場/豊洲", "top": "75%", "left": "75%" },
+    { "name": "銀座", "top": "60%", "left": "88%" },
+    { "name": "押上/浅草", "top": "40%", "left": "90%" },
+    { "name": "上野", "top": "25%", "left": "75%" },
+    { "name": "新大久保", "top": "12%", "left": "35%" },
+    { "name": "下北沢", "top": "90%", "left": "20%" },
+    { "name": "吉祥寺", "top": "65%", "left": "10%" },
+    { "name": "その他", "top": "5%", "left": "5%" }
   ],
   "transitData": {
-    "渋谷": {
-      "原宿": 5,
-      "新宿": 7,
-      "下北沢": 8,
-      "銀座": 16,
-      "品川": 13,
-      "池袋": 15,
-      "上野": 28,
-      "押上/浅草": 30,
-      "お台場/豊洲": 25
-    },
-    "原宿": {
-      "渋谷": 5,
-      "新宿": 4,
-      "下北沢": 12,
-      "銀座": 20,
-      "池袋": 12
-    },
-    "新宿": {
-      "原宿": 4,
-      "渋谷": 7,
-      "下北沢": 8,
-      "池袋": 9,
-      "銀座": 16,
-      "上野": 24,
-      "吉祥寺": 15
-    },
-    "下北沢": {
-      "渋谷": 8,
-      "新宿": 8,
-      "吉祥寺": 12
-    },
-    "銀座": {
-      "渋谷": 16,
-      "新宿": 16,
-      "上野": 12,
-      "押上/浅草": 15,
-      "お台場/豊洲": 20
-    },
-    "品川": {
-      "渋谷": 13,
-      "新宿": 20,
-      "銀座": 12,
-      "上野": 18
-    },
-    "池袋": {
-      "新宿": 9,
-      "渋谷": 15,
-      "原宿": 12,
-      "上野": 18
-    },
-    "上野": {
-      "銀座": 12,
-      "新宿": 24,
-      "池袋": 18,
-      "押上/浅草": 5
-    },
-    "押上/浅草": {
-      "上野": 5,
-      "銀座": 15,
-      "渋谷": 30
-    },
-    "お台場/豊洲": {
-      "渋谷": 25,
-      "銀座": 20,
-      "新宿": 30
-    },
-    "吉祥寺": {
-      "新宿": 15,
-      "下北沢": 12,
-      "渋谷": 18
-    },
-    "新大久保": {
-      "新宿": 2,
-      "池袋": 5
-    }
+    "渋谷": { "原宿": 5, "新宿": 7, "下北沢": 8, "銀座": 16, "品川": 13, "池袋": 15, "上野": 28, "押上/浅草": 30, "お台場/豊洲": 25 },
+    "原宿": { "渋谷": 5, "新宿": 4, "下北沢": 12, "銀座": 20, "池袋": 12 },
+    "新宿": { "原宿": 4, "渋谷": 7, "下北沢": 8, "池袋": 9, "銀座": 16, "上野": 24, "吉祥寺": 15 },
+    "下北沢": { "渋谷": 8, "新宿": 8, "吉祥寺": 12 },
+    "銀座": { "渋谷": 16, "新宿": 16, "上野": 12, "押上/浅草": 15, "お台場/豊洲": 20 },
+    "品川": { "渋谷": 13, "新宿": 20, "銀座": 12, "上野": 18 },
+    "池袋": { "新宿": 9, "渋谷": 15, "原宿": 12, "上野": 18 },
+    "上野": { "銀座": 12, "新宿": 24, "池袋": 18, "押上/浅草": 5 },
+    "押上/浅草": { "上野": 5, "銀座": 15, "渋谷": 30 },
+    "お台場/豊洲": { "渋谷": 25, "銀座": 20, "新宿": 30 },
+    "吉祥寺": { "新宿": 15, "下北沢": 12, "渋谷": 18 },
+    "新大久保": { "新宿": 2, "池袋": 5 }
   },
   "spots": [
     {
       "prefecture": "東京都",
       "name": "SHIBUYA SKY",
+      "yomigana": "しぶやすかい",
       "area": "渋谷",
       "category": "観光",
       "subCategory": "展望台",
@@ -156,12 +42,7 @@
       "website": "https://www.shibuya-scramble-square.com/sky/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=SHIBUYA+SKY",
       "stayTime": "約90分",
-      "tags": [
-        "絶景",
-        "インスタ映え",
-        "夜景",
-        "定番スポット"
-      ],
+      "tags": ["絶景", "インスタ映え", "夜景", "定番スポット"],
       "image": "https://www.shibuya-scramble-square.com/sky/images/share_image.png",
       "imageSource": "www.shibuya-scramble-square.com.e.apy.hp.transer.com",
       "imageSourceUrl": "https://www.shibuya-scramble-square.com.e.apy.hp.transer.com/sky/"
@@ -169,6 +50,7 @@
     {
       "prefecture": "東京都",
       "name": "東京スカイツリー",
+      "yomigana": "とうきょうすかいつりー",
       "area": "押上/浅草",
       "category": "観光",
       "subCategory": "展望台",
@@ -176,11 +58,7 @@
       "website": "https://www.tokyo-skytree.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Tokyo+Skytree",
       "stayTime": "約90-120分",
-      "tags": [
-        "絶景",
-        "定番スポット",
-        "デート"
-      ],
+      "tags": ["絶景", "定番スポット", "デート"],
       "image": "https://www.clubgets.com/tabimegu/img/blog/tokyo/asakusa/skytree10.jpg",
       "imageSource": "www.clubgets.com",
       "imageSourceUrl": "https://www.clubgets.com/tabimegu/kanto/20210127_skytree.html"
@@ -188,6 +66,7 @@
     {
       "prefecture": "東京都",
       "name": "東京タワー",
+      "yomigana": "とうきょうたわー",
       "area": "その他",
       "category": "観光",
       "subCategory": "展望台",
@@ -195,11 +74,7 @@
       "website": "https://www.tokyotower.co.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Tokyo+Tower",
       "stayTime": "約60-90分",
-      "tags": [
-        "絶景",
-        "定番スポット",
-        "夜景"
-      ],
+      "tags": ["絶景", "定番スポット", "夜景"],
       "image": "https://img.fril.jp/img/690833362/l/2286063353.jpg?1717808211",
       "imageSource": "althurayaastronomycenter.ae",
       "imageSourceUrl": "https://althurayaastronomycenter.ae/330005562"
@@ -207,6 +82,7 @@
     {
       "prefecture": "東京都",
       "name": "六本木ヒルズ展望台 東京シティビュー",
+      "yomigana": "ろっぽんぎひるずてんぼうだいとうきょうしてぃびゅー",
       "area": "その他",
       "category": "観光",
       "subCategory": "展望台",
@@ -214,12 +90,7 @@
       "website": "https://tcv.roppongihills.com/jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Roppongi+Hills+Tokyo+City+View",
       "stayTime": "約60分",
-      "tags": [
-        "絶景",
-        "アート・建築",
-        "夜景",
-        "おしゃれ"
-      ],
+      "tags": ["絶景", "アート・建築", "夜景", "おしゃれ"],
       "image": "https://art-view.roppongihills.com/en/info/img/index_mv-sp_230529.jpg",
       "imageSource": "art-view.roppongihills.com",
       "imageSourceUrl": "https://art-view.roppongihills.com/en/info/"
@@ -227,6 +98,7 @@
     {
       "prefecture": "東京都",
       "name": "teamLab Planets TOKYO DMM",
+      "yomigana": "ちーむらぼぷらねっつとうきょうでぃーえむえむ",
       "area": "お台場/豊洲",
       "category": "観光",
       "subCategory": "美術館",
@@ -234,12 +106,7 @@
       "website": "https://www.teamlab.art/jp/e/planets/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=teamLab+Planets+TOKYO",
       "stayTime": "約90-120分",
-      "tags": [
-        "インスタ映え",
-        "アート・建築",
-        "雨の日OK",
-        "ユニーク"
-      ],
+      "tags": ["インスタ映え", "アート・建築", "雨の日OK", "ユニーク"],
       "image": "https://team-lab.imagewave.pictures/89JNH3JuCgHZcGbACeD2vU?width=3840&quality=30",
       "imageSource": "www.teamlab.art",
       "imageSourceUrl": "https://www.teamlab.art/jp/e/planets/"
@@ -247,6 +114,7 @@
     {
       "prefecture": "東京都",
       "name": "ワーナー ブラザース スタジオツアー東京",
+      "yomigana": "わーなーぶらざーすすたじおつあーとうきょう",
       "area": "その他",
       "category": "観光",
       "subCategory": "テーマパーク",
@@ -254,11 +122,7 @@
       "website": "https://www.wbstudiotour.jp/",
       "gmaps": "https://www.google.com/maps/place/Warner+Bros.+Studio+Tour+Tokyo+%E2%80%93+The+Making+of+Harry+Potter/@35.7455926,139.6428071,17z",
       "stayTime": "4時間以上",
-      "tags": [
-        "体験",
-        "雨の日OK",
-        "予約推奨"
-      ],
+      "tags": ["体験", "雨の日OK", "予約推奨"],
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_Fb-tTZK-95A22dmHWTWv5IgR_k3cqanCww&s",
       "imageSource": "管理者更新",
       "imageSourceUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_Fb-tTZK-95A22dmHWTWv5IgR_k3cqanCww&s"
@@ -266,6 +130,7 @@
     {
       "prefecture": "東京都",
       "name": "サンリオピューロランド",
+      "yomigana": "さんりおぴゅーろらんど",
       "area": "その他",
       "category": "観光",
       "subCategory": "テーマパーク",
@@ -273,11 +138,7 @@
       "website": "https://www.puroland.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Sanrio+Puroland",
       "stayTime": "約4-6時間",
-      "tags": [
-        "カワイイ",
-        "雨の日OK",
-        "インスタ映え"
-      ],
+      "tags": ["カワイイ", "雨の日OK", "インスタ映え"],
       "image": "https://assets.mercari-shops-static.com/-/large/plain/9wdtDcivXJNcNJ5sDFuHWK.jpg@jpg",
       "imageSource": "管理者更新",
       "imageSourceUrl": "https://assets.mercari-shops-static.com/-/large/plain/9wdtDcivXJNcNJ5sDFuHWK.jpg@jpg"
@@ -285,6 +146,7 @@
     {
       "prefecture": "東京都",
       "name": "三鷹の森ジブリ美術館",
+      "yomigana": "みたかのもりじぶりびじゅつかん",
       "area": "吉祥寺",
       "category": "観光",
       "subCategory": "美術館",
@@ -292,12 +154,7 @@
       "website": "https://www.ghibli-museum.jp/",
       "gmaps": "https://www.google.com/maps?q=35.696238,139.57053",
       "stayTime": "約2-3時間",
-      "tags": [
-        "アート・建築",
-        "体験",
-        "予約推奨",
-        "ユニーク"
-      ],
+      "tags": ["アート・建築", "体験", "予約推奨", "ユニーク"],
       "image": "https://s3.ap-northeast-1.amazonaws.com/repos.kids.rurubu.jp/uploads/2022/03/22103207/89218_ghibli_01_0B1A2332-1024x683.jpg",
       "imageSource": "uvsa.org",
       "imageSourceUrl": "https://uvsa.org/goodscode/151278788"
@@ -305,6 +162,7 @@
     {
       "prefecture": "東京都",
       "name": "マクセル アクアパーク品川",
+      "yomigana": "まくせるあくあぱーくしながわ",
       "area": "品川",
       "category": "観光",
       "subCategory": "水族館",
@@ -312,11 +170,7 @@
       "website": "https://www.aqua-park.jp/aqua/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Maxell+Aqua+Park+Shinagawa",
       "stayTime": "約2時間",
-      "tags": [
-        "アート・建築",
-        "雨の日OK",
-        "インスタ映え"
-      ],
+      "tags": ["アート・建築", "雨の日OK", "インスタ映え"],
       "image": "https://www.aqua-park.jp/image/aqua_top_mv_pc.JPG",
       "imageSource": "www.aqua-park.jp",
       "imageSourceUrl": "https://www.aqua-park.jp/aqua/index.html"
@@ -324,6 +178,7 @@
     {
       "prefecture": "東京都",
       "name": "アートアクアリウム美術館 GINZA",
+      "yomigana": "あーとあくありうむびじゅつかんぎんざ",
       "area": "銀座",
       "category": "観光",
       "subCategory": "美術館",
@@ -331,12 +186,7 @@
       "website": "https://artaquarium.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Art+Aquarium+Museum+GINZA",
       "stayTime": "約60-90分",
-      "tags": [
-        "アート・建築",
-        "インスタ映え",
-        "雨の日OK",
-        "ユニーク"
-      ],
+      "tags": ["アート・建築", "インスタ映え", "雨の日OK", "ユニーク"],
       "image": "https://artaquarium.jp/images/home/home_mainvisual.jpg",
       "imageSource": "artaquarium.jp",
       "imageSourceUrl": "https://artaquarium.jp/"
@@ -344,6 +194,7 @@
     {
       "prefecture": "東京都",
       "name": "国立科学博物館",
+      "yomigana": "こくりつかがくはくぶつかん",
       "area": "上野",
       "category": "観光",
       "subCategory": "博物館",
@@ -351,11 +202,7 @@
       "website": "https://www.kahaku.go.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=National+Museum+of+Nature+and+Science,+Tokyo",
       "stayTime": "約2-3時間",
-      "tags": [
-        "体験",
-        "雨の日OK",
-        "定番スポット"
-      ],
+      "tags": ["体験", "雨の日OK", "定番スポット"],
       "image": "https://town.mec-h.com/mh-ueno/wp-content/uploads/2022/01/310356_30_ueno-asakusa.jpg",
       "imageSource": "town.mec-h.com",
       "imageSourceUrl": "https://town.mec-h.com/mh-ueno/159"
@@ -363,6 +210,7 @@
     {
       "prefecture": "東京都",
       "name": "東京トリックアート迷宮館",
+      "yomigana": "とうきょうとりっくあーとめいきゅうかん",
       "area": "お台場/豊洲",
       "category": "観光",
       "subCategory": "テーマパーク",
@@ -370,11 +218,7 @@
       "website": "https://www.trickart.info/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Tokyo+Trick+Art+Museum",
       "stayTime": "約60-90分",
-      "tags": [
-        "体験",
-        "インスタ映え",
-        "雨の日OK"
-      ],
+      "tags": ["体験", "インスタ映え", "雨の日OK"],
       "image": "https://www.trickart.info/img/img0101.jpg?240926",
       "imageSource": "www.trickart.info",
       "imageSourceUrl": "https://www.trickart.info/"
@@ -382,6 +226,7 @@
     {
       "prefecture": "東京都",
       "name": "渋谷スクランブル交差点",
+      "yomigana": "しぶやすくらんぶるこうさてん",
       "area": "渋谷",
       "category": "観光",
       "subCategory": "ランドマーク",
@@ -389,11 +234,7 @@
       "website": "#",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Shibuya+Crossing",
       "stayTime": "約15-30分",
-      "tags": [
-        "定番スポット",
-        "絶景",
-        "無料"
-      ],
+      "tags": ["定番スポット", "絶景", "無料"],
       "image": "https://static.tokyo-np.co.jp/image/article/size1/d/e/2/9/de2941e8a4303928b462210d93abfb0e_1.jpg",
       "imageSource": "hardinauditorium.com",
       "imageSourceUrl": "https://hardinauditorium.com/?a=41800146633000&channel=b17d38&from=blog.php%3Fid%3D1466330-96%26name%3D%E6%B8%8B%E8%B0%B7%E3%83%8F%E3%83%AD%E3%82%A6%E3%82%A3%E3%83%B3"
@@ -401,6 +242,7 @@
     {
       "prefecture": "東京都",
       "name": "SHIBUYA109",
+      "yomigana": "しぶやいちまるきゅう",
       "area": "渋谷",
       "category": "観光",
       "subCategory": "ショッピング",
@@ -408,11 +250,7 @@
       "website": "https://www.shibuya109.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=SHIBUYA109",
       "stayTime": "約60-120分",
-      "tags": [
-        "ショッピング",
-        "カワイイ",
-        "定番スポット"
-      ],
+      "tags": ["ショッピング", "カワイイ", "定番スポット"],
       "image": "https://s3-media0.fl.yelpcdn.com/bphoto/5k03iJCJDgDvPtiI-pfdVA/348s.jpg",
       "imageSource": "m.yelp.com",
       "imageSourceUrl": "https://m.yelp.com/biz/pronto-%E6%B8%8B%E8%B0%B7109%E3%83%A1%E3%83%B3%E3%82%BA%E9%A4%A8%E5%BA%97-%E6%B8%8B%E8%B0%B7%E5%8C%BA-11"
@@ -420,6 +258,7 @@
     {
       "prefecture": "東京都",
       "name": "MIYASHITA PARK",
+      "yomigana": "みやしたぱーく",
       "area": "渋谷",
       "category": "観光",
       "subCategory": "公園/複合施設",
@@ -427,12 +266,7 @@
       "website": "https://www.miyashita-park.tokyo/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=MIYASHITA+PARK",
       "stayTime": "約90-120分",
-      "tags": [
-        "公園",
-        "ショッピング",
-        "食べ歩き",
-        "おしゃれ"
-      ],
+      "tags": ["公園", "ショッピング", "食べ歩き", "おしゃれ"],
       "image": "https://svcstrg.cld.navitime.jp/imgfile/02301_pn0001507_01.jpg",
       "imageSource": "japantravel.navitime.com",
       "imageSourceUrl": "https://japantravel.navitime.com/en/area/jp/guide/NTJnews0300-en/"
@@ -440,6 +274,7 @@
     {
       "prefecture": "東京都",
       "name": "竹下通り",
+      "yomigana": "たけしたどおり",
       "area": "原宿",
       "category": "観光",
       "subCategory": "ショッピング街",
@@ -447,12 +282,7 @@
       "website": "https://www.takeshita-street.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Takeshita+Street,+Harajuku",
       "stayTime": "約60-90分",
-      "tags": [
-        "カワイイ",
-        "食べ歩き",
-        "ショッピング",
-        "定番スポット"
-      ],
+      "tags": ["カワイイ", "食べ歩き", "ショッピング", "定番スポット"],
       "image": "https://www.takeshita-street.com/images/slider/slide3.jpg",
       "imageSource": "www.takeshita-street.com",
       "imageSourceUrl": "https://www.takeshita-street.com/"
@@ -460,6 +290,7 @@
     {
       "prefecture": "東京都",
       "name": "新大久保コリアンタウン",
+      "yomigana": "しんおおくぼこりあんたうん",
       "area": "新大久保",
       "category": "観光",
       "subCategory": "街/エリア",
@@ -467,11 +298,7 @@
       "website": "#",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Shin-Okubo+Station",
       "stayTime": "約2-3時間",
-      "tags": [
-        "ご当地グルメ",
-        "食べ歩き",
-        "ショッピング"
-      ],
+      "tags": ["ご当地グルメ", "食べ歩き", "ショッピング"],
       "image": "https://img-www.knt.co.jp/meito/images/shinokubo_mv.jpg",
       "imageSource": "www.knt.co.jp",
       "imageSourceUrl": "https://www.knt.co.jp/meito/sp/shinokubo/"
@@ -479,6 +306,7 @@
     {
       "prefecture": "東京都",
       "name": "下北沢古着屋巡り",
+      "yomigana": "しもきたざわふるぎやめぐり",
       "area": "下北沢",
       "category": "観光",
       "subCategory": "街/エリア",
@@ -486,11 +314,7 @@
       "website": "#",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Shimokitazawa+Station",
       "stayTime": "約2-4時間",
-      "tags": [
-        "おしゃれ",
-        "ショッピング",
-        "レトロ"
-      ],
+      "tags": ["おしゃれ", "ショッピング", "レトロ"],
       "image": "https://lookaside.fbsbx.com/lookaside/crawler/threads/DFbgIzmTV86/0/image.jpg",
       "imageSource": "www.threads.com",
       "imageSourceUrl": "https://www.threads.com/@takuwanbouya0830/post/DFbgIzmTV86"
@@ -498,6 +322,7 @@
     {
       "prefecture": "東京都",
       "name": "吉祥寺",
+      "yomigana": "きちじょうじ",
       "area": "吉祥寺",
       "category": "観光",
       "subCategory": "街/エリア",
@@ -505,12 +330,7 @@
       "website": "https://kichifan.com/#google_vignette",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Kichijoji+Station",
       "stayTime": "約3-4時間",
-      "tags": [
-        "食べ歩き",
-        "公園",
-        "おしゃれ",
-        "自然・癒し"
-      ],
+      "tags": ["食べ歩き", "公園", "おしゃれ", "自然・癒し"],
       "image": "https://s3-media0.fl.yelpcdn.com/bphoto/_t1UjbXwvbwyQi-H-c0gUA/348s.jpg",
       "imageSource": "m.yelp.com",
       "imageSourceUrl": "https://m.yelp.com/biz/lush-%E5%90%89%E7%A5%A5%E5%AF%BA%E5%BA%97-%E6%AD%A6%E8%94%B5%E9%87%8E%E5%B8%82"
@@ -518,6 +338,7 @@
     {
       "prefecture": "東京都",
       "name": "蔵前",
+      "yomigana": "くらまえ",
       "area": "押上/浅草",
       "category": "観光",
       "subCategory": "街/エリア",
@@ -525,12 +346,7 @@
       "website": "https://kakimori.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Kuramae+Station",
       "stayTime": "約2-3時間",
-      "tags": [
-        "カフェ・喫茶店",
-        "おしゃれ",
-        "体験",
-        "ショッピング"
-      ],
+      "tags": ["カフェ・喫茶店", "おしゃれ", "体験", "ショッピング"],
       "image": "https://town.ietan.jp/ie-asakusa/wp-content/uploads/2016/10/206147_08-01asakusakuramae.jpg",
       "imageSource": "town.ietan.jp",
       "imageSourceUrl": "https://town.ietan.jp/ie-asakusa/293"
@@ -538,6 +354,7 @@
     {
       "prefecture": "東京都",
       "name": "浅草寺 & 仲見世通り",
+      "yomigana": "せんそうじあんどなかみせどおり",
       "area": "押上/浅草",
       "category": "観光",
       "subCategory": "寺社/観光",
@@ -545,12 +362,7 @@
       "website": "https://www.senso-ji.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Senso-ji+Temple",
       "stayTime": "約90-120分",
-      "tags": [
-        "定番スポット",
-        "食べ歩き",
-        "レトロ",
-        "体験"
-      ],
+      "tags": ["定番スポット", "食べ歩き", "レトロ", "体験"],
       "image": "https://travel.rakuten.co.jp/mytrip/sites/mytrip/files/styles/main_image/public/migration_article_images/ranking/spot-asakusa-key.jpg?itok=YhBIPEEz",
       "imageSource": "travel.rakuten.co.jp",
       "imageSourceUrl": "https://travel.rakuten.co.jp/mytrip/ranking/spot-asakusa"
@@ -558,6 +370,7 @@
     {
       "prefecture": "東京都",
       "name": "明治神宮",
+      "yomigana": "めいじじんぐう",
       "area": "原宿",
       "category": "観光",
       "subCategory": "寺社",
@@ -565,12 +378,7 @@
       "website": "https://www.meijijingu.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Meiji+Jingu",
       "stayTime": "約45-60分",
-      "tags": [
-        "自然・癒し",
-        "定番スポット",
-        "無料",
-        "パワースポット"
-      ],
+      "tags": ["自然・癒し", "定番スポット", "無料", "パワースポット"],
       "image": "https://d10pyp7ylo9bub.cloudfront.net/2019/10/meji1.jpg",
       "imageSource": "tokyo.letsgojp.com",
       "imageSourceUrl": "https://tokyo.letsgojp.com/archives/52391/"
@@ -578,6 +386,7 @@
     {
       "prefecture": "東京都",
       "name": "新宿御苑",
+      "yomigana": "しんじゅくぎょえん",
       "area": "新宿",
       "category": "観光",
       "subCategory": "公園",
@@ -585,11 +394,7 @@
       "website": "https://fng.or.jp/shinjuku/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Shinjuku+Gyoen+National+Garden",
       "stayTime": "約90-120分",
-      "tags": [
-        "公園",
-        "自然・癒し",
-        "絶景"
-      ],
+      "tags": ["公園", "自然・癒し", "絶景"],
       "image": "https://office.tokyu-land.co.jp/control/wp-content/uploads/2023/07/01_shinjukugyoen_main-731x1024.jpg",
       "imageSource": "office.tokyu-land.co.jp",
       "imageSourceUrl": "https://office.tokyu-land.co.jp/bldg/shinjukugyoen_front/"
@@ -597,6 +402,7 @@
     {
       "prefecture": "東京都",
       "name": "上野恩賜公園",
+      "yomigana": "うえのおんしこうえん",
       "area": "上野",
       "category": "観光",
       "subCategory": "公園",
@@ -604,12 +410,7 @@
       "website": "https://www.kensetsu.metro.tokyo.lg.jp/jimusho/toubuk/ueno/index_top.html",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Ueno+Park",
       "stayTime": "約2-3時間",
-      "tags": [
-        "公園",
-        "アート・建築",
-        "自然・癒し",
-        "無料"
-      ],
+      "tags": ["公園", "アート・建築", "自然・癒し", "無料"],
       "image": "https://static.gltjp.com/glt/data/directory/11000/10136/20190906_095834_ca011942_w1920.webp",
       "imageSource": "www.gltjp.com",
       "imageSourceUrl": "https://www.gltjp.com/en/directory/item/10136/"
@@ -617,6 +418,7 @@
     {
       "prefecture": "東京都",
       "name": "浅草での着物レンタル",
+      "yomigana": "あさくさでのきものれんたる",
       "area": "押上/浅草",
       "category": "観光",
       "subCategory": "体験",
@@ -624,11 +426,7 @@
       "website": "https://ewha-yifu.com/lp-asakusa-02/?gad_source=1",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=浅草+着物レンタル",
       "stayTime": "約2-4時間",
-      "tags": [
-        "体験",
-        "レトロ",
-        "インスタ映え"
-      ],
+      "tags": ["体験", "レトロ", "インスタ映え"],
       "image": "https://kano-wafuku.com/wp-content/themes/kanowafuku/img/frontPlan_student24aw.webp",
       "imageSource": "kano-wafuku.com",
       "imageSourceUrl": "https://kano-wafuku.com/"
@@ -636,6 +434,7 @@
     {
       "prefecture": "東京都",
       "name": "食品サンプル作り",
+      "yomigana": "しょくひんさんぷるづくり",
       "area": "押上/浅草",
       "category": "観光",
       "subCategory": "体験",
@@ -643,11 +442,7 @@
       "website": "https://www.ganso-sample.com/experience/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=元祖食品サンプル屋+合羽橋店",
       "stayTime": "約60-75分",
-      "tags": [
-        "体験",
-        "ユニーク",
-        "雨の日OK"
-      ],
+      "tags": ["体験", "ユニーク", "雨の日OK"],
       "image": "https://www.ganso-sample.com/wp-content/uploads/2018/07/EXP001.jpg",
       "imageSource": "www.ganso-sample.com",
       "imageSourceUrl": "https://www.ganso-sample.com/experience/"
@@ -655,6 +450,7 @@
     {
       "prefecture": "東京都",
       "name": "よみうりランド",
+      "yomigana": "よみうりらんど",
       "area": "その他",
       "category": "観光",
       "subCategory": "テーマパーク",
@@ -662,11 +458,7 @@
       "website": "https://www.yomiuriland.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Yomiuriland",
       "stayTime": "約5-7時間",
-      "tags": [
-        "夜景",
-        "絶景",
-        "定番スポット"
-      ],
+      "tags": ["夜景", "絶景", "定番スポット"],
       "image": "https://www.yomiuriland.com/assets/images/traffic/keio1.png",
       "imageSource": "www.yomiuriland.com",
       "imageSourceUrl": "https://www.yomiuriland.com/traffic/"
@@ -674,6 +466,7 @@
     {
       "prefecture": "東京都",
       "name": "東京ドームシティ",
+      "yomigana": "とうきょうどーむしてぃ",
       "area": "その他",
       "category": "観光",
       "subCategory": "テーマパーク",
@@ -681,11 +474,7 @@
       "website": "https://www.tokyo-dome.co.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Tokyo+Dome+City",
       "stayTime": "約3-5時間",
-      "tags": [
-        "雨の日OK",
-        "定番スポット",
-        "ショッピング"
-      ],
+      "tags": ["雨の日OK", "定番スポット", "ショッピング"],
       "image": "https://static.mercdn.net/item/detail/orig/photos/m82631514460_1.jpg?1744444325",
       "imageSource": "www.preferred-placement.com",
       "imageSourceUrl": "https://www.preferred-placement.com/shopdetail/18546013"
@@ -693,6 +482,7 @@
     {
       "prefecture": "東京都",
       "name": "FLIPPER'S",
+      "yomigana": "ふりっぱーず",
       "area": "下北沢",
       "category": "グルメ",
       "subCategory": "パンケーキ",
@@ -700,11 +490,7 @@
       "website": "https://www.flavorworks.co.jp/flippers",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Flipper's+Shimokitazawa",
       "stayTime": "約60-90分",
-      "tags": [
-        "スイーツ",
-        "カフェ・喫茶店",
-        "予約推奨"
-      ],
+      "tags": ["スイーツ", "カフェ・喫茶店", "予約推奨"],
       "image": "https://s3-media0.fl.yelpcdn.com/bphoto/sBbAcfKXLfQ6DXH5mhJtyg/348s.jpg",
       "imageSource": "m.yelp.com",
       "imageSourceUrl": "https://m.yelp.com/biz/%E3%83%95%E3%83%AA%E3%83%83%E3%83%91%E3%83%BC%E3%82%BA-%E4%B8%8B%E5%8C%97%E6%B2%A2%E5%BA%97-%E4%B8%96%E7%94%B0%E8%B0%B7%E5%8C%BA"
@@ -712,6 +498,7 @@
     {
       "prefecture": "東京都",
       "name": "幸せのパンケーキ",
+      "yomigana": "しあわせのぱんけーき",
       "area": "渋谷",
       "category": "グルメ",
       "subCategory": "パンケーキ",
@@ -719,11 +506,7 @@
       "website": "https://magia.tokyo/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=幸せのパンケーキ+渋谷店",
       "stayTime": "約60-90分",
-      "tags": [
-        "スイーツ",
-        "カフェ・喫茶店",
-        "予約推奨"
-      ],
+      "tags": ["スイーツ", "カフェ・喫茶店", "予約推奨"],
       "image": "https://s3-media0.fl.yelpcdn.com/bphoto/05MPCc0QYX4fvOLJyf9bPg/348s.jpg",
       "imageSource": "m.yelp.com",
       "imageSourceUrl": "https://m.yelp.com/biz/%E5%B9%B8%E3%81%9B%E3%81%AE%E3%83%91%E3%83%B3%E3%82%B1%E3%83%BC%E3%82%AD-%E6%B8%8B%E8%B0%B7%E5%BA%97-%E6%B8%8B%E8%B0%B7%E5%8C%BA"
@@ -731,6 +514,7 @@
     {
       "prefecture": "東京都",
       "name": "bills",
+      "yomigana": "びるず",
       "area": "原宿",
       "category": "グルメ",
       "subCategory": "パンケーキ/カフェ",
@@ -738,12 +522,7 @@
       "website": "https://billsjapan.com/jp",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=bills+Omotesando",
       "stayTime": "約60-90分",
-      "tags": [
-        "スイーツ",
-        "カフェ・喫茶店",
-        "おしゃれ",
-        "予約推奨"
-      ],
+      "tags": ["スイーツ", "カフェ・喫茶店", "おしゃれ", "予約推奨"],
       "image": "https://s3-media0.fl.yelpcdn.com/bphoto/pdkRJmJjyU_mMv7cW--K1g/348s.jpg",
       "imageSource": "m.yelp.com",
       "imageSourceUrl": "https://m.yelp.com/biz/bills-%E6%9D%B1%E6%80%A5%E3%83%97%E3%83%A9%E3%82%B6%E8%A1%A8%E5%8F%82%E9%81%93%E5%8E%9F%E5%AE%BF-%E6%B8%8B%E8%B0%B7%E5%8C%BA-3"
@@ -751,6 +530,7 @@
     {
       "prefecture": "東京都",
       "name": "スターバックス リザーブ® ロースタリー 東京",
+      "yomigana": "すたーばっくすりざーぶろーすたりーとうきょう",
       "area": "その他",
       "category": "グルメ",
       "subCategory": "カフェ",
@@ -758,11 +538,7 @@
       "website": "https://www.starbucks.co.jp/reserve/roastery/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=STARBUCKS+RESERVE+ROASTERY+TOKYO",
       "stayTime": "約60-90分",
-      "tags": [
-        "カフェ・喫茶店",
-        "おしゃれ",
-        "ユニーク"
-      ],
+      "tags": ["カフェ・喫茶店", "おしゃれ", "ユニーク"],
       "image": "https://img.fril.jp/img/504139931/l/1496208853.jpg?1646143432",
       "imageSource": "www.newcombsportsmensclub.com",
       "imageSourceUrl": "https://www.newcombsportsmensclub.com/shopdetail/509126474"
@@ -770,6 +546,7 @@
     {
       "prefecture": "東京都",
       "name": "ゴンチャ",
+      "yomigana": "ごんちゃ",
       "area": "渋谷",
       "category": "グルメ",
       "subCategory": "ドリンク",
@@ -777,11 +554,7 @@
       "website": "https://www.gongcha.co.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Gong+cha+Harajuku",
       "stayTime": "約15-30分",
-      "tags": [
-        "カフェ・喫茶店",
-        "定番スポット",
-        "食べ歩き"
-      ],
+      "tags": ["カフェ・喫茶店", "定番スポット", "食べ歩き"],
       "image": "https://s3-media0.fl.yelpcdn.com/bphoto/i-Z89yLOtqHuJkqN-HHVFQ/348s.jpg",
       "imageSource": "m.yelp.com",
       "imageSourceUrl": "https://m.yelp.com/biz/%E3%82%B4%E3%83%B3%E3%83%81%E3%83%A3-%E6%B8%8B%E8%B0%B7%E3%82%B9%E3%83%9A%E3%82%A4%E3%83%B3%E5%9D%82%E5%BA%97-%E6%B8%8B%E8%B0%B7%E5%8C%BA"
@@ -789,6 +562,7 @@
     {
       "prefecture": "東京都",
       "name": "cafe yolum (カフェ ヨルム)",
+      "yomigana": "かふぇよるむ",
       "area": "原宿",
       "category": "グルメ",
       "subCategory": "カフェ",
@@ -796,11 +570,7 @@
       "website": "https://www.instagram.com/yolumlovesyou/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=cafe+yolum",
       "stayTime": "約45-60分",
-      "tags": [
-        "カフェ・喫茶店",
-        "カワイイ",
-        "インスタ映え"
-      ],
+      "tags": ["カフェ・喫茶店", "カワイイ", "インスタ映え"],
       "image": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3346013295860831914",
       "imageSource": "www.instagram.com",
       "imageSourceUrl": "https://www.instagram.com/p/C5vbV_IBUGx/"
@@ -808,6 +578,7 @@
     {
       "prefecture": "東京都",
       "name": "白髭のシュークリーム工房",
+      "yomigana": "しろひげのしゅーくりーむこうぼう",
       "area": "下北沢",
       "category": "グルメ",
       "subCategory": "スイーツ",
@@ -815,12 +586,7 @@
       "website": "http://www.shiro-hige.net/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Shirohige's+Cream+Puff+Factory+Daita",
       "stayTime": "約30-60分",
-      "tags": [
-        "スイーツ",
-        "カワイイ",
-        "ユニーク",
-        "食べ歩き"
-      ],
+      "tags": ["スイーツ", "カワイイ", "ユニーク", "食べ歩き"],
       "image": "https://tblg.k-img.com/restaurant/images/Rvw/50722/517c046b5ee90ff64e38a8ce08fa4da1.jpg",
       "imageSource": "tabelog.com",
       "imageSourceUrl": "https://tabelog.com/tokyo/A1318/A131812/13161008/"
@@ -828,6 +594,7 @@
     {
       "prefecture": "東京都",
       "name": "マリオンクレープ",
+      "yomigana": "まりおんくれーぷ",
       "area": "原宿",
       "category": "グルメ",
       "subCategory": "ストリートフード",
@@ -835,11 +602,7 @@
       "website": "http://www.marion.co.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Marion+Crepes+Takeshita+Street",
       "stayTime": "約15-20分",
-      "tags": [
-        "食べ歩き",
-        "スイーツ",
-        "定番スポット"
-      ],
+      "tags": ["食べ歩き", "スイーツ", "定番スポット"],
       "image": "https://www.marion.co.jp/wp-content/themes/marion/img/top/slide01_new_sp.jpg.webp",
       "imageSource": "www.marion.co.jp",
       "imageSourceUrl": "https://www.marion.co.jp/"
@@ -847,6 +610,7 @@
     {
       "prefecture": "東京都",
       "name": "10円パン",
+      "yomigana": "じゅうえんぱん",
       "area": "新大久保",
       "category": "グルメ",
       "subCategory": "ストリートフード",
@@ -854,12 +618,7 @@
       "website": "http://10yenpan.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=10円パン+新大久保",
       "stayTime": "約15-20分",
-      "tags": [
-        "食べ歩き",
-        "インスタ映え",
-        "ユニーク",
-        "B級グルメ"
-      ],
+      "tags": ["食べ歩き", "インスタ映え", "ユニーク", "B級グルメ"],
       "image": "http://10yenpan.jp/wp-content/uploads/2023/12/KakaoTalk_20231205_142000386-725x1024.jpg",
       "imageSource": "10yenpan.jp",
       "imageSourceUrl": "http://10yenpan.jp/"
@@ -867,6 +626,7 @@
     {
       "prefecture": "東京都",
       "name": "ポポホットク",
+      "yomigana": "ぽぽほっとく",
       "area": "新大久保",
       "category": "グルメ",
       "subCategory": "ストリートフード",
@@ -874,11 +634,7 @@
       "website": "https://www.instagram.com/popohottoku/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=POPO+Hotteok+Shin-Okubo",
       "stayTime": "約15-20分",
-      "tags": [
-        "食べ歩き",
-        "スイーツ",
-        "ご当地グルメ"
-      ],
+      "tags": ["食べ歩き", "スイーツ", "ご当地グルメ"],
       "image": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3016178225711310598",
       "imageSource": "www.instagram.com",
       "imageSourceUrl": "https://www.instagram.com/p/Cnbnh-LS5Vu/"
@@ -886,6 +642,7 @@
     {
       "prefecture": "東京都",
       "name": "浅草花月堂",
+      "yomigana": "あさくさかげつどう",
       "area": "押上/浅草",
       "category": "グルメ",
       "subCategory": "ストリートフード",
@@ -893,11 +650,7 @@
       "website": "https://www.asakusa-kagetudo.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Asakusa+Kagetsudo",
       "stayTime": "約10-15分",
-      "tags": [
-        "食べ歩き",
-        "スイーツ",
-        "定番スポット"
-      ],
+      "tags": ["食べ歩き", "スイーツ", "定番スポット"],
       "image": "https://asakusa-kagetudo.com/wp-content/uploads/2017/11/007.jpg",
       "imageSource": "asakusa-kagetudo.com",
       "imageSourceUrl": "https://asakusa-kagetudo.com/"
@@ -905,6 +658,7 @@
     {
       "prefecture": "東京都",
       "name": "浅草メンチ",
+      "yomigana": "あさくさめんち",
       "area": "押上/浅草",
       "category": "グルメ",
       "subCategory": "ストリートフード",
@@ -912,11 +666,7 @@
       "website": "https://asamen.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Asakusa+Menchi",
       "stayTime": "約10-15分",
-      "tags": [
-        "食べ歩き",
-        "B級グルメ",
-        "ランチ"
-      ],
+      "tags": ["食べ歩き", "B級グルメ", "ランチ"],
       "image": "https://san-tatsu.jp/assets/uploads/2022/02/19155856/IMG_3026-1500x1125.jpg",
       "imageSource": "san-tatsu.jp",
       "imageSourceUrl": "https://san-tatsu.jp/articles/156733/"
@@ -924,6 +674,7 @@
     {
       "prefecture": "東京都",
       "name": "吉祥寺さとう",
+      "yomigana": "きちじょうじさとう",
       "area": "吉祥寺",
       "category": "グルメ",
       "subCategory": "ストリートフード",
@@ -931,12 +682,7 @@
       "website": "http://www.shop-satou.com/shop/kichijouji1/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=吉祥寺さとう",
       "stayTime": "約15-30分",
-      "tags": [
-        "食べ歩き",
-        "B級グルメ",
-        "ランチ",
-        "予約推奨"
-      ],
+      "tags": ["食べ歩き", "B級グルメ", "ランチ", "予約推奨"],
       "image": "https://www.shop-satou.com/shared/img/kichijoji/information_img.jpg",
       "imageSource": "www.shop-satou.com",
       "imageSourceUrl": "https://www.shop-satou.com/kichijoji.html"
@@ -944,6 +690,7 @@
     {
       "prefecture": "東京都",
       "name": "たい菓子本舗 天音",
+      "yomigana": "たいがしほんぽあまね",
       "area": "吉祥寺",
       "category": "グルメ",
       "subCategory": "ストリートフード",
@@ -951,11 +698,7 @@
       "website": "https://tokyo-vanquish.co.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=たい菓子本舗+天音",
       "stayTime": "約10-15分",
-      "tags": [
-        "食べ歩き",
-        "スイーツ",
-        "ご当地グルメ"
-      ],
+      "tags": ["食べ歩き", "スイーツ", "ご当地グルメ"],
       "image": "https://www.chuo-besthome.co.jp/assets/uploads/2023/06/ec-3-1024x559.jpg",
       "imageSource": "www.chuo-besthome.co.jp",
       "imageSourceUrl": "https://www.chuo-besthome.co.jp/local/amane/"
@@ -963,6 +706,7 @@
     {
       "prefecture": "東京都",
       "name": "AFURI",
+      "yomigana": "あふり",
       "area": "原宿",
       "category": "グルメ",
       "subCategory": "ラーメン",
@@ -970,11 +714,7 @@
       "website": "https://afuri.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=AFURI+Harajuku",
       "stayTime": "約30-45分",
-      "tags": [
-        "B級グルメ",
-        "おしゃれ",
-        "ランチ"
-      ],
+      "tags": ["B級グルメ", "おしゃれ", "ランチ"],
       "image": "https://s3-media0.fl.yelpcdn.com/bphoto/Rsp8xerVo8nV_P1fQeapZQ/348s.jpg",
       "imageSource": "m.yelp.com",
       "imageSourceUrl": "https://m.yelp.com/biz/afuri-%E5%8E%9F%E5%AE%BF-%E6%B8%8B%E8%B0%B7%E5%8C%BA-2"
@@ -982,6 +722,7 @@
     {
       "prefecture": "東京都",
       "name": "鼎泰豐 (ディンタイフォン)",
+      "yomigana": "でぃんたいふぉん",
       "area": "新宿",
       "category": "グルメ",
       "subCategory": "中華料理",
@@ -989,12 +730,7 @@
       "website": "https://d.rt-c.co.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Din+Tai+Fung+Shinjuku",
       "stayTime": "約60-90分",
-      "tags": [
-        "ご当地グルメ",
-        "ランチ",
-        "ディナー",
-        "予約推奨"
-      ],
+      "tags": ["ご当地グルメ", "ランチ", "ディナー", "予約推奨"],
       "image": "https://d.rt-c.co.jp/wordpress/wp-content/uploads/2105sinjuku.jpg",
       "imageSource": "d.rt-c.co.jp",
       "imageSourceUrl": "https://d.rt-c.co.jp/shinjuku/"
@@ -1002,6 +738,7 @@
     {
       "prefecture": "東京都",
       "name": "原宿餃子楼",
+      "yomigana": "はらじゅくぎょうざろう",
       "area": "原宿",
       "category": "グルメ",
       "subCategory": "中華料理",
@@ -1009,11 +746,7 @@
       "website": "https://imagine-dumplings.amebaownd.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=Harajuku+Gyoza+Lou",
       "stayTime": "約30-45分",
-      "tags": [
-        "コスパ",
-        "ランチ",
-        "B級グルメ"
-      ],
+      "tags": ["コスパ", "ランチ", "B級グルメ"],
       "image": "https://tblg.k-img.com/restaurant/images/Rvw/156002/156002687.jpg",
       "imageSource": "tabelog.com",
       "imageSourceUrl": "https://tabelog.com/tokyo/A1306/A130601/13001284/"
@@ -1021,6 +754,7 @@
     {
       "prefecture": "東京都",
       "name": "MAD CHEFs",
+      "yomigana": "まっどしぇふず",
       "area": "池袋",
       "category": "グルメ",
       "subCategory": "ケバブ",
@@ -1028,11 +762,7 @@
       "website": "https://madchefs-ikebukuro.owst.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=MAD+CHEFs+池袋サンシャイン通り店",
       "stayTime": "約20-30分",
-      "tags": [
-        "コスパ",
-        "ランチ",
-        "B級グルメ"
-      ],
+      "tags": ["コスパ", "ランチ", "B級グルメ"],
       "image": "https://tblg.k-img.com/resize/640x360c/restaurant/images/Rvw/240257/f8e1386ed6d5583e23057a967dc51c92.jpg?token=3d79eea&api=v2",
       "imageSource": "tabelog.com",
       "imageSourceUrl": "https://tabelog.com/en/tokyo/A1305/A130501/13284317/"
@@ -1040,6 +770,7 @@
     {
       "prefecture": "東京都",
       "name": "炭火焼肉 絵のある街 上野店",
+      "yomigana": "すみびやきにくえのあるまちうえのてん",
       "area": "上野",
       "category": "グルメ",
       "subCategory": "焼肉",
@@ -1047,11 +778,7 @@
       "website": "https://g120500.gorp.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=絵のある街+上野",
       "stayTime": "約60分",
-      "tags": [
-        "B級グルメ",
-        "コスパ",
-        "ランチ"
-      ],
+      "tags": ["B級グルメ", "コスパ", "ランチ"],
       "image": "https://imgfp.hotp.jp/IMGH/97/87/P021949787/P021949787_480.jpg",
       "imageSource": "www.hotpepper.jp",
       "imageSourceUrl": "https://www.hotpepper.jp/strJ000127443/"
@@ -1059,6 +786,7 @@
     {
       "prefecture": "東京都",
       "name": "カブトシモキタ",
+      "yomigana": "かぶとしもきた",
       "area": "下北沢",
       "category": "グルメ",
       "subCategory": "イタリアン",
@@ -1066,11 +794,7 @@
       "website": "https://www.forever-youth1020.com/shimokitazawa",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=カブトシモキタ",
       "stayTime": "約60-90分",
-      "tags": [
-        "ランチ",
-        "ディナー",
-        "コスパ"
-      ],
+      "tags": ["ランチ", "ディナー", "コスパ"],
       "image": "https://static.wixstatic.com/media/a72d96_5598ff67311c436cb8076d8e80339cd2~mv2.jpg/v1/fill/w_640,h_528,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/a72d96_5598ff67311c436cb8076d8e80339cd2~mv2.jpg",
       "imageSource": "www.forever-youth1020.com",
       "imageSourceUrl": "https://www.forever-youth1020.com/shimokitazawa"
@@ -1078,6 +802,7 @@
     {
       "prefecture": "東京都",
       "name": "2D Cafe",
+      "yomigana": "つーでぃーかふぇ",
       "area": "新大久保",
       "category": "グルメ",
       "subCategory": "コンセプトカフェ",
@@ -1085,11 +810,7 @@
       "website": "https://www.instagram.com/2dcafe_shinokubo/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=2D+Cafe+Shin-Okubo",
       "stayTime": "約45-60分",
-      "tags": [
-        "カフェ・喫茶店",
-        "インスタ映え",
-        "ユニーク"
-      ],
+      "tags": ["カフェ・喫茶店", "インスタ映え", "ユニーク"],
       "image": "https://s3-media0.fl.yelpcdn.com/bphoto/xBsbpV4b2aoopu0yQxBJaA/348s.jpg",
       "imageSource": "m.yelp.com",
       "imageSourceUrl": "https://m.yelp.com/biz/2d-cafe-%E6%96%B0%E5%A4%A7%E4%B9%85%E4%BF%9D%E5%BA%97-%E6%96%B0%E5%AE%BF%E5%8C%BA"
@@ -1097,6 +818,7 @@
     {
       "prefecture": "東京都",
       "name": "あっとほぉーむカフェ",
+      "yomigana": "あっとほぉーむかふぇ",
       "area": "その他",
       "category": "グルメ",
       "subCategory": "コンセプトカフェ",
@@ -1104,11 +826,7 @@
       "website": "https://www.cafe-athome.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=at-home+cafe+akihabara",
       "stayTime": "約60分",
-      "tags": [
-        "ユニーク",
-        "体験",
-        "カワイイ"
-      ],
+      "tags": ["ユニーク", "体験", "カワイイ"],
       "image": "https://sssk-hd.com/s3/skiyaki/uploads/ckeditor/pictures/722475/content_if_1.jpg",
       "imageSource": "sssk-hd.com",
       "imageSourceUrl": "https://sssk-hd.com/contents/920773"
@@ -1116,6 +834,7 @@
     {
       "prefecture": "東京都",
       "name": "古城の国のアリス",
+      "yomigana": "こじょうのくにのありす",
       "area": "池袋",
       "category": "グルメ",
       "subCategory": "コンセプトカフェ",
@@ -1123,11 +842,7 @@
       "website": "http://www.alice-restaurant.com/kojo/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=古城の国のアリス",
       "stayTime": "約90-120分",
-      "tags": [
-        "ユニーク",
-        "インスタ映え",
-        "ディナー"
-      ],
+      "tags": ["ユニーク", "インスタ映え", "ディナー"],
       "image": "https://s3-media0.fl.yelpcdn.com/bphoto/4Jzv_eObKp-0EKBK2f4svw/1000s.jpg",
       "imageSource": "m.yelp.com",
       "imageSourceUrl": "https://m.yelp.com/biz/%E5%8F%A4%E5%9F%8E%E3%81%AE%E5%9B%BD%E3%81%AE%E3%82%A2%E3%83%AA%E3%82%B9-%E8%B1%8A%E5%B3%B6%E5%8C%BA-2"
@@ -1135,17 +850,15 @@
     {
       "prefecture": "東京都",
       "name": "田無神社",
+      "yomigana": "たなしじんじゃ",
       "area": "その他",
       "category": "観光",
       "subCategory": "自然・癒し",
       "description": "東京都西東京市にある田無神社。武蔵野の豊かな自然に囲まれた静寂な空間で、都会の喧騒を忘れさせてくれる癒やしのスポットです。歴史を感じさせる社殿や、四季折々の美しい自然を満喫できます。パワースポットとしても知られており、参拝客も多いです。VLOG撮影にも最適な、落ち着いた雰囲気と美しい景色が魅力です。",
       "website": "http://tanashijinja.or.jp/",
-      "gmaps": "https://www.google.com/maps/search/?api=1&query=%E7%94%B0%E7%84%A1%E7%A5%9E%E7%A4%BE",
+      "gmaps": "https://www.google.com/maps/search/?api=1&query=田無神社",
       "stayTime": "約30分",
-      "tags": [
-        "レトロ",
-        "自然・癒し"
-      ],
+      "tags": ["レトロ", "自然・癒し"],
       "image": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=1173515937906689",
       "imageSource": "www.facebook.com",
       "imageSourceUrl": "https://www.facebook.com/photo.php?fbid=1173515937906689&id=100057448818000&set=a.539391794652443"
