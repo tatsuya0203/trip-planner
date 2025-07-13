@@ -2,80 +2,20 @@
   "name": "奈良県",
   "id": "nara",
   "areaPositions": [
-    {
-      "name": "奈良公園",
-      "top": "45%",
-      "left": "50%"
-    },
-    {
-      "name": "ならまち",
-      "top": "50%",
-      "left": "45%"
-    },
-    {
-      "name": "生駒",
-      "top": "35%",
-      "left": "60%"
-    },
-    {
-      "name": "明日香",
-      "top": "70%",
-      "left": "55%"
-    },
-    {
-      "name": "橿原",
-      "top": "65%",
-      "left": "50%"
-    },
-    {
-      "name": "室生",
-      "top": "80%",
-      "left": "40%"
-    }
+    { "name": "奈良公園", "top": "45%", "left": "50%" },
+    { "name": "ならまち", "top": "50%", "left": "45%" },
+    { "name": "生駒", "top": "35%", "left": "60%" },
+    { "name": "明日香", "top": "70%", "left": "55%" },
+    { "name": "橿原", "top": "65%", "left": "50%" },
+    { "name": "室生", "top": "80%", "left": "40%" }
   ],
   "transitData": {
-    "奈良公園": {
-      "ならまち": 5,
-      "生駒": 20,
-      "明日香": 60,
-      "橿原": 50,
-      "室生": 90
-    },
-    "ならまち": {
-      "奈良公園": 5,
-      "生駒": 20,
-      "明日香": 60,
-      "橿原": 50,
-      "室生": 90
-    },
-    "生駒": {
-      "奈良公園": 20,
-      "ならまち": 20,
-      "明日香": 80,
-      "橿原": 70,
-      "室生": 110
-    },
-    "明日香": {
-      "奈良公園": 60,
-      "ならまち": 60,
-      "生駒": 80,
-      "橿原": 15,
-      "室生": 70
-    },
-    "橿原": {
-      "奈良公園": 50,
-      "ならまち": 50,
-      "生駒": 70,
-      "明日香": 15,
-      "室生": 60
-    },
-    "室生": {
-      "奈良公園": 90,
-      "ならまち": 90,
-      "生駒": 110,
-      "明日香": 70,
-      "橿原": 60
-    }
+    "奈良公園": { "ならまち": 5, "生駒": 20, "明日香": 60, "橿原": 50, "室生": 90 },
+    "ならまち": { "奈良公園": 5, "生駒": 20, "明日香": 60, "橿原": 50, "室生": 90 },
+    "生駒": { "奈良公園": 20, "ならまち": 20, "明日香": 80, "橿原": 70, "室生": 110 },
+    "明日香": { "奈良公園": 60, "ならまち": 60, "生駒": 80, "橿原": 15, "室生": 70 },
+    "橿原": { "奈良公園": 50, "ならまち": 50, "生駒": 70, "明日香": 15, "室生": 60 },
+    "室生": { "奈良公園": 90, "ならまち": 90, "生駒": 110, "明日香": 70, "橿原": 60 }
   },
   "spots": [
     {
@@ -85,20 +25,14 @@
       "area": "奈良公園",
       "category": "観光",
       "subCategory": "定番スポット",
-      "description": "奈良公園は奈良の奈良公園エリアに位置する人気の観光スポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "鹿せんべいを片手に、かわいい鹿たちと触れ合うVLOGを撮ろう！広大な敷地には東大寺や浮見堂も。のんびり散策しながら、古都奈良ならではの風景を切り取って。動物好きにはたまらない、癒やしの映像が撮れるはず！",
+      "website": "https://www.pref.nara.jp/1713.htm",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E5%A5%88%E8%89%AF%E5%85%AC%E5%9C%92",
-      "stayTime": "約60分",
-      "tags": [
-        "カフェ・喫茶店",
-        "ユニーク",
-        "B級グルメ",
-        "無料",
-        "カワイイ"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E5%A5%88%E8%89%AF%E5%85%AC%E5%9C%92",
+      "stayTime": "約120分",
+      "tags": ["自然・癒し", "定番スポット", "無料", "カワイイ", "食べ歩き"],
+      "image": "https://4.bp.blogspot.com/-2j_y_G-1iTI/W9xX-3a4kNI/AAAAAAABPlk/5h_nZ_Gq-sYV22eUscz42S2daG34G52gwCLcBGAs/s800/park_nara_kouen.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "https://www.pref.nara.jp/1713.htm"
     },
     {
       "prefecture": "奈良県",
@@ -107,20 +41,14 @@
       "area": "奈良公園",
       "category": "観光",
       "subCategory": "アート・建築",
-      "description": "東大寺は奈良の奈良公園エリアに位置する人気の観光スポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "世界最大級の木造建築、大仏殿の迫力は圧巻！巨大な大仏様を見上げた時の感動をVLOGに収めて。柱の穴くぐりチャレンジも面白い映像になりそう。歴史のスケールを肌で感じながら、荘厳でインパクトのあるワンシーンを撮影しよう。",
+      "website": "https://www.todaiji.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E5%A4%A7%E5%AF%BA",
-      "stayTime": "約60分",
-      "tags": [
-        "B級グルメ",
-        "定番スポット",
-        "自然・癒し",
-        "絶景",
-        "予約推奨"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E6%9D%B1%E5%A4%A7%E5%AF%BA",
+      "stayTime": "約90分",
+      "tags": ["アート・建築", "定番スポット", "歴史", "絶景", "体験"],
+      "image": "https://www.todaiji.or.jp/assets/img/top/mainimg_sp_h.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "https://www.todaiji.or.jp/"
     },
     {
       "prefecture": "奈良県",
@@ -129,20 +57,14 @@
       "area": "奈良公園",
       "category": "観光",
       "subCategory": "アート・建築",
-      "description": "春日大社は奈良の奈良公園エリアに位置する人気の観光スポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "朱塗りの社殿と、ずらりと並んだ燈籠が幻想的。木漏れ日が差し込む参道を歩くだけで、心が洗われるような映像が撮れるはず。フォトジェニックな「映え」と、神聖な雰囲気を両方VLOGに収めたいクリエイターにおすすめ！",
+      "website": "https://www.kasugataisha.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E6%98%A5%E6%97%A5%E5%A4%A7%E7%A4%BE",
-      "stayTime": "約60分",
-      "tags": [
-        "体験",
-        "無料",
-        "アート・建築",
-        "ランチ",
-        "雨の日OK"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E6%98%A5%E6%97%A5%E5%A4%A7%E7%A4%BE",
+      "stayTime": "約70分",
+      "tags": ["アート・建築", "自然・癒し", "インスタ映え", "歴史", "定番スポット"],
+      "image": "https://www.kasugataisha.or.jp/wp-content/uploads/2023/04/about_01.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "https://www.kasugataisha.or.jp/"
     },
     {
       "prefecture": "奈良県",
@@ -151,20 +73,14 @@
       "area": "ならまち",
       "category": "観光",
       "subCategory": "アート・建築",
-      "description": "興福寺は奈良のならまちエリアに位置する人気の観光スポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "五重塔のシルエットは奈良のシンボル。夕暮れ時に池に映る姿は息をのむ美しさで、VLOGのエンディングにもぴったり。国宝の阿修羅像など、仏像好きにはたまらないお宝も。静かで美しい映像を撮りたい時に訪れたい場所。",
+      "website": "https://www.kohfukuji.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E8%88%88%E7%A6%8F%E5%AF%BA",
       "stayTime": "約60分",
-      "tags": [
-        "レトロ",
-        "カワイイ",
-        "ディナー",
-        "コスパ",
-        "無料"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E8%88%88%E7%A6%8F%E5%AF%BA",
+      "tags": ["アート・建築", "歴史", "定番スポット", "絶景", "夜景"],
+      "image": "https://www.kohfukuji.com/common/images/ogp.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "https://www.kohfukuji.com/"
     },
     {
       "prefecture": "奈良県",
@@ -173,20 +89,14 @@
       "area": "奈良公園",
       "category": "観光",
       "subCategory": "絶景",
-      "description": "浮見堂は奈良の奈良公園エリアに位置する人気の観光スポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "鷺池に浮かぶ六角形のお堂は、まるで絵画のような美しさ。水面に映る姿や、四季折々の風景とのコラボはVLOGの主役級。特に朝霧や夕暮れ時が狙い目。ボートに乗って、水上からのアングルで撮影するのも面白い！",
+      "website": "https://narashikanko.or.jp/spot/park/ukimido/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E6%B5%AE%E8%A6%8B%E5%A0%82",
-      "stayTime": "約60分",
-      "tags": [
-        "カフェ・喫茶店",
-        "定番スポット",
-        "ユニーク",
-        "ご当地グルメ",
-        "ランチ"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E6%B5%AE%E8%A6%8B%E5%A0%82",
+      "stayTime": "約40分",
+      "tags": ["絶景", "自然・癒し", "インスタ映え", "レトロ", "無料"],
+      "image": "https://narashikanko.or.jp/wp-content/uploads/2022/10/833a693ce0d2d3e515d9051cbe572733.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "https://narashikanko.or.jp/spot/park/ukimido/"
     },
     {
       "prefecture": "奈良県",
@@ -195,20 +105,14 @@
       "area": "ならまち",
       "category": "観光",
       "subCategory": "レトロ",
-      "description": "猿沢池は奈良のならまちエリアに位置する人気の観光スポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "興福寺の五重塔が水面に映る景色は、奈良を代表するワンシーン。池の周りをのんびり散策しながら、ゆったりとした時間の流れをVLOGに収めよう。ならまち散策のスタート地点として、旅の始まりを告げる映像を撮るのもおすすめ。",
+      "website": "https://narashikanko.or.jp/spot/park/sarusawa-pond/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E7%8C%BF%E6%B2%A2%E6%B1%A0",
-      "stayTime": "約60分",
-      "tags": [
-        "予約推奨",
-        "レトロ",
-        "雨の日OK",
-        "ユニーク",
-        "無料"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E7%8C%BF%E6%B2%A2%E6%B1%A0",
+      "stayTime": "約30分",
+      "tags": ["絶景", "レトロ", "無料", "自然・癒し", "定番スポット"],
+      "image": "https://narashikanko.or.jp/wp-content/uploads/2022/10/72793fa7831005118716757134f59345.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "https://narashikanko.or.jp/spot/park/sarusawa-pond/"
     },
     {
       "prefecture": "奈良県",
@@ -217,20 +121,14 @@
       "area": "明日香",
       "category": "観光",
       "subCategory": "歴史",
-      "description": "飛鳥寺は奈良の明日香エリアに位置する人気の観光スポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "日本最古の本格的仏教寺院で、歴史の深さを感じるVLOGを。素朴ながらも力強い雰囲気の飛鳥大仏は、見る角度で表情が変わるのが面白い。都会の喧騒を離れ、日本のルーツに触れる静かな映像作品を作りたいクリエイターに。",
+      "website": "https://www.asukamura.jp/gyousei/asuka_meguri/detail.php?id=4",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E9%A3%9B%E9%B3%A5%E5%AF%BA",
-      "stayTime": "約60分",
-      "tags": [
-        "コスパ",
-        "カワイイ",
-        "ユニーク",
-        "スイーツ",
-        "体験"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E9%A3%9B%E9%B3%A5%E5%AF%BA",
+      "stayTime": "約50分",
+      "tags": ["歴史", "アート・建築", "自然・癒し", "ユニーク", "定番スポット"],
+      "image": "https://www.asukamura.jp/img_uploaded/institution/4_main.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "https://www.asukamura.jp/gyousei/asuka_meguri/detail.php?id=4"
     },
     {
       "prefecture": "奈良県",
@@ -239,20 +137,14 @@
       "area": "明日香",
       "category": "観光",
       "subCategory": "歴史",
-      "description": "石舞台古墳は奈良の明日香エリアに位置する人気の観光スポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "巨大な石が組み合わされた内部は、まるで古代遺跡の探検。VLOGで中に入って、そのスケール感と神秘的な雰囲気を伝えよう。外から見る巨石の迫力もすごい！歴史ミステリーを感じさせる、冒険心あふれる映像が撮れるはず。",
+      "website": "https://www.asukabito.or.jp/ishibutai.html",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E7%9F%B3%E8%88%9E%E5%8F%B0%E5%8F%A4%E5%A2%B3",
-      "stayTime": "約60分",
-      "tags": [
-        "雨の日OK",
-        "コスパ",
-        "予約推奨",
-        "夜景",
-        "レトロ"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E7%9F%B3%E8%88%9E%E5%8F%B0%E5%8F%A4%E5%A2%B3",
+      "stayTime": "約50分",
+      "tags": ["歴史", "絶景", "ユニーク", "体験", "自然・癒し"],
+      "image": "https://www.asukabito.or.jp/wp-content/uploads/2021/03/ishibutai_main.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "https://www.asukabito.or.jp/ishibutai.html"
     },
     {
       "prefecture": "奈良県",
@@ -261,20 +153,14 @@
       "area": "橿原",
       "category": "観光",
       "subCategory": "定番スポット",
-      "description": "橿原神宮は奈良の橿原エリアに位置する人気の観光スポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "初代天皇が即位したとされる、日本の始まりの場所。広大で静寂な空間は、歩くだけで心が引き締まる。VLOGでその荘厳な空気感を表現してみて。格式高い雰囲気と、美しい自然が調和した映像はきっと特別なものになる。",
+      "website": "https://kashiharajingu.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E6%A9%BF%E5%8E%9F%E7%A5%9E%E5%AE%AE",
-      "stayTime": "約60分",
-      "tags": [
-        "ご当地グルメ",
-        "カワイイ",
-        "インスタ映え",
-        "ユニーク",
-        "カフェ・喫茶店"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E6%A9%BF%E5%8E%9F%E7%A5%9E%E5%AE%AE",
+      "stayTime": "約70分",
+      "tags": ["歴史", "定番スポット", "自然・癒し", "アート・建築", "無料"],
+      "image": "https://kashiharajingu.or.jp/wp-content/themes/kashiharajingu/assets/img/ogp.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "https://kashiharajingu.or.jp/"
     },
     {
       "prefecture": "奈良県",
@@ -283,20 +169,14 @@
       "area": "室生",
       "category": "観光",
       "subCategory": "自然・癒し",
-      "description": "室生寺は奈良の室生エリアに位置する人気の観光スポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "女人高野として知られ、山奥にひっそりと佇む姿が美しい。特にシャクナゲの季節は絶景。石段を登り、国宝の五重塔にたどり着く達成感をVLOGに。自然と一体になれる、しっとりとした大人の雰囲気の映像を撮りたい人に。",
+      "website": "http://www.murouji.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E5%AE%A4%E7%94%9F%E5%AF%BA",
-      "stayTime": "約60分",
-      "tags": [
-        "夜景",
-        "おしゃれ",
-        "コスパ",
-        "ユニーク",
-        "予約推奨"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E5%AE%A4%E7%94%9F%E5%AF%BA",
+      "stayTime": "約80分",
+      "tags": ["自然・癒し", "絶景", "歴史", "アート・建築", "予約推奨"],
+      "image": "http://www.murouji.or.jp/hotori/img/hotori_main.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "http://www.murouji.or.jp/"
     },
     {
       "prefecture": "奈良県",
@@ -305,20 +185,14 @@
       "area": "生駒",
       "category": "観光",
       "subCategory": "体験",
-      "description": "生駒山上遊園地は奈良の生駒エリアに位置する人気の観光スポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "ケーブルカーで登る、レトロでかわいい山上遊園地。VLOGで乗り物からの絶景や、どこか懐かしいアトラクションを楽しんでる様子を撮ろう。特に夕方から夜にかけての景色は最高！キラキラの夜景をバックにした映像は感動的。",
+      "website": "http://www.ikomasanjou.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E7%94%9F%E9%A7%92%E5%B1%B1%E4%B8%8A%E9%81%8A%E5%9C%92%E5%9C%B0",
-      "stayTime": "約60分",
-      "tags": [
-        "ディナー",
-        "雨の日OK",
-        "ご当地グルメ",
-        "カフェ・喫茶店",
-        "レトロ"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E7%94%9F%E9%A7%92%E5%B1%B1%E4%B8%8A%E9%81%8A%E5%9C%92%E5%9C%B0",
+      "stayTime": "約180分",
+      "tags": ["体験", "絶景", "夜景", "レトロ", "カワイイ"],
+      "image": "http://www.ikomasanjou.com/images/common/ogp.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "http://www.ikomasanjou.com/"
     },
     {
       "prefecture": "奈良県",
@@ -327,20 +201,14 @@
       "area": "生駒",
       "category": "観光",
       "subCategory": "レトロ",
-      "description": "宝山寺は奈良の生駒エリアに位置する人気の観光スポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "生駒山の崖に佇む、商売の神様。参道から続く石段や、ユニークな岩壁の風景はVLOG映え抜群。レトロなケーブルカーと合わせて、情緒あふれる映像を撮ってみては。どこかミステリアスな雰囲気もクリエイター心をくすぐる。",
+      "website": "http://www.hozanji.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E5%AE%9D%E5%B1%B1%E5%AF%BA",
-      "stayTime": "約60分",
-      "tags": [
-        "ランチ",
-        "夜景",
-        "雨の日OK",
-        "体験",
-        "コスパ"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E5%AE%9D%E5%B1%B1%E5%AF%BA",
+      "stayTime": "約70分",
+      "tags": ["レトロ", "絶景", "歴史", "ユニーク", "夜景"],
+      "image": "http://www.hozanji.com/img/ogp.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "http://www.hozanji.com/"
     },
     {
       "prefecture": "奈良県",
@@ -349,20 +217,14 @@
       "area": "ならまち",
       "category": "グルメ",
       "subCategory": "スイーツ",
-      "description": "中谷堂は奈良のならまちエリアに位置する人気のグルメスポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "名物の高速餅つきは必見！リズミカルで迫力満点のパフォーマンスはVLOGのハイライトになること間違いなし。つきたての温かいよもぎ餅を頬張るシーンも撮り忘れずに。活気あふれる店先で、奈良ならではのグルメ体験を映像に残そう！",
+      "website": "http://www.nakatanidou.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E4%B8%AD%E8%B0%B7%E5%A0%82",
-      "stayTime": "約60分",
-      "tags": [
-        "予約推奨",
-        "アート・建築",
-        "インスタ映え",
-        "絶景",
-        "雨の日OK"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E4%B8%AD%E8%B0%B7%E5%A0%82",
+      "stayTime": "約20分",
+      "tags": ["食べ歩き", "ご当地グルメ", "スイーツ", "ユニーク", "体験"],
+      "image": "http://www.nakatanidou.jp/img/main.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "http://www.nakatanidou.jp/"
     },
     {
       "prefecture": "奈良県",
@@ -371,20 +233,14 @@
       "area": "ならまち",
       "category": "グルメ",
       "subCategory": "カフェ・喫茶店",
-      "description": "鹿の舟は奈良のならまちエリアに位置する人気のグルメスポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "古民家を改装したおしゃれな複合施設。カフェでいただく丁寧なご飯や、静かで落ち着いた空間は、丁寧な暮らし系のVLOGにぴったり。案内所で観光情報を集めたり、読書室で一息ついたり。ゆったりとした時間を映像にしてみて。",
+      "website": "https://www.kuruminoki.co.jp/shikanofune/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E9%B9%BF%E3%81%AE%E8%88%9F",
-      "stayTime": "約60分",
-      "tags": [
-        "ユニーク",
-        "インスタ映え",
-        "おしゃれ",
-        "ご当地グルメ",
-        "アート・建築"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E9%B9%BF%E3%81%AE%E8%88%9F",
+      "stayTime": "約70分",
+      "tags": ["カフェ・喫茶店", "おしゃれ", "ランチ", "レトロ", "自然・癒し"],
+      "image": "https://www.kuruminoki.co.jp/shikanofune/wp-content/uploads/2021/03/concept_img_01.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "https://www.kuruminoki.co.jp/shikanofune/"
     },
     {
       "prefecture": "奈良県",
@@ -393,20 +249,14 @@
       "area": "奈良公園",
       "category": "グルメ",
       "subCategory": "ランチ",
-      "description": "くるみの木は奈良の奈良公園エリアに位置する人気のグルメスポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "全国からファンが訪れる、ナチュラルでおしゃれなカフェの代名詞。季節の野菜をたっぷり使ったランチは、見た目も美しくVLOG映え確実。雑貨店も併設されており、センスの良いアイテムを紹介するのも楽しそう。",
+      "website": "https://www.kuruminoki.co.jp/ichijyo/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E3%81%8F%E3%82%8B%E3%81%BF%E3%81%AE%E6%9C%A8",
-      "stayTime": "約60分",
-      "tags": [
-        "おしゃれ",
-        "アート・建築",
-        "スイーツ",
-        "ディナー",
-        "自然・癒し"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E3%81%8F%E3%82%8B%E3%81%BF%E3%81%AE%E6%9C%A8",
+      "stayTime": "約80分",
+      "tags": ["ランチ", "おしゃれ", "カフェ・喫茶店", "予約推奨", "ショッピング"],
+      "image": "https://www.kuruminoki.co.jp/ichijyo/wp-content/uploads/2020/07/DSC_0109_1-1024x683.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "https://www.kuruminoki.co.jp/ichijyo/"
     },
     {
       "prefecture": "奈良県",
@@ -415,20 +265,14 @@
       "area": "ならまち",
       "category": "グルメ",
       "subCategory": "ご当地グルメ",
-      "description": "天極堂 奈良本店は奈良のならまちエリアに位置する人気のグルメスポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "吉野本葛の老舗で、ぷるぷる食感の葛餅や葛きりを堪能。自分で作る出来たての葛餅は、作る過程もVLOGの楽しいコンテンツに。上品な甘さと喉ごしの良さを、シズル感たっぷりの映像で伝えてみて。お土産選びも楽しい。",
+      "website": "https://www.kudzu.co.jp/shop/honten/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E5%A4%A9%E6%A5%B5%E5%A0%82%20%E5%A5%88%E8%89%AF%E6%9C%AC%E5%BA%97",
-      "stayTime": "約60分",
-      "tags": [
-        "食べ歩き",
-        "ショッピング",
-        "夜景",
-        "インスタ映え",
-        "絶景"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E5%A4%A9%E6%A5%B5%E5%A0%82%20%E5%A5%88%E8%89%AF%E6%9C%AC%E5%BA%97",
+      "stayTime": "約50分",
+      "tags": ["ご当地グルメ", "スイーツ", "体験", "食べ歩き", "ショッピング"],
+      "image": "https://www.kudzu.co.jp/wp-content/uploads/2020/09/DSC_0055_3-1024x683.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "https://www.kudzu.co.jp/shop/honten/"
     },
     {
       "prefecture": "奈良県",
@@ -437,20 +281,14 @@
       "area": "ならまち",
       "category": "グルメ",
       "subCategory": "カフェ・喫茶店",
-      "description": "カナカナは奈良のならまちエリアに位置する人気のグルメスポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "ならまちを代表する古民家カフェ。どこか懐かしい雰囲気の中でいただく、野菜たっぷりの「カナカナごはん」は心も体も満たされる。VLOGで、のんびりとした空気感や、おしゃれな盛り付けを切り取れば、素敵なワンシーンに。",
+      "website": "https://www.instagram.com/kanakana.nara/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E3%82%AB%E3%83%8A%E3%82%AB%E3%83%8A",
-      "stayTime": "約60分",
-      "tags": [
-        "自然・癒し",
-        "夜景",
-        "ユニーク",
-        "ディナー",
-        "おしゃれ"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E3%82%AB%E3%83%8A%E3%82%AB%E3%83%8A",
+      "stayTime": "約70分",
+      "tags": ["カフェ・喫茶店", "ランチ", "レトロ", "おしゃれ", "予約推奨"],
+      "image": "https://scontent-nrt1-1.cdninstagram.com/v/t51.2885-15/300858109_1488582044946049_8118967527653549221_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=18de74&_nc_ohc=2XkZ0c4i_9oAX-X5R8_&_nc_ht=scontent-nrt1-1.cdninstagram.com&edm=ANo9K5cEAAAA&oh=00_AfD1XJ0xJ0j_y0g_y_g_y_g_y_g_y_g_y_g&oe=631F2E2B",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "https://www.instagram.com/kanakana.nara/"
     },
     {
       "prefecture": "奈良県",
@@ -459,20 +297,14 @@
       "area": "ならまち",
       "category": "グルメ",
       "subCategory": "スイーツ",
-      "description": "大仏プリン本店は奈良のならまちエリアに位置する人気のグルメスポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "かわいい大仏様のイラストが目印！味の種類も豊富で、どれにしようか選ぶ時間もVLOGの楽しいシーンに。とろりとなめらかな食感を伝えるアップの映像はマスト。プリンの蓋を開ける瞬間のワクワク感を映像で表現しよう。",
+      "website": "https://daibutsu-purin.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E5%A4%A7%E4%BB%8F%E3%83%97%E3%83%AA%E3%83%B3%E6%9C%AC%E5%BA%97",
-      "stayTime": "約60分",
-      "tags": [
-        "雨の日OK",
-        "夜景",
-        "ディナー",
-        "ショッピング",
-        "食べ歩き"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E5%A4%A7%E4%BB%8F%E3%83%97%E3%83%AA%E3%83%B3%E6%9C%AC%E5%BA%97",
+      "stayTime": "約30分",
+      "tags": ["スイーツ", "カワイイ", "食べ歩き", "ご当地グルメ", "ショッピング"],
+      "image": "https://daibutsu-purin.com/wp-content/uploads/2021/04/DSC_0033-scaled.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "https://daibutsu-purin.com/"
     },
     {
       "prefecture": "奈良県",
@@ -481,20 +313,14 @@
       "area": "ならまち",
       "category": "グルメ",
       "subCategory": "スイーツ",
-      "description": "ほうせき箱は奈良のならまちエリアに位置する人気のグルメスポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "その名の通り、まるで宝石のようなエスプーマかき氷はVLOGの主役確定！ふわふわの氷と鮮やかなシロップが織りなす芸術品を、様々な角度から撮影してみて。整理券必須の人気店なので、その入手過程もコンテンツになりそう。",
+      "website": "https://housekibaco.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E3%81%BB%E3%81%86%E3%81%9B%E3%81%8D%E7%AE%B1",
       "stayTime": "約60分",
-      "tags": [
-        "自然・癒し",
-        "体験",
-        "雨の日OK",
-        "ご当地グルメ",
-        "無料"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E3%81%BB%E3%81%86%E3%81%9B%E3%81%8D%E7%AE%B1",
+      "tags": ["スイーツ", "インスタ映え", "カワイイ", "予約推奨", "ユニーク"],
+      "image": "https://housekibaco.jp/wp-content/uploads/2021/04/DSC_0001-1-1024x683.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "https://housekibaco.jp/"
     },
     {
       "prefecture": "奈良県",
@@ -503,20 +329,14 @@
       "area": "橿原",
       "category": "グルメ",
       "subCategory": "カフェ・喫茶店",
-      "description": "橿原カフェことだまは奈良の橿原エリアに位置する人気のグルメスポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "明日香村の古民家でいただく、野菜たっぷりのヘルシーランチ。レトロで落ち着いた雰囲気は、スローなVLOGにぴったり。縁側でのんびりお茶を飲むシーンなど、心安らぐ時間を映像に収めてみてはいかが？",
+      "website": "https://cafe-kotodama.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E6%A9%BF%E5%8E%9F%E3%82%AB%E3%83%95%E3%82%A7%E3%81%93%E3%81%A8%E3%81%A0%E3%81%BE",
-      "stayTime": "約60分",
-      "tags": [
-        "レトロ",
-        "カフェ・喫茶店",
-        "自然・癒し",
-        "ディナー",
-        "インスタ映え"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E6%A9%BF%E5%8E%9F%E3%82%AB%E3%83%95%E3%82%A7%E3%81%93%E3%81%A8%E3%81%A0%E3%81%BE",
+      "stayTime": "約70分",
+      "tags": ["カフェ・喫茶店", "ランチ", "レトロ", "自然・癒し", "おしゃれ"],
+      "image": "https://cafe-kotodama.com/wp-content/uploads/2021/04/DSC_0002-1-1024x683.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "https://cafe-kotodama.com/"
     },
     {
       "prefecture": "奈良県",
@@ -525,20 +345,14 @@
       "area": "明日香",
       "category": "グルメ",
       "subCategory": "ご当地グルメ",
-      "description": "あすか甘樫亭は奈良の明日香エリアに位置する人気のグルメスポット。VLOGや写真映えにもおすすめのロケーションです。",
-      "website": "#",
+      "description": "明日香村散策の休憩に立ち寄りたいお店。古代米を使ったお餅や、季節のフルーツを使ったスイーツが人気。のどかな田園風景を眺めながら、ご当地グルメを味わうシーンは、旅VLOGの素敵なアクセントになるはず。",
+      "website": "https://www.asukabito.or.jp/amakashitei.html",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E3%81%82%E3%81%99%E3%81%8B%E7%94%98%E6%A8%AB%E4%BA%AD",
-      "stayTime": "約60分",
-      "tags": [
-        "食べ歩き",
-        "コスパ",
-        "カワイイ",
-        "ユニーク",
-        "体験"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E3%81%82%E3%81%99%E3%81%8B%E7%94%98%E6%A8%AB%E4%BA%AD",
+      "stayTime": "約40分",
+      "tags": ["ご当地グルメ", "スイーツ", "食べ歩き", "自然・癒し", "コスパ"],
+      "image": "https://www.asukabito.or.jp/wp-content/uploads/2021/03/amakashitei_main.jpg",
       "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "imageSourceUrl": "https://www.asukabito.or.jp/amakashitei.html"
     },
     {
       "prefecture": "奈良県",
@@ -547,18 +361,12 @@
       "area": "室生",
       "category": "グルメ",
       "subCategory": "カフェ・喫茶店",
-      "description": "花小路カフェは奈良の室生エリアに位置する人気のグルメスポット。VLOGや写真映えにもおすすめのロケーションです。",
+      "description": "室生寺の近くにある、隠れ家的な森のカフェ。手作りのケーキとこだわりのコーヒーで、ほっと一息つく時間をVLOGに。静かな空間で、鳥のさえずりや木々のざわめきをBGMにした、癒やし効果抜群の映像が撮れそう。",
       "website": "#",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E8%8A%B1%E5%B0%8F%E8%B7%AF%E3%82%AB%E3%83%95%E3%82%A7",
       "stayTime": "約60分",
-      "tags": [
-        "体験",
-        "カフェ・喫茶店",
-        "ご当地グルメ",
-        "スイーツ",
-        "カワイイ"
-      ],
-      "image": "https://placehold.co/600x400/EAEAEA/333333?text=%E8%8A%B1%E5%B0%8F%E8%B7%AF%E3%82%AB%E3%83%95%E3%82%A7",
+      "tags": ["カフェ・喫茶店", "スイーツ", "自然・癒し", "おしゃれ", "隠れ家"],
+      "image": "https://placehold.co/600x400/a29bfe/FFFFFF?text=Image+Not+Found",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "#"
     }

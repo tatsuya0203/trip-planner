@@ -53,16 +53,12 @@ const functions = getFunctions(app, 'asia-northeast1');
 
 // Cloud Functions
 const recordAnalyticsEvent = httpsCallable(functions, 'recordAnalyticsEvent');
-const getWeatherForecast = httpsCallable(functions, 'getWeatherForecast');
 const getPrefectureList = httpsCallable(functions, 'getPrefectureList');
 const verifyAdminInvitation = httpsCallable(functions, 'verifyAdminInvitation');
 const analyzeSpotSuggestion = httpsCallable(functions, 'analyzeSpotSuggestion');
 const reAnalyzeSpotSuggestion = httpsCallable(functions, 'reAnalyzeSpotSuggestion');
 const reportSpot = httpsCallable(functions, 'reportSpot');
 
-
-// 各都道府県の代表的な緯度経度
-const prefectureCoords = { "北海道": {lat: 43.06, lng: 141.35}, "青森県": {lat: 40.82, lng: 140.74}, "岩手県": {lat: 39.7, lng: 141.15}, "宮城県": {lat: 38.26, lng: 140.87}, "秋田県": {lat: 39.72, lng: 140.1}, "山形県": {lat: 38.25, lng: 140.33}, "福島県": {lat: 37.75, lng: 140.47}, "茨城県": {lat: 36.34, lng: 140.44}, "栃木県": {lat: 36.56, lng: 139.88}, "群馬県": {lat: 36.39, lng: 139.06}, "埼玉県": {lat: 35.86, lng: 139.64}, "千葉県": {lat: 35.6, lng: 140.12}, "東京都": {lat: 35.68, lng: 139.76}, "神奈川県": {lat: 35.44, lng: 139.64}, "新潟県": {lat: 37.9, lng: 139.02}, "富山県": {lat: 36.69, lng: 137.21}, "石川県": {lat: 36.59, lng: 136.62}, "福井県": {lat: 36.06, lng: 136.22}, "山梨県": {lat: 35.66, lng: 138.56}, "長野県": {lat: 36.65, lng: 138.18}, "岐阜県": {lat: 35.39, lng: 136.72}, "静岡県": {lat: 34.97, lng: 138.38}, "愛知県": {lat: 35.18, lng: 136.9}, "三重県": {lat: 34.73, lng: 136.5}, "滋賀県": {lat: 35.0, lng: 135.86}, "京都府": {lat: 35.02, lng: 135.75}, "大阪府": {lat: 34.68, lng: 135.52}, "兵庫県": {lat: 34.69, lng: 135.18}, "奈良県": {lat: 34.68, lng: 135.83}, "和歌山県": {lat: 34.23, lng: 135.16}, "鳥取県": {lat: 35.5, lng: 134.23}, "島根県": {lat: 35.47, lng: 133.05}, "岡山県": {lat: 34.66, lng: 133.93}, "広島県": {lat: 34.39, lng: 132.45}, "山口県": {lat: 34.18, lng: 131.47}, "徳島県": {lat: 34.07, lng: 134.55}, "香川県": {lat: 34.34, lng: 134.04}, "愛媛県": {lat: 33.84, lng: 132.76}, "高知県": {lat: 33.55, lng: 133.53}, "福岡県": {lat: 33.6, lng: 130.41}, "佐賀県": {lat: 33.24, lng: 130.3}, "長崎県": {lat: 32.75, lng: 129.87}, "熊本県": {lat: 32.79, lng: 130.7}, "大分県": {lat: 33.23, lng: 131.6}, "宮崎県": {lat: 31.91, lng: 131.42}, "鹿児島県": {lat: 31.56, lng: 130.55}, "沖縄県": {lat: 26.21, lng: 127.68}}; 
 
 // --- DATA (Will be loaded) ---
 let allSpotsData = {};
@@ -159,11 +155,6 @@ async function loadAllData() {
     return true;
 }
 
-/**
- * カタカナをひらがなに変換するヘルパー関数
- * @param {string} src 変換する文字列
- * @returns {string} 変換後の文字列
- */
 function katakanaToHiragana(src) {
     if (!src) return '';
     return src.replace(/[\u30a1-\u30f6]/g, function(match) {
@@ -293,10 +284,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const mobileFilterToggle = document.getElementById('mobile-filter-toggle');
     const navContentWrapper = document.getElementById('nav-content-wrapper');
     const mobileFilterToggleText = document.getElementById('mobile-filter-toggle-text');
-    const planDateInput = document.getElementById('plan-date-input');
-    const weatherDisplay = document.getElementById('weather-display');
     const japanMapContainer = document.getElementById('japan-map-container');
     const openJapanMapBtn = document.getElementById('open-japan-map-btn');
+    // ▼▼▼ NEW DOM ELEMENTS ▼▼▼
+    const reportSpotOverlay = document.getElementById('report-spot-overlay');
+    const reportSpotTitle = document.getElementById('report-spot-title');
+    const cancelReportBtn = document.getElementById('cancel-report-btn');
+    const submitReportBtn = document.getElementById('submit-report-btn');
+    const reportReasonSelect = document.getElementById('report-reason-select');
+    const reportDetailsTextarea = document.getElementById('report-details-textarea');
+    // ▲▲▲ END OF NEW DOM ELEMENTS ▲▲▲
 
     let currentPrefecture = 'all';
     let currentFilters = { category: 'all', area: 'all', tag: 'all' };
@@ -318,72 +315,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     let cropper = null;
     let areaFilterView = 'map';
     let pendingReAnalysisData = null;
-
-    async function fetchAndDisplayWeather() {
-        const selectedDate = planDateInput.value;
-        if (!selectedDate || localPlan.length === 0) {
-            weatherDisplay.innerHTML = '<p class="text-gray-500">日付を選択してください。</p>';
-            return;
-        }
-
-        const firstSpotName = localPlan[0];
-        const firstSpot = combinedSpots.find(s => s.name === firstSpotName);
-        if (!firstSpot) return;
-
-        const coords = prefectureCoords[firstSpot.prefecture];
-        if (!coords) {
-            weatherDisplay.innerHTML = `<p class="text-red-500">${firstSpot.prefecture}の座標データがありません。</p>`;
-            return;
-        }
-
-        weatherDisplay.innerHTML = '<div class="w-5 h-5 border-t-2 border-b-2 border-blue-500 rounded-full animate-spin"></div>';
-
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        const targetDate = new Date(selectedDate);
-        targetDate.setHours(0, 0, 0, 0);
-        const diffTime = targetDate.getTime() - today.getTime();
-        const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
-
-        if (diffDays < 0 || diffDays > 4) {
-            weatherDisplay.innerHTML = '<p class="text-gray-500">5日後までの天気予報が取得できます。</p>';
-            return;
-        }
-        
-        try {
-            const result = await getWeatherForecast({ lat: coords.lat, lng: coords.lng, date: selectedDate });
-            const forecastData = result.data.daily;
-            
-            const dayForecast = forecastData.find(f => {
-                const forecastDt = new Date(f.dt * 1000);
-                forecastDt.setHours(0,0,0,0);
-                return forecastDt.getTime() === targetDate.getTime();
-            });
-
-            if (dayForecast) {
-                const icon = dayForecast.weather[0].icon;
-                const description = dayForecast.weather[0].description;
-                const temp = Math.round(dayForecast.temp.day);
-
-                weatherDisplay.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="${description}" class="w-12 h-12">
-                        <div>
-                            <p class="font-bold text-xl">${temp}°C</p>
-                            <p class="text-sm text-gray-600">${description}</p>
-                        </div>
-                    </div>
-                `;
-            } else {
-                weatherDisplay.innerHTML = '<p class="text-red-500">指定日の天気予報が見つかりませんでした。</p>';
-            }
-        } catch (error) {
-            console.error("Weather fetch error:", error);
-            weatherDisplay.innerHTML = `<p class="text-red-500">エラー: ${error.message}</p>`;
-        }
-    }
-
-    planDateInput.addEventListener('change', fetchAndDisplayWeather);
 
     function toggleBodyScroll(lock) {
         document.body.classList.toggle('overflow-hidden', lock);
@@ -846,11 +777,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     
             filteredSpots = filteredSpots.filter(spot => {
                 const spotNameLower = spot.name.toLowerCase();
-                // yomiganaフィールドが存在し、かつ文字列であることを確認
                 const spotYomigana = (spot.yomigana && typeof spot.yomigana === 'string') ? katakanaToHiragana(spot.yomigana.toLowerCase()) : '';
     
-                // 1. スポット名に検索語が含まれるかチェック (漢字、英語など)
-                // 2. よみがな(ひらがな化済み)に検索語(ひらがな化済み)が含まれるかチェック
                 return spotNameLower.includes(searchTermLower) || (spotYomigana && spotYomigana.includes(searchTermHiragana));
             });
         }
@@ -1120,23 +1048,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             routeMapBtn.href = generateGoogleMapsRouteUrl();
         } else {
             routeMapBtn.href = '#';
-        }
-        
-        if (plan.length > 0) {
-            planDateInput.disabled = false;
-            const today = new Date();
-            const yyyy = today.getFullYear();
-            const mm = String(today.getMonth() + 1).padStart(2, '0');
-            const dd = String(today.getDate()).padStart(2, '0');
-            planDateInput.min = `${yyyy}-${mm}-${dd}`;
-            if (!planDateInput.value) {
-                planDateInput.value = `${yyyy}-${mm}-${dd}`;
-            }
-            fetchAndDisplayWeather();
-        } else {
-            planDateInput.disabled = true;
-            planDateInput.value = '';
-            weatherDisplay.innerHTML = '<p class="text-gray-500">プランにスポットを追加し、日付を選択すると天気予報が表示されます。</p>';
         }
     }
 
@@ -1975,32 +1886,46 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
+    // ▼▼▼ MODIFIED EVENT LISTENER ▼▼▼
     reportSpotBtn.addEventListener('click', () => {
+        const spotName = modal.dataset.spotName;
+        if (!spotName || !currentUser) return;
+
+        reportSpotTitle.textContent = `「${spotName}」の問題を報告`;
+        reportReasonSelect.value = '閉業している';
+        reportDetailsTextarea.value = '';
+        showOverlay(reportSpotOverlay);
+    });
+
+    cancelReportBtn.addEventListener('click', () => {
+        hideOverlay(reportSpotOverlay);
+    });
+
+    submitReportBtn.addEventListener('click', async () => {
         const spotName = modal.dataset.spotName;
         const spot = combinedSpots.find(s => s.name === spotName);
         if (!spot || !currentUser) return;
 
-        showConfirmationModal(
-            `スポット「${spotName}」に関する問題（閉業、情報が古いなど）を報告しますか？`,
-            "報告する",
-            "bg-yellow-500",
-            async () => {
-                try {
-                    await reportSpot({ 
-                        spotName: spot.name, 
-                        prefecture: spot.prefecture,
-                        area: spot.area,
-                        reason: '情報が古い/誤っている' // Example reason
-                    });
-                    showInfoModal("ご報告ありがとうございます。管理者が内容を確認します。");
-                    closeModal();
-                } catch (error) {
-                    console.error("Error submitting spot report:", error);
-                    showInfoModal("報告の送信に失敗しました。");
-                }
-            }
-        );
+        const reason = reportReasonSelect.value;
+        const details = reportDetailsTextarea.value.trim();
+
+        try {
+            await reportSpot({ 
+                spotName: spot.name, 
+                prefecture: spot.prefecture,
+                area: spot.area,
+                reason: reason,
+                details: details || null
+            });
+            showInfoModal("ご報告ありがとうございます。管理者が内容を確認します。");
+            hideOverlay(reportSpotOverlay);
+            closeModal();
+        } catch (error) {
+            console.error("Error submitting spot report:", error);
+            showInfoModal("報告の送信に失敗しました。");
+        }
     });
+    // ▲▲▲ END OF MODIFICATION ▲▲▲
     
     let searchDebounceTimer;
     searchInput.addEventListener('input', (e) => {

@@ -338,13 +338,6 @@
                 <button id="my-plan-close-btn" class="text-3xl font-light text-gray-500 hover:text-gray-900 transition">×</button>
             </div>
             
-            <div class="my-4">
-                <label for="plan-date-input" class="block text-sm font-medium text-gray-700">日付を選択:</label>
-                <input type="date" id="plan-date-input" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" disabled>
-            </div>
-            <div id="weather-display" class="my-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-center min-h-[80px] flex items-center justify-center">
-                <p class="text-gray-500">プランにスポットを追加し、日付を選択すると天気予報が表示されます。</p>
-            </div>
             <div id="plan-items-list" class="flex-grow my-4 overflow-y-auto pr-4 min-h-0"></div>
             <div id="plan-controls" class="flex-shrink-0 pt-4 border-t space-y-3">
                 <div class="flex justify-between items-center font-bold text-lg">
@@ -393,11 +386,38 @@
             </div>
         </div>
 
-        <!-- ▼▼▼ ADD THIS BLOCK ▼▼▼ -->
         <div id="image-viewer-overlay" class="overlay-base z-[70] p-4 flex items-center justify-center">
             <img id="image-viewer-img" src="" class="max-w-full max-h-full object-contain shadow-lg rounded-lg">
         </div>
-        <!-- ▲▲▲ END OF ADDITION ▲▲▲ -->
+
+        <!-- ▼▼▼ NEW MODAL FOR SPOT REPORT ▼▼▼ -->
+        <div id="report-spot-overlay" class="overlay-base z-[60]">
+            <div class="modal-base max-w-lg p-6 overflow-hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 id="report-spot-title" class="text-2xl font-bold text-[#D35400]">スポットの問題を報告</h2>
+                    <button id="cancel-report-btn" class="text-3xl font-light text-gray-500 hover:text-gray-900 transition">×</button>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label for="report-reason-select" class="block text-sm font-medium text-gray-700">報告理由</label>
+                        <select id="report-reason-select" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                            <option>閉業している</option>
+                            <option>情報が古い（営業時間、料金など）</option>
+                            <option>場所が違う</option>
+                            <option>その他</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="report-details-textarea" class="block text-sm font-medium text-gray-700">詳細（任意）</label>
+                        <textarea id="report-details-textarea" rows="4" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" placeholder="問題の詳細について、具体的にご記入ください。"></textarea>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-end gap-4">
+                    <button id="submit-report-btn" class="py-2 px-6 bg-yellow-500 text-white rounded-lg font-semibold hover:bg-yellow-600">報告を送信</button>
+                </div>
+            </div>
+        </div>
+        <!-- ▲▲▲ END OF NEW MODAL ▲▲▲ -->
 
     </div>
     

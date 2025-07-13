@@ -10,9 +10,9 @@ const { defineString } = require('firebase-functions/params');
 
 const admin = require("firebase-admin");
 const fetch = require("node-fetch");
-const cors = require('cors')({origin: true});
 const crypto = require("crypto");
 const Papa = require("papaparse");
+const cors = require("cors")({origin: true});
 
 // 全ての関数のデフォルトリージョンを設定
 setGlobalOptions({ region: "asia-northeast1" });
@@ -28,10 +28,10 @@ const GITHUB_TOKEN = defineString("GITHUB_TOKEN");
 const GITHUB_OWNER = defineString("GITHUB_OWNER");
 const GITHUB_REPO = defineString("GITHUB_REPO");
 const GITHUB_BRANCH = defineString("GITHUB_BRANCH");
-const OPENWEATHER_KEY = defineString("OPENWEATHER_KEY");
+const GITHUB_WEBHOOK_SECRET = defineString("GITHUB_WEBHOOK_SECRET");
 
 
-// --- GitHub API ヘルパー関数 ---
+// --- GitHub API ヘルパー関数 (エラーハンドリング強化) ---
 async function getGitHubFile(filePath) {
     const url = `https://api.github.com/repos/${GITHUB_OWNER.value()}/${GITHUB_REPO.value()}/contents/${filePath}?ref=${GITHUB_BRANCH.value()}`;
     const response = await fetch(url, {
@@ -41,11 +41,18 @@ async function getGitHubFile(filePath) {
         },
     });
     if (!response.ok) {
-        throw new HttpsError("not-found", `GitHubからファイルを取得できませんでした: ${filePath}`);
+        const errorText = await response.text();
+        console.error(`GitHub API error for ${filePath}: ${response.status}`, errorText);
+        throw new HttpsError("not-found", `GitHubからファイルを取得できませんでした: ${filePath} (Status: ${response.status})`);
     }
     const data = await response.json();
     const content = Buffer.from(data.content, "base64").toString("utf-8");
-    return { content: JSON.parse(content), sha: data.sha };
+    try {
+        return { content: JSON.parse(content), sha: data.sha };
+    } catch (e) {
+        console.error(`Failed to parse JSON for file: ${filePath}`, e);
+        throw new HttpsError("internal", `ファイルのJSON解析に失敗しました: ${filePath}`);
+    }
 }
 
 async function updateGitHubFile(filePath, newContent, sha, commitMessage) {
@@ -110,16 +117,57 @@ async function getPrefectureIdMap() {
     }
 }
 
+// --- API Quota Helper Functions ---
+
+function getJSTDateString() {
+    const now = new Date();
+    const jstOffset = 9 * 60; // JST is UTC+9
+    const localOffset = now.getTimezoneOffset();
+    const jstNow = new Date(now.getTime() + (jstOffset + localOffset) * 60 * 1000);
+    return jstNow.toISOString().split('T')[0];
+}
+
+async function checkApiQuota(apiName, limit) {
+    const today = getJSTDateString();
+    const usageRef = db.collection('api_usage').doc(apiName);
+    const usageDoc = await usageRef.get();
+
+    // ★★★ 修正点 ★★★
+    // .exists() を .exists に変更
+    if (!usageDoc.exists || usageDoc.data().date !== today) {
+        await usageRef.set({ count: 0, date: today });
+        return { withinQuota: true, count: 0 };
+    }
+
+    const currentCount = usageDoc.data().count;
+    if (currentCount >= limit) {
+        return { withinQuota: false, count: currentCount };
+    }
+
+    return { withinQuota: true, count: currentCount };
+}
+
+async function incrementApiUsage(apiName) {
+    const usageRef = db.collection('api_usage').doc(apiName);
+    await usageRef.update({
+        count: admin.firestore.FieldValue.increment(1)
+    });
+}
+
 // --- AI関数 (V2形式) ---
-// ... (analyzeSpotSuggestion, reAnalyzeSpotSuggestion, _fetchImageForSpotLogic, fetchImageForSpot は変更なし)
 exports.analyzeSpotSuggestion = onCall(async (request) => {
+    const quotaCheck = await checkApiQuota('gemini', 1000);
+    if (!quotaCheck.withinQuota) {
+        throw new HttpsError('resource-exhausted', '本日のAI分析回数の上限に達しました。明日またお試しください。');
+    }
+
     const { spotName, spotUrl, areaPositions, standardTags } = request.data;
     if (!spotName || !spotUrl) {
         throw new HttpsError("invalid-argument", "スポット名とURLは必須です。");
     }
 
     const settingsDoc = await admin.firestore().collection('app_settings').doc('prompts').get();
-    const prompts = settingsDoc.exists() ? settingsDoc.data() : {};
+    const prompts = settingsDoc.exists ? settingsDoc.data() : {};
 
     const prefectureIdMap = await getPrefectureIdMap();
     const supportedPrefectureNames = Object.keys(prefectureIdMap);
@@ -167,6 +215,8 @@ ${standardTags.join(', ')}
             method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
         });
 
+        await incrementApiUsage('gemini');
+
         if (!response.ok) {
             const errorText = await response.text();
             console.error("Gemini API Error Response:", errorText);
@@ -197,11 +247,16 @@ ${standardTags.join(', ')}
     }
 });
 exports.reAnalyzeSpotSuggestion = onCall(async (request) => {
+    const quotaCheck = await checkApiQuota('gemini', 1000);
+    if (!quotaCheck.withinQuota) {
+        throw new HttpsError('resource-exhausted', '本日のAI分析回数の上限に達しました。明日またお試しください。');
+    }
+
     const { originalName, originalUrl, gmapsUrl, areaPositions } = request.data;
     if (!gmapsUrl) throw new HttpsError("invalid-argument", "GoogleマップのURLは必須です。");
 
     const settingsDoc = await admin.firestore().collection('app_settings').doc('prompts').get();
-    const prompts = settingsDoc.exists() ? settingsDoc.data() : {};
+    const prompts = settingsDoc.exists ? settingsDoc.data() : {};
 
     const prompt = prompts.reAnalyzeSpot || `あなたは地理情報の専門家です。以下の情報を基に、スポットの正しい都道府県とエリアを特定してください。GoogleマップのURLを最優先の情報源としてください。
 # 入力情報
@@ -228,6 +283,7 @@ ${JSON.stringify(areaPositions, null, 2)}
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY.value()}`, {
             method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
         });
+        await incrementApiUsage('gemini');
         if (!response.ok) {
             const errorText = await response.text(); console.error("Gemini API Error Response (reAnalyze):", errorText); throw new HttpsError("internal", `Gemini APIエラー: ${response.status}`);
         }
@@ -242,6 +298,11 @@ ${JSON.stringify(areaPositions, null, 2)}
     }
 });
 const _fetchImageForSpotLogic = async ({ spot, reportedImageUrl = null }) => {
+    const quotaCheck = await checkApiQuota('google_search', 100);
+    if (!quotaCheck.withinQuota) {
+        throw new HttpsError('resource-exhausted', '本日分の画像検索回数の上限に達しました。明日またお試しください。');
+    }
+
     if (!GOOGLE_SEARCH_KEY.value() || !GOOGLE_SEARCH_ID.value()) {
         console.error("Google Search APIキーが設定されていません。");
         return [];
@@ -252,6 +313,7 @@ const _fetchImageForSpotLogic = async ({ spot, reportedImageUrl = null }) => {
 
     try {
         const response = await fetch(url);
+        await incrementApiUsage('google_search');
         if (!response.ok) {
             const errorBody = await response.text();
             console.error(`Google Search API Request Failed: ${response.status}`, errorBody);
@@ -275,29 +337,27 @@ const _fetchImageForSpotLogic = async ({ spot, reportedImageUrl = null }) => {
         return [];
     }
 };
-exports.fetchImageForSpot = onRequest(async (req, res) => {
-    cors(req, res, async () => {
-        if (req.method !== 'POST') {
-            return res.status(405).send('Method Not Allowed');
-        }
 
-        const { spot, reportedImageUrl } = req.body;
-        if (!spot || !spot.name || !spot.prefecture) {
-             return res.status(400).send('Spot data (name, prefecture) is required.');
-        }
+exports.fetchImageForSpot = onCall(async (request) => {
+    const { spot, reportedImageUrl } = request.data;
+    if (!spot || !spot.name || !spot.prefecture) {
+        throw new HttpsError('invalid-argument', 'Spot data (name, prefecture) is required.');
+    }
 
-        try {
-            const candidates = await _fetchImageForSpotLogic({ spot, reportedImageUrl });
-            res.status(200).json(candidates);
-        } catch (error) {
-            console.error('Error in fetchImageForSpot onRequest:', error);
-            res.status(500).send('Internal Server Error');
+    try {
+        const candidates = await _fetchImageForSpotLogic({ spot, reportedImageUrl });
+        return candidates;
+    } catch (error) {
+        console.error('Error in fetchImageForSpot onCall:', error);
+        if (error instanceof HttpsError) {
+            throw error;
         }
-    });
+        throw new HttpsError('internal', 'Internal Server Error');
+    }
 });
 
+
 // --- Settings Management Functions ---
-// ... (getAppSettings, updateAppSettings は変更なし)
 exports.getAppSettings = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");
@@ -396,7 +456,6 @@ exports.updateAppSettings = onCall(async (request) => {
 });
 
 // --- GitHub連携関数 (V2形式) ---
-// ... (approveSubmission, resolveImageReport, getPrefectureList, updatePrefectureData は変更なし)
 exports.approveSubmission = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");
@@ -518,6 +577,7 @@ exports.resolveImageReport = onCall(async (request) => {
         throw new HttpsError("internal", "画像レポートの解決に失敗しました。");
     }
 });
+
 async function _getPrefectureListLogic() {
     const url = `https://api.github.com/repos/${GITHUB_OWNER.value()}/${GITHUB_REPO.value()}/contents/data?ref=${GITHUB_BRANCH.value()}`;
     try {
@@ -531,7 +591,7 @@ async function _getPrefectureListLogic() {
         if (!directoryResponse.ok) {
             const errorText = await directoryResponse.text();
             console.error("GitHub API error (directory):", errorText);
-            throw new Error("GitHubのdataディレクトリの取得に失敗しました。");
+            throw new Error(`GitHubのdataディレクトリの取得に失敗しました。Status: ${directoryResponse.status}`);
         }
 
         const files = await directoryResponse.json();
@@ -561,9 +621,10 @@ async function _getPrefectureListLogic() {
 
     } catch (error) {
         console.error("_getPrefectureListLogic関数でエラー:", error);
-        throw new Error("都道府県リストの取得中にサーバーでエラーが発生しました。");
+        throw new Error(`都道府県リストの取得ロジックでエラーが発生しました: ${error.message}`);
     }
 }
+
 exports.getPrefectureList = onCall(async (request) => {
     try {
         return await _getPrefectureListLogic();
@@ -572,6 +633,7 @@ exports.getPrefectureList = onCall(async (request) => {
         throw new HttpsError("internal", error.message);
     }
 });
+
 exports.updatePrefectureData = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");
@@ -602,16 +664,9 @@ exports.updatePrefectureData = onCall(async (request) => {
     }
 });
 
-// --- ▼▼▼ NEW Analytics Functions ▼▼▼ ---
-
-/**
- * ユーザーの行動イベントを記録するための関数
- * @param {object} data - { eventType: string, payload: object }
- * @param {object} context - 認証情報など
- */
+// --- Analytics Functions ---
 exports.recordAnalyticsEvent = onCall(async (request) => {
     if (!request.auth) {
-        // ログインしていないユーザーの行動は記録しない（または匿名として記録も可）
         return { success: true, message: "Not authenticated. Event not logged." };
     }
 
@@ -634,9 +689,6 @@ exports.recordAnalyticsEvent = onCall(async (request) => {
     }
 });
 
-/**
- * 統計ダッシュボード用のデータを集計して返す関数
- */
 exports.getDashboardStats = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");
@@ -693,11 +745,8 @@ exports.getDashboardStats = onCall(async (request) => {
     }
 });
 
-// --- ▲▲▲ END OF NEW Analytics Functions ▲▲▲ ---
-
 
 // --- Admin & Other Functions ---
-// ... (setAdminClaim, inviteAdmin, verifyAdminInvitation, getAdminUsers, removeAdminClaim, sendAnnouncement, updateSpot, exportSpotsToCSV, importSpotsFromCSV, triggerLinkCheck, findUrlCandidates, reportSpot, deleteSpot, getWeatherForecast は変更なし)
 exports.setAdminClaim = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError( "permission-denied", "この機能は管理者のみが実行できます。");
@@ -1024,12 +1073,17 @@ exports.findUrlCandidates = onCall(async (request) => {
         throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");
     }
 
+    const quotaCheck = await checkApiQuota('google_search', 100);
+    if (!quotaCheck.withinQuota) {
+        throw new HttpsError('resource-exhausted', '本日分のURL検索回数の上限に達しました。明日またお試しください。');
+    }
+
     const { spotName, prefecture, urlType } = request.data;
     if (!spotName || !prefecture || !urlType) {
         throw new HttpsError("invalid-argument", "スポット名、都道府県、URLタイプは必須です。");
     }
 
-    if (!GOOGLE_SEARCH_KEY .value() || !GOOGLE_SEARCH_ID.value()) {
+    if (!GOOGLE_SEARCH_KEY.value() || !GOOGLE_SEARCH_ID.value()) {
         console.error("Google Search APIキーが設定されていません。");
         throw new HttpsError("internal", "Google Search APIキーが設定されていません。");
     }
@@ -1041,6 +1095,8 @@ exports.findUrlCandidates = onCall(async (request) => {
 
     try {
         const response = await fetch(url);
+        await incrementApiUsage('google_search');
+
         if (!response.ok) {
             const errorBody = await response.text();
             console.error(`Google Search API Request Failed: ${response.status}`, errorBody);
@@ -1099,7 +1155,7 @@ exports.deleteSpot = onCall(async (request) => {
         throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");
     }
     const { reportId, spotName, prefecture } = request.data;
-     if (!reportId || !spotName || !prefecture) {
+    if (!reportId || !spotName || !prefecture) {
         throw new HttpsError("invalid-argument", "必要な情報が不足しています。");
     }
 
@@ -1135,76 +1191,118 @@ exports.deleteSpot = onCall(async (request) => {
         throw new HttpsError("internal", "スポットの削除処理に失敗しました。");
     }
 });
-exports.getWeatherForecast = onCall(async (request) => {
-    const apiKey = OPENWEATHER_KEY.value();
-    if (!apiKey) {
-        console.error("OpenWeatherMap APIキーが設定されていません。");
-        throw new HttpsError("internal", "サーバーの設定エラーです。");
+
+// --- Webhook Function ---
+
+async function getCommitDiff(commitUrl) {
+    const response = await fetch(commitUrl, {
+        headers: {
+            "Authorization": `token ${GITHUB_TOKEN.value()}`,
+            "Accept": "application/vnd.github.v3.diff",
+        },
+    });
+    if (!response.ok) {
+        console.error(`Failed to fetch commit diff: ${response.statusText}`);
+        return null;
+    }
+    return await response.text();
+}
+
+exports.handleGitHubWebhook = onRequest(async (req, res) => {
+    // 1. Verify the signature
+    const secret = GITHUB_WEBHOOK_SECRET.value();
+    const signature = crypto.createHmac('sha256', secret).update(req.rawBody).digest('hex');
+    const trusted = `sha256=${signature}`;
+    const received = req.headers['x-hub-signature-256'];
+
+    if (!crypto.timingSafeEqual(Buffer.from(trusted), Buffer.from(received))) {
+        console.error("GitHub Webhook signature does not match.");
+        res.status(401).send("Signature mismatch.");
+        return;
     }
 
-    const { lat, lng, date } = request.data;
-    if (!lat || !lng || !date) {
-        throw new HttpsError("invalid-argument", "緯度、経度、日付は必須です。");
+    // 2. Check if it's a push to the main branch
+    if (req.body.ref !== `refs/heads/${GITHUB_BRANCH.value()}`) {
+        res.status(200).send("Not a push to the main branch, skipping.");
+        return;
     }
 
-    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lng}&appid=${apiKey}&units=metric&lang=ja`;
+    const commits = req.body.commits;
+    if (!commits || commits.length === 0) {
+        res.status(200).send("No commits to process.");
+        return;
+    }
+
+    // 3. Process the latest commit
+    const latestCommit = commits[commits.length - 1];
+
+    if (latestCommit.author.name.includes('[bot]') || latestCommit.committer.name === 'GitHub' || latestCommit.committer.username === 'web-flow') {
+        res.status(200).send("Commit from bot or GitHub Actions, skipping.");
+        return;
+    }
+
+    const diff = await getCommitDiff(latestCommit.url);
+    if (!diff) {
+        res.status(500).send("Could not retrieve commit diff.");
+        return;
+    }
+    
+    // 4. Summarize with Gemini
+    const quotaCheck = await checkApiQuota('gemini', 1000);
+    if (!quotaCheck.withinQuota) {
+        console.warn("Gemini quota exceeded. Cannot generate announcement.");
+        res.status(200).send("Gemini quota exceeded.");
+        return;
+    }
+
+    const prompt = `以下のgitの差分情報（diff）を分析し、アプリのユーザー向けの変更点のお知らせを生成してください。
+- 簡潔で分かりやすい言葉で、何が新しくなったか、何が修正されたかを説明してください。
+- コミットメッセージ「${latestCommit.message}」も参考にしてください。
+- ファイルパスやコードの専門用語は含めず、ユーザーにとってのメリットが分かるように記述してください。
+- お知らせのタイトルと本文をJSON形式で出力してください。
+- 変更がない、またはユーザーに知らせる必要のない軽微な変更の場合は、"title": null, "message": null を返してください。
+
+--- diff ---
+${diff}
+--- end diff ---
+
+出力形式:
+{
+  "title": "（お知らせのタイトル）",
+  "message": "（お知らせの本文）"
+}`;
 
     try {
-        const response = await fetch(apiUrl);
-        if (!response.ok) {
-            const errorBody = await response.text();
-            console.error(`OpenWeatherMap API Request Failed: ${response.status}`, errorBody);
-            throw new HttpsError("internal", `OpenWeatherMap APIエラー: ${response.status}`);
-        }
-        const data = await response.json();
-
-        if (!data.list || data.list.length === 0) {
-            return { daily: [] };
-        }
-
-        const dailyForecasts = {};
-
-        data.list.forEach(forecast => {
-            const forecastDate = new Date(forecast.dt * 1000);
-            forecastDate.setHours(0, 0, 0, 0);
-
-            const dateString = forecastDate.toISOString().split('T')[0];
-
-            if (!dailyForecasts[dateString]) {
-                dailyForecasts[dateString] = {
-                    temp_min: Infinity,
-                    temp_max: -Infinity,
-                    weather: [],
-                    dt: forecast.dt
-                };
-            }
-
-            dailyForecasts[dateString].temp_min = Math.min(dailyForecasts[dateString].temp_min, forecast.main.temp_min);
-            dailyForecasts[dateString].temp_max = Math.max(dailyForecasts[dateString].temp_max, forecast.main.temp_max);
-
-            if (dailyForecasts[dateString].weather.length === 0) {
-                 dailyForecasts[dateString].weather.push(forecast.weather[0]);
-            }
+        const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY.value()}`, {
+            method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
         });
+        await incrementApiUsage('gemini');
 
-        const simplifiedDailyForecasts = Object.keys(dailyForecasts).map(dateKey => {
-            const daily = dailyForecasts[dateKey];
-            return {
-                dt: daily.dt,
-                temp: {
-                    min: daily.temp_min,
-                    max: daily.temp_max,
-                    day: (daily.temp_min + daily.temp_max) / 2
-                },
-                weather: daily.weather
-            };
-        }).sort((a,b) => a.dt - b.dt);
+        if (!geminiResponse.ok) {
+            throw new Error(`Gemini API error: ${geminiResponse.statusText}`);
+        }
 
-        return { daily: simplifiedDailyForecasts };
+        const result = await geminiResponse.json();
+        const aiResponseText = result.candidates[0].content.parts[0].text.replace(/```json|```/g, "").trim();
+        const announcement = JSON.parse(aiResponseText);
+
+        // 5. Save to Firestore
+        if (announcement.title && announcement.message) {
+            await db.collection("announcements").add({
+                title: announcement.title,
+                message: announcement.message,
+                createdAt: admin.firestore.FieldValue.serverTimestamp(),
+                commitId: latestCommit.id
+            });
+            console.log(`Announcement created for commit ${latestCommit.id}`);
+        } else {
+            console.log(`No announcement needed for commit ${latestCommit.id}`);
+        }
+
+        res.status(200).send("Webhook processed successfully.");
 
     } catch (error) {
-        console.error("getWeatherForecast関数でエラー:", error);
-        if (error instanceof HttpsError) throw error;
-        throw new HttpsError("internal", "天気情報の取得中に予期せぬエラーが発生しました。");
+        console.error("Error processing webhook:", error);
+        res.status(500).send("Internal Server Error");
     }
 });

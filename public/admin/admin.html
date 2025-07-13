@@ -6,7 +6,6 @@
     <title>管理者パネル</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/format/index.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -101,6 +100,21 @@
             transform: translate(-50%, -50%) scale(1.1);
             box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
             z-index: 10;
+        }
+        .count-badge {
+            position: absolute;
+            top: -0.25rem;
+            right: -0.25rem;
+            background-color: #ef4444;
+            color: white;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            height: 1.25rem;
+            width: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
@@ -289,16 +303,16 @@
                                     
                                     <div id="submission-tabs" class="border-b border-gray-200 mb-4">
                                         <nav class="flex space-x-2 overflow-x-auto" aria-label="Tabs">
-                                            <button data-tab="submissions" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg">スポット提案 <span id="submissions-count-badge" class="count-badge"></span></button>
-                                            <button data-tab="image-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">画像レポート <span id="image-reports-count-badge" class="count-badge"></span></button>
-                                            <button data-tab="spot-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">スポット報告 <span id="spot-reports-count-badge" class="count-badge"></span></button>
-                                            <button data-tab="link-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">リンク切れ <span id="link-reports-count-badge" class="count-badge"></span></button>
+                                            <button data-tab="submissions" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg">スポット提案 <span id="submissions-count-badge" class="count-badge hidden"></span></button>
+                                            <button data-tab="image-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">画像レポート <span id="image-reports-count-badge" class="count-badge hidden"></span></button>
+                                            <button data-tab="spot-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">スポット報告 <span id="spot-reports-count-badge" class="count-badge hidden"></span></button>
+                                            <button data-tab="link-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">リンク切れ <span id="link-reports-count-badge" class="count-badge hidden"></span></button>
                                         </nav>
                                     </div>
-                                    <div id="submission-content-panel" class="submission-panel space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
-                                    <div id="image-report-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
-                                    <div id="spot-report-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
-                                    <div id="link-report-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
+                                    <div id="submissions-content-panel" class="submission-panel space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
+                                    <div id="image-reports-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
+                                    <div id="spot-reports-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
+                                    <div id="link-reports-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
                                 </div>
                             </details>
                          </div>
@@ -485,10 +499,10 @@
         const saveSpinner = document.getElementById('save-spinner');
         const submissionTabs = document.getElementById('submission-tabs');
         const submissionPanels = document.querySelectorAll('.submission-panel');
-        const submissionContentPanel = document.getElementById('submission-content-panel');
-        const imageReportContentPanel = document.getElementById('image-report-content-panel');
-        const spotReportContentPanel = document.getElementById('spot-report-content-panel');
-        const linkReportContentPanel = document.getElementById('link-report-content-panel');
+        const submissionContentPanel = document.getElementById('submissions-content-panel');
+        const imageReportContentPanel = document.getElementById('image-reports-content-panel');
+        const spotReportContentPanel = document.getElementById('spot-reports-content-panel');
+        const linkReportContentPanel = document.getElementById('link-reports-content-panel');
         const imageCandidateOverlay = document.getElementById('image-candidate-overlay');
         const imageCandidateList = document.getElementById('image-candidate-list');
         const imageCandidateLoading = document.getElementById('image-candidate-loading');
@@ -523,6 +537,94 @@
         const importJsonBtn = document.getElementById('import-json-btn');
         const jsonImportSpinner = document.getElementById('json-import-spinner');
         const jsonMessage = document.getElementById('json-message');
+        
+        function listenForSubmissions() {
+            if (unsubscribeSpotSubmissions) unsubscribeSpotSubmissions();
+            const q = query(collection(db, "spot_submissions"));
+            unsubscribeSpotSubmissions = onSnapshot(q, (snapshot) => {
+                submissionContentPanel.innerHTML = '';
+                const count = snapshot.size;
+                const badge = document.getElementById('submissions-count-badge');
+                badge.textContent = count;
+                badge.classList.toggle('hidden', count === 0);
+                if (snapshot.empty) {
+                    submissionContentPanel.innerHTML = '<p class="text-gray-500 text-center py-4">新しい提案はありません。</p>';
+                } else {
+                    snapshot.forEach((doc) => {
+                        renderSubmissionCard(doc.id, doc.data());
+                    });
+                }
+            });
+        }
+
+        function listenForImageReports() {
+            if (unsubscribeImageReports) unsubscribeImageReports();
+            const q = query(collection(db, "image_reports"));
+            unsubscribeImageReports = onSnapshot(q, (snapshot) => {
+                imageReportContentPanel.innerHTML = '';
+                const count = snapshot.size;
+                const badge = document.getElementById('image-reports-count-badge');
+                badge.textContent = count;
+                badge.classList.toggle('hidden', count === 0);
+                if (snapshot.empty) {
+                    imageReportContentPanel.innerHTML = '<p class="text-gray-500 text-center py-4">画像レポートはありません。</p>';
+                } else {
+                    snapshot.forEach((doc) => {
+                        renderImageReportCard(doc.id, doc.data());
+                    });
+                }
+            });
+        }
+
+        function listenForSpotReports() {
+            if (unsubscribeSpotReports) unsubscribeSpotReports();
+            const q = query(collection(db, "spot_reports"));
+            unsubscribeSpotReports = onSnapshot(q, (snapshot) => {
+                spotReportContentPanel.innerHTML = '';
+                const count = snapshot.size;
+                const badge = document.getElementById('spot-reports-count-badge');
+                badge.textContent = count;
+                badge.classList.toggle('hidden', count === 0);
+
+                if (snapshot.empty) {
+                    spotReportContentPanel.innerHTML = '<p class="text-gray-500 text-center py-4">スポットに関する報告はありません。</p>';
+                } else {
+                    snapshot.forEach((doc) => {
+                        renderSpotReportCard(doc.id, doc.data());
+                    });
+                }
+            });
+        }
+
+        function listenForLinkReports() {
+            if (unsubscribeLinkReports) unsubscribeLinkReports();
+            const q = query(collection(db, 'link_reports'));
+            unsubscribeLinkReports = onSnapshot(q, (snapshot) => {
+                linkReportContentPanel.innerHTML = '';
+                 const count = snapshot.size;
+                const badge = document.getElementById('link-reports-count-badge');
+                badge.textContent = count;
+                badge.classList.toggle('hidden', count === 0);
+
+                if (snapshot.empty) {
+                    linkReportContentPanel.innerHTML = '<p class="text-gray-500 text-center py-4">リンク切れの報告はありません。</p>';
+                } else {
+                    snapshot.docs.forEach(doc => renderLinkReportCard(doc.id, doc.data()));
+                }
+            });
+        }
+
+        function switchSecondaryTab(activeTabId) {
+            submissionPanels.forEach(panel => {
+                panel.style.display = panel.id === `${activeTabId}-content-panel` ? 'block' : 'none';
+            });
+            document.querySelectorAll('#submission-tabs .secondary-tab-btn').forEach(button => {
+                const isActive = button.dataset.tab === activeTabId;
+                button.classList.toggle('active', isActive);
+                button.classList.toggle('bg-gray-100', !isActive);
+                button.classList.toggle('hover:bg-gray-200', !isActive);
+            });
+        }
 
         // 認証状態の監視
         onAuthStateChanged(auth, user => {
@@ -563,8 +665,15 @@
                 panel.style.display = panel.id === `panel-${activeTabId}` ? 'block' : 'none';
             });
             tabButtons.forEach(button => {
-                button.classList.toggle('active', button.dataset.tab === activeTabId);
-                button.classList.toggle('text-gray-500', button.dataset.tab !== activeTabId);
+                const isActive = button.dataset.tab === activeTabId;
+                button.classList.toggle('active', isActive);
+                button.classList.toggle('border-indigo-500', isActive);
+                button.classList.toggle('text-indigo-600', isActive);
+
+                button.classList.toggle('text-gray-500', !isActive);
+                button.classList.toggle('hover:text-gray-700', !isActive);
+                button.classList.toggle('hover:border-gray-300', !isActive);
+                button.classList.toggle('border-transparent', !isActive);
             });
             if (mobileTabSwitcher.value !== activeTabId) {
                 mobileTabSwitcher.value = activeTabId;
@@ -615,7 +724,9 @@
                 const d = new Date();
                 d.setDate(d.getDate() - i);
                 const dateString = d.toISOString().split('T')[0];
-                labels.push(dateFns.format(d, 'M/d'));
+                const M = d.getMonth() + 1;
+                const day = d.getDate();
+                labels.push(`${M}/${day}`);
                 counts.push(data[dateString] || 0);
             }
 
@@ -1443,6 +1554,13 @@
             } finally {
                 jsonImportSpinner.classList.add('hidden');
                 importJsonBtn.disabled = false;
+            }
+        });
+
+        submissionTabs.addEventListener('click', (e) => {
+            const button = e.target.closest('.secondary-tab-btn');
+            if(button) {
+                switchSecondaryTab(button.dataset.tab);
             }
         });
     </script>
