@@ -80,7 +80,9 @@ const regions = {
     hokkaido_tohoku: {
         name: "北海道・東北",
         prefectures: ["hokkaido", "aomori", "iwate", "akita", "miyagi", "yamagata", "fukushima"],
+        // 画像ファイルのパス
         imageUrl: `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture-pic/hokkaido_tohoku.png`,
+        // 座標ファイルのパス
         positionsUrl: `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture-posi/hokkaido_tohoku_positions.json`
     },
     kanto: {
@@ -154,6 +156,7 @@ async function loadAllData() {
     });
 
     // 各県のスポット情報JSONファイルのパスを生成
+    // このパスはご要望の通り `data/prefecture/` を指しています
     const prefectureFiles = availablePrefectures.map(p => `data/prefecture/${p.id}.json`);
     
     const localSpots = [];
