@@ -68,7 +68,49 @@ let combinedSpots = [];
 let availablePrefectures = []; 
 let supportedPrefectureNames = [];
 let originalJsonData = {};
-let prefectureMapPositions = {};
+// ▼▼▼ MODIFIED BLOCK ▼▼▼
+let regionalPrefecturePositions = {};
+
+const regions = {
+    hokkaido_tohoku: {
+        name: "北海道・東北",
+        prefectures: ["hokkaido", "aomori", "iwate", "akita", "miyagi", "yamagata", "fukushima"],
+        imageUrl: "https://placehold.co/600x800/eeeeee/cccccc?text=Hokkaido+Tohoku+Map", // 仮の画像URL
+        positionsUrl: "./data/positions/hokkaido_tohoku_positions.json"
+    },
+    kanto: {
+        name: "関東",
+        prefectures: ["ibaraki", "tochigi", "gunma", "saitama", "chiba", "tokyo", "kanagawa"],
+        imageUrl: "https://placehold.co/600x600/eeeeee/cccccc?text=Kanto+Map", // 仮の画像URL
+        positionsUrl: "./data/positions/kanto_positions.json"
+    },
+    chubu: {
+        name: "中部",
+        prefectures: ["niigata", "toyama", "ishikawa", "fukui", "yamanashi", "nagano", "gifu", "shizuoka", "aichi"],
+        imageUrl: "https://placehold.co/600x600/eeeeee/cccccc?text=Chubu+Map", // 仮の画像URL
+        positionsUrl: "./data/positions/chubu_positions.json"
+    },
+    kansai: {
+        name: "関西",
+        prefectures: ["mie", "shiga", "kyoto", "osaka", "hyogo", "nara", "wakayama"],
+        imageUrl: "https://placehold.co/600x600/eeeeee/cccccc?text=Kansai+Map", // 仮の画像URL
+        positionsUrl: "./data/positions/kansai_positions.json"
+    },
+    chugoku_shikoku: {
+        name: "中国・四国",
+        prefectures: ["tottori", "shimane", "okayama", "hiroshima", "yamaguchi", "tokushima", "kagawa", "ehime", "kochi"],
+        imageUrl: "https://placehold.co/600x600/eeeeee/cccccc?text=Chugoku+Shikoku+Map", // 仮の画像URL
+        positionsUrl: "./data/positions/chugoku_shikoku_positions.json"
+    },
+    kyushu_okinawa: {
+        name: "九州・沖縄",
+        prefectures: ["fukuoka", "saga", "nagasaki", "oita", "kumamoto", "miyazaki", "kagoshima", "okinawa"],
+        imageUrl: "https://placehold.co/600x800/eeeeee/cccccc?text=Kyushu+Okinawa+Map", // 仮の画像URL
+        positionsUrl: "./data/positions/kyushu_okinawa_positions.json"
+    }
+};
+// ▲▲▲ END OF MODIFICATION ▲▲▲
+
 
 const standardTags = [ "絶景", "インスタ映え", "レトロ", "おしゃれ", "カワイイ", "ユニーク", "自然・癒し", "食べ歩き", "ショッピング", "体験", "アート・建築", "夜景", "定番スポット", "カフェ・喫茶店", "スイーツ", "ご当地グルメ", "B級グルメ", "ランチ", "ディナー", "雨の日OK", "予約推奨", "コスパ", "無料" ];
 const subCategories = { "観光": ["定番スポット", "絶景", "夜景", "自然・癒し", "アート・建築", "レトロ", "体験"], "グルメ": ["カフェ・喫茶店", "スイーツ", "ご当地グルメ", "B級グルメ", "ランチ", "ディナー", "食べ歩き"] };
@@ -115,18 +157,12 @@ async function loadAllData() {
         const owner = 'tatsuya0203';
         const repo = 'trip-planner';
         const branch = 'main';
-
-        const responses = await Promise.all([
-            ...prefectureFiles.map(file => fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${file}?v=${new Date().getTime()}`)),
-            fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture_positions.json?v=${new Date().getTime()}`)
-        ]);
-
-        const positionResponse = responses.pop();
-        if (positionResponse.ok) {
-            prefectureMapPositions = await positionResponse.json();
-        } else {
-            console.warn('prefecture_positions.jsonの読み込みに失敗しました。');
-        }
+        // ▼▼▼ MODIFIED BLOCK ▼▼▼
+        // prefecture_positions.jsonの読み込みを削除
+        const responses = await Promise.all(
+            prefectureFiles.map(file => fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${file}?v=${new Date().getTime()}`))
+        );
+        // ▲▲▲ END OF MODIFICATION ▲▲▲
 
         const jsonDataArray = await Promise.all(responses.map(res => {
             if (!res.ok) throw new Error(`Failed to fetch ${res.url}: ${res.statusText}`);
@@ -273,7 +309,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const prefectureSelectOverlay = document.getElementById('prefecture-select-overlay');
     const prefectureSelectTitle = document.getElementById('prefecture-select-title');
     const prefectureSelectMessage = document.getElementById('prefecture-select-message');
-    const prefectureSelectButtons = document.getElementById('prefecture-select-buttons');
+    // ▼▼▼ MODIFIED BLOCK ▼▼▼
+    const regionSelectionContainer = document.getElementById('region-selection-container');
+    const japanMapWrapper = document.getElementById('japan-map-wrapper');
+    const japanMapContainer = document.getElementById('japan-map-container');
+    const backToRegionSelectBtn = document.getElementById('back-to-region-select-btn');
+    // ▲▲▲ END OF MODIFICATION ▲▲▲
     const prefectureSelectCancelBtn = document.getElementById('prefecture-select-cancel-btn');
     const reportImageBtn = document.getElementById('report-image-btn');
     const reportSpotBtn = document.getElementById('report-spot-btn');
@@ -284,16 +325,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const mobileFilterToggle = document.getElementById('mobile-filter-toggle');
     const navContentWrapper = document.getElementById('nav-content-wrapper');
     const mobileFilterToggleText = document.getElementById('mobile-filter-toggle-text');
-    const japanMapContainer = document.getElementById('japan-map-container');
     const openJapanMapBtn = document.getElementById('open-japan-map-btn');
-    // ▼▼▼ NEW DOM ELEMENTS ▼▼▼
     const reportSpotOverlay = document.getElementById('report-spot-overlay');
     const reportSpotTitle = document.getElementById('report-spot-title');
     const cancelReportBtn = document.getElementById('cancel-report-btn');
     const submitReportBtn = document.getElementById('submit-report-btn');
     const reportReasonSelect = document.getElementById('report-reason-select');
     const reportDetailsTextarea = document.getElementById('report-details-textarea');
-    // ▲▲▲ END OF NEW DOM ELEMENTS ▲▲▲
 
     let currentPrefecture = 'all';
     let currentFilters = { category: 'all', area: 'all', tag: 'all' };
@@ -1023,7 +1061,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <div class="transit-time-icon">
                                 <svg class="w-5 h-5 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                             </div>
-                            <span class="text-xs font-semibold text-yellow-600">他県のため移動時間は計算されません</span>
+                            <span class="text-xs font-semibold text-yellow-600">他県への移動</span>
                          `;
                     }
                     planItemsList.appendChild(transitEl);
@@ -1579,22 +1617,62 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, 'image/png');
     });
     
-    function renderJapanMapButtons() {
-        const existingButtons = japanMapContainer.querySelectorAll('.prefecture-map-button');
-        existingButtons.forEach(btn => btn.remove());
+    // ▼▼▼ MODIFIED BLOCK ▼▼▼
+    function renderRegionSelection() {
+        regionSelectionContainer.innerHTML = '';
+        Object.entries(regions).forEach(([key, region]) => {
+            const button = document.createElement('button');
+            button.className = 'region-select-button';
+            button.textContent = region.name;
+            button.dataset.regionKey = key;
+            button.addEventListener('click', () => showRegionalMap(key));
+            regionSelectionContainer.appendChild(button);
+        });
+    }
 
-        const availablePrefectureIds = availablePrefectures.map(p => p.id);
+    async function showRegionalMap(regionKey) {
+        const region = regions[regionKey];
+        if (!region) return;
 
-        Object.entries(prefectureMapPositions).forEach(([id, pos]) => {
-            if (availablePrefectureIds.includes(id)) {
+        // Fetch position data if not already loaded
+        if (!regionalPrefecturePositions[regionKey]) {
+            try {
+                const response = await fetch(`${region.positionsUrl}?v=${new Date().getTime()}`);
+                if (!response.ok) throw new Error(`Could not load positions for ${region.name}`);
+                regionalPrefecturePositions[regionKey] = await response.json();
+            } catch (error) {
+                console.error(error);
+                japanMapContainer.innerHTML = `<p class="text-red-500 text-center">地図データの読み込みに失敗しました。</p>`;
+                return;
+            }
+        }
+        
+        // Switch views
+        regionSelectionContainer.classList.add('hidden');
+        japanMapWrapper.classList.remove('hidden');
+        backToRegionSelectBtn.classList.remove('hidden');
+
+        // Update map background and render buttons
+        japanMapContainer.style.backgroundImage = `url('${region.imageUrl}')`;
+        renderJapanMapButtons(regionKey);
+    }
+
+    function renderJapanMapButtons(regionKey) {
+        japanMapContainer.innerHTML = '';
+        const region = regions[regionKey];
+        const positionData = regionalPrefecturePositions[regionKey];
+
+        region.prefectures.forEach(prefectureId => {
+            const pos = positionData[prefectureId];
+            const prefectureName = prefectureIdToNameMap[prefectureId];
+
+            if (pos && prefectureName) {
                 const button = document.createElement('button');
-                button.className = 'prefecture-map-button'; 
+                button.className = 'prefecture-map-button';
                 button.style.top = pos.top;
                 button.style.left = pos.left;
-                
-                const prefectureName = prefectureIdToNameMap[id] || id;
                 button.textContent = prefectureName;
-                button.dataset.prefectureId = id;
+                button.dataset.prefectureId = prefectureId;
 
                 button.addEventListener('click', () => {
                     if (onPrefectureSelectCallback) {
@@ -1608,20 +1686,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function showPrefectureSelectOverlay(title, message, callback) {
-        prefectureSelectTitle.textContent = title;
-        prefectureSelectMessage.textContent = message;
-        prefectureSelectButtons.innerHTML = ''; 
         onPrefectureSelectCallback = callback;
 
-        if (Object.keys(prefectureMapPositions).length > 0) {
-            renderJapanMapButtons(); 
-        } else {
-            japanMapContainer.innerHTML = '<p class="text-gray-500">地図データの読み込みに失敗しました。</p>';
-        }
-        
+        // Reset to region selection view
+        japanMapWrapper.classList.add('hidden');
+        regionSelectionContainer.classList.remove('hidden');
+        backToRegionSelectBtn.classList.add('hidden');
+        prefectureSelectTitle.textContent = "地方を選択";
+        prefectureSelectMessage.textContent = "行きたい地方を選んでください。";
+
+        renderRegionSelection();
         showOverlay(prefectureSelectOverlay);
     }
     
+    backToRegionSelectBtn.addEventListener('click', () => {
+        japanMapWrapper.classList.add('hidden');
+        regionSelectionContainer.classList.remove('hidden');
+        backToRegionSelectBtn.classList.add('hidden');
+        prefectureSelectTitle.textContent = "地方を選択";
+        prefectureSelectMessage.textContent = "行きたい地方を選んでください。";
+    });
+    // ▲▲▲ END OF MODIFICATION ▲▲▲
+
     userSwitcher.addEventListener('change', (e) => {
         const selectedUserId = e.target.value;
         if (selectedUserId) {

@@ -371,17 +371,18 @@
         <div id="prefecture-select-overlay" class="overlay-base z-50">
             <div class="modal-base max-w-3xl w-full max-h-[90vh] flex flex-col p-4 sm:p-6">
                 <div class="flex justify-between items-center mb-4 flex-shrink-0">
-                    <h2 id="prefecture-select-title" class="text-2xl font-bold text-[#D35400]">都道府県を選択</h2>
+                    <h2 id="prefecture-select-title" class="text-2xl font-bold text-[#D35400]">地方を選択</h2>
+                     <button id="back-to-region-select-btn" class="hidden bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-sm font-semibold hover:bg-gray-300">← 地方選択に戻る</button>
                     <button id="prefecture-select-cancel-btn" class="text-3xl font-light text-gray-500 hover:text-gray-900 transition">×</button>
                 </div>
-                <p id="prefecture-select-message" class="text-sm text-gray-600 mb-4 flex-shrink-0">地図から行きたい都道府県を選んでください。</p>
-                <div class="flex-grow relative bg-gray-50 rounded-lg overflow-auto p-2">
-                    <div id="japan-map-container" class="relative w-full h-full min-h-[500px]">
-                        <!-- Map pins are injected here by JavaScript -->
+                <p id="prefecture-select-message" class="text-sm text-gray-600 mb-4 flex-shrink-0">行きたい地方を選んでください。</p>
+                <div class="flex-grow relative overflow-auto">
+                    <div id="region-selection-container" class="grid grid-cols-2 sm:grid-cols-3 gap-4 p-4">
+                        </div>
+                    <div id="japan-map-wrapper" class="hidden h-full">
+                        <div id="japan-map-container" class="relative w-full h-full min-h-[500px]">
+                            </div>
                     </div>
-                </div>
-                <div id="prefecture-select-buttons" class="mt-4 flex-shrink-0">
-                    <!-- Referenced by JS, kept for completeness -->
                 </div>
             </div>
         </div>
@@ -390,7 +391,6 @@
             <img id="image-viewer-img" src="" class="max-w-full max-h-full object-contain shadow-lg rounded-lg">
         </div>
 
-        <!-- ▼▼▼ NEW MODAL FOR SPOT REPORT ▼▼▼ -->
         <div id="report-spot-overlay" class="overlay-base z-[60]">
             <div class="modal-base max-w-lg p-6 overflow-hidden">
                 <div class="flex justify-between items-center mb-4">
@@ -417,9 +417,7 @@
                 </div>
             </div>
         </div>
-        <!-- ▲▲▲ END OF NEW MODAL ▲▲▲ -->
-
-    </div>
+        </div>
     
     <textarea id="copy-textarea" class="absolute -left-full"></textarea>
 
