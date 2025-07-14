@@ -1,0 +1,9 @@
+{
+  "gunma": { "top": "59%", "left": "56%" },
+  "tochigi": { "top": "58%", "left": "61%" },
+  "ibaraki": { "top": "62%", "left": "63%" },
+  "saitama": { "top": "64%", "left": "57%" },
+  "chiba": { "top": "67%", "left": "62%" },
+  "tokyo": { "top": "59%", "left": "58%" },
+  "kanagawa": { "top": "65%", "left": "58%" }
+}

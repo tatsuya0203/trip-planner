@@ -1,0 +1,9 @@
+{
+  "hokkaido": { "top": "18%", "left": "66%" },
+  "aomori": { "top": "33%", "left": "65%" },
+  "iwate": { "top": "40%", "left": "68%" },
+  "akita": { "top": "40%", "left": "62%" },
+  "miyagi": { "top": "46%", "left": "66%" },
+  "yamagata": { "top": "47%", "left": "61%" },
+  "fukushima": { "top": "53%", "left": "63%" }
+}

@@ -68,48 +68,52 @@ let combinedSpots = [];
 let availablePrefectures = []; 
 let supportedPrefectureNames = [];
 let originalJsonData = {};
-// ▼▼▼ MODIFIED BLOCK ▼▼▼
 let regionalPrefecturePositions = {};
 
+// GitHubリポジトリ情報
+const owner = 'tatsuya0203';
+const repo = 'trip-planner';
+const branch = 'main';
+
+// 地方ごとの情報を定義（URLはGitHubから直接読み込むように修正）
 const regions = {
     hokkaido_tohoku: {
         name: "北海道・東北",
         prefectures: ["hokkaido", "aomori", "iwate", "akita", "miyagi", "yamagata", "fukushima"],
-        imageUrl: "https://placehold.co/600x800/eeeeee/cccccc?text=Hokkaido+Tohoku+Map", // 仮の画像URL
-        positionsUrl: "./data/positions/hokkaido_tohoku_positions.json"
+        imageUrl: `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture-pic/hokkaido_tohoku.png`,
+        positionsUrl: `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture-posi/hokkaido_tohoku_positions.json`
     },
     kanto: {
         name: "関東",
         prefectures: ["ibaraki", "tochigi", "gunma", "saitama", "chiba", "tokyo", "kanagawa"],
-        imageUrl: "https://placehold.co/600x600/eeeeee/cccccc?text=Kanto+Map", // 仮の画像URL
-        positionsUrl: "./data/positions/kanto_positions.json"
+        imageUrl: `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture-pic/kanto.png`,
+        positionsUrl: `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture-posi/kanto_positions.json`
     },
     chubu: {
         name: "中部",
         prefectures: ["niigata", "toyama", "ishikawa", "fukui", "yamanashi", "nagano", "gifu", "shizuoka", "aichi"],
-        imageUrl: "https://placehold.co/600x600/eeeeee/cccccc?text=Chubu+Map", // 仮の画像URL
-        positionsUrl: "./data/positions/chubu_positions.json"
+        imageUrl: `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture-pic/chubu.png`,
+        positionsUrl: `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture-posi/chubu_positions.json`
     },
     kansai: {
         name: "関西",
         prefectures: ["mie", "shiga", "kyoto", "osaka", "hyogo", "nara", "wakayama"],
-        imageUrl: "https://placehold.co/600x600/eeeeee/cccccc?text=Kansai+Map", // 仮の画像URL
-        positionsUrl: "./data/positions/kansai_positions.json"
+        imageUrl: `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture-pic/kansai.png`,
+        positionsUrl: `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture-posi/kansai_positions.json`
     },
     chugoku_shikoku: {
         name: "中国・四国",
         prefectures: ["tottori", "shimane", "okayama", "hiroshima", "yamaguchi", "tokushima", "kagawa", "ehime", "kochi"],
-        imageUrl: "https://placehold.co/600x600/eeeeee/cccccc?text=Chugoku+Shikoku+Map", // 仮の画像URL
-        positionsUrl: "./data/positions/chugoku_shikoku_positions.json"
+        imageUrl: `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture-pic/chugoku_shikoku.png`,
+        positionsUrl: `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture-posi/chugoku_shikoku_positions.json`
     },
     kyushu_okinawa: {
         name: "九州・沖縄",
         prefectures: ["fukuoka", "saga", "nagasaki", "oita", "kumamoto", "miyazaki", "kagoshima", "okinawa"],
-        imageUrl: "https://placehold.co/600x800/eeeeee/cccccc?text=Kyushu+Okinawa+Map", // 仮の画像URL
-        positionsUrl: "./data/positions/kyushu_okinawa_positions.json"
+        imageUrl: `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture-pic/kyushu_okinawa.png`,
+        positionsUrl: `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture-posi/kyushu_okinawa_positions.json`
     }
 };
-// ▲▲▲ END OF MODIFICATION ▲▲▲
 
 
 const standardTags = [ "絶景", "インスタ映え", "レトロ", "おしゃれ", "カワイイ", "ユニーク", "自然・癒し", "食べ歩き", "ショッピング", "体験", "アート・建築", "夜景", "定番スポット", "カフェ・喫茶店", "スイーツ", "ご当地グルメ", "B級グルメ", "ランチ", "ディナー", "雨の日OK", "予約推奨", "コスパ", "無料" ];
@@ -149,20 +153,15 @@ async function loadAllData() {
         prefectureFilter.appendChild(option);
     });
 
-    const prefectureFiles = availablePrefectures.map(p => `data/${p.id}.json`);
+    // 各県のスポット情報JSONファイルのパスを生成
+    const prefectureFiles = availablePrefectures.map(p => `data/prefecture/${p.id}.json`);
     
     const localSpots = [];
     supportedPrefectureNames = [];
     try {
-        const owner = 'tatsuya0203';
-        const repo = 'trip-planner';
-        const branch = 'main';
-        // ▼▼▼ MODIFIED BLOCK ▼▼▼
-        // prefecture_positions.jsonの読み込みを削除
         const responses = await Promise.all(
             prefectureFiles.map(file => fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${file}?v=${new Date().getTime()}`))
         );
-        // ▲▲▲ END OF MODIFICATION ▲▲▲
 
         const jsonDataArray = await Promise.all(responses.map(res => {
             if (!res.ok) throw new Error(`Failed to fetch ${res.url}: ${res.statusText}`);
@@ -170,7 +169,7 @@ async function loadAllData() {
         }));
         
         jsonDataArray.forEach((data, index) => {
-            const prefectureId = prefectureFiles[index].split('/')[1].replace('.json', '');
+            const prefectureId = availablePrefectures[index].id;
             originalJsonData[prefectureId] = data; 
             allSpotsData[prefectureId] = data.spots;
             areaPositions[prefectureId] = data.areaPositions;
@@ -309,12 +308,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const prefectureSelectOverlay = document.getElementById('prefecture-select-overlay');
     const prefectureSelectTitle = document.getElementById('prefecture-select-title');
     const prefectureSelectMessage = document.getElementById('prefecture-select-message');
-    // ▼▼▼ MODIFIED BLOCK ▼▼▼
     const regionSelectionContainer = document.getElementById('region-selection-container');
     const japanMapWrapper = document.getElementById('japan-map-wrapper');
     const japanMapContainer = document.getElementById('japan-map-container');
     const backToRegionSelectBtn = document.getElementById('back-to-region-select-btn');
-    // ▲▲▲ END OF MODIFICATION ▲▲▲
     const prefectureSelectCancelBtn = document.getElementById('prefecture-select-cancel-btn');
     const reportImageBtn = document.getElementById('report-image-btn');
     const reportSpotBtn = document.getElementById('report-spot-btn');
@@ -1617,7 +1614,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, 'image/png');
     });
     
-    // ▼▼▼ MODIFIED BLOCK ▼▼▼
     function renderRegionSelection() {
         regionSelectionContainer.innerHTML = '';
         Object.entries(regions).forEach(([key, region]) => {
@@ -1706,7 +1702,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         prefectureSelectTitle.textContent = "地方を選択";
         prefectureSelectMessage.textContent = "行きたい地方を選んでください。";
     });
-    // ▲▲▲ END OF MODIFICATION ▲▲▲
 
     userSwitcher.addEventListener('change', (e) => {
         const selectedUserId = e.target.value;
@@ -1972,7 +1967,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // ▼▼▼ MODIFIED EVENT LISTENER ▼▼▼
     reportSpotBtn.addEventListener('click', () => {
         const spotName = modal.dataset.spotName;
         if (!spotName || !currentUser) return;
@@ -2011,7 +2005,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             showInfoModal("報告の送信に失敗しました。");
         }
     });
-    // ▲▲▲ END OF MODIFICATION ▲▲▲
     
     let searchDebounceTimer;
     searchInput.addEventListener('input', (e) => {

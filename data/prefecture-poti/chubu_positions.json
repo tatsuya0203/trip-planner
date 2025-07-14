@@ -1,0 +1,11 @@
+{
+  "niigata": { "top": "54%", "left": "56%" },
+  "yamanashi": { "top": "68%", "left": "54%" },
+  "nagano": { "top": "61%", "left": "51%" },
+  "shizuoka": { "top": "72%", "left": "53%" },
+  "toyama": { "top": "59%", "left": "47%" },
+  "ishikawa": { "top": "58%", "left": "43%" },
+  "gifu": { "top": "67%", "left": "47%" },
+  "aichi": { "top": "73%", "left": "48%" },
+  "fukui": { "top": "64%", "left": "41%" }
+}

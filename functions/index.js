@@ -1367,7 +1367,7 @@ exports.handleGitHubWebhook = onRequest(async (req, res) => {
         return;
     }
 
-    const prompt = `以下のgitの差分情報（diff）を分析し、アプリのユーザー向けの変更点のお知らせを生成してください。
+    const prompt = `以下のgitの差分情報（diff）を分析し、アプリのユーザー向けに変更点のお知らせを生成してください。
 - 簡潔で分かりやすい言葉で、何が新しくなったか、何が修正されたかを説明してください。
 - コミットメッセージ「${latestCommit.message}」も参考にしてください。
 - ファイルパスやコードの専門用語は含めず、ユーザーにとってのメリットが分かるように記述してください。
