@@ -132,8 +132,6 @@ async function checkApiQuota(apiName, limit) {
     const usageRef = db.collection('api_usage').doc(apiName);
     const usageDoc = await usageRef.get();
 
-    // ★★★ 修正点 ★★★
-    // .exists() を .exists に変更
     if (!usageDoc.exists || usageDoc.data().date !== today) {
         await usageRef.set({ count: 0, date: today });
         return { withinQuota: true, count: 0 };
@@ -979,6 +977,8 @@ exports.importSpotsFromCSV = onCall({ timeoutSeconds: 300, memory: '1GiB' }, asy
         throw new HttpsError("internal", "インポート処理に失敗しました。");
     }
 });
+
+// --- Link & Image Health Check Functions ---
 exports.triggerLinkCheck = onCall({ timeoutSeconds: 540, memory: "1GiB" }, async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "管理者権限が必要です。");
@@ -1068,6 +1068,118 @@ exports.triggerLinkCheck = onCall({ timeoutSeconds: 540, memory: "1GiB" }, async
 
     return { success: true, message: `チェックが完了しました。${brokenLinks.length}件のリンク切れの可能性があります。` };
 });
+
+exports.triggerImageCheck = onCall({ timeoutSeconds: 540, memory: "1GiB" }, async (request) => {
+    if (!request.auth || !request.auth.token.admin) {
+        throw new HttpsError("permission-denied", "管理者権限が必要です。");
+    }
+    const { prefectureId } = request.data;
+    const db = admin.firestore();
+
+    const oldReports = await db.collection('image_link_reports').get();
+    if (!oldReports.empty) {
+        const batchDelete = db.batch();
+        oldReports.docs.forEach(doc => batchDelete.delete(doc.ref));
+        await batchDelete.commit();
+    }
+
+    const allPrefectures = await _getPrefectureListLogic();
+    let prefecturesToProcess = [];
+
+    if (prefectureId && prefectureId !== 'all') {
+        const singlePref = allPrefectures.find(p => p.id === prefectureId);
+        if (singlePref) prefecturesToProcess.push(singlePref);
+        else throw new HttpsError("not-found", "指定された都道府県が見つかりません。");
+    } else {
+        prefecturesToProcess = allPrefectures;
+    }
+
+    const allSpots = [];
+    for (const pref of prefecturesToProcess) {
+        try {
+            const { content: jsonData } = await getGitHubFile(`data/${pref.id}.json`);
+            jsonData.spots.forEach(spot => {
+                if(spot.image && spot.image.startsWith('http')) {
+                    allSpots.push({
+                        prefectureId: pref.id,
+                        prefectureName: pref.name,
+                        spotName: spot.name,
+                        imageUrl: spot.image,
+                    });
+                }
+            });
+        } catch (e) {
+            console.error(`Error processing ${pref.id}.json for image check`, e);
+        }
+    }
+
+    const checkImage = async (spot) => {
+        try {
+            const response = await fetch(spot.imageUrl, { method: 'HEAD', timeout: 15000 });
+            const contentType = response.headers.get('content-type') || '';
+            if (!response.ok || !contentType.startsWith('image/')) {
+                 return { status: response.status, isBroken: true, spot };
+            }
+            return { status: response.status, isBroken: false, spot };
+        } catch (error) {
+            console.error(`Fetch error for ${spot.imageUrl}:`, error.name);
+            return { status: 'FETCH_ERROR', isBroken: true, spot };
+        }
+    };
+
+    const checkPromises = allSpots.map(spot => checkImage(spot));
+    const results = await Promise.all(checkPromises);
+
+    const brokenImages = [];
+    results.forEach(result => {
+        if (result.isBroken) {
+            brokenImages.push({
+                prefectureId: result.spot.prefectureId,
+                prefectureName: result.spot.prefectureName,
+                spotName: result.spot.spotName,
+                imageUrl: result.spot.imageUrl,
+                status: String(result.status),
+                checkedAt: admin.firestore.FieldValue.serverTimestamp(),
+            });
+        }
+    });
+
+    if (brokenImages.length > 0) {
+        const batch = db.batch();
+        brokenImages.forEach(report => {
+            const docRef = db.collection('image_link_reports').doc();
+            batch.set(docRef, report);
+        });
+        await batch.commit();
+    }
+
+    return { success: true, message: `画像チェックが完了しました。${brokenImages.length}件の問題の可能性があります。` };
+});
+
+exports.getBrokenImageReports = onCall(async (request) => {
+    if (!request.auth || !request.auth.token.admin) {
+        throw new HttpsError("permission-denied", "管理者権限が必要です。");
+    }
+    const db = admin.firestore();
+    const snapshot = await db.collection('image_link_reports').orderBy('checkedAt', 'desc').get();
+    const reports = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return { reports };
+});
+
+exports.deleteBrokenImageReport = onCall(async (request) => {
+    if (!request.auth || !request.auth.token.admin) {
+        throw new HttpsError("permission-denied", "管理者権限が必要です。");
+    }
+    const { reportId } = request.data;
+    if (!reportId) {
+        throw new HttpsError("invalid-argument", "レポートIDが必要です。");
+    }
+    const db = admin.firestore();
+    await db.collection('image_link_reports').doc(reportId).delete();
+    return { success: true, message: "レポートを削除しました。" };
+});
+
+
 exports.findUrlCandidates = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");

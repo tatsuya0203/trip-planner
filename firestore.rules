@@ -1,76 +1,108 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-  
-    // 管理者かどうかを認証トークンから判定するヘルパー関数
+    
+    // --- ヘルパー関数 ---
+    // ログイン中のユーザーが管理者かどうかを判定します。
+    // この関数を各ルールで再利用することで、コードが簡潔になります。
     function isAdmin() {
       return request.auth != null && request.auth.token.admin == true;
     }
 
-    // ユーザープロフィール用のルール
+    // --- ユーザーデータ関連のルール ---
+    // /users/{userId} のようなパスに一致します。
     match /users/{userId} {
-      // 管理者、または自分自身のプロフィールは読み書き可能
+      // プロフィールの読み取りと更新は、管理者または自分自身のみ可能です。
       allow read, update: if isAdmin() || (request.auth != null && request.auth.uid == userId);
-      // ユーザーが自分のドキュメントを作成することを許可
+      // ユーザーアカウントの作成は、ログインしているユーザーなら誰でも可能です。
       allow create: if request.auth != null && request.auth.uid == userId;
       
-      // メールボックスのサブコレクション
+      // /users/{userId}/mailbox/{messageId} のようなサブコレクションに一致します。
       match /mailbox/{messageId} {
-        // 自分のメールボックスのみ読み取り・更新可能
+        // メールボックスの読み取りと更新は、自分自身のみ可能です。
         allow read, update: if request.auth != null && request.auth.uid == userId;
       }
     }
 
-    // 旅行プラン用のルール
+    // 旅行プランのコレクション (/plans/{userId})
     match /plans/{userId} {
-      // isAdmin() を使用
+      // プランの読み取りは、管理者または自分自身のみ可能です。
       allow read: if request.auth != null && (request.auth.uid == userId || isAdmin());
+      // プランの書き込み（作成・更新・削除）は、自分自身のみ可能です。
       allow write: if request.auth != null && request.auth.uid == userId;
     }
 
-    // お気に入り用のルール
+    // お気に入りのコレクション (/favorites/{userId})
     match /favorites/{userId} {
+      // お気に入りの読み書きは、自分自身のみ可能です。
       allow read, write: if request.auth != null && request.auth.uid == userId;
     }
 
-    // 全体へのお知らせ用のルール
+    // --- 公開データ・共有データ関連のルール ---
+    // 全体へのお知らせ (/announcements/{announcementId})
     match /announcements/{announcementId} {
+      // 読み取りは誰でも可能です。
       allow read: if true;
-      // isAdmin() を使用
+      // 書き込みは管理者のみ可能です。
       allow write: if isAdmin();
     }
 
-    // スポット提案用のルール
+    // --- 管理者パネル用のコレクション ---
+    // ユーザーからのスポット提案 (/spot_submissions/{submissionId})
     match /spot_submissions/{submissionId} {
+      // 提案の作成は、ログインユーザーなら誰でも可能です。
       allow create: if request.auth != null;
-      // isAdmin() を使用
+      // 提案の読み取り、更新、削除は管理者のみ可能です。
       allow read, update, delete: if isAdmin();
     }
     
-    // 画像レポート用のルール
+    // ユーザーからの画像レポート (/image_reports/{reportId})
     match /image_reports/{reportId} {
+      // レポートの作成は、ログインユーザーなら誰でも可能です。
       allow create: if request.auth != null;
-      // isAdmin() を使用
+      // レポートの読み取りと削除は管理者のみ可能です。
       allow read, delete: if isAdmin();
     }
 
-    // リンク切れレポート用のルール
-    match /link_reports/{reportId} {
-      // isAdmin() を使用
-      allow read, delete: if isAdmin();
-    }
-
-    // ▼▼▼ ここに追加しました ▼▼▼
-    // スポット報告用のルール
+    // ユーザーからのスポット情報報告 (/spot_reports/{reportId})
     match /spot_reports/{reportId} {
+      // 報告の作成は、ログインユーザーなら誰でも可能です。
       allow create: if request.auth != null;
+      // 報告の読み取り、更新、削除は管理者のみ可能です。
       allow read, update, delete: if isAdmin();
     }
-    // ▲▲▲ 追加はここまで ▲▲▲
-    
-    // 管理者招待用のルール
+
+    // --- システム・内部処理用のコレクション ---
+    // 自動リンク切れチェックのレポート (/link_reports/{reportId})
+    match /link_reports/{reportId} {
+      // レポートの読み書き、削除は管理者のみ可能です。
+      allow read, write, delete: if isAdmin();
+    }
+
+    // 自動画像リンク切れチェックのレポート (/image_link_reports/{reportId})
+    match /image_link_reports/{reportId} {
+        // レポートの読み書き、削除は管理者のみ可能です。
+        allow read, write, delete: if isAdmin();
+    }
+
+    // AIプロンプトなどのアプリ設定 (/app_settings/{settingId})
+    match /app_settings/{settingId} {
+        // 設定の読み書きは管理者のみ可能です。
+        allow read, write: if isAdmin();
+    }
+
+    // アナリティクスイベント (/analyticsEvents/{eventId})
+    match /analyticsEvents/{eventId} {
+        // イベントの作成（記録）はログインユーザーなら誰でも可能です。
+        allow create: if request.auth != null;
+        // イベントデータの読み書き、削除は管理者のみ可能です。
+        allow read, write, delete: if isAdmin();
+    }
+
+    // 管理者招待用のトークン (/admin_invitations/{tokenId})
     match /admin_invitations/{tokenId} {
-      // クライアントからの直接アクセスは不可
+      // セキュリティのため、クライアント（ブラウザ）からの直接アクセスはすべて拒否します。
+      // このコレクションの操作はCloud Functions経由でのみ行います。
       allow read, write: if false;
     }
   }

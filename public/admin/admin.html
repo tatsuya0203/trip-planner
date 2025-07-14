@@ -293,13 +293,17 @@
                                 <summary class="font-bold text-xl">申請とレポート</summary>
                                 <div class="p-6">
                                     <h2 class="text-xl font-bold text-gray-800 mb-4">申請とレポートの管理</h2>
-                                    <div class="my-4 p-4 bg-blue-50 border border-blue-200 rounded-lg text-center">
-                                        <button id="manual-link-check-btn" class="bg-blue-600 text-white py-2 px-5 rounded-lg font-semibold hover:bg-blue-700 flex items-center justify-center gap-2 mx-auto">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
+                                    <div class="my-4 p-4 bg-blue-50 border border-blue-200 rounded-lg flex flex-col sm:flex-row items-center justify-center gap-4">
+                                        <button id="manual-link-check-btn" class="bg-blue-600 text-white py-2 px-5 rounded-lg font-semibold hover:bg-blue-700 flex items-center justify-center gap-2 w-full sm:w-auto">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0l-1.5-1.5a2 2 0 112.828-2.828l1.5 1.5 3-3z" clip-rule="evenodd" /><path fill-rule="evenodd" d="M2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" /></svg>
                                             <span>リンク切れをチェック...</span>
                                         </button>
-                                        <p id="link-check-message" class="text-sm text-gray-600 mt-2 h-5"></p>
+                                        <button id="manual-image-check-btn" class="bg-teal-600 text-white py-2 px-5 rounded-lg font-semibold hover:bg-teal-700 flex items-center justify-center gap-2 w-full sm:w-auto">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg>
+                                            <span>画像表示をチェック...</span>
+                                        </button>
                                     </div>
+                                    <p id="check-message" class="text-sm text-gray-600 mt-2 h-5 text-center"></p>
                                     
                                     <div id="submission-tabs" class="border-b border-gray-200 mb-4">
                                         <nav class="flex space-x-2 overflow-x-auto" aria-label="Tabs">
@@ -307,12 +311,14 @@
                                             <button data-tab="image-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">画像レポート <span id="image-reports-count-badge" class="count-badge hidden"></span></button>
                                             <button data-tab="spot-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">スポット報告 <span id="spot-reports-count-badge" class="count-badge hidden"></span></button>
                                             <button data-tab="link-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">リンク切れ <span id="link-reports-count-badge" class="count-badge hidden"></span></button>
+                                            <button data-tab="image-link-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">画像リンク切れ <span id="image-link-reports-count-badge" class="count-badge hidden"></span></button>
                                         </nav>
                                     </div>
                                     <div id="submissions-content-panel" class="submission-panel space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
                                     <div id="image-reports-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
                                     <div id="spot-reports-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
                                     <div id="link-reports-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
+                                    <div id="image-link-reports-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
                                 </div>
                             </details>
                          </div>
@@ -398,18 +404,18 @@
                 <div class="flex justify-end gap-4"><button id="image-candidate-cancel-btn" class="py-2 px-6 bg-gray-200 rounded-lg font-semibold">キャンセル</button><button id="image-candidate-confirm-btn" class="py-2 px-6 bg-blue-500 text-white rounded-lg font-semibold" disabled>この画像に決定</button></div>
             </div>
         </div>
-        <div id="link-check-prefecture-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
+        <div id="check-prefecture-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
             <div class="p-6 border w-full max-w-md shadow-lg rounded-md bg-white">
-                <h3 class="text-xl font-bold mb-4">リンク切れチェック</h3>
+                <h3 id="check-modal-title" class="text-xl font-bold mb-4"></h3>
                 <p class="text-sm text-gray-600 mb-4">チェック対象の都道府県を選択してください。「すべての都道府県」を選択すると、完了まで時間がかかる場合があります。</p>
                 <div>
-                    <label for="link-check-prefecture-selector" class="block text-sm font-medium text-gray-700">都道府県</label>
-                    <select id="link-check-prefecture-selector" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"></select>
+                    <label for="check-prefecture-selector" class="block text-sm font-medium text-gray-700">都道府県</label>
+                    <select id="check-prefecture-selector" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"></select>
                 </div>
                 <div class="mt-6 flex justify-end gap-4">
-                    <button id="link-check-cancel-btn" class="bg-gray-200 text-gray-800 py-2 px-5 rounded-lg font-semibold hover:bg-gray-300">キャンセル</button>
-                    <button id="link-check-run-btn" class="bg-blue-600 text-white py-2 px-5 rounded-lg font-semibold hover:bg-blue-700 flex items-center justify-center gap-2">
-                        <div id="link-check-modal-spinner" class="hidden spinner"></div>
+                    <button id="check-cancel-btn" class="bg-gray-200 text-gray-800 py-2 px-5 rounded-lg font-semibold hover:bg-gray-300">キャンセル</button>
+                    <button id="check-run-btn" class="bg-blue-600 text-white py-2 px-5 rounded-lg font-semibold hover:bg-blue-700 flex items-center justify-center gap-2">
+                        <div id="check-modal-spinner" class="hidden spinner"></div>
                         <span>チェック実行</span>
                     </button>
                 </div>
@@ -447,6 +453,8 @@
         const approveSubmission = httpsCallable(functions, 'approveSubmission');
         const resolveImageReport = httpsCallable(functions, 'resolveImageReport');
         const triggerLinkCheck = httpsCallable(functions, 'triggerLinkCheck');
+        const triggerImageCheck = httpsCallable(functions, 'triggerImageCheck');
+        const deleteBrokenImageReport = httpsCallable(functions, 'deleteBrokenImageReport');
         const findUrlCandidates = httpsCallable(functions, 'findUrlCandidates');
         const reportSpot = httpsCallable(functions, 'reportSpot');
         const deleteSpot = httpsCallable(functions, 'deleteSpot');
@@ -459,9 +467,10 @@
 
         // グローバル変数
         let currentUser = null, allSpotsData = {}, selectedSpotOriginalName = '', activeImageReportData = {};
-        let unsubscribeSpotSubmissions = null, unsubscribeImageReports = null, unsubscribeLinkReports = null, unsubscribeSpotReports = null;
+        let unsubscribeSpotSubmissions = null, unsubscribeImageReports = null, unsubscribeLinkReports = null, unsubscribeSpotReports = null, unsubscribeImageLinkReports = null;
         let fullPrefectureData = {}, areaHistory = [];
         let charts = {};
+        let currentCheckType = '';
 
         // DOM要素の取得
         const loginContainer = document.getElementById('login-container');
@@ -503,18 +512,21 @@
         const imageReportContentPanel = document.getElementById('image-reports-content-panel');
         const spotReportContentPanel = document.getElementById('spot-reports-content-panel');
         const linkReportContentPanel = document.getElementById('link-reports-content-panel');
+        const imageLinkReportContentPanel = document.getElementById('image-link-reports-content-panel');
         const imageCandidateOverlay = document.getElementById('image-candidate-overlay');
         const imageCandidateList = document.getElementById('image-candidate-list');
         const imageCandidateLoading = document.getElementById('image-candidate-loading');
         const imageCandidateCancelBtn = document.getElementById('image-candidate-cancel-btn');
         const imageCandidateConfirmBtn = document.getElementById('image-candidate-confirm-btn');
         const manualLinkCheckBtn = document.getElementById('manual-link-check-btn');
-        const linkCheckMessage = document.getElementById('link-check-message');
-        const linkCheckPrefectureModal = document.getElementById('link-check-prefecture-modal');
-        const linkCheckPrefectureSelector = document.getElementById('link-check-prefecture-selector');
-        const linkCheckCancelBtn = document.getElementById('link-check-cancel-btn');
-        const linkCheckRunBtn = document.getElementById('link-check-run-btn');
-        const linkCheckModalSpinner = document.getElementById('link-check-modal-spinner');
+        const manualImageCheckBtn = document.getElementById('manual-image-check-btn');
+        const checkMessage = document.getElementById('check-message');
+        const checkPrefectureModal = document.getElementById('check-prefecture-modal');
+        const checkModalTitle = document.getElementById('check-modal-title');
+        const checkPrefectureSelector = document.getElementById('check-prefecture-selector');
+        const checkCancelBtn = document.getElementById('check-cancel-btn');
+        const checkRunBtn = document.getElementById('check-run-btn');
+        const checkModalSpinner = document.getElementById('check-modal-spinner');
         const promptAnalyzeSpot = document.getElementById('prompt-analyze-spot');
         const promptReAnalyzeSpot = document.getElementById('prompt-re-analyze-spot');
         const saveSettingsBtn = document.getElementById('save-settings-btn');
@@ -614,6 +626,25 @@
             });
         }
 
+        function listenForImageLinkReports() {
+            if (unsubscribeImageLinkReports) unsubscribeImageLinkReports();
+            const q = query(collection(db, 'image_link_reports'));
+            unsubscribeImageLinkReports = onSnapshot(q, (snapshot) => {
+                imageLinkReportContentPanel.innerHTML = '';
+                const count = snapshot.size;
+                const badge = document.getElementById('image-link-reports-count-badge');
+                badge.textContent = count;
+                badge.classList.toggle('hidden', count === 0);
+
+                if (snapshot.empty) {
+                    imageLinkReportContentPanel.innerHTML = '<p class="text-gray-500 text-center py-4">画像リンク切れの報告はありません。</p>';
+                } else {
+                    snapshot.docs.forEach(doc => renderImageLinkReportCard(doc.id, doc.data()));
+                }
+            });
+        }
+
+
         function switchSecondaryTab(activeTabId) {
             submissionPanels.forEach(panel => {
                 panel.style.display = panel.id === `${activeTabId}-content-panel` ? 'block' : 'none';
@@ -641,6 +672,7 @@
                         listenForImageReports();
                         listenForSpotReports();
                         listenForLinkReports();
+                        listenForImageLinkReports();
                         loadAppSettings();
                     } else {
                         loginError.textContent = "管理者権限がありません。";
@@ -888,10 +920,10 @@
             try {
                 const result = await getPrefectureList();
                 prefectureSelector.innerHTML = '<option value="">選択してください</option>';
-                linkCheckPrefectureSelector.innerHTML = '<option value="all">すべての都道府県</option>';
+                checkPrefectureSelector.innerHTML = '<option value="all">すべての都道府県</option>';
                 result.data.forEach(pref => {
                     prefectureSelector.add(new Option(pref.name, pref.id));
-                    linkCheckPrefectureSelector.add(new Option(pref.name, pref.id));
+                    checkPrefectureSelector.add(new Option(pref.name, pref.id));
                 });
             } catch (error) {
                 document.getElementById('edit-message').textContent = '都道府県リストの読込失敗';
@@ -1325,6 +1357,30 @@
             `;
             linkReportContentPanel.appendChild(card);
         }
+
+        function renderImageLinkReportCard(id, data) {
+            const card = document.createElement('div');
+            card.id = `image-link-report-${id}`;
+            card.className = 'bg-white p-4 rounded-lg border shadow-sm space-y-3';
+            const statusColor = data.status === 'FETCH_ERROR' ? 'text-yellow-600' : 'text-red-600';
+            card.innerHTML = `
+                <div class="flex justify-between items-start gap-4">
+                    <div class="flex items-start gap-4">
+                        <img src="${data.imageUrl}" class="w-24 h-24 object-cover rounded-md flex-shrink-0 border" onerror="this.src='https://placehold.co/100x100/E57373/FFF?text=BROKEN'">
+                        <div>
+                            <p class="font-bold">${data.spotName} <span class="text-sm font-normal text-gray-500">(${data.prefectureName})</span></p>
+                            <p class="text-sm ${statusColor} font-semibold">画像リンク切れの可能性 (ステータス: ${data.status})</p>
+                            <p class="text-xs text-gray-500 break-all mt-1">URL: <a href="${data.imageUrl}" target="_blank" rel="noopener noreferrer" class="underline hover:text-blue-500">${data.imageUrl}</a></p>
+                        </div>
+                    </div>
+                    <button data-id="${id}" class="dismiss-image-link-report-btn text-xs bg-gray-200 py-1 px-3 rounded-full hover:bg-gray-300 flex-shrink-0">削除</button>
+                </div>
+                <div class="flex gap-2">
+                    <button data-id="${id}" class="find-new-image-candidates-btn w-full bg-blue-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-600 text-sm">新しい画像候補を検索</button>
+                </div>
+            `;
+            imageLinkReportContentPanel.appendChild(card);
+        }
         
         submissionContentPanel.addEventListener('click', async (e) => {
             const button = e.target.closest('button');
@@ -1367,7 +1423,7 @@
             }
             if (button.classList.contains('find-new-image-btn')) {
                 imageCandidateOverlay.style.display = 'flex'; imageCandidateList.innerHTML = ''; imageCandidateLoading.style.display = 'block'; imageCandidateConfirmBtn.disabled = true;
-                activeImageReportData = { reportId, spotName, prefecture };
+                activeImageReportData = { type: 'user_report', reportId, spotName, prefecture };
                 try {
                     const result = await fetchImageForSpot({ spot: { name: spotName, prefecture: prefecture } });
                     imageCandidateLoading.style.display = 'none';
@@ -1392,11 +1448,19 @@
             const selectedWrapper = imageCandidateList.querySelector('.candidate-image-wrapper.selected');
             if (!selectedWrapper) return;
             const newImageUrl = selectedWrapper.querySelector('img').src;
-            const { reportId, spotName, prefecture } = activeImageReportData;
+            const { type, reportId, spotName, prefecture, prefectureId } = activeImageReportData;
             imageCandidateConfirmBtn.disabled = true; imageCandidateConfirmBtn.innerHTML = '<span class="spinner"></span> 更新中...';
             try {
-                const result = await resolveImageReport({ reportId, spotName, newImageUrl, prefecture });
-                alert(result.data.message); imageCandidateOverlay.style.display = 'none';
+                let result;
+                if (type === 'user_report') {
+                    result = await resolveImageReport({ reportId, spotName, newImageUrl, prefecture });
+                } else if (type === 'auto_report') {
+                    await updateSpot({ prefectureId: prefectureId, originalSpotName: spotName, updatedSpotData: { image: newImageUrl, imageSource: '管理者更新', imageSourceUrl: newImageUrl } });
+                    await deleteBrokenImageReport({ reportId });
+                    result = { data: { message: "画像の更新が完了しました。" } };
+                }
+                alert(result.data.message); 
+                imageCandidateOverlay.style.display = 'none';
             } catch (error) { alert(`画像の更新に失敗しました: ${error.message}`);
             } finally { imageCandidateConfirmBtn.disabled = false; imageCandidateConfirmBtn.textContent = 'この画像に決定'; }
         });
@@ -1461,6 +1525,43 @@
                 } catch (error) { alert(`更新に失敗しました: ${error.message}`); btn.disabled = false; btn.textContent = 'このURLに更新'; }
             }
         });
+
+        imageLinkReportContentPanel.addEventListener('click', async (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+            const card = btn.closest('[id^="image-link-report-"]');
+            if (!card) return;
+            const reportId = card.id.replace('image-link-report-', '');
+            if (btn.classList.contains('dismiss-image-link-report-btn')) { if (confirm('このレポートを削除しますか？')) { try { await deleteBrokenImageReport({ reportId }); } catch(err) { alert('削除に失敗しました。'); } } return; }
+            
+            const docSnap = await getDoc(doc(db, 'image_link_reports', reportId));
+            if (!docSnap.exists()) return;
+            const reportData = docSnap.data();
+            
+            if (btn.classList.contains('find-new-image-candidates-btn')) {
+                imageCandidateOverlay.style.display = 'flex';
+                imageCandidateList.innerHTML = '';
+                imageCandidateLoading.style.display = 'block';
+                imageCandidateConfirmBtn.disabled = true;
+                activeImageReportData = { type: 'auto_report', reportId: reportId, spotName: reportData.spotName, prefecture: reportData.prefectureName, prefectureId: reportData.prefectureId };
+                try {
+                    const result = await fetchImageForSpot({ spot: { name: reportData.spotName, prefecture: reportData.prefectureName } });
+                    imageCandidateLoading.style.display = 'none';
+                    if (result.data && result.data.length > 0) {
+                        result.data.forEach(candidate => {
+                            const wrapper = document.createElement('div'); wrapper.className = 'candidate-image-wrapper p-2 rounded-lg border-2 border-gray-200 cursor-pointer';
+                            wrapper.innerHTML = `<img src="${candidate.url}" class="w-full h-32 object-cover rounded-md" onerror="this.parentElement.style.display='none'">`;
+                            wrapper.addEventListener('click', () => {
+                                document.querySelectorAll('.candidate-image-wrapper').forEach(w => w.classList.remove('selected', 'border-indigo-500'));
+                                wrapper.classList.add('selected', 'border-indigo-500');
+                                imageCandidateConfirmBtn.disabled = false;
+                            });
+                            imageCandidateList.appendChild(wrapper);
+                        });
+                    } else { imageCandidateList.innerHTML = '<p class="text-center text-gray-500 col-span-full">候補が見つかりませんでした。</p>'; }
+                } catch (error) { imageCandidateLoading.style.display = 'none'; imageCandidateList.innerHTML = `<p class="text-center text-red-500 col-span-full">画像の検索に失敗しました: ${error.message}</p>`; }
+            }
+        });
         
         function renderUrlCandidates(reportId, candidates) {
             const container = document.getElementById(`link-candidates-${reportId}`);
@@ -1480,18 +1581,37 @@
             container.appendChild(list);
         }
 
-        manualLinkCheckBtn.addEventListener('click', () => { linkCheckPrefectureModal.style.display = 'flex'; });
-        linkCheckCancelBtn.addEventListener('click', () => { linkCheckPrefectureModal.style.display = 'none'; });
-        linkCheckRunBtn.addEventListener('click', async () => {
-            const selectedPrefectureId = linkCheckPrefectureSelector.value;
-            const selectedPrefectureName = linkCheckPrefectureSelector.options[linkCheckPrefectureSelector.selectedIndex].text;
-            linkCheckModalSpinner.style.display = 'inline-block'; linkCheckRunBtn.disabled = true; linkCheckMessage.textContent = `${selectedPrefectureName}のチェックを開始しました...（完了までお待ちください）`; linkCheckPrefectureModal.style.display = 'none';
-            try {
-                const result = await triggerLinkCheck({ prefectureId: selectedPrefectureId });
-                linkCheckMessage.textContent = result.data.message; switchSecondaryTab('link-reports');
-            } catch (error) { linkCheckMessage.textContent = `エラーが発生しました: ${error.message}`;
-            } finally { linkCheckModalSpinner.style.display = 'none'; linkCheckRunBtn.disabled = false; }
+        manualLinkCheckBtn.addEventListener('click', () => {
+             currentCheckType = 'link';
+             checkModalTitle.textContent = 'リンク切れチェック';
+             checkPrefectureModal.style.display = 'flex';
         });
+
+        manualImageCheckBtn.addEventListener('click', () => {
+            currentCheckType = 'image';
+            checkModalTitle.textContent = '画像表示チェック';
+            checkPrefectureModal.style.display = 'flex';
+        });
+
+        checkCancelBtn.addEventListener('click', () => { checkPrefectureModal.style.display = 'none'; });
+        checkRunBtn.addEventListener('click', async () => {
+            const selectedPrefectureId = checkPrefectureSelector.value;
+            const selectedPrefectureName = checkPrefectureSelector.options[checkPrefectureSelector.selectedIndex].text;
+            checkModalSpinner.style.display = 'inline-block'; checkRunBtn.disabled = true; checkMessage.textContent = `${selectedPrefectureName}のチェックを開始しました...`; checkPrefectureModal.style.display = 'none';
+            try {
+                let result;
+                if (currentCheckType === 'link') {
+                    switchSecondaryTab('link-reports');
+                    result = await triggerLinkCheck({ prefectureId: selectedPrefectureId });
+                } else if (currentCheckType === 'image') {
+                    switchSecondaryTab('image-link-reports');
+                    result = await triggerImageCheck({ prefectureId: selectedPrefectureId });
+                }
+                checkMessage.textContent = result.data.message;
+            } catch (error) { checkMessage.textContent = `エラーが発生しました: ${error.message}`;
+            } finally { checkModalSpinner.style.display = 'none'; checkRunBtn.disabled = false; }
+        });
+
 
         async function loadAppSettings() {
             try {
