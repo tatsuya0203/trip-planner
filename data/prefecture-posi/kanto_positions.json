@@ -4,6 +4,6 @@
   "ibaraki": { "top": "62%", "left": "63%" },
   "saitama": { "top": "64%", "left": "57%" },
   "chiba": { "top": "67%", "left": "62%" },
-  "tokyo": { "top": "59%", "left": "58%" },
-  "kanagawa": { "top": "65%", "left": "58%" }
+  "tokyo": { "top": "57%", "left": "37%" },
+  "kanagawa": { "top": "65%", "left": "35%" }
 }
