@@ -939,7 +939,9 @@
 
             if (!prefId) return;
             try {
-                const res = await fetch(`https://raw.githubusercontent.com/tatsuya0203/trip-planner/main/data/${prefId}.json?v=${new Date().getTime()}`);
+                // ### 修正箇所 ###
+                // パスを `data/` から `data/prefecture/` に変更
+                const res = await fetch(`https://raw.githubusercontent.com/tatsuya0203/trip-planner/main/data/prefecture/${prefId}.json?v=${new Date().getTime()}`);
                 if (!res.ok) throw new Error('スポットデータの取得に失敗');
                 const data = await res.json();
                 fullPrefectureData[prefId] = data;
