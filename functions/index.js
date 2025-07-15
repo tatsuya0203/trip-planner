@@ -1,6 +1,7 @@
 /**
  * VLOG旅プランナー バックエンド処理 (Firebase Cloud Functions)
  * 第2世代 (V2) 完全対応版
+ * フォルダ構成の変更 (`data/prefecture/`) を反映済み
  */
 
 // V2用のモジュールをインポート
@@ -83,7 +84,8 @@ async function updateGitHubFile(filePath, newContent, sha, commitMessage) {
 }
 
 async function getPrefectureIdMap() {
-    const url = `https://api.github.com/repos/${GITHUB_OWNER.value()}/${GITHUB_REPO.value()}/contents/data?ref=${GITHUB_BRANCH.value()}`;
+    // 修正: `data/prefecture` ディレクトリを直接参照
+    const url = `https://api.github.com/repos/${GITHUB_OWNER.value()}/${GITHUB_REPO.value()}/contents/data/prefecture?ref=${GITHUB_BRANCH.value()}`;
     try {
         const response = await fetch(url, {
             headers: { "Authorization": `token ${GITHUB_TOKEN.value()}`, "Accept": "application/vnd.github.v3+json" },
@@ -99,7 +101,8 @@ async function getPrefectureIdMap() {
         await Promise.all(
             jsonFiles.map(async (file) => {
                 try {
-                    const fileData = await getGitHubFile(`data/${file.name}`);
+                    // 修正: 正しいファイルパスを参照
+                    const fileData = await getGitHubFile(`data/prefecture/${file.name}`);
                     const id = file.name.replace('.json', '');
                     const name = fileData.content.name;
                     if (name && id) {
@@ -466,7 +469,8 @@ exports.approveSubmission = onCall(async (request) => {
     if (!prefId) {
         throw new HttpsError("invalid-argument", `未対応の都道府県です: ${submissionData.prefecture}`);
     }
-    const filePath = `data/${prefId}.json`;
+    // 修正: 正しいファイルパスを参照
+    const filePath = `data/prefecture/${prefId}.json`;
 
     try {
         const { content: currentJson, sha } = await getGitHubFile(filePath);
@@ -551,7 +555,8 @@ exports.resolveImageReport = onCall(async (request) => {
     if (!prefId) {
         throw new HttpsError("invalid-argument", `未対応の都道府県です: ${prefecture}`);
     }
-    const filePath = `data/${prefId}.json`;
+    // 修正: 正しいファイルパスを参照
+    const filePath = `data/prefecture/${prefId}.json`;
 
     try {
         const { content: currentJson, sha } = await getGitHubFile(filePath);
@@ -577,7 +582,8 @@ exports.resolveImageReport = onCall(async (request) => {
 });
 
 async function _getPrefectureListLogic() {
-    const url = `https://api.github.com/repos/${GITHUB_OWNER.value()}/${GITHUB_REPO.value()}/contents/data?ref=${GITHUB_BRANCH.value()}`;
+    // 修正: `data/prefecture` ディレクトリを直接参照
+    const url = `https://api.github.com/repos/${GITHUB_OWNER.value()}/${GITHUB_REPO.value()}/contents/data/prefecture?ref=${GITHUB_BRANCH.value()}`;
     try {
         const directoryResponse = await fetch(url, {
             headers: {
@@ -589,7 +595,7 @@ async function _getPrefectureListLogic() {
         if (!directoryResponse.ok) {
             const errorText = await directoryResponse.text();
             console.error("GitHub API error (directory):", errorText);
-            throw new Error(`GitHubのdataディレクトリの取得に失敗しました。Status: ${directoryResponse.status}`);
+            throw new Error(`GitHubのdata/prefectureディレクトリの取得に失敗しました。Status: ${directoryResponse.status}`);
         }
 
         const files = await directoryResponse.json();
@@ -598,7 +604,8 @@ async function _getPrefectureListLogic() {
         const prefectureList = await Promise.all(
             jsonFiles.map(async (file) => {
                 try {
-                    const fileData = await getGitHubFile(`data/${file.name}`);
+                    // 修正: 正しいファイルパスを参照
+                    const fileData = await getGitHubFile(`data/prefecture/${file.name}`);
                     const id = file.name.replace('.json', '');
                     const name = fileData.content.name;
                     if (id && name) {
@@ -613,7 +620,9 @@ async function _getPrefectureListLogic() {
         );
         
         const validPrefectures = prefectureList.filter(Boolean);
-        validPrefectures.sort((a, b) => a.id.localeCompare(b.id));
+        // ID順ではなく、日本の都道府県の一般的な並び順（北から南）にする場合は、別途定義が必要
+        // ここでは一旦ID（アルファベット順）でソート
+        validPrefectures.sort((a, b) => a.id.localeCompare(b.id)); 
 
         return validPrefectures;
 
@@ -641,7 +650,8 @@ exports.updatePrefectureData = onCall(async (request) => {
         throw new HttpsError("invalid-argument", "必要な情報が不足しています。");
     }
 
-    const filePath = `data/${prefectureId}.json`;
+    // 修正: 正しいファイルパスを参照
+    const filePath = `data/prefecture/${prefectureId}.json`;
 
     try {
         const { content: currentJson, sha } = await getGitHubFile(filePath);
@@ -906,7 +916,8 @@ exports.updateSpot = onCall(async (request) => {
     if (!prefectureId || !originalSpotName || !updatedSpotData) {
         throw new HttpsError("invalid-argument", "更新に必要な情報（都道府県ID, 元のスポット名, 更新データ）が不足しています。");
     }
-    const filePath = `data/${prefectureId}.json`;
+    // 修正: 正しいファイルパスを参照
+    const filePath = `data/prefecture/${prefectureId}.json`;
     try {
         const { content: currentJson, sha } = await getGitHubFile(filePath);
         const spotIndex = currentJson.spots.findIndex((spot) => spot.name === originalSpotName);
@@ -934,7 +945,8 @@ exports.exportSpotsToCSV = onRequest(async (req, res) => {
             return;
         }
         try {
-            const filePath = `data/${prefectureId}.json`;
+            // 修正: 正しいファイルパスを参照
+            const filePath = `data/prefecture/${prefectureId}.json`;
             const { content:jsonData } = await getGitHubFile(filePath);
             const csv = Papa.unparse(jsonData.spots);
             res.setHeader('Content-Type', 'text/csv');
@@ -954,7 +966,8 @@ exports.importSpotsFromCSV = onCall({ timeoutSeconds: 300, memory: '1GiB' }, asy
     if (!prefectureId || !spotsToImport || !Array.isArray(spotsToImport)) {
         throw new HttpsError("invalid-argument", "必要な情報が不足しています。");
     }
-    const filePath = `data/${prefectureId}.json`;
+    // 修正: 正しいファイルパスを参照
+    const filePath = `data/prefecture/${prefectureId}.json`;
     try {
         const { content: currentJson, sha } = await getGitHubFile(filePath);
         let addedCount = 0;
@@ -1008,7 +1021,8 @@ exports.triggerLinkCheck = onCall({ timeoutSeconds: 540, memory: "1GiB" }, async
     const allSpots = [];
     for (const pref of prefecturesToProcess) {
         try {
-            const { content: jsonData } = await getGitHubFile(`data/${pref.id}.json`);
+            // 修正: 正しいファイルパスを参照
+            const { content: jsonData } = await getGitHubFile(`data/prefecture/${pref.id}.json`);
             jsonData.spots.forEach(spot => {
                 allSpots.push({
                     prefectureId: pref.id,
@@ -1097,7 +1111,8 @@ exports.triggerImageCheck = onCall({ timeoutSeconds: 540, memory: "1GiB" }, asyn
     const allSpots = [];
     for (const pref of prefecturesToProcess) {
         try {
-            const { content: jsonData } = await getGitHubFile(`data/${pref.id}.json`);
+            // 修正: 正しいファイルパスを参照
+            const { content: jsonData } = await getGitHubFile(`data/prefecture/${pref.id}.json`);
             jsonData.spots.forEach(spot => {
                 if(spot.image && spot.image.startsWith('http')) {
                     allSpots.push({
@@ -1278,7 +1293,8 @@ exports.deleteSpot = onCall(async (request) => {
     if (!prefId) {
         throw new HttpsError("not-found", `指定された都道府県が見つかりません: ${prefecture}`);
     }
-    const filePath = `data/${prefId}.json`;
+    // 修正: 正しいファイルパスを参照
+    const filePath = `data/prefecture/${prefId}.json`;
 
     try {
         const { content: currentJson, sha } = await getGitHubFile(filePath);

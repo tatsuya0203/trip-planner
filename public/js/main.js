@@ -39,7 +39,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyDe8piUl7dbuR_FAn1pQkUfVtugh5HF4FU",
   authDomain: "studio-gqqbe.firebaseapp.com",
   projectId: "studio-gqqbe",
-  storageBucket: "studio-gqqbe.appspot.com",
+storageBucket: "studio-gqqbe.firebasestorage.app", 
   messagingSenderId: "369252587708",
   appId: "1:369252587708:web:86f2413bd89967e2a858b9"
 };
@@ -75,14 +75,12 @@ const owner = 'tatsuya0203';
 const repo = 'trip-planner';
 const branch = 'main';
 
-// 地方ごとの情報を定義（URLはGitHubから直接読み込むように修正）
+// 地方ごとの情報を定義
 const regions = {
     hokkaido_tohoku: {
         name: "北海道・東北",
         prefectures: ["hokkaido", "aomori", "iwate", "akita", "miyagi", "yamagata", "fukushima"],
-        // 画像ファイルのパス
         imageUrl: `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture-pic/hokkaido_tohoku.png`,
-        // 座標ファイルのパス
         positionsUrl: `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/data/prefecture-posi/hokkaido_tohoku_positions.json`
     },
     kanto: {
@@ -155,36 +153,51 @@ async function loadAllData() {
         prefectureFilter.appendChild(option);
     });
 
-    // 各県のスポット情報JSONファイルのパスを生成
-    // このパスはご要望の通り `data/prefecture/` を指しています
     const prefectureFiles = availablePrefectures.map(p => `data/prefecture/${p.id}.json`);
     
     const localSpots = [];
     supportedPrefectureNames = [];
     try {
-        const responses = await Promise.all(
-            prefectureFiles.map(file => fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${file}?v=${new Date().getTime()}`))
+        // Promise.allをPromise.allSettledに変更し、一部の失敗で全体が停止しないようにする
+        const promises = prefectureFiles.map(file => 
+            fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${file}?v=${new Date().getTime()}`)
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error(`HTTP error! status: ${res.status}`);
+                    }
+                    return res.json();
+                })
         );
 
-        const jsonDataArray = await Promise.all(responses.map(res => {
-            if (!res.ok) throw new Error(`Failed to fetch ${res.url}: ${res.statusText}`);
-            return res.json();
-        }));
-        
-        jsonDataArray.forEach((data, index) => {
+        const results = await Promise.allSettled(promises);
+
+        results.forEach((result, index) => {
             const prefectureId = availablePrefectures[index].id;
-            originalJsonData[prefectureId] = data; 
-            allSpotsData[prefectureId] = data.spots;
-            areaPositions[prefectureId] = data.areaPositions;
-            allTransitData[prefectureId] = data.transitData;
-            localSpots.push(...data.spots);
-            if (data.name) {
-                supportedPrefectureNames.push(data.name);
+            if (result.status === 'fulfilled') {
+                const data = result.value;
+                originalJsonData[prefectureId] = data; 
+                allSpotsData[prefectureId] = data.spots;
+                areaPositions[prefectureId] = data.areaPositions;
+                allTransitData[prefectureId] = data.transitData;
+                if (data.spots && Array.isArray(data.spots)) {
+                    localSpots.push(...data.spots);
+                }
+                if (data.name) {
+                    supportedPrefectureNames.push(data.name);
+                }
+            } else {
+                // 失敗したファイル名と理由をコンソールに出力
+                console.error(`ファイルの読み込みに失敗: ${prefectureFiles[index]}`, result.reason);
             }
         });
+
+        if (localSpots.length === 0) {
+            throw new Error("有効なスポットデータを一つも読み込めませんでした。");
+        }
+
     } catch (error) {
-        console.error("GitHubからのデータ読み込みに失敗しました:", error);
-        loadingIndicator.innerHTML = `<p class="text-red-500">データの読み込みに失敗しました。ページを再読み込みしてください。</p>`;
+        console.error("GitHubからのデータ読み込み中に致命的なエラー:", error);
+        loadingIndicator.innerHTML = `<p class="text-red-500">データの読み込みに失敗しました。ファイル名やJSONの構文を確認してください。</p>`;
         return false;
     }
 
