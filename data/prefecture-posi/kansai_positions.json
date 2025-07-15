@@ -1,9 +1,9 @@
 {
   "shiga": { "top": "70%", "left": "42%" },
   "mie": { "top": "76%", "left": "44%" },
-  "kyoto": { "top": "61%", "left": "45.5%" },
-  "nara": { "top": "68%", "left": "47%" },
+  "kyoto": { "top": "31%", "left": "40%" },
+  "nara": { "top": "53%", "left": "49%" },
   "wakayama": { "top": "79%", "left": "39%" },
-  "osaka": { "top": "65%", "left": "45%" },
+  "osaka": { "top": "47%", "left": "42%" },
   "hyogo": { "top": "71%", "left": "35%" }
 }
