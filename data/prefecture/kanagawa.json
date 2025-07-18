@@ -2,24 +2,120 @@
   "name": "神奈川県",
   "id": "kanagawa",
   "areaPositions": [
-    { "name": "横浜", "top": "40%", "left": "55%" },
-    { "name": "みなとみらい", "top": "35%", "left": "45%" },
-    { "name": "鎌倉", "top": "65%", "left": "48%" },
-    { "name": "江の島", "top": "75%", "left": "38%" },
-    { "name": "箱根", "top": "80%", "left": "15%" },
-    { "name": "小田原", "top": "70%", "left": "25%" },
-    { "name": "横須賀", "top": "80%", "left": "65%" },
-    { "name": "川崎", "top": "20%", "left": "65%" }
+    {
+      "name": "横浜",
+      "top": "40%",
+      "left": "55%"
+    },
+    {
+      "name": "みなとみらい",
+      "top": "35%",
+      "left": "45%"
+    },
+    {
+      "name": "鎌倉",
+      "top": "65%",
+      "left": "48%"
+    },
+    {
+      "name": "江の島",
+      "top": "75%",
+      "left": "38%"
+    },
+    {
+      "name": "箱根",
+      "top": "80%",
+      "left": "15%"
+    },
+    {
+      "name": "小田原",
+      "top": "70%",
+      "left": "25%"
+    },
+    {
+      "name": "横須賀",
+      "top": "80%",
+      "left": "65%"
+    },
+    {
+      "name": "川崎",
+      "top": "20%",
+      "left": "65%"
+    }
   ],
   "transitData": {
-    "横浜": { "みなとみらい": 5, "鎌倉": 25, "江の島": 45, "箱根": 80, "小田原": 60, "横須賀": 30, "川崎": 10 },
-    "みなとみらい": { "横浜": 5, "鎌倉": 30, "江の島": 50, "箱根": 85, "小田原": 65, "横須賀": 35, "川崎": 15 },
-    "鎌倉": { "横浜": 25, "みなとみらい": 30, "江の島": 20, "箱根": 70, "小田原": 50, "横須賀": 25, "川崎": 40 },
-    "江の島": { "横浜": 45, "みなとみらい": 50, "鎌倉": 20, "箱根": 60, "小田原": 40, "横須賀": 45, "川崎": 60 },
-    "箱根": { "横浜": 80, "みなとみらい": 85, "鎌倉": 70, "江の島": 60, "小田原": 20, "横須賀": 100, "川崎": 90 },
-    "小田原": { "横浜": 60, "みなとみらい": 65, "鎌倉": 50, "江の島": 40, "箱根": 20, "横須賀": 80, "川崎": 70 },
-    "横須賀": { "横浜": 30, "みなとみらい": 35, "鎌倉": 25, "江の島": 45, "箱根": 100, "小田原": 80, "川崎": 45 },
-    "川崎": { "横浜": 10, "みなとみらい": 15, "鎌倉": 40, "江の島": 60, "箱根": 90, "小田原": 70, "横須賀": 45 }
+    "横浜": {
+      "みなとみらい": 5,
+      "鎌倉": 25,
+      "江の島": 45,
+      "箱根": 80,
+      "小田原": 60,
+      "横須賀": 30,
+      "川崎": 10
+    },
+    "みなとみらい": {
+      "横浜": 5,
+      "鎌倉": 30,
+      "江の島": 50,
+      "箱根": 85,
+      "小田原": 65,
+      "横須賀": 35,
+      "川崎": 15
+    },
+    "鎌倉": {
+      "横浜": 25,
+      "みなとみらい": 30,
+      "江の島": 20,
+      "箱根": 70,
+      "小田原": 50,
+      "横須賀": 25,
+      "川崎": 40
+    },
+    "江の島": {
+      "横浜": 45,
+      "みなとみらい": 50,
+      "鎌倉": 20,
+      "箱根": 60,
+      "小田原": 40,
+      "横須賀": 45,
+      "川崎": 60
+    },
+    "箱根": {
+      "横浜": 80,
+      "みなとみらい": 85,
+      "鎌倉": 70,
+      "江の島": 60,
+      "小田原": 20,
+      "横須賀": 100,
+      "川崎": 90
+    },
+    "小田原": {
+      "横浜": 60,
+      "みなとみらい": 65,
+      "鎌倉": 50,
+      "江の島": 40,
+      "箱根": 20,
+      "横須賀": 80,
+      "川崎": 70
+    },
+    "横須賀": {
+      "横浜": 30,
+      "みなとみらい": 35,
+      "鎌倉": 25,
+      "江の島": 45,
+      "箱根": 100,
+      "小田原": 80,
+      "川崎": 45
+    },
+    "川崎": {
+      "横浜": 10,
+      "みなとみらい": 15,
+      "鎌倉": 40,
+      "江の島": 60,
+      "箱根": 90,
+      "小田原": 70,
+      "横須賀": 45
+    }
   },
   "spots": [
     {
@@ -33,7 +129,16 @@
       "website": "https://www.yokohama-akarenga.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=横浜赤レンガ倉庫",
       "stayTime": "約120分",
-      "tags": ["定番スポット", "レトロ", "おしゃれ", "ショッピング", "夜景", "インスタ映え", "ランチ", "ディナー"],
+      "tags": [
+        "定番スポット",
+        "レトロ",
+        "おしゃれ",
+        "ショッピング",
+        "夜景",
+        "インスタ映え",
+        "ランチ",
+        "ディナー"
+      ],
       "image": "https://www.yokohama-akarenga.jp/img/top/main_visual_01.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.yokohama-akarenga.jp/"
@@ -49,7 +154,15 @@
       "website": "https://www.cupnoodles-museum.jp/ja/yokohama/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=カップヌードルミュージアム+横浜",
       "stayTime": "約120分",
-      "tags": ["体験", "ユニーク", "カワイイ", "インスタ映え", "雨の日OK", "定番スポット", "予約推奨"],
+      "tags": [
+        "体験",
+        "ユニーク",
+        "カワイイ",
+        "インスタ映え",
+        "雨の日OK",
+        "定番スポット",
+        "予約推奨"
+      ],
       "image": "https://www.cupnoodles-museum.jp/ja/yokohama/common/images/og.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.cupnoodles-museum.jp/ja/yokohama/"
@@ -65,7 +178,15 @@
       "website": "https://www.chinatown.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=横浜中華街",
       "stayTime": "約150分",
-      "tags": ["食べ歩き", "ご当地グルメ", "B級グルメ", "定番スポット", "ユニーク", "インスタ映え", "夜景"],
+      "tags": [
+        "食べ歩き",
+        "ご当地グルメ",
+        "B級グルメ",
+        "定番スポット",
+        "ユニーク",
+        "インスタ映え",
+        "夜景"
+      ],
       "image": "https://www.chinatown.or.jp/wp-content/uploads/2020/02/main-visual_pc_02.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.chinatown.or.jp/"
@@ -81,7 +202,13 @@
       "website": "#",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=鎌倉高校前駅",
       "stayTime": "約30分",
-      "tags": ["絶景", "インスタ映え", "定番スポット", "ユニーク", "無料"],
+      "tags": [
+        "絶景",
+        "インスタ映え",
+        "定番スポット",
+        "ユニーク",
+        "無料"
+      ],
       "image": "https://www.pref.kanagawa.jp/documents/10903/199120.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.pref.kanagawa.jp/docs/n5g/cnt/f734/p1200830.html"
@@ -97,7 +224,12 @@
       "website": "https://houkokuji.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=報国寺",
       "stayTime": "約60分",
-      "tags": ["自然・癒し", "絶景", "レトロ", "インスタ映え"],
+      "tags": [
+        "自然・癒し",
+        "絶景",
+        "レトロ",
+        "インスタ映え"
+      ],
       "image": "https://houkokuji.or.jp/wp-content/themes/houkokuji/assets/images/about/img01.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://houkokuji.or.jp/"
@@ -113,7 +245,14 @@
       "website": "https://www.enosui.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=新江ノ島水族館",
       "stayTime": "約150分",
-      "tags": ["定番スポット", "雨の日OK", "インスタ映え", "カワイイ", "自然・癒し", "体験"],
+      "tags": [
+        "定番スポット",
+        "雨の日OK",
+        "インスタ映え",
+        "カワイイ",
+        "自然・癒し",
+        "体験"
+      ],
       "image": "https://www.enosui.com/images/ogp.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.enosui.com/"
@@ -129,7 +268,14 @@
       "website": "https://www.hakone-oam.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=箱根+彫刻の森美術館",
       "stayTime": "約150分",
-      "tags": ["アート・建築", "インスタ映え", "ユニーク", "自然・癒し", "定番スポット", "おしゃれ"],
+      "tags": [
+        "アート・建築",
+        "インスタ映え",
+        "ユニーク",
+        "自然・癒し",
+        "定番スポット",
+        "おしゃれ"
+      ],
       "image": "https://www.hakone-oam.or.jp/ogp.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.hakone-oam.or.jp/"
@@ -145,7 +291,13 @@
       "website": "http://hakonejinja.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=箱根神社",
       "stayTime": "約75分",
-      "tags": ["定番スポット", "絶景", "自然・癒し", "インスタ映え", "レトロ"],
+      "tags": [
+        "定番スポット",
+        "絶景",
+        "自然・癒し",
+        "インスタ映え",
+        "レトロ"
+      ],
       "image": "http://hakonejinja.or.jp/images/common/img_mainvisual_s.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "http://hakonejinja.or.jp/"
@@ -161,7 +313,13 @@
       "website": "http://www.owakudani.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=大涌谷",
       "stayTime": "約60分",
-      "tags": ["絶景", "自然・癒し", "ユニーク", "定番スポット", "ご当地グルメ"],
+      "tags": [
+        "絶景",
+        "自然・癒し",
+        "ユニーク",
+        "定番スポット",
+        "ご当地グルメ"
+      ],
       "image": "https://www.kanagawa-kankou.or.jp/img/photos/1010.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.kanagawa-kankou.or.jp/?p=we-page-entry&spot=1010&type=spot"
@@ -177,7 +335,12 @@
       "website": "https://odawaracastle.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=小田原城",
       "stayTime": "約90分",
-      "tags": ["定番スポット", "レトロ", "アート・建築", "自然・癒し"],
+      "tags": [
+        "定番スポット",
+        "レトロ",
+        "アート・建築",
+        "自然・癒し"
+      ],
       "image": "https://odawaracastle.com/asset/img/common/ogp.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://odawaracastle.com/"
@@ -190,10 +353,18 @@
       "category": "グルメ",
       "subCategory": "ランチ",
       "description": "「世界一の朝食」と称される、リコッタパンケーキが有名なお店。目の前に広がる海を眺めながら、ふわふわのパンケーキを味わう時間は至福のひととき。おしゃれな海辺のVLOGが撮れる。",
-      "website": "https://billsjapan.com/jp/shichirigahama",
+      "website": "https://www.billsjapan.com/jp/locations/shichirigahama",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=bills+七里ガ浜",
       "stayTime": "約90分",
-      "tags": ["ランチ", "スイーツ", "おしゃれ", "絶景", "インスタ映え", "定番スポット", "予約推奨"],
+      "tags": [
+        "ランチ",
+        "スイーツ",
+        "おしゃれ",
+        "絶景",
+        "インスタ映え",
+        "定番スポット",
+        "予約推奨"
+      ],
       "image": "https://media-cdn.tripadvisor.com/media/photo-s/1b/03/4f/2e/photo0-jpg.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.tripadvisor.jp/Restaurant_Review-g303153-d1674378-Reviews-Bills_Shichirigahama-Kamakura_Kanagawa_Prefecture_Kanto.html"
@@ -209,7 +380,14 @@
       "website": "https://loncafe.jp/shop/shonan.html",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=LONCAFE+湘南江の島本店",
       "stayTime": "約75分",
-      "tags": ["カフェ・喫茶店", "スイーツ", "絶景", "おしゃれ", "インスタ映え", "定番スポット"],
+      "tags": [
+        "カフェ・喫茶店",
+        "スイーツ",
+        "絶景",
+        "おしゃれ",
+        "インスタ映え",
+        "定番スポット"
+      ],
       "image": "https://loncafe.jp/images/shop/shonan/photo_01.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://loncafe.jp/shop/shonan.html"
@@ -225,7 +403,13 @@
       "website": "https://yokohama-air-cabin.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=YOKOHAMA+AIR+CABIN",
       "stayTime": "約30分",
-      "tags": ["絶景", "夜景", "ユニーク", "インスタ映え", "定番スポット"],
+      "tags": [
+        "絶景",
+        "夜景",
+        "ユニーク",
+        "インスタ映え",
+        "定番スポット"
+      ],
       "image": "https://yokohama-air-cabin.jp/images/ogp.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://yokohama-air-cabin.jp/"
@@ -241,7 +425,13 @@
       "website": "https://www.sankeien.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=三溪園",
       "stayTime": "約120分",
-      "tags": ["自然・癒し", "レトロ", "絶景", "アート・建築", "インスタ映え"],
+      "tags": [
+        "自然・癒し",
+        "レトロ",
+        "絶景",
+        "アート・建築",
+        "インスタ映え"
+      ],
       "image": "https://www.sankeien.or.jp/wordpress/wp-content/uploads/2023/12/sankeien-main-visual-pc-1.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.sankeien.or.jp/"
@@ -257,7 +447,13 @@
       "website": "https://dobuita-st.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=どぶ板通り商店街",
       "stayTime": "約90分",
-      "tags": ["レトロ", "ユニーク", "ショッピング", "ご当地グルメ", "B級グルメ"],
+      "tags": [
+        "レトロ",
+        "ユニーク",
+        "ショッピング",
+        "ご当地グルメ",
+        "B級グルメ"
+      ],
       "image": "https://dobuita-st.com/wp-content/uploads/2023/04/img_mainvisual_1_sp.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://dobuita-st.com/"
@@ -273,7 +469,13 @@
       "website": "https://www.k-kankou.jp/kawasakiyakei/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=川崎工場夜景",
       "stayTime": "約120分",
-      "tags": ["夜景", "絶景", "ユニーク", "アート・建築", "インスタ映え"],
+      "tags": [
+        "夜景",
+        "絶景",
+        "ユニーク",
+        "アート・建築",
+        "インスタ映え"
+      ],
       "image": "https://www.k-kankou.jp/kawasakiyakei/images/main/main_img.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.k-kankou.jp/kawasakiyakei/"
@@ -289,7 +491,14 @@
       "website": "https://fujiko-museum.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=藤子・F・不二雄ミュージアム",
       "stayTime": "約180分",
-      "tags": ["アート・建築", "カワイイ", "カフェ・喫茶店", "雨の日OK", "予約推奨", "定番スポット"],
+      "tags": [
+        "アート・建築",
+        "カワイイ",
+        "カフェ・喫茶店",
+        "雨の日OK",
+        "予約推奨",
+        "定番スポット"
+      ],
       "image": "https://fujiko-museum.com/images/ogp.png",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://fujiko-museum.com/"
@@ -305,7 +514,13 @@
       "website": "https://misakidonuts.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=ミサキドーナツ+鎌倉駅前店",
       "stayTime": "約30分",
-      "tags": ["スイーツ", "食べ歩き", "カワイイ", "おしゃれ", "インスタ映え"],
+      "tags": [
+        "スイーツ",
+        "食べ歩き",
+        "カワイイ",
+        "おしゃれ",
+        "インスタ映え"
+      ],
       "image": "https://misakidonuts.com/wp-content/uploads/2022/03/%E3%83%9F%E3%82%B5%E3%82%AD%E3%83%89%E3%83%BC%E3%83%8A%E3%83%84%E3%83%AD%E3%82%B4%E3%83%87%E3%83%BC%E3%82%BF.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://misakidonuts.com/"
@@ -321,7 +536,13 @@
       "website": "https://www.yokohama-landmark.jp/skygarden/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=横浜ランドマークタワー+スカイガーデン",
       "stayTime": "約60分",
-      "tags": ["夜景", "絶景", "定番スポット", "インスタ映え", "雨の日OK"],
+      "tags": [
+        "夜景",
+        "絶景",
+        "定番スポット",
+        "インスタ映え",
+        "雨の日OK"
+      ],
       "image": "https://www.yokohama-landmark.jp/skygarden/common/images/ogp.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.yokohama-landmark.jp/skygarden/"
@@ -337,7 +558,13 @@
       "website": "#",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=茶房+雲母",
       "stayTime": "約60分",
-      "tags": ["スイーツ", "ご当地グルメ", "レトロ", "カワイイ", "予約推奨"],
+      "tags": [
+        "スイーツ",
+        "ご当地グルメ",
+        "レトロ",
+        "カワイイ",
+        "予約推奨"
+      ],
       "image": "https://media-cdn.tripadvisor.com/media/photo-s/0c/b5/45/7d/photo0jpg.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.tripadvisor.jp/Restaurant_Review-g303153-d1674751-Reviews-Sabo_Kirara-Kamakura_Kanagawa_Prefecture_Kanto.html"
