@@ -584,6 +584,25 @@
       "image": "https://s3-media0.fl.yelpcdn.com/bphoto/Z5qyyRFBD7edjVi5iR_Diw/348s.jpg",
       "imageSource": "管理者更新",
       "imageSourceUrl": "https://s3-media0.fl.yelpcdn.com/bphoto/Z5qyyRFBD7edjVi5iR_Diw/348s.jpg"
+    },
+    {
+      "prefecture": "okayama",
+      "name": "あじ仙 西市店",
+      "area": "岡山",
+      "category": "グルメ",
+      "subCategory": "ご当地グルメ",
+      "description": "岡山市にある老舗のあじ仙 西市店。地元で愛される人気店であり、新鮮な魚介を使った料理が楽しめることで知られています。特に、あじフライは絶品と評判で、多くの観光客や地元客で賑わっています。ランチにもディナーにも利用でき、こだわりの一品を味わえます。",
+      "website": "https://tabelog.com/okayama/A3301/A330103/33000675/",
+      "gmaps": "https://www.google.com/maps/search/?api=1&query=%E3%81%82%E3%81%98%E4%BB%99%20%E8%A5%BF%E5%B8%82%E5%BA%97",
+      "stayTime": "約60分",
+      "tags": [
+        "ご当地グルメ",
+        "ランチ",
+        "ディナー"
+      ],
+      "image": "https://tblg.k-img.com/restaurant/images/Rvw/78692/78692147.jpg",
+      "imageSource": "tabelog.com",
+      "imageSourceUrl": "https://tabelog.com/okayama/A3301/A330101/33000675/dtlmenu/photo/"
     }
   ]
 }
