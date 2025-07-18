@@ -478,28 +478,6 @@
     },
     {
       "prefecture": "岡山県",
-      "name": "はふり",
-      "yomigana": "はふり",
-      "area": "倉敷",
-      "category": "グルメ",
-      "subCategory": "カフェ・喫茶店",
-      "description": "倉敷美観地区の古民家カフェ。名物の「幸せプリン」は、優しい甘さで心も体も癒される味。レトロな器や店内の雰囲気も相まって、穏やかでカワイイVLOGシーンが撮影できる。",
-      "website": "https://tabelog.com/okayama/A3302/A330201/33000572/",
-      "gmaps": "https://www.google.com/maps/search/?api=1&query=はふり",
-      "stayTime": "約60分",
-      "tags": [
-        "カフェ・喫茶店",
-        "スイーツ",
-        "レトロ",
-        "カワイイ",
-        "インスタ映え"
-      ],
-      "image": "https://static.mercdn.net/item/detail/orig/photos/m13981299814_1.jpg?1713409197",
-      "imageSource": "ruthborgenicht.com",
-      "imageSourceUrl": "https://ruthborgenicht.com/shopdetail/8177929"
-    },
-    {
-      "prefecture": "岡山県",
       "name": "城下町カフェ AWA",
       "yomigana": "じょうかまちかふぇ あわ",
       "area": "津山",
