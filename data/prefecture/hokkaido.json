@@ -591,28 +591,6 @@
     },
     {
       "prefecture": "北海道",
-      "name": "唯我独尊",
-      "yomigana": "ゆいがどくそん",
-      "area": "富良野・美瑛",
-      "category": "グルメ",
-      "subCategory": "ご当地グルメ",
-      "description": "富良野カレーの代名詞的存在。真っ黒でスパイシーなルーが特徴で、自家製ソーセージとの相性も抜群。「ルー、おかわり！」の合言葉を言うとルーを足してくれるサービスもユニーク。",
-      "website": "#",
-      "gmaps": "https://www.google.com/maps/search/?api=1&query=%E5%94%AF%E6%88%91%E7%8B%AC%E5%B0%8A",
-      "stayTime": "約60分",
-      "tags": [
-        "ご当地グルメ",
-        "ランチ",
-        "ディナー",
-        "ユニーク",
-        "B級グルメ"
-      ],
-      "image": "https://tabelog.com/restaurant_image/Rvw/images/rvw/161/640x640_161245.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
-    },
-    {
-      "prefecture": "北海道",
       "name": "旭山動物園",
       "yomigana": "あさひやまどうぶつえん",
       "area": "旭川",
