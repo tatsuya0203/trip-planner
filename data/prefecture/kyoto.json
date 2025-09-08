@@ -2,24 +2,120 @@
   "name": "京都府",
   "id": "kyoto",
   "areaPositions": [
-    { "name": "横浜", "top": "40%", "left": "55%" },
-    { "name": "みなとみらい", "top": "35%", "left": "45%" },
-    { "name": "鎌倉", "top": "65%", "left": "48%" },
-    { "name": "江の島", "top": "75%", "left": "38%" },
-    { "name": "箱根", "top": "80%", "left": "15%" },
-    { "name": "小田原", "top": "70%", "left": "25%" },
-    { "name": "横須賀", "top": "80%", "left": "65%" },
-    { "name": "川崎", "top": "20%", "left": "65%" }
+    {
+      "name": "横浜",
+      "top": "40%",
+      "left": "55%"
+    },
+    {
+      "name": "みなとみらい",
+      "top": "35%",
+      "left": "45%"
+    },
+    {
+      "name": "鎌倉",
+      "top": "65%",
+      "left": "48%"
+    },
+    {
+      "name": "江の島",
+      "top": "75%",
+      "left": "38%"
+    },
+    {
+      "name": "箱根",
+      "top": "80%",
+      "left": "15%"
+    },
+    {
+      "name": "小田原",
+      "top": "70%",
+      "left": "25%"
+    },
+    {
+      "name": "横須賀",
+      "top": "80%",
+      "left": "65%"
+    },
+    {
+      "name": "川崎",
+      "top": "20%",
+      "left": "65%"
+    }
   ],
   "transitData": {
-    "横浜": { "みなとみらい": 5, "鎌倉": 25, "江の島": 45, "箱根": 80, "小田原": 60, "横須賀": 30, "川崎": 10 },
-    "みなとみらい": { "横浜": 5, "鎌倉": 30, "江の島": 50, "箱根": 85, "小田原": 65, "横須賀": 35, "川崎": 15 },
-    "鎌倉": { "横浜": 25, "みなとみらい": 30, "江の島": 20, "箱根": 70, "小田原": 50, "横須賀": 25, "川崎": 40 },
-    "江の島": { "横浜": 45, "みなとみらい": 50, "鎌倉": 20, "箱根": 60, "小田原": 40, "横須賀": 45, "川崎": 60 },
-    "箱根": { "横浜": 80, "みなとみらい": 85, "鎌倉": 70, "江の島": 60, "小田原": 20, "横須賀": 100, "川崎": 90 },
-    "小田原": { "横浜": 60, "みなとみらい": 65, "鎌倉": 50, "江の島": 40, "箱根": 20, "横須賀": 80, "川崎": 70 },
-    "横須賀": { "横浜": 30, "みなとみらい": 35, "鎌倉": 25, "江の島": 45, "箱根": 100, "小田原": 80, "川崎": 45 },
-    "川崎": { "横浜": 10, "みなとみらい": 15, "鎌倉": 40, "江の島": 60, "箱根": 90, "小田原": 70, "横須賀": 45 }
+    "横浜": {
+      "みなとみらい": 5,
+      "鎌倉": 25,
+      "江の島": 45,
+      "箱根": 80,
+      "小田原": 60,
+      "横須賀": 30,
+      "川崎": 10
+    },
+    "みなとみらい": {
+      "横浜": 5,
+      "鎌倉": 30,
+      "江の島": 50,
+      "箱根": 85,
+      "小田原": 65,
+      "横須賀": 35,
+      "川崎": 15
+    },
+    "鎌倉": {
+      "横浜": 25,
+      "みなとみらい": 30,
+      "江の島": 20,
+      "箱根": 70,
+      "小田原": 50,
+      "横須賀": 25,
+      "川崎": 40
+    },
+    "江の島": {
+      "横浜": 45,
+      "みなとみらい": 50,
+      "鎌倉": 20,
+      "箱根": 60,
+      "小田原": 40,
+      "横須賀": 45,
+      "川崎": 60
+    },
+    "箱根": {
+      "横浜": 80,
+      "みなとみらい": 85,
+      "鎌倉": 70,
+      "江の島": 60,
+      "小田原": 20,
+      "横須賀": 100,
+      "川崎": 90
+    },
+    "小田原": {
+      "横浜": 60,
+      "みなとみらい": 65,
+      "鎌倉": 50,
+      "江の島": 40,
+      "箱根": 20,
+      "横須賀": 80,
+      "川崎": 70
+    },
+    "横須賀": {
+      "横浜": 30,
+      "みなとみらい": 35,
+      "鎌倉": 25,
+      "江の島": 45,
+      "箱根": 100,
+      "小田原": 80,
+      "川崎": 45
+    },
+    "川崎": {
+      "横浜": 10,
+      "みなとみらい": 15,
+      "鎌倉": 40,
+      "江の島": 60,
+      "箱根": 90,
+      "小田原": 70,
+      "横須賀": 45
+    }
   },
   "spots": [
     {
@@ -30,7 +126,7 @@
       "category": "観光",
       "subCategory": "定番スポット",
       "description": "カラフルなくくり猿が壁一面に吊るされた光景は、まさに京都随一のインスタ映えスポット！着物レンタルをして、友達と色鮮やかな背景で思い出の一枚を撮るのがおすすめ。VLOGのオープニングにもぴったりな、ポップで可愛い映像が撮れるはず。",
-      "website": "http://www.yasakakousin.jp/",
+      "website": "https://tabiiro.jp/leisure/s/209062-kyoto-yasakakoshindo/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=八坂庚申堂",
       "stayTime": "約30分",
       "tags": [
@@ -250,7 +346,7 @@
       "category": "グルメ",
       "subCategory": "カフェ・喫茶店",
       "description": "風情ある日本庭園を眺めながら、自分で七輪でお団子を焼く体験ができる人気カフェ。ぷくっと膨らむお団子を手元で撮るVLOGは絶対に可愛い！友達とわいわい楽しみながら、思い出に残る映像を撮影しよう。",
-      "website": "https://www.inden-style.jp/excafe/",
+      "website": "https://rurubu.jp/andmore/article/8068",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=eXcafe京都嵐山本店",
       "stayTime": "約75分",
       "tags": [
@@ -283,9 +379,9 @@
         "定番スポット",
         "予約推奨"
       ],
-      "image": "https://www.tokichi.jp/wp-content/uploads/2023/04/namachazeri_maruto_01.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.tokichi.jp/"
+      "image": "https://cdn-ak.f.st-hatena.com/images/fotolife/M/MantA/20200619/20200619230329.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://cdn-ak.f.st-hatena.com/images/fotolife/M/MantA/20200619/20200619230329.jpg"
     },
     {
       "prefecture": "京都府",
@@ -305,9 +401,9 @@
         "インスタ映え",
         "お土産"
       ],
-      "image": "https://www.itohkyuemon.co.jp/fs/ujicha/c/images/2023_grandmenu/uji-honten_parfait_02.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.itohkyuemon.co.jp/"
+      "image": "https://www.itohkyuemon.co.jp/site/smp/img23/top/about01.webp?v1",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://www.itohkyuemon.co.jp/site/smp/img23/top/about01.webp?v1"
     },
     {
       "prefecture": "京都府",
@@ -348,9 +444,9 @@
         "インスタ映え",
         "ユニーク"
       ],
-      "image": "https://images.squarespace-cdn.com/content/v1/5a697116692ebe7342932233/1516867702580-P9S71G2P54OKWM7SZX49/WWK+2.jpg?format=2500w",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.walden-woods.com/"
+      "image": "https://static.mercdn.net/item/detail/orig/photos/m44164313081_1.jpg?1740025614",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://static.mercdn.net/item/detail/orig/photos/m44164313081_1.jpg?1740025614"
     },
     {
       "prefecture": "京都府",
@@ -360,7 +456,7 @@
       "category": "グルメ",
       "subCategory": "カフェ・喫茶店",
       "description": "築210年の古民家をリノベーションしたベーカリーカフェ。美しい庭園を眺めながら、焼きたてのパンやコーヒーを楽しめます。縁側でのんびり過ごすシーンは、チルな雰囲気のVLOGにぴったり。和と洋が融合した空間が魅力です。",
-      "website": "https://bread-espresso.jp/shop/arashiyama-cafe/",
+      "website": "https://www.bread-espresso.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=パンとエスプレッソと嵐山庭園",
       "stayTime": "約75分",
       "tags": [
@@ -427,7 +523,7 @@
       "category": "観光",
       "subCategory": "定番スポット",
       "description": "悪縁を切り、良縁を結ぶご利益で有名な神社。願い事を書いた形代を持って、中央に穴のあいた「縁切り縁結び碑」をくぐる体験は、VLOGの面白いコンテンツになるはず。友達との関係や、新しい出会いを願って訪れてみては。",
-      "website": "http://www.yasui-konpira.or.jp/",
+      "website": "http://www.yasui-konpiragu.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=安井金比羅宮",
       "stayTime": "約45分",
       "tags": [

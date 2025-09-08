@@ -2,20 +2,80 @@
   "name": "岡山県",
   "id": "okayama",
   "areaPositions": [
-    { "name": "岡山", "top": "50%", "left": "50%" },
-    { "name": "倉敷", "top": "60%", "left": "35%" },
-    { "name": "玉野", "top": "75%", "left": "50%" },
-    { "name": "備前", "top": "55%", "left": "75%" },
-    { "name": "高梁", "top": "30%", "left": "30%" },
-    { "name": "津山", "top": "15%", "left": "55%" }
+    {
+      "name": "岡山",
+      "top": "50%",
+      "left": "50%"
+    },
+    {
+      "name": "倉敷",
+      "top": "60%",
+      "left": "35%"
+    },
+    {
+      "name": "玉野",
+      "top": "75%",
+      "left": "50%"
+    },
+    {
+      "name": "備前",
+      "top": "55%",
+      "left": "75%"
+    },
+    {
+      "name": "高梁",
+      "top": "30%",
+      "left": "30%"
+    },
+    {
+      "name": "津山",
+      "top": "15%",
+      "left": "55%"
+    }
   ],
   "transitData": {
-    "岡山": { "倉敷": 20, "玉野": 50, "備前": 60, "高梁": 60, "津山": 80 },
-    "倉敷": { "岡山": 20, "玉野": 70, "備前": 80, "高梁": 40, "津山": 100 },
-    "玉野": { "岡山": 50, "倉敷": 70, "備前": 110, "高梁": 100, "津山": 130 },
-    "備前": { "岡山": 60, "倉敷": 80, "玉野": 110, "高梁": 120, "津山": 150 },
-    "高梁": { "岡山": 60, "倉敷": 40, "玉野": 100, "備前": 120, "津山": 120 },
-    "津山": { "岡山": 80, "倉敷": 100, "玉野": 130, "備前": 150, "高梁": 120 }
+    "岡山": {
+      "倉敷": 20,
+      "玉野": 50,
+      "備前": 60,
+      "高梁": 60,
+      "津山": 80
+    },
+    "倉敷": {
+      "岡山": 20,
+      "玉野": 70,
+      "備前": 80,
+      "高梁": 40,
+      "津山": 100
+    },
+    "玉野": {
+      "岡山": 50,
+      "倉敷": 70,
+      "備前": 110,
+      "高梁": 100,
+      "津山": 130
+    },
+    "備前": {
+      "岡山": 60,
+      "倉敷": 80,
+      "玉野": 110,
+      "高梁": 120,
+      "津山": 150
+    },
+    "高梁": {
+      "岡山": 60,
+      "倉敷": 40,
+      "玉野": 100,
+      "備前": 120,
+      "津山": 120
+    },
+    "津山": {
+      "岡山": 80,
+      "倉敷": 100,
+      "玉野": 130,
+      "備前": 150,
+      "高梁": 120
+    }
   },
   "spots": [
     {
@@ -48,7 +108,7 @@
       "category": "観光",
       "subCategory": "レトロ",
       "description": "白壁の蔵屋敷と柳並木が続く、情緒あふれる川沿いの町並み。舟に乗ったり、古民家カフェに立ち寄ったり、どこを切り取ってもレトロでおしゃれな映像が撮れること間違いなし！",
-      "website": "https://www.kurashiki-tabi.jp/see/bikan-chiku/",
+      "website": "https://www.city.kurashiki.okayama.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=倉敷美観地区",
       "stayTime": "約180分",
       "tags": [
@@ -94,7 +154,7 @@
       "category": "観光",
       "subCategory": "絶景",
       "description": "雲海に浮かぶ「天空の城」として有名な山城。現存する天守閣としては最も高い場所にあり、辿り着いた時の達成感と景色は格別！朝霧に包まれた幻想的な風景は動画映え最高。",
-      "website": "https://www.city.takahashi.lg.jp/soshiki/9/bichu-matsuyamajyo.html",
+      "website": "https://www.bitchumatsuyamacastle.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=備中松山城",
       "stayTime": "約120分",
       "tags": [
@@ -182,7 +242,7 @@
       "category": "観光",
       "subCategory": "レトロ",
       "description": "ベンガラ格子の町並みが美しい、赤銅色の統一された集落。まるでタイムスリップしたかのような非日常的な空間が広がる。ここでしか見られない独特のレトロな風景を映像に残そう。",
-      "website": "https://www.fukiya-furusatomura.jp/",
+      "website": "https://www.okayama-kanko.jp/spot/10876",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=吹屋ふるさと村",
       "stayTime": "約120分",
       "tags": [
@@ -204,7 +264,7 @@
       "category": "観光",
       "subCategory": "定番スポット",
       "description": "「日本さくら名所100選」にも選ばれた桜の名所。春には圧巻の桜のトンネル、秋には紅葉が楽しめる。天守台からの眺めは抜群で、津山の城下町を一望できるパノラマ映像が撮れる。",
-      "website": "https://www.tsuyamajo.jp/",
+      "website": "https://www.city.tsuyama.lg.jp/article?articleId=65b39554319ffe392a80683c",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=津山城",
       "stayTime": "約90分",
       "tags": [
@@ -257,9 +317,9 @@
         "ディナー",
         "定番スポット"
       ],
-      "image": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3662068228303659162",
-      "imageSource": "www.instagram.com",
-      "imageSourceUrl": "https://www.instagram.com/p/DLSR6key8F1/"
+      "image": "http://www.okayama-kanko.jp/image/rendering/attraction_image/5340/keep/1200?v=7fb017bffc28d168b25e2397677238433e256908",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "http://www.okayama-kanko.jp/image/rendering/attraction_image/5340/keep/1200?v=7fb017bffc28d168b25e2397677238433e256908"
     },
     {
       "prefecture": "岡山県",
@@ -335,7 +395,7 @@
       "category": "観光",
       "subCategory": "自然・癒し",
       "description": "蒜山高原に広がる牧場で、ジャージー牛がのんびり草を食む姿に癒される。濃厚なジャージー牛乳やソフトクリームは必食！広大な牧草地と青い空のコントラストは最高のロケーション。",
-      "website": "https://jerseyland.hiruraku.com/",
+      "website": "http://jerseyland.hiruraku.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=ひるぜんジャージーランド",
       "stayTime": "約90分",
       "tags": [
@@ -346,9 +406,9 @@
         "体験",
         "カワイイ"
       ],
-      "image": "https://lookaside.instagram.com/seo/google_widget/crawler/?media_id=3464649281175601665",
-      "imageSource": "www.instagram.com",
-      "imageSourceUrl": "https://www.instagram.com/p/DAU6Cu9y4dL/"
+      "image": "https://hiruzen-peterpan.com/wp/wp-content/uploads/2020/10/8-1.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://hiruzen-peterpan.com/wp/wp-content/uploads/2020/10/8-1.jpg"
     },
     {
       "prefecture": "岡山県",
@@ -380,7 +440,7 @@
       "category": "観光",
       "subCategory": "絶景",
       "description": "瀬戸内海を見下ろす岩山の絶景スポット。「おじさん岩」や「にこにこ岩」などユニークな名前の奇岩が点在し、探しながら歩くのも楽しい。スリル満点の崖の上から最高の景色を撮ろう！",
-      "website": "https://www.city.tamano.lg.jp/soshiki/16/2311.html",
+      "website": "https://www.city.tamano.lg.jp/soshiki/16/7688.html",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=王子が岳",
       "stayTime": "約75分",
       "tags": [
@@ -393,50 +453,6 @@
       "image": "https://www.city.tamano.lg.jp/uploaded/image/3200.JPG",
       "imageSource": "www.city.tamano.lg.jp",
       "imageSourceUrl": "https://www.city.tamano.lg.jp/soshiki/16/7688.html"
-    },
-    {
-      "prefecture": "岡山県",
-      "name": "カキオコ まなべ",
-      "yomigana": "かきおこ まなべ",
-      "area": "備前",
-      "category": "グルメ",
-      "subCategory": "ご当地グルメ",
-      "description": "日生名物「カキオコ」の人気店。新鮮でぷりぷりの牡蠣がこれでもかと入ったお好み焼きは、ソースと相性抜群！熱々の鉄板で焼かれる様子や、豪快に食べるシーンはVLOGで盛り上がる！",
-      "website": "https://tabelog.com/okayama/A3301/A330103/33000675/",
-      "gmaps": "https://www.google.com/maps/search/?api=1&query=カキオコ+まなべ",
-      "stayTime": "約60分",
-      "tags": [
-        "ご当地グルメ",
-        "B級グルメ",
-        "ランチ",
-        "ディナー",
-        "行列覚悟"
-      ],
-      "image": "https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100006259156664",
-      "imageSource": "www.facebook.com",
-      "imageSourceUrl": "https://www.facebook.com/shimoyanmura/?locale=vi_VN"
-    },
-    {
-      "prefecture": "岡山県",
-      "name": "はふり",
-      "yomigana": "はふり",
-      "area": "倉敷",
-      "category": "グルメ",
-      "subCategory": "カフェ・喫茶店",
-      "description": "倉敷美観地区の古民家カフェ。名物の「幸せプリン」は、優しい甘さで心も体も癒される味。レトロな器や店内の雰囲気も相まって、穏やかでカワイイVLOGシーンが撮影できる。",
-      "website": "https://tabelog.com/okayama/A3302/A330201/33000572/",
-      "gmaps": "https://www.google.com/maps/search/?api=1&query=はふり",
-      "stayTime": "約60分",
-      "tags": [
-        "カフェ・喫茶店",
-        "スイーツ",
-        "レトロ",
-        "カワイイ",
-        "インスタ映え"
-      ],
-      "image": "https://static.mercdn.net/item/detail/orig/photos/m13981299814_1.jpg?1713409197",
-      "imageSource": "ruthborgenicht.com",
-      "imageSourceUrl": "https://ruthborgenicht.com/shopdetail/8177929"
     },
     {
       "prefecture": "岡山県",
@@ -568,6 +584,25 @@
       "image": "https://s3-media0.fl.yelpcdn.com/bphoto/Z5qyyRFBD7edjVi5iR_Diw/348s.jpg",
       "imageSource": "管理者更新",
       "imageSourceUrl": "https://s3-media0.fl.yelpcdn.com/bphoto/Z5qyyRFBD7edjVi5iR_Diw/348s.jpg"
+    },
+    {
+      "prefecture": "okayama",
+      "name": "あじ仙 西市店",
+      "area": "岡山",
+      "category": "グルメ",
+      "subCategory": "ご当地グルメ",
+      "description": "岡山市にある老舗のあじ仙 西市店。地元で愛される人気店であり、新鮮な魚介を使った料理が楽しめることで知られています。特に、あじフライは絶品と評判で、多くの観光客や地元客で賑わっています。ランチにもディナーにも利用でき、こだわりの一品を味わえます。",
+      "website": "https://tabelog.com/okayama/A3301/A330103/33000675/",
+      "gmaps": "https://www.google.com/maps/search/?api=1&query=%E3%81%82%E3%81%98%E4%BB%99%20%E8%A5%BF%E5%B8%82%E5%BA%97",
+      "stayTime": "約60分",
+      "tags": [
+        "ご当地グルメ",
+        "ランチ",
+        "ディナー"
+      ],
+      "image": "https://tblg.k-img.com/restaurant/images/Rvw/78692/78692147.jpg",
+      "imageSource": "tabelog.com",
+      "imageSourceUrl": "https://tabelog.com/okayama/A3301/A330101/33000675/dtlmenu/photo/"
     }
   ]
 }

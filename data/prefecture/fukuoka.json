@@ -2,22 +2,99 @@
   "name": "福岡県",
   "id": "fukuoka",
   "areaPositions": [
-    { "name": "博多", "top": "50%", "left": "50%" },
-    { "name": "天神", "top": "50%", "left": "40%" },
-    { "name": "中洲", "top": "60%", "left": "45%" },
-    { "name": "太宰府", "top": "75%", "left": "60%" },
-    { "name": "糸島", "top": "40%", "left": "15%" },
-    { "name": "柳川", "top": "90%", "left": "50%" },
-    { "name": "門司港", "top": "10%", "left": "85%" }
+    {
+      "name": "博多",
+      "top": "51.11%",
+      "left": "52.41%"
+    },
+    {
+      "name": "天神",
+      "top": "45.73%",
+      "left": "40%"
+    },
+    {
+      "name": "中洲",
+      "top": "60%",
+      "left": "45%"
+    },
+    {
+      "name": "太宰府",
+      "top": "75%",
+      "left": "60%"
+    },
+    {
+      "name": "糸島",
+      "top": "40%",
+      "left": "15%"
+    },
+    {
+      "name": "柳川",
+      "top": "90%",
+      "left": "50%"
+    },
+    {
+      "name": "門司港",
+      "top": "10%",
+      "left": "85%"
+    }
   ],
   "transitData": {
-    "博多": { "天神": 6, "中洲": 3, "太宰府": 40, "糸島": 40, "柳川": 50, "門司港": 80 },
-    "天神": { "博多": 6, "中洲": 2, "太宰府": 30, "糸島": 35, "柳川": 45, "門司港": 90 },
-    "中洲": { "博多": 3, "天神": 2, "太宰府": 35, "糸島": 40, "柳川": 50, "門司港": 85 },
-    "太宰府": { "博多": 40, "天神": 30, "中洲": 35, "糸島": 70, "柳川": 30, "門司港": 110 },
-    "糸島": { "博多": 40, "天神": 35, "中洲": 40, "太宰府": 70, "柳川": 80, "門司港": 120 },
-    "柳川": { "博多": 50, "天神": 45, "中洲": 50, "太宰府": 30, "糸島": 80, "門司港": 130 },
-    "門司港": { "博多": 80, "天神": 90, "中洲": 85, "太宰府": 110, "糸島": 120, "柳川": 130 }
+    "博多": {
+      "天神": 6,
+      "中洲": 3,
+      "太宰府": 40,
+      "糸島": 40,
+      "柳川": 50,
+      "門司港": 80
+    },
+    "天神": {
+      "博多": 6,
+      "中洲": 2,
+      "太宰府": 30,
+      "糸島": 35,
+      "柳川": 45,
+      "門司港": 90
+    },
+    "中洲": {
+      "博多": 3,
+      "天神": 2,
+      "太宰府": 35,
+      "糸島": 40,
+      "柳川": 50,
+      "門司港": 85
+    },
+    "太宰府": {
+      "博多": 40,
+      "天神": 30,
+      "中洲": 35,
+      "糸島": 70,
+      "柳川": 30,
+      "門司港": 110
+    },
+    "糸島": {
+      "博多": 40,
+      "天神": 35,
+      "中洲": 40,
+      "太宰府": 70,
+      "柳川": 80,
+      "門司港": 120
+    },
+    "柳川": {
+      "博多": 50,
+      "天神": 45,
+      "中洲": 50,
+      "太宰府": 30,
+      "糸島": 80,
+      "門司港": 130
+    },
+    "門司港": {
+      "博多": 80,
+      "天神": 90,
+      "中洲": 85,
+      "太宰府": 110,
+      "糸島": 120,
+      "柳川": 130
+    }
   },
   "spots": [
     {
@@ -28,7 +105,7 @@
       "category": "観光",
       "subCategory": "絶景",
       "description": "「日本の渚100選」にも選ばれた糸島のシンボル。白い鳥居と二つの岩が並ぶ姿は、神々しく息をのむ美しさ。特に夕日が鳥居の間に沈む時間は、最高のVLOGモーメント。海辺のカフェとセットで、チルな時間を映像に残そう。",
-      "website": "https://www.city.itoshima.lg.jp/s026/s040/010/020/010/sakuraihutamigaura.html",
+      "website": "https://www.crossroadfukuoka.jp/spot/12456",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=桜井二見ヶ浦の夫婦岩",
       "stayTime": "約60分",
       "tags": [
@@ -49,7 +126,7 @@
       "category": "観光",
       "subCategory": "定番スポット",
       "description": "目の前に広がる海を眺めながら食事やショッピングが楽しめる複合施設。壁に描かれた羽のウォールアートは超有名フォトスポット！友達と並んで写真を撮るシーンはマスト。海沿いのカフェでのおしゃべりタイムもVLOGにぴったり。",
-      "website": "https://palmbeach-gardens.com/",
+      "website": "https://kanko-itoshima.jp/spot/tenshinohane/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=PALM+BEACH+THE+GARDENS",
       "stayTime": "約90分",
       "tags": [
@@ -177,7 +254,7 @@
       "category": "グルメ",
       "subCategory": "食べ歩き",
       "description": "太宰府名物「梅ヶ枝餅」の有名店。職人さんが手際よく餅を焼く様子は、見ているだけで楽しく、絶好の撮影チャンス。アツアツ焼きたてをその場で頬張る食レポはマスト！お餅の伸びる様子や、香ばしい湯気を捉えて、シズル感満載の映像を撮ろう。",
-      "website": "https://www.kasanoya.com/",
+      "website": "http://www.kasanoya.com/umegaemochi.html",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=かさの家",
       "stayTime": "約15分",
       "tags": [
@@ -207,9 +284,9 @@
         "絶景",
         "アート・建築"
       ],
-      "image": "https://dazaifu-japan.com/wp-content/uploads/2022/10/img_koumyouzenji01-1-scaled.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://dazaifu-japan.com/know/ruins/koumyouzenji/"
+      "image": "https://oniwa.garden/wp-content/uploads/2017/02/01-23.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://oniwa.garden/wp-content/uploads/2017/02/01-23.jpg"
     },
     {
       "prefecture": "福岡県",
@@ -229,9 +306,9 @@
         "雨の日OK",
         "ユニーク"
       ],
-      "image": "https://d3pr5r64n04s3o.cloudfront.net/jp/e/forest/og.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.teamlab.art/jp/e/forest/"
+      "image": "https://team-lab.imagewave.pictures/T9QZcxBAEtPv6xFSekVQtc?width=3840&quality=30",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://team-lab.imagewave.pictures/T9QZcxBAEtPv6xFSekVQtc?width=3840&quality=30"
     },
     {
       "prefecture": "福岡県",
@@ -271,9 +348,9 @@
         "定番スポット",
         "無料"
       ],
-      "image": "https://www.ohorikouen.jp/images/ohori_main.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.ohorikouen.jp/"
+      "image": "https://www.crossroadfukuoka.jp/storage/tourism_attractions/12492/responsive_images/tgdikF0QaPUtkP8UdVWsMAQynxwgm0CLszAo0jw9__1673_1115.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://www.crossroadfukuoka.jp/storage/tourism_attractions/12492/responsive_images/tgdikF0QaPUtkP8UdVWsMAQynxwgm0CLszAo0jw9__1673_1115.jpg"
     },
     {
       "prefecture": "福岡県",
@@ -316,9 +393,9 @@
         "雨の日OK",
         "夜景"
       ],
-      "image": "https://canalcity.co.jp/assets/img/ogp.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://canalcity.co.jp/"
+      "image": "https://bandainamco-am.co.jp/images/game_center/loc/hakata-canalcity/IMG_8791.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://bandainamco-am.co.jp/images/game_center/loc/hakata-canalcity/IMG_8791.jpg"
     },
     {
       "prefecture": "福岡県",
@@ -348,7 +425,7 @@
       "category": "グルメ",
       "subCategory": "ご当地グルメ",
       "description": "日本初の明太子料理専門店。昆布巻き明太子が丸ごと一本乗った「めんたい重」は、見た目のインパクト大！蓋を開ける瞬間のワクワク感をVLOGに収めよう。特製のタレをかけて味変を楽しむ様子も忘れずに。行列必至の人気店。",
-      "website": "https://www.mentaiju.co.jp/",
+      "website": "https://www.mentaiju.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=元祖博多めんたい重",
       "stayTime": "約60分",
       "tags": [
@@ -358,9 +435,9 @@
         "インスタ映え",
         "予約推奨"
       ],
-      "image": "https://www.mentaiju.co.jp/wp/wp-content/uploads/2021/09/top-bg-sp.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.mentaiju.co.jp/"
+      "image": "http://www.mentaiju.com/imgs/sng_mentaiju2.png",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "http://www.mentaiju.com/imgs/sng_mentaiju2.png"
     },
     {
       "prefecture": "福岡県",
@@ -380,9 +457,9 @@
         "無料",
         "雨の日OK"
       ],
-      "image": "https://www.jrhakatacity.com/assets/images/roof/top/main.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.jrhakatacity.com/rooftop/"
+      "image": "https://www.fukuoka-navi.jp/wp-content/uploads/2022/10/tsubamenoyashirohiroba_1.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://www.fukuoka-navi.jp/wp-content/uploads/2022/10/tsubamenoyashirohiroba_1.jpg"
     },
     {
       "prefecture": "福岡県",
@@ -402,9 +479,9 @@
         "ディナー",
         "食べ歩き"
       ],
-      "image": "https://yokanavi.com/wp-content/uploads/2023/04/yatai_main-1.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://yokanavi.com/feature/29923/"
+      "image": "https://static.gltjp.com/glt/data/directory/15000/14348/20230324_204943_457f9a93_w1920.webp",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://static.gltjp.com/glt/data/directory/15000/14348/20230324_204943_457f9a93_w1920.webp"
     },
     {
       "prefecture": "福岡県",
@@ -424,9 +501,9 @@
         "アート・建築",
         "食べ歩き"
       ],
-      "image": "https://www.gururich-kitaq.com/media/filer_public/3b/b1/3bb13426-382a-43d0-ae06-da9b01f92cd3/mojikoretro_main.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.mojiko.info/"
+      "image": "https://mojiko-retoro9.jp/wp-content/themes/template/images/fv_top_img_03_sp.jpg.webp",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://mojiko-retoro9.jp/wp-content/themes/template/images/fv_top_img_03_sp.jpg.webp"
     },
     {
       "prefecture": "福岡県",
@@ -466,9 +543,9 @@
         "ディナー",
         "絶景"
       ],
-      "image": "https://curry-honpo.com/wp/wp-content/themes/curryhonpo/images/mainvisual-pc.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "http://www.curry-honpo.com/"
+      "image": "https://cdn.jalan.jp/jalan/img/6/kuchikomi/5606/KL/bb0aa_0005606575_1.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://cdn.jalan.jp/jalan/img/6/kuchikomi/5606/KL/bb0aa_0005606575_1.jpg"
     },
     {
       "prefecture": "福岡県",
@@ -487,9 +564,9 @@
         "自然・癒し",
         "レトロ"
       ],
-      "image": "https://www.yanagawakk.co.jp/images/index/mainimg_01.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "http://www.yanagawakk.co.jp/"
+      "image": "https://www.crossroadfukuoka.jp/storage/tourism_attractions/12901/responsive_images/1t9aQUs1afhnmtysFILiqQzhdLjLy0uOnafLIZuI__1673_1115.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://www.crossroadfukuoka.jp/storage/tourism_attractions/12901/responsive_images/1t9aQUs1afhnmtysFILiqQzhdLjLy0uOnafLIZuI__1673_1115.jpg"
     },
     {
       "prefecture": "福岡県",
@@ -509,9 +586,9 @@
         "定番スポット",
         "予約推奨"
       ],
-      "image": "http://www.motoyoshiya.jp/wp-content/themes/motoyoshiya/library/images/shared/ogp.png",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "http://www.motoyoshiya.jp/"
+      "image": "https://www.crossroadfukuoka.jp/storage/tourism_attractions/10646/responsive_images/tn6YrKDvvG1Nijx4UnMkOwhoeA0ZNnPa1VkOl2UW__1560_1136.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://www.crossroadfukuoka.jp/storage/tourism_attractions/10646/responsive_images/tn6YrKDvvG1Nijx4UnMkOwhoeA0ZNnPa1VkOl2UW__1560_1136.jpg"
     },
     {
       "prefecture": "福岡県",
@@ -551,9 +628,9 @@
         "自然・癒し",
         "インスタ映え"
       ],
-      "image": "https://www.miyajidake.or.jp/images/hikari_main.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.miyajidake.or.jp/"
+      "image": "https://www.crossroadfukuoka.jp/storage/tourism_attractions/10236/responsive_images/mNZLRyP90r0lZ5TrSUnSSDr7AShhI7b6tygsgoI1__1673_1115.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://www.crossroadfukuoka.jp/storage/tourism_attractions/10236/responsive_images/mNZLRyP90r0lZ5TrSUnSSDr7AShhI7b6tygsgoI1__1673_1115.jpg"
     },
     {
       "prefecture": "福岡県",
@@ -614,9 +691,9 @@
         "おしゃれ",
         "インスタ映え"
       ],
-      "image": "https://fuk-coffee.com/wp-content/uploads/2022/10/fukcoffeeparks-gaikan.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.instagram.com/fuk.coffee.parks/"
+      "image": "https://fuk-coffee.com/wp-content/uploads/2022/01/shop_01-1.png",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://fuk-coffee.com/wp-content/uploads/2022/01/shop_01-1.png"
     },
     {
       "prefecture": "福岡県",
@@ -636,9 +713,9 @@
         "ディナー",
         "定番スポット"
       ],
-      "image": "https://www.taiho.net/images/index/img_main.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.taiho.net/"
+      "image": "https://www.taiho.net/shop/honten.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://www.taiho.net/shop/honten.jpg"
     },
     {
       "prefecture": "福岡県",
@@ -657,9 +734,9 @@
         "おしゃれ",
         "予約推奨"
       ],
-      "image": "https://motsunabe-yamanaka.com/images/honten/ph_honten01.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://motsunabe-yamanaka.com/honten/"
+      "image": "https://tblg.k-img.com/resize/640x360c/restaurant/images/Rvw/196839/e18b05bd4e02272f5251eb913588ca26.jpg?token=e896ec7&api=v2",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://tblg.k-img.com/resize/640x360c/restaurant/images/Rvw/196839/e18b05bd4e02272f5251eb913588ca26.jpg?token=e896ec7&api=v2"
     }
   ]
 }

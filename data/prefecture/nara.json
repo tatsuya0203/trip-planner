@@ -2,20 +2,80 @@
   "name": "奈良県",
   "id": "nara",
   "areaPositions": [
-    { "name": "奈良公園", "top": "45%", "left": "50%" },
-    { "name": "ならまち", "top": "50%", "left": "45%" },
-    { "name": "生駒", "top": "35%", "left": "60%" },
-    { "name": "明日香", "top": "70%", "left": "55%" },
-    { "name": "橿原", "top": "65%", "left": "50%" },
-    { "name": "室生", "top": "80%", "left": "40%" }
+    {
+      "name": "奈良公園",
+      "top": "45%",
+      "left": "50%"
+    },
+    {
+      "name": "ならまち",
+      "top": "50%",
+      "left": "45%"
+    },
+    {
+      "name": "生駒",
+      "top": "35%",
+      "left": "60%"
+    },
+    {
+      "name": "明日香",
+      "top": "70%",
+      "left": "55%"
+    },
+    {
+      "name": "橿原",
+      "top": "65%",
+      "left": "50%"
+    },
+    {
+      "name": "室生",
+      "top": "80%",
+      "left": "40%"
+    }
   ],
   "transitData": {
-    "奈良公園": { "ならまち": 5, "生駒": 20, "明日香": 60, "橿原": 50, "室生": 90 },
-    "ならまち": { "奈良公園": 5, "生駒": 20, "明日香": 60, "橿原": 50, "室生": 90 },
-    "生駒": { "奈良公園": 20, "ならまち": 20, "明日香": 80, "橿原": 70, "室生": 110 },
-    "明日香": { "奈良公園": 60, "ならまち": 60, "生駒": 80, "橿原": 15, "室生": 70 },
-    "橿原": { "奈良公園": 50, "ならまち": 50, "生駒": 70, "明日香": 15, "室生": 60 },
-    "室生": { "奈良公園": 90, "ならまち": 90, "生駒": 110, "明日香": 70, "橿原": 60 }
+    "奈良公園": {
+      "ならまち": 5,
+      "生駒": 20,
+      "明日香": 60,
+      "橿原": 50,
+      "室生": 90
+    },
+    "ならまち": {
+      "奈良公園": 5,
+      "生駒": 20,
+      "明日香": 60,
+      "橿原": 50,
+      "室生": 90
+    },
+    "生駒": {
+      "奈良公園": 20,
+      "ならまち": 20,
+      "明日香": 80,
+      "橿原": 70,
+      "室生": 110
+    },
+    "明日香": {
+      "奈良公園": 60,
+      "ならまち": 60,
+      "生駒": 80,
+      "橿原": 15,
+      "室生": 70
+    },
+    "橿原": {
+      "奈良公園": 50,
+      "ならまち": 50,
+      "生駒": 70,
+      "明日香": 15,
+      "室生": 60
+    },
+    "室生": {
+      "奈良公園": 90,
+      "ならまち": 90,
+      "生駒": 110,
+      "明日香": 70,
+      "橿原": 60
+    }
   },
   "spots": [
     {
@@ -29,10 +89,16 @@
       "website": "https://www.pref.nara.jp/1713.htm",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E5%A5%88%E8%89%AF%E5%85%AC%E5%9C%92",
       "stayTime": "約120分",
-      "tags": ["自然・癒し", "定番スポット", "無料", "カワイイ", "食べ歩き"],
-      "image": "https://4.bp.blogspot.com/-2j_y_G-1iTI/W9xX-3a4kNI/AAAAAAABPlk/5h_nZ_Gq-sYV22eUscz42S2daG34G52gwCLcBGAs/s800/park_nara_kouen.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.pref.nara.jp/1713.htm"
+      "tags": [
+        "自然・癒し",
+        "定番スポット",
+        "無料",
+        "カワイイ",
+        "食べ歩き"
+      ],
+      "image": "http://yamatoji.nara-kankou.or.jp/contents/images/0000003988/72ac6e76d4bcf04af96d0442493be594.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "http://yamatoji.nara-kankou.or.jp/contents/images/0000003988/72ac6e76d4bcf04af96d0442493be594.jpg"
     },
     {
       "prefecture": "奈良県",
@@ -45,10 +111,16 @@
       "website": "https://www.todaiji.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E6%9D%B1%E5%A4%A7%E5%AF%BA",
       "stayTime": "約90分",
-      "tags": ["アート・建築", "定番スポット", "歴史", "絶景", "体験"],
-      "image": "https://www.todaiji.or.jp/assets/img/top/mainimg_sp_h.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.todaiji.or.jp/"
+      "tags": [
+        "アート・建築",
+        "定番スポット",
+        "歴史",
+        "絶景",
+        "体験"
+      ],
+      "image": "http://yamatoji.nara-kankou.or.jp/contents/images/0000000365/41851686dcddb17ddb2373ffd95f6799.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "http://yamatoji.nara-kankou.or.jp/contents/images/0000000365/41851686dcddb17ddb2373ffd95f6799.jpg"
     },
     {
       "prefecture": "奈良県",
@@ -61,10 +133,16 @@
       "website": "https://www.kasugataisha.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E6%98%A5%E6%97%A5%E5%A4%A7%E7%A4%BE",
       "stayTime": "約70分",
-      "tags": ["アート・建築", "自然・癒し", "インスタ映え", "歴史", "定番スポット"],
-      "image": "https://www.kasugataisha.or.jp/wp-content/uploads/2023/04/about_01.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.kasugataisha.or.jp/"
+      "tags": [
+        "アート・建築",
+        "自然・癒し",
+        "インスタ映え",
+        "歴史",
+        "定番スポット"
+      ],
+      "image": "https://www.kasugataisha.or.jp/wp-content/uploads/2020/01/%E6%98%A5%E6%97%A5%E5%A4%A7%E7%A4%BE%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://www.kasugataisha.or.jp/wp-content/uploads/2020/01/%E6%98%A5%E6%97%A5%E5%A4%A7%E7%A4%BE%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6.jpg"
     },
     {
       "prefecture": "奈良県",
@@ -77,10 +155,16 @@
       "website": "https://www.kohfukuji.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E8%88%88%E7%A6%8F%E5%AF%BA",
       "stayTime": "約60分",
-      "tags": ["アート・建築", "歴史", "定番スポット", "絶景", "夜景"],
-      "image": "https://www.kohfukuji.com/common/images/ogp.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.kohfukuji.com/"
+      "tags": [
+        "アート・建築",
+        "歴史",
+        "定番スポット",
+        "絶景",
+        "夜景"
+      ],
+      "image": "https://www.pref.nara.jp/secure/286886/HPkouhukuzi01.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://www.pref.nara.jp/secure/286886/HPkouhukuzi01.jpg"
     },
     {
       "prefecture": "奈良県",
@@ -90,10 +174,16 @@
       "category": "観光",
       "subCategory": "絶景",
       "description": "鷺池に浮かぶ六角形のお堂は、まるで絵画のような美しさ。水面に映る姿や、四季折々の風景とのコラボはVLOGの主役級。特に朝霧や夕暮れ時が狙い目。ボートに乗って、水上からのアングルで撮影するのも面白い！",
-      "website": "https://narashikanko.or.jp/spot/park/ukimido/",
+      "website": "https://narashikanko.or.jp/spot/detail_10105.html",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E6%B5%AE%E8%A6%8B%E5%A0%82",
       "stayTime": "約40分",
-      "tags": ["絶景", "自然・癒し", "インスタ映え", "レトロ", "無料"],
+      "tags": [
+        "絶景",
+        "自然・癒し",
+        "インスタ映え",
+        "レトロ",
+        "無料"
+      ],
       "image": "https://narashikanko.or.jp/wp-content/uploads/2022/10/833a693ce0d2d3e515d9051cbe572733.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://narashikanko.or.jp/spot/park/ukimido/"
@@ -106,13 +196,19 @@
       "category": "観光",
       "subCategory": "レトロ",
       "description": "興福寺の五重塔が水面に映る景色は、奈良を代表するワンシーン。池の周りをのんびり散策しながら、ゆったりとした時間の流れをVLOGに収めよう。ならまち散策のスタート地点として、旅の始まりを告げる映像を撮るのもおすすめ。",
-      "website": "https://narashikanko.or.jp/spot/park/sarusawa-pond/",
+      "website": "https://narashikanko.or.jp/spot/detail_10110.html",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E7%8C%BF%E6%B2%A2%E6%B1%A0",
       "stayTime": "約30分",
-      "tags": ["絶景", "レトロ", "無料", "自然・癒し", "定番スポット"],
-      "image": "https://narashikanko.or.jp/wp-content/uploads/2022/10/72793fa7831005118716757134f59345.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://narashikanko.or.jp/spot/park/sarusawa-pond/"
+      "tags": [
+        "絶景",
+        "レトロ",
+        "無料",
+        "自然・癒し",
+        "定番スポット"
+      ],
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/170930_Sarusawaike_Nara_Japan01s3.jpg/1200px-170930_Sarusawaike_Nara_Japan01s3.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/170930_Sarusawaike_Nara_Japan01s3.jpg/1200px-170930_Sarusawaike_Nara_Japan01s3.jpg"
     },
     {
       "prefecture": "奈良県",
@@ -125,7 +221,13 @@
       "website": "https://www.asukamura.jp/gyousei/asuka_meguri/detail.php?id=4",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E9%A3%9B%E9%B3%A5%E5%AF%BA",
       "stayTime": "約50分",
-      "tags": ["歴史", "アート・建築", "自然・癒し", "ユニーク", "定番スポット"],
+      "tags": [
+        "歴史",
+        "アート・建築",
+        "自然・癒し",
+        "ユニーク",
+        "定番スポット"
+      ],
       "image": "https://www.asukamura.jp/img_uploaded/institution/4_main.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.asukamura.jp/gyousei/asuka_meguri/detail.php?id=4"
@@ -138,10 +240,16 @@
       "category": "観光",
       "subCategory": "歴史",
       "description": "巨大な石が組み合わされた内部は、まるで古代遺跡の探検。VLOGで中に入って、そのスケール感と神秘的な雰囲気を伝えよう。外から見る巨石の迫力もすごい！歴史ミステリーを感じさせる、冒険心あふれる映像が撮れるはず。",
-      "website": "https://www.asukabito.or.jp/ishibutai.html",
+      "website": "https://www.asuka-park.jp/area/ishibutai/tumulus/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E7%9F%B3%E8%88%9E%E5%8F%B0%E5%8F%A4%E5%A2%B3",
       "stayTime": "約50分",
-      "tags": ["歴史", "絶景", "ユニーク", "体験", "自然・癒し"],
+      "tags": [
+        "歴史",
+        "絶景",
+        "ユニーク",
+        "体験",
+        "自然・癒し"
+      ],
       "image": "https://www.asukabito.or.jp/wp-content/uploads/2021/03/ishibutai_main.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.asukabito.or.jp/ishibutai.html"
@@ -157,7 +265,13 @@
       "website": "https://kashiharajingu.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E6%A9%BF%E5%8E%9F%E7%A5%9E%E5%AE%AE",
       "stayTime": "約70分",
-      "tags": ["歴史", "定番スポット", "自然・癒し", "アート・建築", "無料"],
+      "tags": [
+        "歴史",
+        "定番スポット",
+        "自然・癒し",
+        "アート・建築",
+        "無料"
+      ],
       "image": "https://kashiharajingu.or.jp/wp-content/themes/kashiharajingu/assets/img/ogp.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://kashiharajingu.or.jp/"
@@ -170,10 +284,16 @@
       "category": "観光",
       "subCategory": "自然・癒し",
       "description": "女人高野として知られ、山奥にひっそりと佇む姿が美しい。特にシャクナゲの季節は絶景。石段を登り、国宝の五重塔にたどり着く達成感をVLOGに。自然と一体になれる、しっとりとした大人の雰囲気の映像を撮りたい人に。",
-      "website": "http://www.murouji.or.jp/",
+      "website": "https://www.murouji.or.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E5%AE%A4%E7%94%9F%E5%AF%BA",
       "stayTime": "約80分",
-      "tags": ["自然・癒し", "絶景", "歴史", "アート・建築", "予約推奨"],
+      "tags": [
+        "自然・癒し",
+        "絶景",
+        "歴史",
+        "アート・建築",
+        "予約推奨"
+      ],
       "image": "http://www.murouji.or.jp/hotori/img/hotori_main.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "http://www.murouji.or.jp/"
@@ -189,7 +309,13 @@
       "website": "http://www.ikomasanjou.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E7%94%9F%E9%A7%92%E5%B1%B1%E4%B8%8A%E9%81%8A%E5%9C%92%E5%9C%B0",
       "stayTime": "約180分",
-      "tags": ["体験", "絶景", "夜景", "レトロ", "カワイイ"],
+      "tags": [
+        "体験",
+        "絶景",
+        "夜景",
+        "レトロ",
+        "カワイイ"
+      ],
       "image": "http://www.ikomasanjou.com/images/common/ogp.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "http://www.ikomasanjou.com/"
@@ -205,10 +331,16 @@
       "website": "http://www.hozanji.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E5%AE%9D%E5%B1%B1%E5%AF%BA",
       "stayTime": "約70分",
-      "tags": ["レトロ", "絶景", "歴史", "ユニーク", "夜景"],
-      "image": "http://www.hozanji.com/img/ogp.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "http://www.hozanji.com/"
+      "tags": [
+        "レトロ",
+        "絶景",
+        "歴史",
+        "ユニーク",
+        "夜景"
+      ],
+      "image": "http://yamatoji.nara-kankou.or.jp/contents/images/0000000442/9f8c89eaf1ea68010f8f260f2f511f77.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "http://yamatoji.nara-kankou.or.jp/contents/images/0000000442/9f8c89eaf1ea68010f8f260f2f511f77.jpg"
     },
     {
       "prefecture": "奈良県",
@@ -221,10 +353,16 @@
       "website": "http://www.nakatanidou.jp/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E4%B8%AD%E8%B0%B7%E5%A0%82",
       "stayTime": "約20分",
-      "tags": ["食べ歩き", "ご当地グルメ", "スイーツ", "ユニーク", "体験"],
-      "image": "http://www.nakatanidou.jp/img/main.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "http://www.nakatanidou.jp/"
+      "tags": [
+        "食べ歩き",
+        "ご当地グルメ",
+        "スイーツ",
+        "ユニーク",
+        "体験"
+      ],
+      "image": "https://jh-saikoku33.jp/spot/assets_c/2020/03/MG_9644-thumb-1040x693-176.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://jh-saikoku33.jp/spot/assets_c/2020/03/MG_9644-thumb-1040x693-176.jpg"
     },
     {
       "prefecture": "奈良県",
@@ -237,7 +375,13 @@
       "website": "https://www.kuruminoki.co.jp/shikanofune/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E9%B9%BF%E3%81%AE%E8%88%9F",
       "stayTime": "約70分",
-      "tags": ["カフェ・喫茶店", "おしゃれ", "ランチ", "レトロ", "自然・癒し"],
+      "tags": [
+        "カフェ・喫茶店",
+        "おしゃれ",
+        "ランチ",
+        "レトロ",
+        "自然・癒し"
+      ],
       "image": "https://www.kuruminoki.co.jp/shikanofune/wp-content/uploads/2021/03/concept_img_01.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.kuruminoki.co.jp/shikanofune/"
@@ -253,7 +397,13 @@
       "website": "https://www.kuruminoki.co.jp/ichijyo/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E3%81%8F%E3%82%8B%E3%81%BF%E3%81%AE%E6%9C%A8",
       "stayTime": "約80分",
-      "tags": ["ランチ", "おしゃれ", "カフェ・喫茶店", "予約推奨", "ショッピング"],
+      "tags": [
+        "ランチ",
+        "おしゃれ",
+        "カフェ・喫茶店",
+        "予約推奨",
+        "ショッピング"
+      ],
       "image": "https://www.kuruminoki.co.jp/ichijyo/wp-content/uploads/2020/07/DSC_0109_1-1024x683.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.kuruminoki.co.jp/ichijyo/"
@@ -266,10 +416,16 @@
       "category": "グルメ",
       "subCategory": "ご当地グルメ",
       "description": "吉野本葛の老舗で、ぷるぷる食感の葛餅や葛きりを堪能。自分で作る出来たての葛餅は、作る過程もVLOGの楽しいコンテンツに。上品な甘さと喉ごしの良さを、シズル感たっぷりの映像で伝えてみて。お土産選びも楽しい。",
-      "website": "https://www.kudzu.co.jp/shop/honten/",
+      "website": "https://www.kudzu.jp/hpgen/HPB/entries/37.html",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E5%A4%A9%E6%A5%B5%E5%A0%82%20%E5%A5%88%E8%89%AF%E6%9C%AC%E5%BA%97",
       "stayTime": "約50分",
-      "tags": ["ご当地グルメ", "スイーツ", "体験", "食べ歩き", "ショッピング"],
+      "tags": [
+        "ご当地グルメ",
+        "スイーツ",
+        "体験",
+        "食べ歩き",
+        "ショッピング"
+      ],
       "image": "https://www.kudzu.co.jp/wp-content/uploads/2020/09/DSC_0055_3-1024x683.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.kudzu.co.jp/shop/honten/"
@@ -285,10 +441,16 @@
       "website": "https://www.instagram.com/kanakana.nara/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E3%82%AB%E3%83%8A%E3%82%AB%E3%83%8A",
       "stayTime": "約70分",
-      "tags": ["カフェ・喫茶店", "ランチ", "レトロ", "おしゃれ", "予約推奨"],
-      "image": "https://scontent-nrt1-1.cdninstagram.com/v/t51.2885-15/300858109_1488582044946049_8118967527653549221_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=18de74&_nc_ohc=2XkZ0c4i_9oAX-X5R8_&_nc_ht=scontent-nrt1-1.cdninstagram.com&edm=ANo9K5cEAAAA&oh=00_AfD1XJ0xJ0j_y0g_y_g_y_g_y_g_y_g_y_g&oe=631F2E2B",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.instagram.com/kanakana.nara/"
+      "tags": [
+        "カフェ・喫茶店",
+        "ランチ",
+        "レトロ",
+        "おしゃれ",
+        "予約推奨"
+      ],
+      "image": "http://yamatoji.nara-kankou.or.jp/contents/images/f3fo5k3hyy/1f6017b1990409f000d783346f510a75.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "http://yamatoji.nara-kankou.or.jp/contents/images/f3fo5k3hyy/1f6017b1990409f000d783346f510a75.jpg"
     },
     {
       "prefecture": "奈良県",
@@ -301,7 +463,13 @@
       "website": "https://daibutsu-purin.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E5%A4%A7%E4%BB%8F%E3%83%97%E3%83%AA%E3%83%B3%E6%9C%AC%E5%BA%97",
       "stayTime": "約30分",
-      "tags": ["スイーツ", "カワイイ", "食べ歩き", "ご当地グルメ", "ショッピング"],
+      "tags": [
+        "スイーツ",
+        "カワイイ",
+        "食べ歩き",
+        "ご当地グルメ",
+        "ショッピング"
+      ],
       "image": "https://daibutsu-purin.com/wp-content/uploads/2021/04/DSC_0033-scaled.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://daibutsu-purin.com/"
@@ -314,10 +482,16 @@
       "category": "グルメ",
       "subCategory": "スイーツ",
       "description": "その名の通り、まるで宝石のようなエスプーマかき氷はVLOGの主役確定！ふわふわの氷と鮮やかなシロップが織りなす芸術品を、様々な角度から撮影してみて。整理券必須の人気店なので、その入手過程もコンテンツになりそう。",
-      "website": "https://housekibaco.jp/",
+      "website": "https://x.com/housekibaco",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E3%81%BB%E3%81%86%E3%81%9B%E3%81%8D%E7%AE%B1",
       "stayTime": "約60分",
-      "tags": ["スイーツ", "インスタ映え", "カワイイ", "予約推奨", "ユニーク"],
+      "tags": [
+        "スイーツ",
+        "インスタ映え",
+        "カワイイ",
+        "予約推奨",
+        "ユニーク"
+      ],
       "image": "https://housekibaco.jp/wp-content/uploads/2021/04/DSC_0001-1-1024x683.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://housekibaco.jp/"
@@ -333,10 +507,16 @@
       "website": "https://cafe-kotodama.com/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E6%A9%BF%E5%8E%9F%E3%82%AB%E3%83%95%E3%82%A7%E3%81%93%E3%81%A8%E3%81%A0%E3%81%BE",
       "stayTime": "約70分",
-      "tags": ["カフェ・喫茶店", "ランチ", "レトロ", "自然・癒し", "おしゃれ"],
-      "image": "https://cafe-kotodama.com/wp-content/uploads/2021/04/DSC_0002-1-1024x683.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://cafe-kotodama.com/"
+      "tags": [
+        "カフェ・喫茶店",
+        "ランチ",
+        "レトロ",
+        "自然・癒し",
+        "おしゃれ"
+      ],
+      "image": "https://www.cafe-kotodama.com/images/top-image-05.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://www.cafe-kotodama.com/images/top-image-05.jpg"
     },
     {
       "prefecture": "奈良県",
@@ -346,10 +526,16 @@
       "category": "グルメ",
       "subCategory": "ご当地グルメ",
       "description": "明日香村散策の休憩に立ち寄りたいお店。古代米を使ったお餅や、季節のフルーツを使ったスイーツが人気。のどかな田園風景を眺めながら、ご当地グルメを味わうシーンは、旅VLOGの素敵なアクセントになるはず。",
-      "website": "https://www.asukabito.or.jp/amakashitei.html",
+      "website": "https://tabelog.com/nara/A2904/A290402/29010582/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E3%81%82%E3%81%99%E3%81%8B%E7%94%98%E6%A8%AB%E4%BA%AD",
       "stayTime": "約40分",
-      "tags": ["ご当地グルメ", "スイーツ", "食べ歩き", "自然・癒し", "コスパ"],
+      "tags": [
+        "ご当地グルメ",
+        "スイーツ",
+        "食べ歩き",
+        "自然・癒し",
+        "コスパ"
+      ],
       "image": "https://www.asukabito.or.jp/wp-content/uploads/2021/03/amakashitei_main.jpg",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "https://www.asukabito.or.jp/amakashitei.html"
@@ -365,7 +551,13 @@
       "website": "#",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E8%8A%B1%E5%B0%8F%E8%B7%AF%E3%82%AB%E3%83%95%E3%82%A7",
       "stayTime": "約60分",
-      "tags": ["カフェ・喫茶店", "スイーツ", "自然・癒し", "おしゃれ", "隠れ家"],
+      "tags": [
+        "カフェ・喫茶店",
+        "スイーツ",
+        "自然・癒し",
+        "おしゃれ",
+        "隠れ家"
+      ],
       "image": "https://placehold.co/600x400/a29bfe/FFFFFF?text=Image+Not+Found",
       "imageSource": "AI生成データ",
       "imageSourceUrl": "#"

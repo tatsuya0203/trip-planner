@@ -2,22 +2,99 @@
   "name": "北海道",
   "id": "hokkaido",
   "areaPositions": [
-    { "name": "札幌", "top": "50%", "left": "40%" },
-    { "name": "小樽", "top": "50%", "left": "25%" },
-    { "name": "函館", "top": "85%", "left": "30%" },
-    { "name": "富良野・美瑛", "top": "45%", "left": "65%" },
-    { "name": "旭川", "top": "35%", "left": "55%" },
-    { "name": "登別", "top": "75%", "left": "45%" },
-    { "name": "道東", "top": "40%", "left": "85%" }
+    {
+      "name": "札幌",
+      "top": "50%",
+      "left": "40%"
+    },
+    {
+      "name": "小樽",
+      "top": "50%",
+      "left": "25%"
+    },
+    {
+      "name": "函館",
+      "top": "85%",
+      "left": "30%"
+    },
+    {
+      "name": "富良野・美瑛",
+      "top": "45%",
+      "left": "65%"
+    },
+    {
+      "name": "旭川",
+      "top": "35%",
+      "left": "55%"
+    },
+    {
+      "name": "登別",
+      "top": "75%",
+      "left": "45%"
+    },
+    {
+      "name": "道東",
+      "top": "40%",
+      "left": "85%"
+    }
   ],
   "transitData": {
-    "札幌": { "小樽": 45, "函館": 220, "富良野・美瑛": 120, "旭川": 85, "登別": 75, "道東": 270 },
-    "小樽": { "札幌": 45, "函館": 265, "富良野・美瑛": 165, "旭川": 130, "登別": 120, "道東": 315 },
-    "函館": { "札幌": 220, "小樽": 265, "富良野・美瑛": 340, "旭川": 300, "登別": 155, "道東": 490 },
-    "富良野・美瑛": { "札幌": 120, "小樽": 165, "函館": 340, "旭川": 75, "登別": 195, "道東": 240 },
-    "旭川": { "札幌": 85, "小樽": 130, "函館": 300, "富良野・美瑛": 75, "登別": 160, "道東": 320 },
-    "登別": { "札幌": 75, "小樽": 120, "函館": 155, "富良野・美瑛": 195, "旭川": 160, "道東": 270 },
-    "道東": { "札幌": 270, "小樽": 315, "函館": 490, "富良野・美瑛": 240, "旭川": 320, "登別": 270 }
+    "札幌": {
+      "小樽": 45,
+      "函館": 220,
+      "富良野・美瑛": 120,
+      "旭川": 85,
+      "登別": 75,
+      "道東": 270
+    },
+    "小樽": {
+      "札幌": 45,
+      "函館": 265,
+      "富良野・美瑛": 165,
+      "旭川": 130,
+      "登別": 120,
+      "道東": 315
+    },
+    "函館": {
+      "札幌": 220,
+      "小樽": 265,
+      "富良野・美瑛": 340,
+      "旭川": 300,
+      "登別": 155,
+      "道東": 490
+    },
+    "富良野・美瑛": {
+      "札幌": 120,
+      "小樽": 165,
+      "函館": 340,
+      "旭川": 75,
+      "登別": 195,
+      "道東": 240
+    },
+    "旭川": {
+      "札幌": 85,
+      "小樽": 130,
+      "函館": 300,
+      "富良野・美瑛": 75,
+      "登別": 160,
+      "道東": 320
+    },
+    "登別": {
+      "札幌": 75,
+      "小樽": 120,
+      "函館": 155,
+      "富良野・美瑛": 195,
+      "旭川": 160,
+      "道東": 270
+    },
+    "道東": {
+      "札幌": 270,
+      "小樽": 315,
+      "函館": 490,
+      "富良野・美瑛": 240,
+      "旭川": 320,
+      "登別": 270
+    }
   },
   "spots": [
     {
@@ -62,9 +139,9 @@
         "インスタ映え",
         "雨の日OK"
       ],
-      "image": "https://www.tv-tower.co.jp/wp-content/themes/tv-tower2022/assets/images/about/img01-sp.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.tv-tower.co.jp/"
+      "image": "https://yakei-fan.com/images/magazine/pic_sapporotvtower-news01.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://yakei-fan.com/images/magazine/pic_sapporotvtower-news01.jpg"
     },
     {
       "prefecture": "北海道",
@@ -85,9 +162,9 @@
         "ユニーク",
         "無料"
       ],
-      "image": "https://moerenumapark.jp/wp-content/themes/moere/assets/img/common/kv_park_facilities.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://moerenumapark.jp/"
+      "image": "https://www.sapporo.travel/cms/wp-content/uploads/2020/10/%E3%83%AA%E3%82%B5%E3%82%A4%E3%82%BA3.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://www.sapporo.travel/cms/wp-content/uploads/2020/10/%E3%83%AA%E3%82%B5%E3%82%A4%E3%82%BA3.jpg"
     },
     {
       "prefecture": "北海道",
@@ -152,9 +229,9 @@
         "ディナー",
         "予約推奨"
       ],
-      "image": "http://pf-sato.com/img/parfait/img_parfait_seasonal.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "http://pf-sato.com/"
+      "image": "https://johnny88.jp/wp-content/uploads/2023/12/IMG_2218_R.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://johnny88.jp/wp-content/uploads/2023/12/IMG_2218_R.jpg"
     },
     {
       "prefecture": "北海道",
@@ -186,7 +263,7 @@
       "category": "観光",
       "subCategory": "定番スポット",
       "description": "ノスタルジックな雰囲気が漂う小樽のシンボル。ガス灯が灯る夕暮れ時は特にロマンチックで、水面に映る景色が幻想的。運河クルーズで水上からの景色を撮るのもおすすめ。",
-      "website": "https://www.city.otaru.lg.jp/kankou/miru_asobu_tomaru/kankosisetu/otaruunga.html",
+      "website": "https://otaru.gr.jp/shop/otarucanal",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E5%B0%8F%E6%A8%BD%E9%81%8B%E6%B2%B3",
       "stayTime": "約90分",
       "tags": [
@@ -196,9 +273,9 @@
         "レトロ",
         "インスタ映え"
       ],
-      "image": "https://www.city.otaru.lg.jp/kankou/miru_asobu_tomaru/kankosisetu/otaruunga_photo/unga_night.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.city.otaru.lg.jp/kankou/miru_asobu_tomaru/kankosisetu/otaruunga.html"
+      "image": "https://www.authent.co.jp/wp/wp-content/uploads/2024/06/d6c9e417567e879111b39c43177d1575.webp",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://www.authent.co.jp/wp/wp-content/uploads/2024/06/d6c9e417567e879111b39c43177d1575.webp"
     },
     {
       "prefecture": "北海道",
@@ -219,9 +296,9 @@
         "雨の日OK",
         "アート・建築"
       ],
-      "image": "https://kitaichiglass.co.jp/images/top/img_main_s.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://kitaichiglass.co.jp/"
+      "image": "https://kitaichiglass.co.jp/wp-content/uploads/2021/01/hall_slide4-900x504.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://kitaichiglass.co.jp/wp-content/uploads/2021/01/hall_slide4-900x504.jpg"
     },
     {
       "prefecture": "北海道",
@@ -285,9 +362,9 @@
         "コスパ",
         "ランチ"
       ],
-      "image": "https://www.kamaei.co.jp/dfa-4/wp-content/uploads/2022/02/%E5%A4%96%E8%A6%B3%E5%86%AC-1.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.kamaei.co.jp/"
+      "image": "https://otaru.gr.jp/wp-content/uploads/2017/03/75c140d3601436d9bf49d9f8aa3af58a-19-1144x800.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://otaru.gr.jp/wp-content/uploads/2017/03/75c140d3601436d9bf49d9f8aa3af58a-19-1144x800.jpg"
     },
     {
       "prefecture": "北海道",
@@ -363,7 +440,7 @@
       "category": "観光",
       "subCategory": "定番スポット",
       "description": "CMや映画のロケ地としても有名な、海へとまっすぐ続く美しい坂道。坂の上から港を見下ろす景色は、函館を代表する風景。最高のショットを狙って、坂道VLOGを撮ろう！",
-      "website": "https://www.hakodate.travel/guide/spot/hachimanzaka-slope/",
+      "website": "https://www.visit-hokkaido.jp/spot/detail_10089.html",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E5%85%AB%E5%B9%A1%E5%9D%82",
       "stayTime": "約30分",
       "tags": [
@@ -442,9 +519,9 @@
         "スイーツ",
         "無料"
       ],
-      "image": "https://www.farm-tomita.co.jp/cms/wp-content/uploads/2022/11/main_visual-2.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.farm-tomita.co.jp/"
+      "image": "https://imagedelivery.net/Ahwf2rDz3ZiXm1qkpDKg1w/live/-/media/3D60E9C6F7D14115BC635451B7699581.jpg/w=750?d=20230523T011035&w=750",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://imagedelivery.net/Ahwf2rDz3ZiXm1qkpDKg1w/live/-/media/3D60E9C6F7D14115BC635451B7699581.jpg/w=750?d=20230523T011035&w=750"
     },
     {
       "prefecture": "北海道",
@@ -454,7 +531,7 @@
       "category": "観光",
       "subCategory": "絶景",
       "description": "その名の通り、水面が青く見える不思議な池。立ち枯れのカラマツが幻想的な雰囲気を醸し出し、見る角度や天気によって青の色合いが変わる。神秘的な映像を撮るのに最適な場所。",
-      "website": "https://biei-shiroganeaoiike.business.site/",
+      "website": "https://www.biei-hokkaido.jp/ja/shirogane-blue-pond",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E9%9D%92%E3%81%84%E6%B1%A0",
       "stayTime": "約60分",
       "tags": [
@@ -498,7 +575,7 @@
       "category": "観光",
       "subCategory": "ショッピング",
       "description": "森の中に小さなログハウスが点在する、まるでおとぎ話のようなショッピングエリア。自然をテーマにしたクラフト作品が並び、夜はライトアップされて幻想的な雰囲気に。",
-      "website": "https://www.princehotels.co.jp/furano/ningle/",
+      "website": "https://www.visit-hokkaido.jp/spot/detail_11270.html",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E3%83%8B%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%86%E3%83%A9%E3%82%B9",
       "stayTime": "約75分",
       "tags": [
@@ -508,31 +585,9 @@
         "夜景",
         "アート・建築"
       ],
-      "image": "https://www.princehotels.co.jp/furano-area/wp-content/uploads/sites/14/2024/04/ningle_main-2.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.princehotels.co.jp/furano/ningle/"
-    },
-    {
-      "prefecture": "北海道",
-      "name": "唯我独尊",
-      "yomigana": "ゆいがどくそん",
-      "area": "富良野・美瑛",
-      "category": "グルメ",
-      "subCategory": "ご当地グルメ",
-      "description": "富良野カレーの代名詞的存在。真っ黒でスパイシーなルーが特徴で、自家製ソーセージとの相性も抜群。「ルー、おかわり！」の合言葉を言うとルーを足してくれるサービスもユニーク。",
-      "website": "#",
-      "gmaps": "https://www.google.com/maps/search/?api=1&query=%E5%94%AF%E6%88%91%E7%8B%AC%E5%B0%8A",
-      "stayTime": "約60分",
-      "tags": [
-        "ご当地グルメ",
-        "ランチ",
-        "ディナー",
-        "ユニーク",
-        "B級グルメ"
-      ],
-      "image": "https://tabelog.com/restaurant_image/Rvw/images/rvw/161/640x640_161245.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "#"
+      "image": "https://www.furanotourism.com/spro_cms/upimg/l/20230725150420294_20257.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://www.furanotourism.com/spro_cms/upimg/l/20230725150420294_20257.jpg"
     },
     {
       "prefecture": "北海道",
@@ -594,9 +649,9 @@
         "予約推奨",
         "コスパ"
       ],
-      "image": "http://www.daikoku-jgs.com/img/home/main_visual.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "http://www.daikoku-jgs.com/"
+      "image": "https://cdn.goope.jp/90269/250314180823-67d3f2079c8ff.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://cdn.goope.jp/90269/250314180823-67d3f2079c8ff.jpg"
     },
     {
       "prefecture": "北海道",
@@ -616,9 +671,9 @@
         "定番スポット",
         "無料"
       ],
-      "image": "http://noboribetsu-spa.jp/wp-content/uploads/2018/12/jigokudani_main.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "http://noboribetsu-spa.jp/see_experience/jigokudani/"
+      "image": "https://noboribetsu-spa.jp/en/wp-content/uploads/sites/2/2020/12/spot0034-3.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://noboribetsu-spa.jp/en/wp-content/uploads/sites/2/2020/12/spot0034-3.jpg"
     },
     {
       "prefecture": "北海道",
@@ -638,9 +693,9 @@
         "自然・癒し",
         "定番スポット"
       ],
-      "image": "https://bearpark.jp/wp-content/uploads/2023/04/medakanokuma_01-1.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://bearpark.jp/"
+      "image": "https://pbs.twimg.com/profile_images/1257109887487631360/PfFYDMZe_400x400.png",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://pbs.twimg.com/profile_images/1257109887487631360/PfFYDMZe_400x400.png"
     },
     {
       "prefecture": "北海道",
@@ -650,7 +705,7 @@
       "category": "観光",
       "subCategory": "自然・癒し",
       "description": "森の中の川そのものが、なんと天然の足湯！温泉の川に足を浸しながら、大自然の中でリラックスできる最高の癒しスポット。森林浴と足湯を同時に楽しむ贅沢な時間をVLOGに。",
-      "website": "http://noboribetsu-spa.jp/see_experience/oyunuma_footbath/",
+      "website": "https://www.visit-hokkaido.jp/spot/detail_11428.html",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E5%A4%A7%E6%B9%AF%E6%B2%BC%E5%B7%9D%E5%A4%A9%E7%84%B6%E8%B6%B3%E6%B9%AF",
       "stayTime": "約45分",
       "tags": [
@@ -748,9 +803,9 @@
         "ユニーク",
         "無料"
       ],
-      "image": "http://www.masyuko.or.jp/pc/image/2016/masyu_top.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "http://www.masyuko.or.jp/"
+      "image": "https://www.visit-hokkaido.jp/lsc/upfile/spot/0001/0052/10052_10_l.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://www.visit-hokkaido.jp/lsc/upfile/spot/0001/0052/10052_10_l.jpg"
     },
     {
       "prefecture": "北海道",
@@ -769,9 +824,9 @@
         "定番スポット",
         "無料"
       ],
-      "image": "https://www.shiretoko.asia/images/photolibrary/1000/0000000305_1000.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.shiretoko.asia/oshinkoshin.html"
+      "image": "https://easthokkaido.com/eastwp/wp-content/uploads/pixta_35924579_L.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://easthokkaido.com/eastwp/wp-content/uploads/pixta_35924579_L.jpg"
     },
     {
       "prefecture": "北海道",
@@ -791,9 +846,9 @@
         "ユニーク",
         "体験"
       ],
-      "image": "https://www.washoichiba.com/wp-content/uploads/2020/07/20200727_P1010378.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.washoichiba.com/"
+      "image": "https://easthokkaido.com/eastwp/wp-content/uploads/e60dfe2fd8b3d6422d6c470bcb0dcaab.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://easthokkaido.com/eastwp/wp-content/uploads/e60dfe2fd8b3d6422d6c470bcb0dcaab.jpg"
     },
     {
       "prefecture": "北海道",
@@ -877,9 +932,9 @@
         "食べ歩き",
         "予約推奨"
       ],
-      "image": "https://www.sapporo-bier-garten.jp/assets/images/common/ogp.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.sapporo-bier-garten.jp/"
+      "image": "https://sapporo-bier-garten.jp/wp-content/uploads/index_main_sp02.webp",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://sapporo-bier-garten.jp/wp-content/uploads/index_main_sp02.webp"
     },
     {
       "prefecture": "北海道",
@@ -889,7 +944,7 @@
       "category": "グルメ",
       "subCategory": "ご当地グルメ",
       "description": "札幌味噌ラーメンの歴史を語る上で欠かせない名店。濃厚でコク深い味噌スープの表面をラードが覆い、最後までアツアツ。これぞ本場の味！と唸る一杯をVLOGで紹介しよう。",
-      "website": "https://sumireya.com/",
+      "website": "https://osayama-travel.com/ramen-hokkaido-sumire/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=%E3%81%99%E3%81%BF%E3%82%8C+%E6%9C%AD%E5%B9%8C%E4%B8%AD%E3%81%AE%E5%B3%B6%E6%9C%AC%E5%BA%97",
       "stayTime": "約45分",
       "tags": [

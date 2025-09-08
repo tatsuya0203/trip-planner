@@ -2,20 +2,80 @@
   "name": "沖縄県",
   "id": "okinawa",
   "areaPositions": [
-    { "name": "那覇・南部", "top": "80%", "left": "30%" },
-    { "name": "中部", "top": "60%", "left": "40%" },
-    { "name": "本部・名護", "top": "30%", "left": "50%" },
-    { "name": "宮古諸島", "top": "85%", "left": "85%" },
-    { "name": "八重山諸島 - 石垣", "top": "65%", "left": "10%" },
-    { "name": "八重山諸島 - 竹富・西表", "top": "45%", "left": "5%" }
+    {
+      "name": "那覇・南部",
+      "top": "80%",
+      "left": "30%"
+    },
+    {
+      "name": "中部",
+      "top": "60%",
+      "left": "40%"
+    },
+    {
+      "name": "本部・名護",
+      "top": "30%",
+      "left": "50%"
+    },
+    {
+      "name": "宮古諸島",
+      "top": "85%",
+      "left": "85%"
+    },
+    {
+      "name": "八重山諸島 - 石垣",
+      "top": "65%",
+      "left": "10%"
+    },
+    {
+      "name": "八重山諸島 - 竹富・西表",
+      "top": "45%",
+      "left": "5%"
+    }
   ],
   "transitData": {
-    "那覇・南部": { "中部": 40, "本部・名護": 90, "宮古諸島": 50, "八重山諸島 - 石垣": 60, "八重山諸島 - 竹富・西表": 75 },
-    "中部": { "那覇・南部": 40, "本部・名護": 50, "宮古諸島": 90, "八重山諸島 - 石垣": 100, "八重山諸島 - 竹富・西表": 115 },
-    "本部・名護": { "那覇・南部": 90, "中部": 50, "宮古諸島": 140, "八重山諸島 - 石垣": 150, "八重山諸島 - 竹富・西表": 165 },
-    "宮古諸島": { "那覇・南部": 50, "中部": 90, "本部・名護": 140, "八重山諸島 - 石垣": 30, "八重山諸島 - 竹富・西表": 105 },
-    "八重山諸島 - 石垣": { "那覇・南部": 60, "中部": 100, "本部・名護": 150, "宮古諸島": 30, "八重山諸島 - 竹富・西表": 15 },
-    "八重山諸島 - 竹富・西表": { "那覇・南部": 75, "中部": 115, "本部・名護": 165, "宮古諸島": 105, "八重山諸島 - 石垣": 15 }
+    "那覇・南部": {
+      "中部": 40,
+      "本部・名護": 90,
+      "宮古諸島": 50,
+      "八重山諸島 - 石垣": 60,
+      "八重山諸島 - 竹富・西表": 75
+    },
+    "中部": {
+      "那覇・南部": 40,
+      "本部・名護": 50,
+      "宮古諸島": 90,
+      "八重山諸島 - 石垣": 100,
+      "八重山諸島 - 竹富・西表": 115
+    },
+    "本部・名護": {
+      "那覇・南部": 90,
+      "中部": 50,
+      "宮古諸島": 140,
+      "八重山諸島 - 石垣": 150,
+      "八重山諸島 - 竹富・西表": 165
+    },
+    "宮古諸島": {
+      "那覇・南部": 50,
+      "中部": 90,
+      "本部・名護": 140,
+      "八重山諸島 - 石垣": 30,
+      "八重山諸島 - 竹富・西表": 105
+    },
+    "八重山諸島 - 石垣": {
+      "那覇・南部": 60,
+      "中部": 100,
+      "本部・名護": 150,
+      "宮古諸島": 30,
+      "八重山諸島 - 竹富・西表": 15
+    },
+    "八重山諸島 - 竹富・西表": {
+      "那覇・南部": 75,
+      "中部": 115,
+      "本部・名護": 165,
+      "宮古諸島": 105,
+      "八重山諸島 - 石垣": 15
+    }
   },
   "spots": [
     {
@@ -59,9 +119,9 @@
         "食べ歩き",
         "夜景"
       ],
-      "image": "https://www.umikajiterrace.com/wp-content/uploads/2022/07/ogp.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.umikajiterrace.com/"
+      "image": "https://www.umikajiterrace.com/assets/img/top/img_kv_sp.webp",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://www.umikajiterrace.com/assets/img/top/img_kv_sp.webp"
     },
     {
       "prefecture": "沖縄県",
@@ -82,9 +142,9 @@
         "食べ歩き",
         "夜景"
       ],
-      "image": "https://www.okinawa-americanvillage.com/wp-content/uploads/2021/04/american-village-img.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.okinawa-americanvillage.com/"
+      "image": "https://travel.rakuten.co.jp/mytrip/sites/mytrip/files/styles/main_image/public/2022-11/okinawa-americanvillage-key.jpg?itok=zKNV63dE",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://travel.rakuten.co.jp/mytrip/sites/mytrip/files/styles/main_image/public/2022-11/okinawa-americanvillage-key.jpg?itok=zKNV63dE"
     },
     {
       "prefecture": "沖縄県",
@@ -103,9 +163,9 @@
         "自然・癒し",
         "ドライブ"
       ],
-      "image": "https://www.kourijima.info/wp-content/uploads/2020/05/kouri-bridge-01.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.kourijima.info/"
+      "image": "https://www.okinawastory.jp/files/attractions/000/001/321/images_4Jt2bNR5jlmLZEIlWK0bJDIEJ1gvjiEiTLq5R2L7-w1300.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://www.okinawastory.jp/files/attractions/000/001/321/images_4Jt2bNR5jlmLZEIlWK0bJDIEJ1gvjiEiTLq5R2L7-w1300.jpg"
     },
     {
       "prefecture": "沖縄県",
@@ -124,9 +184,9 @@
         "自然・癒し",
         "夕日"
       ],
-      "image": "https://www.manzamo.jp/wp-content/uploads/2020/10/main_img_pc-scaled.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.manzamo.jp/"
+      "image": "http://www.vill.onna.okinawa.jp/userfiles/images/mannzamou.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "http://www.vill.onna.okinawa.jp/userfiles/images/mannzamou.jpg"
     },
     {
       "prefecture": "沖縄県",
@@ -221,7 +281,7 @@
       "category": "観光",
       "subCategory": "レトロ",
       "description": "元米軍住宅をリノベーションした、カラフルで可愛いショップやカフェが立ち並ぶエリア。アメリカンレトロな雰囲気はどこを切り取っても絵になるから、VLOG撮影が止まらない！",
-      "website": "https://minatogawa-stateside-town.com/",
+      "website": "https://www.okinawastory.jp/gourmet/600010476",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=港川ステイツサイドタウン",
       "stayTime": "約90分",
       "tags": [
@@ -307,7 +367,7 @@
       "category": "観光",
       "subCategory": "レトロ",
       "description": "赤い瓦屋根の古民家と白砂の道が続く、沖縄の原風景が残る島。水牛車に揺られながら三線の音色に耳を傾ける、ゆったりとした島時間をVLOGでシェアしよう。",
-      "website": "https://www.taketomi-island.jp/",
+      "website": "https://painusima.com/category/sima/taketomijima/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=竹富島",
       "stayTime": "約180分",
       "tags": [
@@ -425,9 +485,9 @@
         "ディナー",
         "レトロ"
       ],
-      "image": "https://www.awok.co.jp/wp-content/themes/a-and-w/images/common/ogp.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.awok.co.jp/"
+      "image": "https://ryukyushimpo.jp/tachyon/legacy/002/201910/8c8a749dc315298087206e8f15858430.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://ryukyushimpo.jp/tachyon/legacy/002/201910/8c8a749dc315298087206e8f15858430.jpg"
     },
     {
       "prefecture": "沖縄県",
@@ -481,7 +541,7 @@
       "category": "グルメ",
       "subCategory": "カフェ・喫茶店",
       "description": "満潮時には海が目の前に迫る、まさに「浜辺の茶屋」。窓際のカウンター席から眺める景色は、時が経つのを忘れるほどの美しさ。波の音をBGMに、癒やしのVLOGタイムを。",
-      "website": "http://hamabenochaya.com/",
+      "website": "https://sachibaru.jp/ja/hamacha/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=浜辺の茶屋",
       "stayTime": "約60分",
       "tags": [
@@ -534,9 +594,9 @@
         "ご当地グルメ",
         "インスタ映え"
       ],
-      "image": "http://mirumiru-honpo.com/images/index/mainvisual.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "http://mirumiru-honpo.com/"
+      "image": "https://www.okinawaclip.com/userfiles/images/posts/ja/thumb/2021/08/35424.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://www.okinawaclip.com/userfiles/images/posts/ja/thumb/2021/08/35424.jpg"
     },
     {
       "prefecture": "沖縄県",
@@ -546,7 +606,7 @@
       "category": "グルメ",
       "subCategory": "カフェ・喫茶店",
       "description": "目の前がビーチという最高のロケーション！ブランコ席やテラス席など、どこで撮ってもインスタ映えするおしゃれ空間。カラフルな島野菜を使ったヘルシーな料理をVLOGで紹介しよう。",
-      "website": "https://rehellow.com/",
+      "website": "https://www.okinawastory.jp/gourmet/600011763",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=島野菜カフェ+Re:Hellow+BEACH",
       "stayTime": "約75分",
       "tags": [
@@ -556,9 +616,9 @@
         "インスタ映え",
         "ランチ"
       ],
-      "image": "https://rehellow.com/wp-content/uploads/2020/07/rehellow-beach-img.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://rehellow.com/"
+      "image": "https://tblg.k-img.com/restaurant/images/Rvw/193020/640x640_rect_117745ccc66732bd396e4d0f3ed0ca13.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://tblg.k-img.com/restaurant/images/Rvw/193020/640x640_rect_117745ccc66732bd396e4d0f3ed0ca13.jpg"
     },
     {
       "prefecture": "沖縄県",
@@ -577,9 +637,9 @@
         "インスタ映え",
         "定番スポット"
       ],
-      "image": "https://miyako-guide.net/wp-content/uploads/2019/04/yonaha-maehama-main.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://miyako-guide.net/spots/yonaha-maehama/"
+      "image": "https://t3.ftcdn.net/jpg/03/69/18/20/360_F_369182018_vyf0MPRCYfV6Yf3RkvZhBWbcTDpwcMPO.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://t3.ftcdn.net/jpg/03/69/18/20/360_F_369182018_vyf0MPRCYfV6Yf3RkvZhBWbcTDpwcMPO.jpg"
     },
     {
       "prefecture": "沖縄県",
@@ -610,7 +670,7 @@
       "category": "観光",
       "subCategory": "絶景",
       "description": "太平洋と東シナ海を分ける約2kmの岬。先端の灯台からの360度のパノラマビューは圧巻！VLOGで、荒々しい波が打ち付ける断崖と、どこまでも続く水平線をワイドに収めよう。",
-      "website": "https://miyako-guide.net/spots/higashi-hennazaki/",
+      "website": "https://www.tokokai.org/tourlight/tourlight15/",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=東平安名崎",
       "stayTime": "約60分",
       "tags": [
@@ -619,9 +679,9 @@
         "インスタ映え",
         "定番スポット"
       ],
-      "image": "https://miyako-guide.net/wp-content/uploads/2019/04/higashi-hennazaki-main.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://miyako-guide.net/spots/higashi-hennazaki/"
+      "image": "https://miyako-island.net/wp/wp-content/uploads/2023/01/beach_and_spot_019_01.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://miyako-island.net/wp/wp-content/uploads/2023/01/beach_and_spot_019_01.jpg"
     },
     {
       "prefecture": "沖縄県",
@@ -640,9 +700,9 @@
         "インスタ映え",
         "カワイイ"
       ],
-      "image": "https://www.taketomi-island.jp/simg/kondoi-beach01.jpg",
-      "imageSource": "AI生成データ",
-      "imageSourceUrl": "https://www.taketomi-island.jp/kondoi-beach.html"
+      "image": "https://t3.ftcdn.net/jpg/14/88/03/82/360_F_1488038200_VukdcNYbYb1yvsICf6CHDaidVrXkDwqW.jpg",
+      "imageSource": "管理者更新",
+      "imageSourceUrl": "https://t3.ftcdn.net/jpg/14/88/03/82/360_F_1488038200_VukdcNYbYb1yvsICf6CHDaidVrXkDwqW.jpg"
     },
     {
       "prefecture": "沖縄県",
@@ -652,7 +712,7 @@
       "category": "観光",
       "subCategory": "絶景",
       "description": "平久保半島と石垣の海を一望できる絶景スポット。ハイビスカスが咲き誇る遊歩道を歩きながら、だんだんと現れるパノラマビューを撮影すれば、期待感あふれるVLOGシーンになる。",
-      "website": "https://www.ishigaki-navi.net/si/tamatorizaki.html",
+      "website": "https://www.okinawastory.jp/spot/20400902",
       "gmaps": "https://www.google.com/maps/search/?api=1&query=玉取崎展望台",
       "stayTime": "約30分",
       "tags": [
