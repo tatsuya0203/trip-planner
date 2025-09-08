@@ -68,7 +68,9 @@
                 </div>
                 <div class="text-center">
                     <h1 class="text-4xl md:text-5xl font-bold text-[#D35400]">旅プランナー</h1>
-                    <p class="mt-2 md:mt-4 text-base md:text-lg text-gray-600">専門学生のための究極ガイドをインタラクティブに体験！</p>
+                    <p class="mt-2 md:mt-4 text-base md:text-lg text-gray-600">💩<p>
+
+                    </p>
                 </div>
             </header>
 
@@ -160,21 +162,70 @@
             </div>
         </div>
 
-        <div id="re-analysis-overlay" class="overlay-base z-[51]">
-            <div class="modal-base max-w-md p-6 overflow-hidden">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-2xl font-bold text-[#D35400]">都道府県の再分析</h2>
-                    <button id="close-re-analysis-btn" class="text-3xl font-light text-gray-500 hover:text-gray-900 transition">×</button>
-                </div>
-                <div>
-                    <p class="text-sm text-gray-600 mb-4">AIが都道府県を特定できませんでした。このスポットのGoogleマップURLを貼り付けて、再度分析してください。</p>
-                    <div class="space-y-4">
-                        <input type="url" id="re-analysis-gmaps-url" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="GoogleマップのURL">
+        <div id="suggestion-review-overlay" class="overlay-base z-[52]">
+            <div class="modal-base max-w-2xl w-full max-h-[90vh] flex flex-col p-6 overflow-hidden">
+                
+                <!-- 確認ビュー -->
+                <div id="review-view">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold text-[#D35400]">AIによる分析結果の確認</h2>
+                        <button id="close-review-btn" class="text-3xl font-light text-gray-500 hover:text-gray-900 transition">&times;</button>
                     </div>
-                    <button id="re-submit-spot-btn" class="w-full bg-orange-500 text-white py-2.5 px-5 rounded-lg font-semibold hover:bg-orange-600 transition-colors mt-6 flex items-center justify-center gap-2">
-                        <div id="re-submit-spot-spinner" class="hidden w-5 h-5 border-t-2 border-b-2 border-white rounded-full animate-spin"></div>
-                        <span>AIで再分析</span>
-                    </button>
+                    <p class="text-sm text-gray-600 mb-4">以下の内容でスポットを提案します。問題がなければ「承認して提案」をクリックしてください。</p>
+                    <div id="review-content" class="space-y-3 p-4 bg-gray-50 rounded-lg max-h-[60vh] overflow-y-auto">
+                        <p><strong>スポット名:</strong> <span id="review-spot-name" class="font-normal"></span></p>
+                        <p><strong>都道府県:</strong> <span id="review-prefecture" class="font-normal"></span></p>
+                        <p><strong>エリア:</strong> <span id="review-area" class="font-normal"></span></p>
+                        <p><strong>カテゴリ:</strong> <span id="review-category" class="font-normal"></span></p>
+                        <p><strong>タグ:</strong> <span id="review-tags" class="font-normal"></span></p>
+                        <div>
+                            <strong>説明文:</strong>
+                            <p id="review-description" class="mt-1 p-2 bg-white border rounded"></p>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                        <button id="submit-final-suggestion-btn" class="w-full bg-green-600 text-white py-2.5 px-5 rounded-lg font-semibold hover:bg-green-700">承認して提案</button>
+                        <button id="show-feedback-view-btn" class="w-full bg-yellow-500 text-white py-2.5 px-5 rounded-lg font-semibold hover:bg-yellow-600">内容が違うため再生成</button>
+                    </div>
+                </div>
+
+                <!-- フィードバックビュー -->
+                <div id="feedback-view" class="hidden">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold text-[#D35400]">AIへのフィードバック</h2>
+                         <button id="back-to-review-btn" class="text-sm text-blue-600 hover:underline">&larr; 確認画面に戻る</button>
+                    </div>
+                    <p id="feedback-instructions" class="text-sm text-gray-600 mb-4">どこが違うか教えてください。AIがフィードバックを元に再生成します。</p>
+                    <div class="space-y-4 max-h-[60vh] overflow-y-auto p-1">
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="feedback_reason" value="location" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                <span class="ml-2 text-gray-700">場所（都道府県やエリア）が違う</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="feedback_reason" value="description" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                <span class="ml-2 text-gray-700">説明文が不正確</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="feedback_reason" value="tags" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                                <span class="ml-2 text-gray-700">カテゴリやタグが違う</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label for="feedback-details" class="block text-sm font-medium text-gray-700">具体的な修正内容</label>
+                            <textarea id="feedback-details" rows="3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" placeholder="例：「もっと若者向けのカフェです」「レトロというよりモダンな雰囲気」"></textarea>
+                        </div>
+                        <div id="feedback-gmaps-wrapper">
+                            <label for="feedback-gmaps-url" class="block text-sm font-medium text-gray-700">GoogleマップのURL (推奨)</label>
+                            <input type="url" id="feedback-gmaps-url" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="正しい場所のGoogleマップURL">
+                        </div>
+                    </div>
+                     <div class="mt-6">
+                        <button id="regenerate-suggestion-btn" class="w-full bg-orange-500 text-white py-2.5 px-5 rounded-lg font-semibold hover:bg-orange-600 flex items-center justify-center gap-2">
+                            <div id="regenerate-spinner" class="hidden w-5 h-5 border-t-2 border-b-2 border-white rounded-full animate-spin"></div>
+                            <span>フィードバックを送信して再生成</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -330,6 +381,43 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
             <span id="plan-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
         </button>
+        
+        <!-- ★★★ ADDED BLOCK: バグ報告用ボタンとモーダル ★★★ -->
+        <button id="open-app-report-btn" class="fixed bottom-24 right-6 bg-gray-600 text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center z-30 transform hover:scale-110 transition-transform" title="ご意見・ご報告">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+        </button>
+
+        <div id="app-report-overlay" class="overlay-base z-[60]">
+            <div class="modal-base max-w-lg p-6 overflow-hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold text-[#D35400]">ご意見・ご報告</h2>
+                    <button id="close-app-report-btn" class="text-3xl font-light text-gray-500 hover:text-gray-900 transition">×</button>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label for="app-report-type" class="block text-sm font-medium text-gray-700">報告の種類</label>
+                        <select id="app-report-type" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                            <option>バグ・不具合の報告</option>
+                            <option>改善提案</option>
+                            <option>その他</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="app-report-description" class="block text-sm font-medium text-gray-700">内容</label>
+                        <textarea id="app-report-description" rows="5" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" placeholder="お気づきの点や改善してほしいことなど、具体的にお知らせください。"></textarea>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-end gap-4">
+                    <button id="submit-app-report-btn" class="py-2 px-6 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 flex items-center justify-center gap-2">
+                        <div id="app-report-spinner" class="hidden w-5 h-5 border-t-2 border-b-2 border-white rounded-full animate-spin"></div>
+                        <span>送信</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- ★★★ END OF ADDED BLOCK ★★★ -->
 
         <div id="my-plan-panel-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
         <div id="my-plan-panel" class="fixed top-0 right-0 h-full w-full sm:w-11/12 max-w-md bg-white shadow-2xl z-40 transform translate-x-full p-6 flex flex-col">

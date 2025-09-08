@@ -1,6 +1,6 @@
 {
-  "name": "神奈川県",
-  "id": "kanagawa",
+  "name": "京都府",
+  "id": "kyoto",
   "areaPositions": [
     { "name": "横浜", "top": "40%", "left": "55%" },
     { "name": "みなとみらい", "top": "35%", "left": "45%" },

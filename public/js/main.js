@@ -39,7 +39,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyDe8piUl7dbuR_FAn1pQkUfVtugh5HF4FU",
   authDomain: "studio-gqqbe.firebaseapp.com",
   projectId: "studio-gqqbe",
-storageBucket: "studio-gqqbe.firebasestorage.app", 
+  storageBucket: "studio-gqqbe.appspot.com",
   messagingSenderId: "369252587708",
   appId: "1:369252587708:web:86f2413bd89967e2a858b9"
 };
@@ -56,8 +56,8 @@ const recordAnalyticsEvent = httpsCallable(functions, 'recordAnalyticsEvent');
 const getPrefectureList = httpsCallable(functions, 'getPrefectureList');
 const verifyAdminInvitation = httpsCallable(functions, 'verifyAdminInvitation');
 const analyzeSpotSuggestion = httpsCallable(functions, 'analyzeSpotSuggestion');
-const reAnalyzeSpotSuggestion = httpsCallable(functions, 'reAnalyzeSpotSuggestion');
 const reportSpot = httpsCallable(functions, 'reportSpot');
+const submitAppReport = httpsCallable(functions, 'submitAppReport');
 
 
 // --- DATA (Will be loaded) ---
@@ -141,7 +141,7 @@ async function loadAllData() {
         availablePrefectures = result.data;
     } catch (error) {
         console.error("都道府県リストの取得に失敗しました:", error);
-        loadingIndicator.innerHTML = `<p class="text-red-500">都道府県リストの取得に失敗しました。ページを再読み込みしてください。</p>`;
+        loadingIndicator.textContent = "都道府県リストの取得に失敗しました。ページを再読み込みしてください。";
         return false;
     }
 
@@ -158,12 +158,11 @@ async function loadAllData() {
     const localSpots = [];
     supportedPrefectureNames = [];
     try {
-        // Promise.allをPromise.allSettledに変更し、一部の失敗で全体が停止しないようにする
         const promises = prefectureFiles.map(file => 
             fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${file}?v=${new Date().getTime()}`)
                 .then(res => {
                     if (!res.ok) {
-                        throw new Error(`HTTP error! status: ${res.status}`);
+                        throw new Error(`HTTP error! status: ${res.status} for ${file}`);
                     }
                     return res.json();
                 })
@@ -186,7 +185,6 @@ async function loadAllData() {
                     supportedPrefectureNames.push(data.name);
                 }
             } else {
-                // 失敗したファイル名と理由をコンソールに出力
                 console.error(`ファイルの読み込みに失敗: ${prefectureFiles[index]}`, result.reason);
             }
         });
@@ -197,7 +195,7 @@ async function loadAllData() {
 
     } catch (error) {
         console.error("GitHubからのデータ読み込み中に致命的なエラー:", error);
-        loadingIndicator.innerHTML = `<p class="text-red-500">データの読み込みに失敗しました。ファイル名やJSONの構文を確認してください。</p>`;
+        loadingIndicator.textContent = "データの読み込みに失敗しました。ファイル名やJSONの構文を確認してください。";
         return false;
     }
 
@@ -308,11 +306,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const newSpotUrl = document.getElementById('new-spot-url');
     const submitSpotSpinner = document.getElementById('submit-spot-spinner');
     const modalImageSpinner = document.getElementById('modal-image-spinner');
-    const reAnalysisOverlay = document.getElementById('re-analysis-overlay');
-    const closeReAnalysisBtn = document.getElementById('close-re-analysis-btn');
-    const reAnalysisGmapsUrl = document.getElementById('re-analysis-gmaps-url');
-    const reSubmitSpotBtn = document.getElementById('re-submit-spot-btn');
-    const reSubmitSpotSpinner = document.getElementById('re-submit-spot-spinner');
     const saveSettingsBtn = document.getElementById('save-settings-btn');
     const mailboxBtn = document.getElementById('mailbox-btn');
     const mailboxBadge = document.getElementById('mailbox-badge');
@@ -345,6 +338,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     const submitReportBtn = document.getElementById('submit-report-btn');
     const reportReasonSelect = document.getElementById('report-reason-select');
     const reportDetailsTextarea = document.getElementById('report-details-textarea');
+    
+    // AI提案確認モーダル用のDOM要素
+    const suggestionReviewOverlay = document.getElementById('suggestion-review-overlay');
+    const reviewView = document.getElementById('review-view');
+    const feedbackView = document.getElementById('feedback-view');
+    const closeReviewBtn = document.getElementById('close-review-btn');
+    const reviewContent = document.getElementById('review-content');
+    const submitFinalSuggestionBtn = document.getElementById('submit-final-suggestion-btn');
+    const showFeedbackViewBtn = document.getElementById('show-feedback-view-btn');
+    const backToReviewBtn = document.getElementById('back-to-review-btn');
+    const feedbackInstructions = document.getElementById('feedback-instructions');
+    const feedbackGmapsWrapper = document.getElementById('feedback-gmaps-wrapper');
+    const regenerateSuggestionBtn = document.getElementById('regenerate-suggestion-btn');
+    const regenerateSpinner = document.getElementById('regenerate-spinner');
+
+    // アプリ報告モーダル用のDOM要素
+    const openAppReportBtn = document.getElementById('open-app-report-btn');
+    const appReportOverlay = document.getElementById('app-report-overlay');
+    const closeAppReportBtn = document.getElementById('close-app-report-btn');
+    const submitAppReportBtn = document.getElementById('submit-app-report-btn');
+    const appReportSpinner = document.getElementById('app-report-spinner');
+    const appReportType = document.getElementById('app-report-type');
+    const appReportDescription = document.getElementById('app-report-description');
+
 
     let currentPrefecture = 'all';
     let currentFilters = { category: 'all', area: 'all', tag: 'all' };
@@ -365,7 +382,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let viewedUserId = null;
     let cropper = null;
     let areaFilterView = 'map';
-    let pendingReAnalysisData = null;
+    let currentAiSuggestion = null;
 
     function toggleBodyScroll(lock) {
         document.body.classList.toggle('overflow-hidden', lock);
@@ -571,7 +588,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                     
                     const usersCol = collection(db, 'users');
                     const userSnapshot = await getDocs(usersCol);
-                    userSwitcher.innerHTML = '<option value="">他のユーザーのプランを見る</option>';
+                    userSwitcher.innerHTML = '';
+                    const defaultOption = document.createElement('option');
+                    defaultOption.value = '';
+                    defaultOption.textContent = '他のユーザーのプランを見る';
+                    userSwitcher.appendChild(defaultOption);
+
                     userSnapshot.forEach(doc => {
                         const uData = doc.data();
                         const option = document.createElement('option');
@@ -655,7 +677,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         }, (error) => {
             console.error("プランの読み込みエラー:", error);
             if (error.code === 'permission-denied') {
-                 planItemsList.innerHTML = `<p class="text-red-500 text-center py-10">このユーザーのプランを閲覧する権限がありません。</p>`;
+                 planItemsList.innerHTML = '';
+                 const p = document.createElement('p');
+                 p.className = 'text-red-500 text-center py-10';
+                 p.textContent = "このユーザーのプランを閲覧する権限がありません。";
+                 planItemsList.appendChild(p);
             }
         });
 
@@ -753,37 +779,101 @@ document.addEventListener('DOMContentLoaded', async () => {
         await setDoc(planDocRef, { spots: [] });
     }
 
+    // XSS対策: innerHTMLの使用をやめ、DOM操作で要素を生成するように変更
     function createCard(spot) {
         const card = document.createElement('div');
         card.className = 'card bg-white rounded-xl shadow-md overflow-hidden flex flex-col relative';
-        
+
         const isFavorited = localFavorites.includes(spot.name);
         const isInPlan = localPlan.includes(spot.name);
-        
-        card.innerHTML = `
-            <div class="favorite-btn ${isFavorited ? 'favorited' : ''}" title="お気に入りに追加">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-            </div>
-            <div class="card-content p-5 pt-3 flex flex-col flex-grow">
-                <div class="flex-grow">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full ${spot.category === '観光' ? 'bg-blue-100 text-blue-800' : 'bg-pink-100 text-pink-800'}">${spot.category}</span>
-                        <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">${spot.subCategory}</span>
-                    </div>
-                    <p class="text-sm font-semibold text-gray-500 mb-1">${spot.prefecture}・${spot.area}</p>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">${spot.name}</h3>
-                    <div class="flex flex-wrap gap-1 mb-3">
-                        ${spot.tags ? spot.tags.map(tag => `<span class="text-xs bg-teal-100 text-teal-800 px-2 py-0.5 rounded-full">#${tag}</span>`).join('') : ''}
-                    </div>
-                    <p class="text-gray-600 text-sm line-clamp-3">${spot.description}</p>
-                </div>
-                <div class="mt-4 flex-shrink-0">
-                    <button class="add-to-plan-btn w-full py-2 px-4 rounded-lg font-semibold text-sm transition-colors duration-200 ${isInPlan ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-orange-500 text-white hover:bg-orange-600'}">
-                        ${isInPlan ? '✓ プランに追加済み' : '+ プランに追加'}
-                    </button>
-                </div>
-            </div>
-        `;
+
+        // Favorite Button
+        const favoriteBtn = document.createElement('div');
+        favoriteBtn.className = 'favorite-btn';
+        if (isFavorited) {
+            favoriteBtn.classList.add('favorited');
+        }
+        favoriteBtn.title = 'お気に入りに追加';
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', '0 0 24 24');
+        svg.setAttribute('stroke-linecap', 'round');
+        svg.setAttribute('stroke-linejoin', 'round');
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', 'M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z');
+        svg.appendChild(path);
+        favoriteBtn.appendChild(svg);
+        card.appendChild(favoriteBtn);
+
+        // Card Content
+        const cardContent = document.createElement('div');
+        cardContent.className = 'card-content p-5 pt-3 flex flex-col flex-grow';
+
+        const contentWrapper = document.createElement('div');
+        contentWrapper.className = 'flex-grow';
+
+        // Categories
+        const categoryContainer = document.createElement('div');
+        categoryContainer.className = 'flex items-center gap-2 mb-2';
+        const categorySpan = document.createElement('span');
+        categorySpan.className = `inline-block px-3 py-1 text-xs font-semibold rounded-full ${spot.category === '観光' ? 'bg-blue-100 text-blue-800' : 'bg-pink-100 text-pink-800'}`;
+        categorySpan.textContent = spot.category;
+        const subCategorySpan = document.createElement('span');
+        subCategorySpan.className = 'inline-block px-3 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800';
+        subCategorySpan.textContent = spot.subCategory;
+        categoryContainer.appendChild(categorySpan);
+        categoryContainer.appendChild(subCategorySpan);
+        contentWrapper.appendChild(categoryContainer);
+
+        // Prefecture and Area
+        const locationP = document.createElement('p');
+        locationP.className = 'text-sm font-semibold text-gray-500 mb-1';
+        locationP.textContent = `${spot.prefecture}・${spot.area}`;
+        contentWrapper.appendChild(locationP);
+
+        // Spot Name
+        const nameH3 = document.createElement('h3');
+        nameH3.className = 'text-xl font-bold text-gray-800 mb-2';
+        nameH3.textContent = spot.name;
+        contentWrapper.appendChild(nameH3);
+
+        // Tags
+        const tagsContainer = document.createElement('div');
+        tagsContainer.className = 'flex flex-wrap gap-1 mb-3';
+        if (spot.tags) {
+            spot.tags.forEach(tag => {
+                const tagSpan = document.createElement('span');
+                tagSpan.className = 'text-xs bg-teal-100 text-teal-800 px-2 py-0.5 rounded-full';
+                tagSpan.textContent = `#${tag}`;
+                tagsContainer.appendChild(tagSpan);
+            });
+        }
+        contentWrapper.appendChild(tagsContainer);
+
+        // Description
+        const descriptionP = document.createElement('p');
+        descriptionP.className = 'text-gray-600 text-sm line-clamp-3';
+        descriptionP.textContent = spot.description;
+        contentWrapper.appendChild(descriptionP);
+
+        cardContent.appendChild(contentWrapper);
+
+        // Add to Plan Button
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'mt-4 flex-shrink-0';
+        const addToPlanBtn = document.createElement('button');
+        addToPlanBtn.className = `add-to-plan-btn w-full py-2 px-4 rounded-lg font-semibold text-sm transition-colors duration-200`;
+        if (isInPlan) {
+            addToPlanBtn.classList.add('bg-gray-300', 'text-gray-500', 'cursor-not-allowed');
+            addToPlanBtn.textContent = '✓ プランに追加済み';
+        } else {
+            addToPlanBtn.classList.add('bg-orange-500', 'text-white', 'hover:bg-orange-600');
+            addToPlanBtn.textContent = '+ プランに追加';
+            addToPlanBtn.addEventListener('click', () => addToPlan(spot.name));
+        }
+        buttonContainer.appendChild(addToPlanBtn);
+        cardContent.appendChild(buttonContainer);
+
+        card.appendChild(cardContent);
         
         card.addEventListener('click', (e) => {
             if (e.target.closest('.favorite-btn') || e.target.closest('.add-to-plan-btn')) {
@@ -792,12 +882,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             openModal(spot);
         });
 
-        card.querySelector('.favorite-btn').addEventListener('click', () => toggleFavorite(spot.name));
-        
-        const addToPlanBtn = card.querySelector('.add-to-plan-btn');
-        if (!isInPlan) {
-            addToPlanBtn.addEventListener('click', () => addToPlan(spot.name));
-        }
+        favoriteBtn.addEventListener('click', () => toggleFavorite(spot.name));
         
         return card;
     }
@@ -850,9 +935,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (filteredSpots.length > 0) {
+            spotsList.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6';
             filteredSpots.forEach(spot => spotsList.appendChild(createCard(spot)));
         } else {
-            spotsList.innerHTML = `<p class="col-span-full text-center text-gray-500 py-10">該当するスポットはありません。</p>`;
+            const p = document.createElement('p');
+            p.className = 'col-span-full text-center text-gray-500 py-10';
+            p.textContent = '該当するスポットはありません。';
+            spotsList.appendChild(p);
         }
         updateListTitle();
     }
@@ -872,11 +961,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function renderAreaMap() {
-        const positions = areaPositions[currentPrefecture];
         mapContainer.innerHTML = '';
+        const positions = areaPositions[currentPrefecture];
 
         if (!positions || positions.length === 0) {
-            mapContainer.innerHTML = `<p class="text-center text-gray-500 py-10">この都道府県のエリアマップは<br>現在準備中です。</p>`;
+            const p = document.createElement('p');
+            p.className = 'text-center text-gray-500 py-10';
+            p.innerHTML = 'この都道府県のエリアマップは<br>現在準備中です。';
+            mapContainer.appendChild(p);
             return;
         }
 
@@ -902,11 +994,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function renderAreaList() {
-        const positions = areaPositions[currentPrefecture];
         areaListContainer.innerHTML = '';
+        const positions = areaPositions[currentPrefecture];
 
         if (!positions || positions.length === 0) {
-            areaListContainer.innerHTML = `<p class="text-center text-gray-500 py-10">この都道府県のエリアリストは<br>現在準備中です。</p>`;
+            const p = document.createElement('p');
+            p.className = 'text-center text-gray-500 py-10';
+            p.innerHTML = 'この都道府県のエリアリストは<br>現在準備中です。';
+            areaListContainer.appendChild(p);
             return;
         }
 
@@ -944,7 +1039,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function renderTags() {
-        tagFilters.innerHTML = `<button data-filter="all" class="tag-btn">すべてのタグ</button>`;
+        tagFilters.innerHTML = '';
+        const allButton = document.createElement('button');
+        allButton.dataset.filter = 'all';
+        allButton.className = 'tag-btn';
+        allButton.textContent = 'すべてのタグ';
+        tagFilters.appendChild(allButton);
+
         standardTags.forEach(tag => {
             const button = document.createElement('button');
             button.dataset.filter = tag;
@@ -955,9 +1056,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    function getTransitTime(area1, area2, prefecture) {
+    function getTransitTime(area1, area2, prefectureId) {
         if (area1 === area2) return 0;
-        const transitMatrix = allTransitData[prefecture];
+        const transitMatrix = allTransitData[prefectureId];
         if (!transitMatrix) return null; 
 
         if (transitMatrix[area1] && transitMatrix[area1][area2] !== undefined) {
@@ -1011,16 +1112,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         return baseUrl + waypoints.join('/');
     }
 
+    // XSS対策: innerHTMLの使用をやめ、DOM操作で要素を生成するように変更
     function renderPlan() {
-        const plan = localPlan;
         planItemsList.innerHTML = '';
         let totalMinutes = 0;
         const isViewingOwnPlan = currentUser && currentUser.uid === viewedUserId;
 
-        if (plan.length === 0) {
-            planItemsList.innerHTML = `<p class="text-gray-500 text-center py-10">${isViewingOwnPlan ? 'プランは空です。<br>気になるスポットを追加してみましょう！' : 'このユーザーのプランは空です。'}</p>`;
+        if (localPlan.length === 0) {
+            const p = document.createElement('p');
+            p.className = 'text-gray-500 text-center py-10';
+            p.innerHTML = isViewingOwnPlan ? 'プランは空です。<br>気になるスポットを追加してみましょう！' : 'このユーザーのプランは空です。';
+            planItemsList.appendChild(p);
         } else {
-            plan.forEach((spotName, index) => {
+            localPlan.forEach((spotName, index) => {
                 const spot = combinedSpots.find(s => s.name === spotName);
                 if (!spot) return;
                 
@@ -1029,67 +1133,95 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const item = document.createElement('div');
                 item.className = 'plan-item flex items-center bg-gray-50 p-3 rounded-lg shadow-sm';
                 item.dataset.spotName = spot.name;
+
+                const handle = document.createElement('span');
+                handle.className = 'move-handle text-gray-400';
+                handle.textContent = '☰';
+                if (isViewingOwnPlan) {
+                    handle.draggable = true;
+                }
+                item.appendChild(handle);
+
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'flex-grow ml-2';
+                const nameP = document.createElement('p');
+                nameP.className = 'font-bold text-gray-800';
+                nameP.textContent = spot.name;
+                const detailsP = document.createElement('p');
+                detailsP.className = 'text-sm text-gray-500';
+                detailsP.textContent = `${spot.area} | ${spot.stayTime}`;
+                infoDiv.appendChild(nameP);
+                infoDiv.appendChild(detailsP);
+                item.appendChild(infoDiv);
+
+                const removeBtn = document.createElement('button');
+                removeBtn.className = 'remove-from-plan-btn text-red-500 hover:text-red-700 ml-4 p-1 rounded-full';
+                if (!isViewingOwnPlan) {
+                    removeBtn.classList.add('hidden');
+                }
+                const removeIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                removeIcon.setAttribute('class', 'h-5 w-5');
+                removeIcon.setAttribute('fill', 'none');
+                removeIcon.setAttribute('viewBox', '0 0 24 24');
+                removeIcon.setAttribute('stroke', 'currentColor');
+                const removePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                removePath.setAttribute('stroke-linecap', 'round');
+                removePath.setAttribute('stroke-linejoin', 'round');
+                removePath.setAttribute('stroke-width', '2');
+                removePath.setAttribute('d', 'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16');
+                removeIcon.appendChild(removePath);
+                removeBtn.appendChild(removeIcon);
+                item.appendChild(removeBtn);
                 
-                item.innerHTML = `
-                    <span class="move-handle text-gray-400" ${isViewingOwnPlan ? 'draggable="true"': ''}>☰</span>
-                    <div class="flex-grow ml-2">
-                        <p class="font-bold text-gray-800">${spot.name}</p>
-                        <p class="text-sm text-gray-500">${spot.area} | ${spot.stayTime}</p>
-                    </div>
-                    <button class="remove-from-plan-btn text-red-500 hover:text-red-700 ml-4 p-1 rounded-full ${isViewingOwnPlan ? '' : 'hidden'}">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                    </button>
-                `;
                 planItemsList.appendChild(item);
                 if (isViewingOwnPlan) {
-                   item.querySelector('.remove-from-plan-btn').addEventListener('click', () => removeFromPlan(spot.name));
+                   removeBtn.addEventListener('click', () => removeFromPlan(spot.name));
                 }
 
-                if (index < plan.length - 1) {
-                    const nextSpotName = plan[index + 1];
+                if (index < localPlan.length - 1) {
+                    const nextSpotName = localPlan[index + 1];
                     const nextSpot = combinedSpots.find(s => s.name === nextSpotName);
                     const transitEl = document.createElement('div');
                     transitEl.className = 'transit-time';
-
+                    
+                    const iconContainer = document.createElement('div');
+                    iconContainer.className = 'transit-time-icon';
+                    const timeSpan = document.createElement('span');
+                    
                     if (nextSpot && spot.prefecture === nextSpot.prefecture) {
-                        const transitTime = getTransitTime(spot.area, nextSpot.area, spot.prefecture.replace(/[都府県]/, ''));
+                        const prefectureId = prefectureNameToIdMap[spot.prefecture];
+                        const transitTime = getTransitTime(spot.area, nextSpot.area, prefectureId);
+                        
                         if (transitTime !== null) {
                             totalMinutes += transitTime;
-                            transitEl.innerHTML = `
-                                <div class="transit-time-icon">
-                                    <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v1.333a1 1 0 01-1.333 1.334h-1.334A2.667 2.667 0 006 8v5.333a2.667 2.667 0 002.667 2.667h1.334a1.333 1.333 0 110 2.666H8A5.333 5.333 0 012.667 13.333V8a5.333 5.333 0 015.333-5.333h.001zm4.667 1.333a1 1 0 10-1.334-1.333A2.667 2.667 0 0010.667 4v1.333a2.667 2.667 0 002.666 2.667h1.334a1.333 1.333 0 100-2.667h-1.334A1 1 0 0114.667 4.333z" clip-rule="evenodd" /></svg>
-                                </div>
-                                <span class="text-sm font-semibold text-gray-600">移動: 約${transitTime}分</span>
-                            `;
+                            iconContainer.innerHTML = `<svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v1.333a1 1 0 01-1.333 1.334h-1.334A2.667 2.667 0 006 8v5.333a2.667 2.667 0 002.667 2.667h1.334a1.333 1.333 0 110 2.666H8A5.333 5.333 0 012.667 13.333V8a5.333 5.333 0 015.333-5.333h.001zm4.667 1.333a1 1 0 10-1.334-1.333A2.667 2.667 0 0010.667 4v1.333a2.667 2.667 0 002.666 2.667h1.334a1.333 1.333 0 100-2.667h-1.334A1 1 0 0114.667 4.333z" clip-rule="evenodd" /></svg>`;
+                            timeSpan.className = 'text-sm font-semibold text-gray-600';
+                            timeSpan.textContent = `移動: 約${transitTime}分`;
                         } else {
-                            transitEl.innerHTML = `
-                                <div class="transit-time-icon">
-                                    <svg class="w-5 h-5 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                                </div>
-                                <span class="text-xs font-semibold text-yellow-600">エリア間の移動時間は未設定です</span>
-                            `;
+                            iconContainer.innerHTML = `<svg class="w-5 h-5 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>`;
+                            timeSpan.className = 'text-xs font-semibold text-yellow-600';
+                            timeSpan.textContent = 'エリア間の移動時間は未設定です';
                         }
                     } else {
-                         transitEl.innerHTML = `
-                            <div class="transit-time-icon">
-                                <svg class="w-5 h-5 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                            </div>
-                            <span class="text-xs font-semibold text-yellow-600">他県への移動</span>
-                         `;
+                        iconContainer.innerHTML = `<svg class="w-5 h-5 text-yellow-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>`;
+                        timeSpan.className = 'text-xs font-semibold text-yellow-600';
+                        timeSpan.textContent = '他県への移動';
                     }
+                    transitEl.appendChild(iconContainer);
+                    transitEl.appendChild(timeSpan);
                     planItemsList.appendChild(transitEl);
                 }
             });
         }
         
-        planCountBadge.textContent = plan.length;
-        planCountBadge.classList.toggle('hidden', plan.length === 0);
+        planCountBadge.textContent = localPlan.length;
+        planCountBadge.classList.toggle('hidden', localPlan.length === 0);
 
         const hours = Math.floor(totalMinutes / 60);
         const minutes = totalMinutes % 60;
         planTotalTimeEl.textContent = `${hours > 0 ? hours + '時間' : ''} ${minutes}分`;
 
-        const mapButtonsEnabled = plan.length > 0;
+        const mapButtonsEnabled = localPlan.length > 0;
         routeMapBtn.classList.toggle('opacity-50', !mapButtonsEnabled);
         routeMapBtn.classList.toggle('cursor-not-allowed', !mapButtonsEnabled);
         routeMapFromCurrentBtn.classList.toggle('opacity-50', !mapButtonsEnabled);
@@ -1206,7 +1338,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     async function openModal(spot) {
         modal.dataset.spotName = spot.name;
         document.getElementById('modal-title').textContent = spot.name;
-        document.getElementById('modal-description').innerHTML = spot.description;
+        document.getElementById('modal-description').textContent = spot.description;
         document.getElementById('modal-stay-time').textContent = `平均滞在時間: ${spot.stayTime}`;
         const modalImage = document.getElementById('modal-image');
         const modalImageSource = document.getElementById('modal-image-source');
@@ -1261,7 +1393,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function showConfirmationModal(message, actionButtonText, buttonClass, onConfirm) {
-        confirmationMessage.innerHTML = message.replace(/\n/g, '<br>');
+        confirmationMessage.textContent = message;
+        confirmationMessage.style.whiteSpace = 'pre-wrap';
         confirmActionBtn.textContent = actionButtonText;
 
         confirmActionBtn.className = `py-2 px-6 text-white rounded-lg font-semibold transition-colors ${buttonClass} hover:${buttonClass.replace('500', '600')}`;
@@ -1275,7 +1408,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function showCrossPrefectureConfirmation(spotToAdd, firstSpotInPlan) {
-        crossPrefectureMessage.innerHTML = `「${firstSpotInPlan.prefecture}」のプランに「${spotToAdd.prefecture}」のスポットを追加しようとしています。<br>移動時間が正しく計算されませんが、よろしいですか？`;
+        crossPrefectureMessage.textContent = `「${firstSpotInPlan.prefecture}」のプランに「${spotToAdd.prefecture}」のスポットを追加しようとしています。\n移動時間が正しく計算されませんが、よろしいですか？`;
+        crossPrefectureMessage.style.whiteSpace = 'pre-wrap';
         showOverlay(crossPrefectureOverlay);
 
         const closeOverlay = () => {
@@ -1419,7 +1553,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (index < plan.length - 1) {
                 const nextSpot = combinedSpots.find(s => s.name === plan[index + 1]);
                 if (nextSpot && spot.prefecture === nextSpot.prefecture) {
-                    const transitTime = getTransitTime(spot.area, nextSpot.area, spot.prefecture.replace(/[都府県]/, ''));
+                    const prefectureId = prefectureNameToIdMap[spot.prefecture];
+                    const transitTime = getTransitTime(spot.area, nextSpot.area, prefectureId);
                     if (transitTime !== null) {
                         totalMinutes += transitTime;
                         planText += `   ⬇️\n   (移動: 約${transitTime}分)\n`;
@@ -1503,17 +1638,34 @@ document.addEventListener('DOMContentLoaded', async () => {
         );
     });
 
-    const eyeIcon = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542 7z"></path></svg>`;
-    const eyeSlashIcon = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>`;
+    const createIconSVG = (pathData) => {
+        const svgNS = "http://www.w3.org/2000/svg";
+        const svg = document.createElementNS(svgNS, 'svg');
+        svg.setAttribute('class', 'w-5 h-5');
+        svg.setAttribute('fill', 'none');
+        svg.setAttribute('stroke', 'currentColor');
+        svg.setAttribute('viewBox', '0 0 24 24');
+        const path = document.createElementNS(svgNS, 'path');
+        path.setAttribute('stroke-linecap', 'round');
+        path.setAttribute('stroke-linejoin', 'round');
+        path.setAttribute('stroke-width', '2');
+        path.setAttribute('d', pathData);
+        svg.appendChild(path);
+        return svg;
+    };
     
-    passwordToggle.innerHTML = eyeIcon;
-    confirmPasswordToggle.innerHTML = eyeIcon;
+    const eyeIconPath = 'M15 12a3 3 0 11-6 0 3 3 0 016 0zM2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z';
+    const eyeSlashIconPath = 'M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7 .946-3.11 3.586-5.416 6.835-5.981m5.454 5.454a3 3 0 11-4.243-4.243m4.243 4.243L18.5 13.5M3 3l18 18';
+
+    passwordToggle.appendChild(createIconSVG(eyeIconPath));
+    confirmPasswordToggle.appendChild(createIconSVG(eyeIconPath));
 
     function setupPasswordToggle(toggleBtn, inputEl) {
          toggleBtn.addEventListener('click', () => {
              const type = inputEl.getAttribute('type') === 'password' ? 'text' : 'password';
              inputEl.setAttribute('type', type);
-             toggleBtn.innerHTML = type === 'password' ? eyeIcon : eyeSlashIcon;
+             toggleBtn.innerHTML = '';
+             toggleBtn.appendChild(createIconSVG(type === 'password' ? eyeIconPath : eyeSlashIconPath));
          });
     }
     
@@ -1646,7 +1798,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const region = regions[regionKey];
         if (!region) return;
 
-        // Fetch position data if not already loaded
         if (!regionalPrefecturePositions[regionKey]) {
             try {
                 const response = await fetch(`${region.positionsUrl}?v=${new Date().getTime()}`);
@@ -1654,17 +1805,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 regionalPrefecturePositions[regionKey] = await response.json();
             } catch (error) {
                 console.error(error);
-                japanMapContainer.innerHTML = `<p class="text-red-500 text-center">地図データの読み込みに失敗しました。</p>`;
+                const p = document.createElement('p');
+                p.className = 'text-red-500 text-center';
+                p.textContent = '地図データの読み込みに失敗しました。';
+                japanMapContainer.innerHTML = '';
+                japanMapContainer.appendChild(p);
                 return;
             }
         }
         
-        // Switch views
         regionSelectionContainer.classList.add('hidden');
         japanMapWrapper.classList.remove('hidden');
         backToRegionSelectBtn.classList.remove('hidden');
 
-        // Update map background and render buttons
         japanMapContainer.style.backgroundImage = `url('${region.imageUrl}')`;
         renderJapanMapButtons(regionKey);
     }
@@ -1700,7 +1853,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     function showPrefectureSelectOverlay(title, message, callback) {
         onPrefectureSelectCallback = callback;
 
-        // Reset to region selection view
         japanMapWrapper.classList.add('hidden');
         regionSelectionContainer.classList.remove('hidden');
         backToRegionSelectBtn.classList.add('hidden');
@@ -1735,32 +1887,48 @@ document.addEventListener('DOMContentLoaded', async () => {
     closeAddSpotBtn.addEventListener('click', () => {
         hideOverlay(addSpotOverlay);
     });
+    
+    function showReviewModal(state, options = {}) {
+        if (state === 'review') {
+            if (!currentAiSuggestion) return;
+            document.getElementById('review-spot-name').textContent = currentAiSuggestion.name || 'N/A';
+            document.getElementById('review-prefecture').textContent = currentAiSuggestion.prefecture || '特定できませんでした';
+            document.getElementById('review-area').textContent = currentAiSuggestion.area || '特定できませんでした';
+            document.getElementById('review-category').textContent = `${currentAiSuggestion.category || 'N/A'} / ${currentAiSuggestion.subCategory || 'N/A'}`;
+            document.getElementById('review-tags').textContent = (currentAiSuggestion.tags || []).join(', ') || 'なし';
+            document.getElementById('review-description').textContent = currentAiSuggestion.description || '説明が生成されませんでした。';
+            
+            reviewView.classList.remove('hidden');
+            feedbackView.classList.add('hidden');
+        } else if (state === 'feedback') {
+            document.querySelectorAll('input[name="feedback_reason"]').forEach(cb => cb.checked = false);
+            document.getElementById('feedback-details').value = '';
+            document.getElementById('feedback-gmaps-url').value = '';
+            feedbackGmapsWrapper.style.display = 'none';
+
+            if (options.needsLocation) {
+                feedbackInstructions.textContent = "AIが場所を特定できませんでした。正しい場所のGoogleマップURLを入力して再生成してください。";
+                document.querySelector('input[value="location"]').checked = true;
+                feedbackGmapsWrapper.style.display = 'block';
+            } else {
+                feedbackInstructions.textContent = "どこが違うか教えてください。AIがフィードバックを元に再生成します。";
+            }
+            
+            reviewView.classList.add('hidden');
+            feedbackView.classList.remove('hidden');
+        }
+        showOverlay(suggestionReviewOverlay);
+    }
+    
     submitSpotBtn.addEventListener('click', async () => {
         const spotName = newSpotName.value.trim();
         const spotUrl = newSpotUrl.value.trim();
 
-        if (!spotName || !spotUrl) {
-            showInfoModal("スポット名とURLの両方を入力してください。");
-            return;
-        }
-        if (spotName.length < 3) {
-            showInfoModal("スポット名は3文字以上で入力してください。");
-            return;
-        }
-        try {
-            new URL(spotUrl);
-        } catch (_) {
-            showInfoModal("有効なURLを入力してください。");
-            return;
-        }
-        if (!currentUser) {
-            showInfoModal("ログインが必要です。");
-            return;
-        }
-        if (combinedSpots.some(spot => spot.name === spotName)) {
-            showInfoModal("このスポットは既に登録されています。");
-            return;
-        }
+        if (!spotName || !spotUrl) { showInfoModal("スポット名とURLの両方を入力してください。"); return; }
+        if (spotName.length < 3) { showInfoModal("スポット名は3文字以上で入力してください。"); return; }
+        try { new URL(spotUrl); } catch (_) { showInfoModal("有効なURLを入力してください。"); return; }
+        if (!currentUser) { showInfoModal("ログインが必要です。"); return; }
+        if (combinedSpots.some(spot => spot.name === spotName)) { showInfoModal("このスポットは既に登録されています。"); return; }
 
         submitSpotSpinner.classList.remove('hidden');
         submitSpotBtn.disabled = true;
@@ -1773,26 +1941,41 @@ document.addEventListener('DOMContentLoaded', async () => {
                 standardTags: standardTags
             });
             
-            const aiData = result.data;
-
-            if (!aiData.isNameConsistent) {
-                showInfoModal("提案されたスポット名と公式サイトの内容が一致しないようです。");
-                submitSpotSpinner.classList.add('hidden');
-                submitSpotBtn.disabled = false;
-                return;
+            currentAiSuggestion = result.data;
+            
+            if (!currentAiSuggestion.prefecture || !supportedPrefectureNames.includes(currentAiSuggestion.prefecture)) {
+                 currentAiSuggestion.name = spotName;
+                 currentAiSuggestion.website = spotUrl;
+                 showReviewModal('feedback', { needsLocation: true });
+            } else {
+                showReviewModal('review');
             }
-            if (!aiData.prefecture || !supportedPrefectureNames.includes(aiData.prefecture)) {
-                pendingReAnalysisData = { ...aiData, originalName: spotName, originalUrl: spotUrl };
-                showOverlay(reAnalysisOverlay);
-                submitSpotSpinner.classList.add('hidden');
-                submitSpotBtn.disabled = false;
-                return; 
-            }
+            hideOverlay(addSpotOverlay);
 
+        } catch (error) {
+            console.error("AI分析に失敗しました:", error);
+            showInfoModal(`エラーが発生しました: ${error.message}`);
+        } finally {
+            submitSpotSpinner.classList.add('hidden');
+            submitSpotBtn.disabled = false;
+        }
+    });
+
+    document.querySelector('input[value="location"]').addEventListener('change', (e) => {
+        feedbackGmapsWrapper.style.display = e.target.checked ? 'block' : 'none';
+    });
+
+    closeReviewBtn.addEventListener('click', () => hideOverlay(suggestionReviewOverlay));
+    showFeedbackViewBtn.addEventListener('click', () => showReviewModal('feedback'));
+    backToReviewBtn.addEventListener('click', () => showReviewModal('review'));
+
+    submitFinalSuggestionBtn.addEventListener('click', async () => {
+        if (!currentAiSuggestion) return;
+        submitFinalSuggestionBtn.disabled = true;
+        
+        try {
             await addDoc(collection(db, "spot_submissions"), {
-                ...aiData,
-                originalName: spotName,
-                originalUrl: spotUrl,
+                ...currentAiSuggestion,
                 submittedBy: currentUser.uid,
                 submittedAt: serverTimestamp(),
                 status: "pending"
@@ -1801,63 +1984,88 @@ document.addEventListener('DOMContentLoaded', async () => {
             showInfoModal("スポットの提案を送信しました。管理者の承認をお待ちください。");
             newSpotName.value = '';
             newSpotUrl.value = '';
-            hideOverlay(addSpotOverlay);
-
+            hideOverlay(suggestionReviewOverlay);
         } catch (error) {
-            console.error("AI分析または提案の送信に失敗しました:", error);
-            showInfoModal(`エラーが発生しました: ${error.message}`);
+            console.error("Submission failed:", error);
+            showInfoModal(`提案の送信に失敗しました: ${error.message}`);
         } finally {
-            submitSpotSpinner.classList.add('hidden');
-            submitSpotBtn.disabled = false;
+            submitFinalSuggestionBtn.disabled = false;
         }
     });
-    
-    closeReAnalysisBtn.addEventListener('click', () => hideOverlay(reAnalysisOverlay));
-    
-    reSubmitSpotBtn.addEventListener('click', async () => {
-         const gmapsUrl = reAnalysisGmapsUrl.value.trim();
-         if (!gmapsUrl) {
-             showInfoModal("GoogleマップのURLを入力してください。");
-             return;
-         }
-         reSubmitSpotSpinner.classList.remove('hidden');
-         reSubmitSpotBtn.disabled = true;
 
-         try {
-             const result = await reAnalyzeSpotSuggestion({
-                 ...pendingReAnalysisData,
-                 gmapsUrl: gmapsUrl,
-                 areaPositions: areaPositions
-             });
+    regenerateSuggestionBtn.addEventListener('click', async () => {
+        const reasons = Array.from(document.querySelectorAll('input[name="feedback_reason"]:checked')).map(cb => cb.value);
+        const details = document.getElementById('feedback-details').value.trim();
+        const gmapsUrl = document.getElementById('feedback-gmaps-url').value.trim();
 
-             const reAnalyzedData = result.data;
-             const finalData = { ...pendingReAnalysisData, ...reAnalyzedData };
+        if (reasons.length === 0 && !details) {
+            showInfoModal("修正してほしい点を選択するか、具体的な内容を入力してください。");
+            return;
+        }
+        
+        regenerateSpinner.classList.remove('hidden');
+        regenerateSuggestionBtn.disabled = true;
 
-             if (!finalData.prefecture || !supportedPrefectureNames.includes(finalData.prefecture)) {
-                 showInfoModal(`再分析しましたが、対応していない都道府県のようです。現在、${supportedPrefectureNames.join('、')}のスポットのみ提案を受け付けています。`);
-                 return; 
-             }
+        try {
+            const result = await analyzeSpotSuggestion({
+                previousSuggestion: currentAiSuggestion,
+                userFeedback: { reasons, details, gmapsUrl },
+                areaPositions: areaPositions,
+                standardTags: standardTags
+            });
 
-             await addDoc(collection(db, "spot_submissions"), {
-                 ...finalData,
-                 submittedBy: currentUser.uid,
-                 submittedAt: serverTimestamp(),
-                 status: "pending"
-             });
+            currentAiSuggestion = result.data;
+            showInfoModal("再生成が完了しました。内容を確認してください。");
+            showReviewModal('review');
 
-             showInfoModal("スポットの提案を送信しました。管理者の承認をお待ちください。");
-             newSpotName.value = '';
-             newSpotUrl.value = '';
-             hideOverlay(addSpotOverlay);
-             hideOverlay(reAnalysisOverlay);
+        } catch (error) {
+            console.error("Regeneration failed:", error);
+            showInfoModal(`再生成に失敗しました: ${error.message}`);
+        } finally {
+            regenerateSpinner.classList.add('hidden');
+            regenerateSuggestionBtn.disabled = false;
+        }
+    });
 
-         } catch(error) {
-              console.error("AI再分析または提案の送信に失敗しました:", error);
-              showInfoModal(`エラーが発生しました: ${error.message}`);
-         } finally {
-              reSubmitSpotSpinner.classList.add('hidden');
-              reSubmitSpotBtn.disabled = false;
-         }
+    openAppReportBtn.addEventListener('click', () => {
+        if (!currentUser) {
+            showInfoModal("ご意見・ご報告にはログインが必要です。");
+            return;
+        }
+        appReportDescription.value = '';
+        appReportType.value = 'バグ・不具合の報告';
+        showOverlay(appReportOverlay);
+    });
+
+    closeAppReportBtn.addEventListener('click', () => hideOverlay(appReportOverlay));
+
+    submitAppReportBtn.addEventListener('click', async () => {
+        const reportType = appReportType.value;
+        const description = appReportDescription.value.trim();
+
+        if (!description) {
+            showInfoModal("報告内容を入力してください。");
+            return;
+        }
+
+        appReportSpinner.classList.remove('hidden');
+        submitAppReportBtn.disabled = true;
+
+        try {
+            await submitAppReport({
+                reportType,
+                description,
+                userAgent: navigator.userAgent
+            });
+            hideOverlay(appReportOverlay);
+            showInfoModal("ご報告ありがとうございます。送信されました。");
+        } catch (error) {
+            console.error("App report submission failed:", error);
+            showInfoModal(`報告の送信に失敗しました: ${error.message}`);
+        } finally {
+            appReportSpinner.classList.add('hidden');
+            submitAppReportBtn.disabled = false;
+        }
     });
 
     mailboxBtn.addEventListener('click', () => {
@@ -1895,10 +2103,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     mailboxCloseBtn.addEventListener('click', closeMailboxPanel);
     mailboxPanelOverlay.addEventListener('click', closeMailboxPanel);
 
-   function renderMailbox(docs, lastReadTimestamp) {
+    // XSS対策: innerHTMLの使用をやめ、DOM操作で要素を生成するように変更
+    function renderMailbox(docs, lastReadTimestamp) {
         mailboxList.innerHTML = '';
         if (docs.length === 0) {
-            mailboxList.innerHTML = '<p class="text-center text-gray-500 py-10">お知らせはありません。</p>';
+            const p = document.createElement('p');
+            p.className = 'text-center text-gray-500 py-10';
+            p.textContent = 'お知らせはありません。';
+            mailboxList.appendChild(p);
             return;
         }
 
@@ -1909,17 +2121,42 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             const date = docData.createdAt ? docData.createdAt.toDate().toLocaleString('ja-JP') : '日付不明';
             const rawMessage = docData.message || '';
+            
+            const titleH4 = document.createElement('h4');
+            titleH4.className = `text-md ${!isRead ? 'text-orange-800' : 'text-gray-800'}`;
+            titleH4.textContent = docData.title;
+            
+            const messageP = document.createElement('p');
+            messageP.className = `text-sm mt-1 ${!isRead ? 'text-orange-700' : 'text-gray-600'}`;
+            
+            // URLを安全にリンク化
             const urlRegex = /(https?:\/\/[^\s]+)/g;
-            const formattedMessage = rawMessage.replace(urlRegex, '<a href="$1" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline break-all">$1</a>');
+            const parts = rawMessage.split(urlRegex);
+            parts.forEach((part, index) => {
+                if (index % 2 === 1) { // It's a URL
+                    const a = document.createElement('a');
+                    a.href = part;
+                    a.target = '_blank';
+                    a.rel = 'noopener noreferrer';
+                    a.className = 'text-blue-600 hover:underline break-all';
+                    a.textContent = part;
+                    messageP.appendChild(a);
+                } else { // It's plain text
+                    messageP.appendChild(document.createTextNode(part));
+                }
+            });
 
-            item.innerHTML = `
-                <h4 class="text-md ${!isRead ? 'text-orange-800' : 'text-gray-800'}">${docData.title}</h4>
-                <p class="text-sm mt-1 ${!isRead ? 'text-orange-700' : 'text-gray-600'}">${formattedMessage}</p>
-                <p class="text-xs text-gray-400 mt-2 text-right">${date}</p>
-            `;
+            const dateP = document.createElement('p');
+            dateP.className = 'text-xs text-gray-400 mt-2 text-right';
+            dateP.textContent = date;
+
+            item.appendChild(titleH4);
+            item.appendChild(messageP);
+            item.appendChild(dateP);
             mailboxList.appendChild(item);
         });
     }
+
     markAllAsReadBtn.addEventListener('click', async () => {
         if (!currentUser || currentUser.isAnonymous) return;
         

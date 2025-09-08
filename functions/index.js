@@ -2,6 +2,13 @@
  * VLOG旅プランナー バックエンド処理 (Firebase Cloud Functions)
  * 第2世代 (V2) 完全対応版
  * フォルダ構成の変更 (`data/prefecture/`) を反映済み
+ * ★ AI提案の再生成機能を追加
+ * ★ Gemini API 503エラー対策としてリトライ処理を追加
+ * ★ ユーザーからのバグ報告機能を追加
+ * ★ スポット承認時の都道府県名/IDの揺れに対応
+ * ★ 管理者によるスポット提案の編集機能を追加
+ * ★ 全ユーザー情報を取得する機能を追加
+ * ★ セキュリティ強化: 認証チェックと入力値の検証を追加
  */
 
 // V2用のモジュールをインポート
@@ -155,25 +162,99 @@ async function incrementApiUsage(apiName) {
     });
 }
 
+// リトライ処理付きのfetch関数
+const fetchWithRetry = async (url, options, retries = 3) => {
+    for (let i = 0; i < retries; i++) {
+        try {
+            const response = await fetch(url, options);
+            if (response.status >= 500 && response.status < 600) {
+                console.warn(`Attempt ${i + 1} failed with status ${response.status}. Retrying...`);
+                await new Promise(res => setTimeout(res, Math.pow(2, i) * 1000));
+                continue;
+            }
+            return response;
+        } catch (error) {
+            console.warn(`Attempt ${i + 1} failed with error: ${error.message}. Retrying...`);
+            if (i === retries - 1) throw error;
+            await new Promise(res => setTimeout(res, Math.pow(2, i) * 1000));
+        }
+    }
+    throw new Error('All retry attempts failed.');
+};
+
+
 // --- AI関数 (V2形式) ---
 exports.analyzeSpotSuggestion = onCall(async (request) => {
+    // ★ 認証チェック: ログインしているか確認
+    if (!request.auth) {
+        throw new HttpsError("unauthenticated", "この操作には認証が必要です。");
+    }
+
     const quotaCheck = await checkApiQuota('gemini', 1000);
     if (!quotaCheck.withinQuota) {
         throw new HttpsError('resource-exhausted', '本日のAI分析回数の上限に達しました。明日またお試しください。');
     }
 
-    const { spotName, spotUrl, areaPositions, standardTags } = request.data;
-    if (!spotName || !spotUrl) {
+    const { spotName, spotUrl, areaPositions, standardTags, previousSuggestion, userFeedback } = request.data;
+
+    // ★ 入力値の検証
+    if (!previousSuggestion && (typeof spotName !== 'string' || !spotName || typeof spotUrl !== 'string' || !spotUrl)) {
         throw new HttpsError("invalid-argument", "スポット名とURLは必須です。");
+    }
+    if (previousSuggestion && !userFeedback) {
+        throw new HttpsError("invalid-argument", "再生成にはフィードバックが必要です。");
     }
 
     const settingsDoc = await admin.firestore().collection('app_settings').doc('prompts').get();
     const prompts = settingsDoc.exists ? settingsDoc.data() : {};
-
     const prefectureIdMap = await getPrefectureIdMap();
     const supportedPrefectureNames = Object.keys(prefectureIdMap);
 
-    const prompt = prompts.analyzeSpot || `あなたは旅行情報サイトの優秀な編集者です。以下の情報を基に、VLOG旅プランナーに追加するスポット情報をJSON形式で生成してください。
+    let prompt;
+    const finalSpotName = previousSuggestion ? previousSuggestion.name : spotName;
+    const finalSpotUrl = previousSuggestion ? previousSuggestion.website : spotUrl;
+
+    if (previousSuggestion) {
+        prompt = `あなたは旅行情報サイトの優秀な編集者です。一度AIが生成した以下のスポット情報を、ユーザーからのフィードバックに基づいて修正してください。
+# 修正前のJSONデータ
+${JSON.stringify(previousSuggestion, null, 2)}
+# ユーザーからのフィードバック
+- 修正を希望する点: ${userFeedback.reasons ? userFeedback.reasons.join(', ') : '特になし'}
+- 詳細な指示: ${userFeedback.details || '特になし'}
+${userFeedback.gmapsUrl ? `
+# 参考GoogleマップURL (場所の修正に最優先で利用)
+- ${userFeedback.gmapsUrl}` : ''}
+# 修正のルール
+1. **フィードバックを最優先**し、指摘された箇所を修正してください。
+2. **場所の修正**: フィードバックに「場所」に関する指摘があり、GoogleマップURLが提供されている場合、そのURLを最優先の情報源として「prefecture」と「area」を再判定してください。「prefecture」は必ず「現在対応している都道府県リスト」の中から選んでください。
+3. **その他の修正**: 説明文、タグ、カテゴリなどもフィードバックに合わせて自然な形で修正してください。フィードバックがない項目は基本的に変更しないでください。
+4. **JSON構造の維持**: 必ず元のJSONと同じフォーマットで、修正後の完全なJSONオブジェクトのみを出力してください。
+5. **必須項目の考慮**: エリアの新規判定（isNewArea, newAreaPosition, newTransitData）や利用可能なタグのルールも守ってください。
+# コンテキスト情報
+- 既存のエリアマップ情報: ${JSON.stringify(areaPositions, null, 2)}
+- 現在対応している都道府県リスト: ${supportedPrefectureNames.join(', ')}
+- 利用可能なタグリスト: ${standardTags.join(', ')}
+# 出力フォーマット (JSONのみを出力)
+{
+  "prefecture": "（都道府県名）",
+  "name": "${finalSpotName}",
+  "area": "（AIが再決定したエリア名）",
+  "isNewArea": false,
+  "newAreaPosition": null,
+  "newTransitData": null,
+  "category": "（観光かグルメ）",
+  "subCategory": "（具体的な分類名）",
+  "description": "（AIが修正した紹介文）",
+  "website": "${finalSpotUrl}",
+  "gmaps": "https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(finalSpotName)}",
+  "stayTime": "（目安の滞在時間、例：約60分）",
+  "tags": ["（タグ1）", "（タグ2）"],
+  "isNameConsistent": true,
+  "recommendation": "（yesかno）",
+  "reasoning": "（修正後の判断理由）"
+}`;
+    } else {
+        prompt = prompts.analyzeSpot || `あなたは旅行情報サイトの優秀な編集者です。以下の情報を基に、VLOG旅プランナーに追加するスポット情報をJSON形式で生成してください。
 # コンテキスト：
 - 既存のエリアマップ情報: ${JSON.stringify(areaPositions, null, 2)}
 - 現在対応している都道府県リスト: ${supportedPrefectureNames.join(', ')}
@@ -210,9 +291,10 @@ ${standardTags.join(', ')}
   "recommendation": "（yesかno）",
   "reasoning": "（判断理由）"
 }`;
+    }
     
     try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY.value()}`, {
+        const response = await fetchWithRetry(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY.value()}`, {
             method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
         });
 
@@ -247,57 +329,7 @@ ${standardTags.join(', ')}
         throw new HttpsError("internal", "AIによる分析中にサーバーでエラーが発生しました。");
     }
 });
-exports.reAnalyzeSpotSuggestion = onCall(async (request) => {
-    const quotaCheck = await checkApiQuota('gemini', 1000);
-    if (!quotaCheck.withinQuota) {
-        throw new HttpsError('resource-exhausted', '本日のAI分析回数の上限に達しました。明日またお試しください。');
-    }
 
-    const { originalName, originalUrl, gmapsUrl, areaPositions } = request.data;
-    if (!gmapsUrl) throw new HttpsError("invalid-argument", "GoogleマップのURLは必須です。");
-
-    const settingsDoc = await admin.firestore().collection('app_settings').doc('prompts').get();
-    const prompts = settingsDoc.exists ? settingsDoc.data() : {};
-
-    const prompt = prompts.reAnalyzeSpot || `あなたは地理情報の専門家です。以下の情報を基に、スポットの正しい都道府県とエリアを特定してください。GoogleマップのURLを最優先の情報源としてください。
-# 入力情報
-- スポット名: ${originalName}
-- 公式サイトURL: ${originalUrl}
-- GoogleマップURL: ${gmapsUrl}
-# コンテキスト：既存のエリアマップ情報
-${JSON.stringify(areaPositions, null, 2)}
-# 生成ルール
-1.  **都道府県とエリア**: GoogleマップURLを最優先に分析し、最も適切と思われる「prefecture」と「area」を決定してください。
-2.  **エリアの判定**:
-    * もし決定した「area」が、コンテキスト内の該当都道府県の「areaPositions」に**既に存在する場合**は、「isNewArea」を \`false\` にし、「newAreaPosition」と「newTransitData」は \`null\` にしてください。
-    * もし決定した「area」が**存在しない場合**は、「isNewArea」を \`true\` にし、新しいエリアのマップ上の位置（topとleft）と、既存エリアとの「transitData」（移動時間）を**必ず計算**してください。
-# 出力フォーマット (JSONのみを出力)
-{
-  "prefecture": "（都道府県名）",
-  "area": "（AIが決定したエリア名）",
-  "isNewArea": false,
-  "newAreaPosition": null,
-  "newTransitData": null
-}`;
-
-    try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY.value()}`, {
-            method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
-        });
-        await incrementApiUsage('gemini');
-        if (!response.ok) {
-            const errorText = await response.text(); console.error("Gemini API Error Response (reAnalyze):", errorText); throw new HttpsError("internal", `Gemini APIエラー: ${response.status}`);
-        }
-        const result = await response.json();
-        if (!result.candidates || !result.candidates[0].content.parts[0].text) {
-             console.error("Invalid Gemini Response (reAnalyze):", JSON.stringify(result, null, 2)); throw new HttpsError("internal", "AIからの応答が無効です。");
-        }
-        const aiResponseText = result.candidates[0].content.parts[0].text.replace(/```json|```/g, "").trim();
-        return JSON.parse(aiResponseText);
-    } catch (error) {
-        console.error("Cloud Function (reAnalyze)内でエラー:", error); throw new HttpsError("internal", "AIによる再分析中にサーバーでエラーが発生しました。");
-    }
-});
 const _fetchImageForSpotLogic = async ({ spot, reportedImageUrl = null }) => {
     const quotaCheck = await checkApiQuota('google_search', 100);
     if (!quotaCheck.withinQuota) {
@@ -465,11 +497,20 @@ exports.approveSubmission = onCall(async (request) => {
     const db = admin.firestore();
     
     const prefectureIdMap = await getPrefectureIdMap();
-    const prefId = prefectureIdMap[submissionData.prefecture];
+
+    // ★★★ MODIFIED BLOCK: 県名/IDのどちらでも対応 ★★★
+    let prefId = prefectureIdMap[submissionData.prefecture];
+    if (!prefId) {
+        // AIがID（'okayama'）を返した場合のフォールバック
+        const isAlreadyId = Object.values(prefectureIdMap).includes(submissionData.prefecture);
+        if (isAlreadyId) {
+            prefId = submissionData.prefecture;
+        }
+    }
+
     if (!prefId) {
         throw new HttpsError("invalid-argument", `未対応の都道府県です: ${submissionData.prefecture}`);
     }
-    // 修正: 正しいファイルパスを参照
     const filePath = `data/prefecture/${prefId}.json`;
 
     try {
@@ -755,31 +796,19 @@ exports.getDashboardStats = onCall(async (request) => {
 
 
 // --- Admin & Other Functions ---
-exports.setAdminClaim = onCall(async (request) => {
-    if (!request.auth || !request.auth.token.admin) {
-        throw new HttpsError( "permission-denied", "この機能は管理者のみが実行できます。");
-    }
-    const email = request.data.email;
-    if (!email) {
-        throw new HttpsError("invalid-argument", "メールアドレスが指定されていません。");
-    }
-    try {
-        const user = await admin.auth().getUserByEmail(email);
-        await admin.auth().setCustomUserClaims(user.uid, { admin: true });
-        return { message: `成功！ ${email} さんを管理者に設定しました。` };
-    } catch (error) {
-        console.error("管理者権限の設定中にエラー:", error);
-        throw new HttpsError("internal", "ユーザーが見つからないか、内部的なエラーが発生しました。");
-    }
-});
+// ★★★ MODIFIED BLOCK: Added authentication and validation ★★★
 exports.inviteAdmin = onCall(async (request) => {
+    // 1. 認証チェック
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この機能は管理者のみが実行できます。");
     }
+    
+    // 2. 入力値の検証
     const email = request.data.email;
-    if (!email) {
-        throw new HttpsError("invalid-argument", "メールアドレスが指定されていません。");
+    if (typeof email !== 'string' || !email.includes('@')) {
+        throw new HttpsError("invalid-argument", "有効なメールアドレスを指定してください。");
     }
+
     try {
         const user = await admin.auth().getUserByEmail(email);
         if (user.customClaims && user.customClaims.admin) {
@@ -809,14 +838,19 @@ exports.inviteAdmin = onCall(async (request) => {
         throw new HttpsError("internal", error.message || "招待の送信に失敗しました。");
     }
 });
+
 exports.verifyAdminInvitation = onCall(async (request) => {
+    // 1. 認証チェック (ログインしているか)
     if (!request.auth) {
         throw new HttpsError("unauthenticated", "この操作にはログインが必要です。");
     }
+    
+    // 2. 入力値の検証
     const token = request.data.token;
-    if (!token) {
-        throw new HttpsError("invalid-argument", "トークンが必要です。");
+    if (typeof token !== 'string' || token.length === 0) {
+        throw new HttpsError("invalid-argument", "有効なトークンが必要です。");
     }
+
     const db = admin.firestore();
     const tokenRef = db.collection('admin_invitations').doc(token);
     const tokenDoc = await tokenRef.get();
@@ -840,6 +874,7 @@ exports.verifyAdminInvitation = onCall(async (request) => {
         throw new HttpsError("internal", "権限の付与に失敗しました。");
     }
 });
+
 exports.getAdminUsers = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この機能は管理者のみが実行できます。");
@@ -862,13 +897,42 @@ exports.getAdminUsers = onCall(async (request) => {
         throw new HttpsError("internal", "管理者リストの取得に失敗しました。");
     }
 });
+
+exports.getAllUsers = onCall(async (request) => {
+    if (!request.auth || !request.auth.token.admin) {
+        throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");
+    }
+
+    const allUsers = [];
+    try {
+        const listUsersResult = await admin.auth().listUsers(1000);
+        
+        listUsersResult.users.forEach(userRecord => {
+            allUsers.push({
+                uid: userRecord.uid,
+                email: userRecord.email,
+                displayName: userRecord.displayName || '（表示名なし）',
+                creationTime: userRecord.metadata.creationTime,
+                lastSignInTime: userRecord.metadata.lastSignInTime,
+            });
+        });
+        
+        allUsers.sort((a, b) => new Date(b.creationTime) - new Date(a.creationTime));
+
+        return { users: allUsers };
+    } catch (error) {
+        console.error("全ユーザーの取得中にエラー:", error);
+        throw new HttpsError("internal", "ユーザーリストの取得に失敗しました。");
+    }
+});
+
 exports.removeAdminClaim = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この機能は管理者のみが実行できます。");
     }
     const targetUid = request.data.uid;
-    if (!targetUid) {
-        throw new HttpsError("invalid-argument", "ユーザーIDが指定されていません。");
+    if (typeof targetUid !== 'string' || targetUid.length === 0) {
+        throw new HttpsError("invalid-argument", "有効なユーザーIDが指定されていません。");
     }
     if (request.auth.uid === targetUid) {
         throw new HttpsError("failed-precondition", "自分自身の管理者権限は削除できません。");
@@ -888,6 +952,8 @@ exports.removeAdminClaim = onCall(async (request) => {
         throw new HttpsError("internal", "権限の削除に失敗しました。");
     }
 });
+// ★★★ END OF MODIFIED BLOCK ★★★
+
 exports.sendAnnouncement = onCall(async (request) => {
     if (!request.auth || !request.auth.token.admin) {
         throw new HttpsError("permission-denied", "この機能は管理者のみが実行できます。");
@@ -937,6 +1003,30 @@ exports.updateSpot = onCall(async (request) => {
         throw new HttpsError("internal", "スポットの更新に失敗しました。");
     }
 });
+
+// ★★★ ADDED BLOCK: 管理者がスポット提案を編集するための関数 ★★★
+exports.updateSubmission = onCall(async (request) => {
+    if (!request.auth || !request.auth.token.admin) {
+        throw new HttpsError("permission-denied", "この操作には管理者権限が必要です。");
+    }
+
+    const { submissionId, updatedData } = request.data;
+
+    if (!submissionId || !updatedData) {
+        throw new HttpsError("invalid-argument", "更新に必要な情報（submissionId, updatedData）が不足しています。");
+    }
+
+    try {
+        const submissionRef = db.collection("spot_submissions").doc(submissionId);
+        await submissionRef.update(updatedData);
+        return { success: true, message: "提案内容を更新しました。" };
+    } catch (error) {
+        console.error("提案の更新中にエラー:", error);
+        if (error instanceof HttpsError) throw error;
+        throw new HttpsError("internal", "提案の更新に失敗しました。");
+    }
+});
+
 exports.exportSpotsToCSV = onRequest(async (req, res) => {
     cors(req, res, async () => {
         const prefectureId = req.query.prefectureId;
@@ -1319,6 +1409,37 @@ exports.deleteSpot = onCall(async (request) => {
         throw new HttpsError("internal", "スポットの削除処理に失敗しました。");
     }
 });
+
+exports.submitAppReport = onCall(async (request) => {
+    if (!request.auth) {
+        throw new HttpsError("unauthenticated", "この操作には認証が必要です。");
+    }
+    const { reportType, description, userAgent } = request.data;
+    if (!reportType || !description) {
+        throw new HttpsError("invalid-argument", "レポートの種類と内容は必須です。");
+    }
+    if (description.length > 2000) {
+        throw new HttpsError("invalid-argument", "内容は2000文字以内で入力してください。");
+    }
+
+    const report = {
+        reportType,
+        description,
+        userAgent: userAgent || 'N/A',
+        status: "pending",
+        reportedBy: request.auth.uid,
+        reportedAt: admin.firestore.FieldValue.serverTimestamp(),
+    };
+
+    try {
+        await db.collection("app_reports").add(report);
+        return { success: true, message: "ご報告ありがとうございます。送信されました。" };
+    } catch (error) {
+        console.error("アプリ報告の保存中にエラー:", error);
+        throw new HttpsError("internal", "報告の保存に失敗しました。");
+    }
+});
+
 
 // --- Webhook Function ---
 

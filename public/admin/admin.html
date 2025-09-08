@@ -116,6 +116,20 @@
             align-items: center;
             justify-content: center;
         }
+        /* ▼▼▼ ADDED BLOCK ▼▼▼ */
+        .overlay-base {
+            position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+            background-color: rgba(0, 0, 0, 0.6); z-index: 50;
+            opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .overlay-base.visible { opacity: 1; visibility: visible; }
+        .modal-base {
+            background-color: white; border-radius: 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: translateY(20px); transition: transform 0.3s ease;
+        }
+        .overlay-base.visible .modal-base { transform: translateY(0); }
+        /* ▲▲▲ END OF ADDED BLOCK ▲▲▲ */
     </style>
 </head>
 <body class="text-gray-800">
@@ -168,7 +182,7 @@
                     <div id="panel-user" class="tab-panel">
                         <details class="bg-white shadow-sm rounded-lg" open>
                             <summary class="flex justify-between items-center font-bold text-xl">
-                                <span>ユーザー管理</span>
+                                <span>管理者</span>
                             </summary>
                             <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <div>
@@ -186,6 +200,30 @@
                                 </div>
                             </div>
                         </details>
+                        
+                        <!-- ▼▼▼ NEW USER LOG SECTION ADDED ▼▼▼ -->
+                        <details class="bg-white shadow-sm rounded-lg mt-6">
+                            <summary class="flex justify-between items-center font-bold text-xl">
+                                <span>全ユーザーログ</span>
+                            </summary>
+                            <div class="p-6">
+                                <div class="overflow-x-auto border rounded-lg">
+                                    <table class="min-w-full bg-white">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">メールアドレス</th>
+                                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">表示名</th>
+                                                <th class="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">アカウント作成日時</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="user-log-table-body" class="divide-y divide-gray-200">
+                                            <tr><td colspan="3" class="p-4 text-center text-gray-500">ログを読み込み中...</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </details>
+                        <!-- ▲▲▲ END OF NEW SECTION ▲▲▲ -->
                     </div>
 
                     <div id="panel-content" class="tab-panel hidden">
@@ -310,6 +348,7 @@
                                             <button data-tab="submissions" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg">スポット提案 <span id="submissions-count-badge" class="count-badge hidden"></span></button>
                                             <button data-tab="image-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">画像レポート <span id="image-reports-count-badge" class="count-badge hidden"></span></button>
                                             <button data-tab="spot-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">スポット報告 <span id="spot-reports-count-badge" class="count-badge hidden"></span></button>
+                                            <button data-tab="app-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">アプリ報告 <span id="app-reports-count-badge" class="count-badge hidden"></span></button>
                                             <button data-tab="link-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">リンク切れ <span id="link-reports-count-badge" class="count-badge hidden"></span></button>
                                             <button data-tab="image-link-reports" class="secondary-tab-btn flex-shrink-0 relative px-4 py-2 font-medium text-sm rounded-t-lg bg-gray-100 hover:bg-gray-200">画像リンク切れ <span id="image-link-reports-count-badge" class="count-badge hidden"></span></button>
                                         </nav>
@@ -317,6 +356,7 @@
                                     <div id="submissions-content-panel" class="submission-panel space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
                                     <div id="image-reports-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
                                     <div id="spot-reports-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
+                                    <div id="app-reports-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
                                     <div id="link-reports-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
                                     <div id="image-link-reports-content-panel" class="submission-panel hidden space-y-4 max-h-[70vh] overflow-y-auto p-2 bg-gray-50 rounded-lg border"></div>
                                 </div>
@@ -382,17 +422,21 @@
 
         <div id="edit-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-center justify-center p-4">
             <div class="p-5 border w-full max-w-xl shadow-lg rounded-md bg-white">
-                <div class="flex justify-between items-center mb-4"><h3 class="text-2xl font-bold">スポット情報の編集</h3><button id="modal-close-btn" class="text-3xl font-light text-gray-500 hover:text-gray-800">&times;</button></div>
+                <div class="flex justify-between items-center mb-4"><h3 id="edit-modal-title" class="text-2xl font-bold">スポット情報の編集</h3><button id="modal-close-btn" class="text-3xl font-light text-gray-500 hover:text-gray-800">&times;</button></div>
                 <div id="modal-edit-message" class="text-sm mb-4 text-center h-5"></div>
-                <div class="space-y-4">
+                <div class="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
                     <div><label class="block text-sm font-medium">スポット名</label><input type="text" id="edit-spot-name" class="w-full px-3 py-2 border border-gray-300 rounded-md"></div>
+                    <div><label class="block text-sm font-medium">都道府県</label><input type="text" id="edit-spot-prefecture" class="w-full px-3 py-2 border border-gray-300 rounded-md"></div>
+                    <div><label class="block text-sm font-medium">エリア</label><input type="text" id="edit-spot-area" class="w-full px-3 py-2 border border-gray-300 rounded-md"></div>
                     <div><label class="block text-sm font-medium">説明文</label><textarea id="edit-spot-description" rows="5" class="w-full px-3 py-2 border border-gray-300 rounded-md"></textarea></div>
                     <div><label class="block text-sm font-medium">公式サイトURL</label><input type="url" id="edit-spot-website" class="w-full px-3 py-2 border border-gray-300 rounded-md"></div>
                     <div><label class="block text-sm font-medium">GoogleマップURL</label><input type="url" id="edit-spot-gmaps" class="w-full px-3 py-2 border border-gray-300 rounded-md"></div>
-                    <div class="flex justify-end gap-4 pt-4">
-                        <button id="cancel-edit-btn" class="bg-gray-200 text-gray-800 py-2 px-5 rounded-lg font-semibold hover:bg-gray-300">キャンセル</button>
-                        <button id="save-spot-btn" class="bg-blue-600 text-white py-2 px-5 rounded-lg font-semibold hover:bg-blue-700 flex items-center justify-center gap-2"><div id="save-spinner" class="hidden spinner"></div><span>変更を保存</span></button>
-                    </div>
+                    <div><label class="block text-sm font-medium">滞在時間</label><input type="text" id="edit-spot-stayTime" class="w-full px-3 py-2 border border-gray-300 rounded-md"></div>
+                    <div><label class="block text-sm font-medium">タグ (カンマ区切り)</label><input type="text" id="edit-spot-tags" class="w-full px-3 py-2 border border-gray-300 rounded-md"></div>
+                </div>
+                <div class="flex justify-end gap-4 pt-4">
+                    <button id="cancel-edit-btn" class="bg-gray-200 text-gray-800 py-2 px-5 rounded-lg font-semibold hover:bg-gray-300">キャンセル</button>
+                    <button id="save-spot-btn" class="bg-blue-600 text-white py-2 px-5 rounded-lg font-semibold hover:bg-blue-700 flex items-center justify-center gap-2"><div id="save-spinner" class="hidden spinner"></div><span>変更を保存</span></button>
                 </div>
             </div>
         </div>
@@ -421,7 +465,38 @@
                 </div>
             </div>
         </div>
-    </div>
+        <div id="ai-re-edit-overlay" class="overlay-base z-[51]">
+            <div class="modal-base max-w-lg p-6 overflow-hidden">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-2xl font-bold text-indigo-600">AIで再編集</h2>
+                    <button id="ai-re-edit-close-btn" class="text-3xl font-light text-gray-500 hover:text-gray-900 transition">&times;</button>
+                </div>
+                <div id="ai-re-edit-message" class="text-sm text-center h-5 mb-2"></div>
+                <p class="text-sm text-gray-600 mb-4">AIに修正してほしい点をフィードバックしてください。</p>
+                <div class="space-y-4 max-h-[60vh] overflow-y-auto p-1">
+                    <div class="space-y-2">
+                        <label class="flex items-center"><input type="checkbox" name="ai_feedback_reason" value="location" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span class="ml-2 text-gray-700">場所（都道府県やエリア）が違う</span></label>
+                        <label class="flex items-center"><input type="checkbox" name="ai_feedback_reason" value="description" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span class="ml-2 text-gray-700">説明文が不正確</span></label>
+                        <label class="flex items-center"><input type="checkbox" name="ai_feedback_reason" value="tags" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"><span class="ml-2 text-gray-700">カテゴリやタグが違う</span></label>
+                    </div>
+                    <div>
+                        <label for="ai-feedback-details" class="block text-sm font-medium text-gray-700">具体的な修正内容</label>
+                        <textarea id="ai-feedback-details" rows="3" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" placeholder="例：「もっと若者向けのカフェです」「レトロというよりモダンな雰囲気」"></textarea>
+                    </div>
+                    <div id="ai-feedback-gmaps-wrapper" class="hidden">
+                        <label for="ai-feedback-gmaps-url" class="block text-sm font-medium text-gray-700">GoogleマップのURL (推奨)</label>
+                        <input type="url" id="ai-feedback-gmaps-url" class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="正しい場所のGoogleマップURL">
+                    </div>
+                </div>
+                 <div class="mt-6">
+                    <button id="ai-regenerate-btn" class="w-full bg-orange-500 text-white py-2.5 px-5 rounded-lg font-semibold hover:bg-orange-600 flex items-center justify-center gap-2">
+                        <div id="ai-regenerate-spinner" class="hidden spinner"></div>
+                        <span>フィードバックを送信して再生成</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -451,6 +526,7 @@
         const getPrefectureList = httpsCallable(functions, 'getPrefectureList');
         const updateSpot = httpsCallable(functions, 'updateSpot');
         const approveSubmission = httpsCallable(functions, 'approveSubmission');
+        const updateSubmission = httpsCallable(functions, 'updateSubmission');
         const resolveImageReport = httpsCallable(functions, 'resolveImageReport');
         const triggerLinkCheck = httpsCallable(functions, 'triggerLinkCheck');
         const triggerImageCheck = httpsCallable(functions, 'triggerImageCheck');
@@ -464,13 +540,20 @@
         const fetchImageForSpot = httpsCallable(functions, 'fetchImageForSpot');
         const createPrefectureFile = httpsCallable(functions, 'createPrefectureFile');
         const getDashboardStats = httpsCallable(functions, 'getDashboardStats');
+        const analyzeSpotSuggestion = httpsCallable(functions, 'analyzeSpotSuggestion');
+        const getAllUsers = httpsCallable(functions, 'getAllUsers'); // ▼▼▼ NEW FUNCTION IMPORTED ▼▼▼
+
+        // ▼▼▼ ADDED BLOCK: standardTagsを定義 ▼▼▼
+        const standardTags = [ "絶景", "インスタ映え", "レトロ", "おしゃれ", "カワイイ", "ユニーク", "自然・癒し", "食べ歩き", "ショッピング", "体験", "アート・建築", "夜景", "定番スポット", "カフェ・喫茶店", "スイーツ", "ご当地グルメ", "B級グルメ", "ランチ", "ディナー", "雨の日OK", "予約推奨", "コスパ", "無料" ];
+        // ▲▲▲ END OF ADDED BLOCK ▲▲▲
 
         // グローバル変数
         let currentUser = null, allSpotsData = {}, selectedSpotOriginalName = '', activeImageReportData = {};
-        let unsubscribeSpotSubmissions = null, unsubscribeImageReports = null, unsubscribeLinkReports = null, unsubscribeSpotReports = null, unsubscribeImageLinkReports = null;
+        let unsubscribeSpotSubmissions = null, unsubscribeImageReports = null, unsubscribeLinkReports = null, unsubscribeSpotReports = null, unsubscribeImageLinkReports = null, unsubscribeAppReports = null;
         let fullPrefectureData = {}, areaHistory = [];
         let charts = {};
         let currentCheckType = '';
+        let currentEditingSubmissionId = null;
 
         // DOM要素の取得
         const loginContainer = document.getElementById('login-container');
@@ -497,12 +580,17 @@
         const prefectureSelector = document.getElementById('prefecture-selector');
         const spotListDiv = document.getElementById('spot-list-for-edit');
         const editModal = document.getElementById('edit-modal');
+        const editModalTitle = document.getElementById('edit-modal-title');
         const modalCloseBtn = document.getElementById('modal-close-btn');
         const modalEditMessage = document.getElementById('modal-edit-message');
         const editSpotName = document.getElementById('edit-spot-name');
+        const editSpotPrefecture = document.getElementById('edit-spot-prefecture');
+        const editSpotArea = document.getElementById('edit-spot-area');
         const editSpotDescription = document.getElementById('edit-spot-description');
         const editSpotWebsite = document.getElementById('edit-spot-website');
         const editSpotGmaps = document.getElementById('edit-spot-gmaps');
+        const editSpotStayTime = document.getElementById('edit-spot-stayTime');
+        const editSpotTags = document.getElementById('edit-spot-tags');
         const cancelEditBtn = document.getElementById('cancel-edit-btn');
         const saveSpotBtn = document.getElementById('save-spot-btn');
         const saveSpinner = document.getElementById('save-spinner');
@@ -511,6 +599,7 @@
         const submissionContentPanel = document.getElementById('submissions-content-panel');
         const imageReportContentPanel = document.getElementById('image-reports-content-panel');
         const spotReportContentPanel = document.getElementById('spot-reports-content-panel');
+        const appReportContentPanel = document.getElementById('app-reports-content-panel');
         const linkReportContentPanel = document.getElementById('link-reports-content-panel');
         const imageLinkReportContentPanel = document.getElementById('image-link-reports-content-panel');
         const imageCandidateOverlay = document.getElementById('image-candidate-overlay');
@@ -549,6 +638,12 @@
         const importJsonBtn = document.getElementById('import-json-btn');
         const jsonImportSpinner = document.getElementById('json-import-spinner');
         const jsonMessage = document.getElementById('json-message');
+        const aiReEditOverlay = document.getElementById('ai-re-edit-overlay');
+        const aiReEditCloseBtn = document.getElementById('ai-re-edit-close-btn');
+        const aiReEditMessage = document.getElementById('ai-re-edit-message');
+        const aiFeedbackGmapsWrapper = document.getElementById('ai-feedback-gmaps-wrapper');
+        const aiRegenerateBtn = document.getElementById('ai-regenerate-btn');
+        const aiRegenerateSpinner = document.getElementById('ai-regenerate-spinner');
         
         function listenForSubmissions() {
             if (unsubscribeSpotSubmissions) unsubscribeSpotSubmissions();
@@ -560,7 +655,10 @@
                 badge.textContent = count;
                 badge.classList.toggle('hidden', count === 0);
                 if (snapshot.empty) {
-                    submissionContentPanel.innerHTML = '<p class="text-gray-500 text-center py-4">新しい提案はありません。</p>';
+                    const p = document.createElement('p');
+                    p.className = 'text-gray-500 text-center py-4';
+                    p.textContent = '新しい提案はありません。';
+                    submissionContentPanel.appendChild(p);
                 } else {
                     snapshot.forEach((doc) => {
                         renderSubmissionCard(doc.id, doc.data());
@@ -579,7 +677,10 @@
                 badge.textContent = count;
                 badge.classList.toggle('hidden', count === 0);
                 if (snapshot.empty) {
-                    imageReportContentPanel.innerHTML = '<p class="text-gray-500 text-center py-4">画像レポートはありません。</p>';
+                    const p = document.createElement('p');
+                    p.className = 'text-gray-500 text-center py-4';
+                    p.textContent = '画像レポートはありません。';
+                    imageReportContentPanel.appendChild(p);
                 } else {
                     snapshot.forEach((doc) => {
                         renderImageReportCard(doc.id, doc.data());
@@ -599,10 +700,36 @@
                 badge.classList.toggle('hidden', count === 0);
 
                 if (snapshot.empty) {
-                    spotReportContentPanel.innerHTML = '<p class="text-gray-500 text-center py-4">スポットに関する報告はありません。</p>';
+                    const p = document.createElement('p');
+                    p.className = 'text-gray-500 text-center py-4';
+                    p.textContent = 'スポットに関する報告はありません。';
+                    spotReportContentPanel.appendChild(p);
                 } else {
                     snapshot.forEach((doc) => {
                         renderSpotReportCard(doc.id, doc.data());
+                    });
+                }
+            });
+        }
+
+        function listenForAppReports() {
+            if (unsubscribeAppReports) unsubscribeAppReports();
+            const q = query(collection(db, "app_reports"));
+            unsubscribeAppReports = onSnapshot(q, (snapshot) => {
+                appReportContentPanel.innerHTML = '';
+                const count = snapshot.size;
+                const badge = document.getElementById('app-reports-count-badge');
+                badge.textContent = count;
+                badge.classList.toggle('hidden', count === 0);
+
+                if (snapshot.empty) {
+                    const p = document.createElement('p');
+                    p.className = 'text-gray-500 text-center py-4';
+                    p.textContent = 'アプリに関する報告はありません。';
+                    appReportContentPanel.appendChild(p);
+                } else {
+                    snapshot.forEach((doc) => {
+                        renderAppReportCard(doc.id, doc.data());
                     });
                 }
             });
@@ -619,7 +746,10 @@
                 badge.classList.toggle('hidden', count === 0);
 
                 if (snapshot.empty) {
-                    linkReportContentPanel.innerHTML = '<p class="text-gray-500 text-center py-4">リンク切れの報告はありません。</p>';
+                    const p = document.createElement('p');
+                    p.className = 'text-gray-500 text-center py-4';
+                    p.textContent = 'リンク切れの報告はありません。';
+                    linkReportContentPanel.appendChild(p);
                 } else {
                     snapshot.docs.forEach(doc => renderLinkReportCard(doc.id, doc.data()));
                 }
@@ -637,7 +767,10 @@
                 badge.classList.toggle('hidden', count === 0);
 
                 if (snapshot.empty) {
-                    imageLinkReportContentPanel.innerHTML = '<p class="text-gray-500 text-center py-4">画像リンク切れの報告はありません。</p>';
+                    const p = document.createElement('p');
+                    p.className = 'text-gray-500 text-center py-4';
+                    p.textContent = '画像リンク切れの報告はありません。';
+                    imageLinkReportContentPanel.appendChild(p);
                 } else {
                     snapshot.docs.forEach(doc => renderImageLinkReportCard(doc.id, doc.data()));
                 }
@@ -671,9 +804,11 @@
                         listenForSubmissions(); 
                         listenForImageReports();
                         listenForSpotReports();
+                        listenForAppReports();
                         listenForLinkReports();
                         listenForImageLinkReports();
                         loadAppSettings();
+                        loadAndRenderUserLogs(); // ▼▼▼ NEW FUNCTION CALLED ▼▼▼
                     } else {
                         loginError.textContent = "管理者権限がありません。";
                         signOut(auth);
@@ -684,6 +819,53 @@
                 adminPanel.style.display = 'none';
             }
         });
+
+        // ▼▼▼ NEW FUNCTION ADDED ▼▼▼
+        async function loadAndRenderUserLogs() {
+            const tableBody = document.getElementById('user-log-table-body');
+            try {
+                const result = await getAllUsers();
+                const users = result.data.users;
+
+                tableBody.innerHTML = ''; // ローディング表示をクリア
+
+                if (!users || users.length === 0) {
+                    const row = tableBody.insertRow();
+                    const cell = row.insertCell();
+                    cell.colSpan = 3;
+                    cell.className = 'p-4 text-center text-gray-500';
+                    cell.textContent = 'ユーザーが見つかりませんでした。';
+                    return;
+                }
+
+                users.forEach(user => {
+                    const row = tableBody.insertRow();
+                    const creationDate = new Date(user.creationTime).toLocaleString('ja-JP');
+
+                    const emailCell = row.insertCell();
+                    emailCell.className = 'px-4 py-3 whitespace-nowrap text-sm text-gray-800';
+                    emailCell.textContent = user.email || '(メール未設定)';
+
+                    const nameCell = row.insertCell();
+                    nameCell.className = 'px-4 py-3 whitespace-nowrap text-sm text-gray-800';
+                    nameCell.textContent = user.displayName;
+
+                    const dateCell = row.insertCell();
+                    dateCell.className = 'px-4 py-3 whitespace-nowrap text-sm text-gray-500';
+                    dateCell.textContent = creationDate;
+                });
+
+            } catch (error) {
+                console.error("Error loading user logs:", error);
+                tableBody.innerHTML = '';
+                const row = tableBody.insertRow();
+                const cell = row.insertCell();
+                cell.colSpan = 3;
+                cell.className = 'p-4 text-center text-red-500';
+                cell.textContent = `ログの読み込みに失敗しました: ${error.message}`;
+            }
+        }
+        // ▲▲▲ END OF NEW FUNCTION ▲▲▲
 
         // イベントリスナー
         loginBtn.addEventListener('click', () => signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value).catch(err => loginError.textContent = "ログイン情報が正しくありません。"));
@@ -807,7 +989,10 @@
             const listEl = document.getElementById('search-terms-list');
             listEl.innerHTML = '';
             if (data.length === 0) {
-                listEl.innerHTML = '<p class="text-gray-500">データがありません。</p>';
+                const p = document.createElement('p');
+                p.className = 'text-gray-500';
+                p.textContent = 'データがありません。';
+                listEl.appendChild(p);
                 return;
             }
             data.forEach(item => {
@@ -830,18 +1015,49 @@
                 const result = await getAdminUsers();
                 adminListLoading.style.display = 'none';
                 if (!result.data || result.data.length === 0) {
-                    adminListContainer.innerHTML = '<p class="text-gray-500">管理者は見つかりませんでした。</p>';
+                    const p = document.createElement('p');
+                    p.className = 'text-gray-500';
+                    p.textContent = '管理者は見つかりませんでした。';
+                    adminListContainer.appendChild(p);
                     return;
                 }
                 result.data.forEach(admin => {
                     const isCurrentUser = currentUser && currentUser.uid === admin.uid;
                     const el = document.createElement('div');
                     el.className = 'flex items-center justify-between p-2.5 rounded-md border';
-                    el.innerHTML = `<div><p class="font-semibold text-gray-800">${admin.displayName || '（表示名なし）'}</p><p class="text-sm text-gray-500">${admin.email}</p></div> ${!isCurrentUser ? `<button data-uid="${admin.uid}" data-email="${admin.email}" class="remove-admin-btn text-xs bg-red-100 text-red-700 py-1 px-3 rounded-full hover:bg-red-200">削除</button>` : '<span class="text-xs text-gray-400 font-bold">自分</span>'}`;
+                    
+                    const infoDiv = document.createElement('div');
+                    const nameP = document.createElement('p');
+                    nameP.className = 'font-semibold text-gray-800';
+                    nameP.textContent = admin.displayName || '（表示名なし）';
+                    const emailP = document.createElement('p');
+                    emailP.className = 'text-sm text-gray-500';
+                    emailP.textContent = admin.email;
+                    infoDiv.appendChild(nameP);
+                    infoDiv.appendChild(emailP);
+                    el.appendChild(infoDiv);
+
+                    if (!isCurrentUser) {
+                        const button = document.createElement('button');
+                        button.dataset.uid = admin.uid;
+                        button.dataset.email = admin.email;
+                        button.className = 'remove-admin-btn text-xs bg-red-100 text-red-700 py-1 px-3 rounded-full hover:bg-red-200';
+                        button.textContent = '削除';
+                        el.appendChild(button);
+                    } else {
+                        const span = document.createElement('span');
+                        span.className = 'text-xs text-gray-400 font-bold';
+                        span.textContent = '自分';
+                        el.appendChild(span);
+                    }
                     adminListContainer.appendChild(el);
                 });
             } catch (error) {
-                adminListContainer.innerHTML = `<p class="text-red-500">管理者リストの取得に失敗しました。</p>`;
+                adminListContainer.innerHTML = '';
+                const p = document.createElement('p');
+                p.className = 'text-red-500';
+                p.textContent = '管理者リストの取得に失敗しました。';
+                adminListContainer.appendChild(p);
             }
         }
         inviteAdminBtn.addEventListener('click', async () => {
@@ -939,8 +1155,6 @@
 
             if (!prefId) return;
             try {
-                // ### 修正箇所 ###
-                // パスを `data/` から `data/prefecture/` に変更
                 const res = await fetch(`https://raw.githubusercontent.com/tatsuya0203/trip-planner/main/data/prefecture/${prefId}.json?v=${new Date().getTime()}`);
                 if (!res.ok) throw new Error('スポットデータの取得に失敗');
                 const data = await res.json();
@@ -950,7 +1164,15 @@
                 data.spots.sort((a,b) => a.name.localeCompare(b.name, 'ja')).forEach(spot => {
                     const el = document.createElement('div');
                     el.className = 'flex justify-between items-center p-2 hover:bg-gray-100 rounded-md';
-                    el.innerHTML = `<span class="text-sm">${spot.name}</span><button data-spot-name="${spot.name}" class="edit-spot-item-btn text-xs bg-blue-100 text-blue-800 py-1 px-3 rounded-full hover:bg-blue-200">編集</button>`;
+                    const span = document.createElement('span');
+                    span.className = 'text-sm';
+                    span.textContent = spot.name;
+                    const button = document.createElement('button');
+                    button.dataset.spotName = spot.name;
+                    button.className = 'edit-spot-item-btn text-xs bg-blue-100 text-blue-800 py-1 px-3 rounded-full hover:bg-blue-200';
+                    button.textContent = '編集';
+                    el.appendChild(span);
+                    el.appendChild(button);
                     spotListDiv.appendChild(el);
                 });
                 renderAreaManagementUI(prefId);
@@ -1060,12 +1282,36 @@
             areas.forEach((area, index) => {
                 const areaEl = document.createElement('div');
                 areaEl.className = 'flex items-center gap-2 p-2 bg-white rounded-md border';
-                areaEl.innerHTML = `
-                    <input type="text" value="${area.name}" data-index="${index}" class="area-name-input flex-grow px-2 py-1 border rounded-md">
-                    <input type="text" value="${area.top}" data-index="${index}" class="area-top-input w-20 px-2 py-1 border rounded-md" placeholder="Top %">
-                    <input type="text" value="${area.left}" data-index="${index}" class="area-left-input w-20 px-2 py-1 border rounded-md" placeholder="Left %">
-                    <button data-index="${index}" class="delete-area-btn text-red-500 hover:text-red-700 p-1">✖</button>
-                `;
+                
+                const nameInput = document.createElement('input');
+                nameInput.type = 'text';
+                nameInput.value = area.name;
+                nameInput.dataset.index = index;
+                nameInput.className = 'area-name-input flex-grow px-2 py-1 border rounded-md';
+                
+                const topInput = document.createElement('input');
+                topInput.type = 'text';
+                topInput.value = area.top;
+                topInput.dataset.index = index;
+                topInput.className = 'area-top-input w-20 px-2 py-1 border rounded-md';
+                topInput.placeholder = 'Top %';
+
+                const leftInput = document.createElement('input');
+                leftInput.type = 'text';
+                leftInput.value = area.left;
+                leftInput.dataset.index = index;
+                leftInput.className = 'area-left-input w-20 px-2 py-1 border rounded-md';
+                leftInput.placeholder = 'Left %';
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.dataset.index = index;
+                deleteBtn.className = 'delete-area-btn text-red-500 hover:text-red-700 p-1';
+                deleteBtn.textContent = '✖';
+
+                areaEl.appendChild(nameInput);
+                areaEl.appendChild(topInput);
+                areaEl.appendChild(leftInput);
+                areaEl.appendChild(deleteBtn);
                 areaList.appendChild(areaEl);
             });
 
@@ -1153,21 +1399,41 @@
             transitTimeMatrix.innerHTML = '';
 
             const headerRow = document.createElement('tr');
-            headerRow.innerHTML = '<th></th>' + areas.map(a => `<th class="font-semibold p-2">${a.name}</th>`).join('');
+            const th = document.createElement('th');
+            headerRow.appendChild(th);
+            areas.forEach(a => {
+                const th = document.createElement('th');
+                th.className = 'font-semibold p-2';
+                th.textContent = a.name;
+                headerRow.appendChild(th);
+            });
             transitTimeMatrix.appendChild(headerRow);
 
             areas.forEach((rowArea, rowIndex) => {
                 const row = document.createElement('tr');
-                let rowHtml = `<th class="font-semibold p-2">${rowArea.name}</th>`;
+                const th = document.createElement('th');
+                th.className = 'font-semibold p-2';
+                th.textContent = rowArea.name;
+                row.appendChild(th);
+                
                 areas.forEach((colArea, colIndex) => {
+                    const td = document.createElement('td');
+                    const input = document.createElement('input');
+                    input.type = 'number';
                     if (rowIndex === colIndex) {
-                        rowHtml += '<td><input type="number" value="0" class="w-20 text-center bg-gray-200" disabled></td>';
+                        input.value = '0';
+                        input.className = 'w-20 text-center bg-gray-200';
+                        input.disabled = true;
                     } else {
                         const time = transitData[rowArea.name]?.[colArea.name] ?? '';
-                        rowHtml += `<td><input type="number" data-row="${rowArea.name}" data-col="${colArea.name}" value="${time}" class="transit-time-input w-20 text-center border rounded-md px-2 py-1"></td>`;
+                        input.dataset.row = rowArea.name;
+                        input.dataset.col = colArea.name;
+                        input.value = time;
+                        input.className = 'transit-time-input w-20 text-center border rounded-md px-2 py-1';
                     }
+                    td.appendChild(input);
+                    row.appendChild(td);
                 });
-                row.innerHTML = rowHtml;
                 transitTimeMatrix.appendChild(row);
             });
         }
@@ -1267,35 +1533,84 @@
         function renderSubmissionCard(id, data) {
             const card = document.createElement('div');
             card.className = 'bg-white p-4 rounded-lg border shadow-sm';
-            const newAreaBadge = data.isNewArea ? `<span class="text-xs font-bold bg-blue-100 text-blue-800 px-2 py-1 rounded-full">新規エリア</span>` : '';
-            card.innerHTML = `
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="font-bold text-lg text-gray-800">${data.name}</p>
-                        <p class="text-sm text-gray-600">${data.prefecture} / ${data.area} ${newAreaBadge}</p>
-                    </div>
-                    <div class="text-right flex-shrink-0 ml-4">
-                        <p class="text-xs text-gray-500">推奨度: <span class="font-bold ${data.recommendation === 'yes' ? 'text-green-600' : 'text-red-600'}">${data.recommendation === 'yes' ? 'Yes' : 'No'}</span></p>
-                        <p class="text-xs text-gray-400">名称一致: ${data.isNameConsistent ? '✔' : '✖'}</p>
-                    </div>
-                </div>
-                <div class="mt-2 p-3 bg-gray-50 rounded-md">
-                    <p class="text-sm text-gray-700">${data.description}</p>
-                    <p class="text-xs text-gray-500 mt-2"><b>理由:</b> ${data.reasoning}</p>
-                </div>
-                <div class="mt-3 text-xs">
-                    <a href="${data.website}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">公式サイト</a> | 
-                    <a href="${data.gmaps}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Googleマップ</a> |
-                    滞在時間: ${data.stayTime}
-                </div>
-                <div class="mt-2 space-x-1">
-                    ${(data.tags || []).map(tag => `<span class="text-xs bg-gray-200 px-2 py-1 rounded-full">${tag}</span>`).join('')}
-                </div>
-                <div class="mt-4 flex gap-3">
-                    <button data-id="${id}" class="approve-submission-btn w-full bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 text-sm">承認</button>
-                    <button data-id="${id}" class="reject-submission-btn w-full bg-red-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-700 text-sm">否認</button>
-                </div>
+            
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'flex justify-between items-start';
+            
+            const infoDiv = document.createElement('div');
+            const nameP = document.createElement('p');
+            nameP.className = 'font-bold text-lg text-gray-800';
+            nameP.textContent = data.name;
+            const locationP = document.createElement('p');
+            locationP.className = 'text-sm text-gray-600';
+            locationP.textContent = `${data.prefecture} / ${data.area} `;
+            if (data.isNewArea) {
+                const newAreaBadge = document.createElement('span');
+                newAreaBadge.className = 'text-xs font-bold bg-blue-100 text-blue-800 px-2 py-1 rounded-full';
+                newAreaBadge.textContent = '新規エリア';
+                locationP.appendChild(newAreaBadge);
+            }
+            infoDiv.appendChild(nameP);
+            infoDiv.appendChild(locationP);
+            
+            const statusDiv = document.createElement('div');
+            statusDiv.className = 'text-right flex-shrink-0 ml-4';
+            const recommendationP = document.createElement('p');
+            recommendationP.className = 'text-xs text-gray-500';
+            recommendationP.textContent = '推奨度: ';
+            const recommendationSpan = document.createElement('span');
+            recommendationSpan.className = `font-bold ${data.recommendation === 'yes' ? 'text-green-600' : 'text-red-600'}`;
+            recommendationSpan.textContent = data.recommendation === 'yes' ? 'Yes' : 'No';
+            recommendationP.appendChild(recommendationSpan);
+            const consistencyP = document.createElement('p');
+            consistencyP.className = 'text-xs text-gray-400';
+            consistencyP.textContent = `名称一致: ${data.isNameConsistent ? '✔' : '✖'}`;
+            statusDiv.appendChild(recommendationP);
+            statusDiv.appendChild(consistencyP);
+            
+            headerDiv.appendChild(infoDiv);
+            headerDiv.appendChild(statusDiv);
+            card.appendChild(headerDiv);
+
+            const detailsDiv = document.createElement('div');
+            detailsDiv.className = 'mt-2 p-3 bg-gray-50 rounded-md';
+            const descriptionP = document.createElement('p');
+            descriptionP.className = 'text-sm text-gray-700';
+            descriptionP.textContent = data.description;
+            const reasoningP = document.createElement('p');
+            reasoningP.className = 'text-xs text-gray-500 mt-2';
+            const reasoningB = document.createElement('b');
+            reasoningB.textContent = '理由: ';
+            reasoningP.appendChild(reasoningB);
+            reasoningP.appendChild(document.createTextNode(data.reasoning));
+            detailsDiv.appendChild(descriptionP);
+            detailsDiv.appendChild(reasoningP);
+            card.appendChild(detailsDiv);
+            
+            const linksDiv = document.createElement('div');
+            linksDiv.className = 'mt-3 text-xs';
+            linksDiv.innerHTML = `<a href="${data.website}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">公式サイト</a> | <a href="${data.gmaps}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Googleマップ</a> | 滞在時間: ${data.stayTime}`;
+            card.appendChild(linksDiv);
+
+            const tagsDiv = document.createElement('div');
+            tagsDiv.className = 'mt-2 space-x-1';
+            (data.tags || []).forEach(tag => {
+                const tagSpan = document.createElement('span');
+                tagSpan.className = 'text-xs bg-gray-200 px-2 py-1 rounded-full';
+                tagSpan.textContent = tag;
+                tagsDiv.appendChild(tagSpan);
+            });
+            card.appendChild(tagsDiv);
+
+            const buttonsDiv = document.createElement('div');
+            buttonsDiv.className = 'mt-4 grid grid-cols-2 lg:grid-cols-4 gap-2';
+            buttonsDiv.innerHTML = `
+                <button data-id="${id}" class="approve-submission-btn w-full bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 text-sm">承認</button>
+                <button data-id="${id}" class="ai-re-edit-btn w-full bg-yellow-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-yellow-600 text-sm">AIで再編集</button>
+                <button data-id="${id}" class="edit-submission-btn w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 text-sm">手動編集</button>
+                <button data-id="${id}" class="reject-submission-btn w-full bg-red-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-red-700 text-sm">否認</button>
             `;
+            card.appendChild(buttonsDiv);
             submissionContentPanel.appendChild(card);
         }
         
@@ -1336,6 +1651,35 @@
             `;
             spotReportContentPanel.appendChild(card);
         }
+        
+        function renderAppReportCard(id, data) {
+            const card = document.createElement('div');
+            card.className = 'bg-white p-4 rounded-lg border shadow-sm';
+            const date = data.reportedAt ? data.reportedAt.toDate().toLocaleString('ja-JP') : 'N/A';
+            card.innerHTML = `
+                <div>
+                    <div class="flex justify-between items-start">
+                        <p class="font-bold text-lg text-gray-800">${data.reportType}</p>
+                        <span class="text-xs text-gray-500">${date}</span>
+                    </div>
+                    <div class="mt-2 p-3 bg-gray-50 rounded-md">
+                        <p class="text-sm text-gray-700 whitespace-pre-wrap">${data.description}</p>
+                    </div>
+                    <details class="text-xs text-gray-400 mt-2">
+                        <summary>報告者情報</summary>
+                        <div class="p-2 bg-gray-100 rounded-md">
+                            <p><strong>User ID:</strong> ${data.reportedBy}</p>
+                            <p><strong>User Agent:</strong> ${data.userAgent}</p>
+                        </div>
+                    </details>
+                </div>
+                <div class="mt-4 flex gap-3">
+                    <button data-id="${id}" class="resolve-app-report-btn w-full bg-green-500 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-600 text-sm">解決済みとしてマーク</button>
+                </div>
+            `;
+            appReportContentPanel.appendChild(card);
+        }
+
 
         function renderLinkReportCard(id, data) {
             const card = document.createElement('div');
@@ -1409,6 +1753,32 @@
                     const result = await approveSubmission({ submissionId, submissionData, approveNewArea });
                     alert(result.data.message);
                 } catch (error) { alert(`承認処理に失敗しました: ${error.message}`); button.disabled = false; button.textContent = '承認'; }
+            }
+            if (button.classList.contains('edit-submission-btn')) {
+                const submissionDoc = await getDoc(doc(db, "spot_submissions", submissionId));
+                if (submissionDoc.exists()) {
+                    const data = submissionDoc.data();
+                    currentEditingSubmissionId = submissionId;
+                    editModalTitle.textContent = '提案の編集';
+                    editSpotName.value = data.name || '';
+                    editSpotPrefecture.value = data.prefecture || '';
+                    editSpotArea.value = data.area || '';
+                    editSpotDescription.value = data.description || '';
+                    editSpotWebsite.value = data.website || '';
+                    editSpotGmaps.value = data.gmaps || '';
+                    editSpotStayTime.value = data.stayTime || '';
+                    editSpotTags.value = (data.tags || []).join(', ');
+                    editModal.style.display = 'flex';
+                }
+            }
+            if (button.classList.contains('ai-re-edit-btn')) {
+                currentEditingSubmissionId = submissionId;
+                document.querySelectorAll('input[name="ai_feedback_reason"]').forEach(cb => cb.checked = false);
+                document.getElementById('ai-feedback-details').value = '';
+                document.getElementById('ai-feedback-gmaps-url').value = '';
+                aiFeedbackGmapsWrapper.style.display = 'none';
+                aiReEditMessage.textContent = '';
+                aiReEditOverlay.classList.add('visible');
             }
         });
 
@@ -1497,6 +1867,23 @@
             }
         });
         
+        appReportContentPanel.addEventListener('click', async (e) => {
+            const button = e.target.closest('button');
+            if (!button || !button.classList.contains('resolve-app-report-btn')) return;
+            const reportId = button.dataset.id;
+            if (confirm('この報告を解決済みとしてリストから削除しますか？')) {
+                button.disabled = true;
+                button.innerHTML = '<span class="spinner"></span> 処理中...';
+                try {
+                    await deleteDoc(doc(db, "app_reports", reportId));
+                } catch (error) {
+                    alert(`報告の削除に失敗しました: ${error.message}`);
+                    button.disabled = false;
+                    button.textContent = '解決済みとしてマーク';
+                }
+            }
+        });
+
         linkReportContentPanel.addEventListener('click', async (e) => {
             const btn = e.target.closest('button');
             if (!btn) return;
@@ -1678,13 +2065,94 @@
                 importJsonBtn.disabled = false;
             }
         });
-
+        
         submissionTabs.addEventListener('click', (e) => {
             const button = e.target.closest('.secondary-tab-btn');
             if(button) {
                 switchSecondaryTab(button.dataset.tab);
             }
         });
+
+        // ▼▼▼ MODIFIED BLOCK: AI Re-edit Logic ▼▼▼
+        aiReEditCloseBtn.addEventListener('click', () => aiReEditOverlay.classList.remove('visible'));
+        aiReEditOverlay.addEventListener('click', (e) => {
+            if (e.target === aiReEditOverlay) aiReEditOverlay.classList.remove('visible');
+        });
+
+        document.querySelector('input[name="ai_feedback_reason"][value="location"]').addEventListener('change', (e) => {
+            aiFeedbackGmapsWrapper.style.display = e.target.checked ? 'block' : 'none';
+        });
+
+        aiRegenerateBtn.addEventListener('click', async () => {
+            if (!currentEditingSubmissionId) return;
+
+            const reasons = Array.from(document.querySelectorAll('input[name="ai_feedback_reason"]:checked')).map(cb => cb.value);
+            const details = document.getElementById('ai-feedback-details').value.trim();
+            const gmapsUrl = document.getElementById('ai-feedback-gmaps-url').value.trim();
+
+            if (reasons.length === 0 && !details && !gmapsUrl) {
+                aiReEditMessage.textContent = "修正点を入力または選択してください。";
+                aiReEditMessage.className = "text-sm text-center h-5 mb-2 text-red-500";
+                return;
+            }
+
+            aiRegenerateSpinner.classList.remove('hidden');
+            aiRegenerateBtn.disabled = true;
+            aiReEditMessage.textContent = 'AIで再生成中...';
+            aiReEditMessage.className = "text-sm text-center h-5 mb-2 text-blue-600";
+            
+            try {
+                const submissionDoc = await getDoc(doc(db, "spot_submissions", currentEditingSubmissionId));
+                if (!submissionDoc.exists()) throw new Error("対象の提案が見つかりません。");
+
+                const previousSuggestion = submissionDoc.data();
+                
+                const prefectureIdMap = {};
+                for (const option of prefectureSelector.options) {
+                    if (option.value) {
+                        prefectureIdMap[option.text] = option.value;
+                    }
+                }
+                const prefectureId = prefectureIdMap[previousSuggestion.prefecture];
+                if (!prefectureId) {
+                    throw new Error(`都道府県「${previousSuggestion.prefecture}」のIDが見つかりません。`);
+                }
+                
+                const githubUrl = `https://raw.githubusercontent.com/tatsuya0203/trip-planner/main/data/prefecture/${prefectureId}.json?v=${new Date().getTime()}`;
+                const prefDataRes = await fetch(githubUrl);
+                if (!prefDataRes.ok) throw new Error("都道府県データの取得に失敗しました。");
+                const prefData = await prefDataRes.json();
+                const areaPositions = { [prefectureId]: prefData.areaPositions };
+
+                const result = await analyzeSpotSuggestion({
+                    previousSuggestion: previousSuggestion,
+                    userFeedback: { reasons, details, gmapsUrl },
+                    areaPositions: areaPositions,
+                    standardTags: standardTags
+                });
+
+                await updateSubmission({
+                    submissionId: currentEditingSubmissionId,
+                    updatedData: result.data
+                });
+                
+                aiReEditMessage.textContent = "提案内容を更新しました。";
+                aiReEditMessage.className = "text-sm text-center h-5 mb-2 text-green-600";
+                
+                setTimeout(() => {
+                    aiReEditOverlay.classList.remove('visible');
+                }, 1500);
+
+            } catch (error) {
+                console.error("AI Re-edit failed:", error);
+                aiReEditMessage.textContent = `再生成に失敗: ${error.message}`;
+                aiReEditMessage.className = "text-sm text-center h-5 mb-2 text-red-500";
+            } finally {
+                aiRegenerateSpinner.classList.add('hidden');
+                aiRegenerateBtn.disabled = false;
+            }
+        });
+        // ▲▲▲ END OF MODIFICATION ▲▲▲
     </script>
 </body>
 </html>

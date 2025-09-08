@@ -59,7 +59,7 @@ service cloud.firestore {
     // ユーザーからの画像レポート (/image_reports/{reportId})
     match /image_reports/{reportId} {
       // レポートの作成は、ログインユーザーなら誰でも可能です。
-      allow create: if request.auth != null;
+      allow create,read: if request.auth != null;
       // レポートの読み取りと削除は管理者のみ可能です。
       allow read, delete: if isAdmin();
     }
@@ -72,6 +72,15 @@ service cloud.firestore {
       allow read, update, delete: if isAdmin();
     }
 
+    // ★★★ ADDED/MODIFIED BLOCK ★★★
+    // ユーザーからのアプリ報告 (/app_reports/{reportId})
+    match /app_reports/{reportId} {
+        // 報告の作成は、ログインユーザーなら誰でも可能です。
+        allow create: if request.auth != null;
+        // 報告の読み取り、削除は管理者のみ可能です。
+        allow read, delete: if isAdmin();
+    }
+
     // --- システム・内部処理用のコレクション ---
     // 自動リンク切れチェックのレポート (/link_reports/{reportId})
     match /link_reports/{reportId} {
@@ -81,22 +90,22 @@ service cloud.firestore {
 
     // 自動画像リンク切れチェックのレポート (/image_link_reports/{reportId})
     match /image_link_reports/{reportId} {
-        // レポートの読み書き、削除は管理者のみ可能です。
-        allow read, write, delete: if isAdmin();
+      // レポートの読み書き、削除は管理者のみ可能です。
+      allow read, write, delete: if isAdmin();
     }
 
     // AIプロンプトなどのアプリ設定 (/app_settings/{settingId})
     match /app_settings/{settingId} {
-        // 設定の読み書きは管理者のみ可能です。
-        allow read, write: if isAdmin();
+      // 設定の読み書きは管理者のみ可能です。
+      allow read, write: if isAdmin();
     }
 
     // アナリティクスイベント (/analyticsEvents/{eventId})
     match /analyticsEvents/{eventId} {
-        // イベントの作成（記録）はログインユーザーなら誰でも可能です。
-        allow create: if request.auth != null;
-        // イベントデータの読み書き、削除は管理者のみ可能です。
-        allow read, write, delete: if isAdmin();
+      // イベントの作成（記録）はログインユーザーなら誰でも可能です。
+      allow create: if request.auth != null;
+      // イベントデータの読み書き、削除は管理者のみ可能です。
+      allow read, write, delete: if isAdmin();
     }
 
     // 管理者招待用のトークン (/admin_invitations/{tokenId})
