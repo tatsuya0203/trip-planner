@@ -1,0 +1,653 @@
+[
+  {
+    "id": "1769531491810qnhyz",
+    "spotName": "えびそば一幻 総本店",
+    "prefecture": "北海道",
+    "imageUrl": "https://www.ebisoba.com/wp-content/themes/ichigen/assets/images/index/main.jpg",
+    "status": 500
+  },
+  {
+    "id": "1769531492685u5sbo4",
+    "spotName": "小樽オルゴール堂 本館",
+    "prefecture": "北海道",
+    "imageUrl": "https://www.otaru-orgel.co.jp/wp/wp-content/themes/orgel/common/images/top_main_img_sp.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531494196uqwchr",
+    "spotName": "函館山展望台",
+    "prefecture": "北海道",
+    "imageUrl": "https://334.co.jp/mt/movabletype/uploads/2021/04/mainimage_spring_sp.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531494642lu2piq",
+    "spotName": "五稜郭タワー",
+    "prefecture": "北海道",
+    "imageUrl": "https://www.goryokaku-tower.co.jp/wp/wp-content/themes/goryokaku/assets/images/common/img_main_spring.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531495351ra69qs",
+    "spotName": "金森赤レンガ倉庫",
+    "prefecture": "北海道",
+    "imageUrl": "https://hakodate-kanemori.com/wp-content/uploads/2023/11/4c619a32c256088e2c45b80a88372671.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531495423znaone",
+    "spotName": "八幡坂",
+    "prefecture": "北海道",
+    "imageUrl": "https://www.hakodate.travel/files/2021/04/479A9531-scaled.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531495588newey6",
+    "spotName": "ラッキーピエロ ベイエリア本店",
+    "prefecture": "北海道",
+    "imageUrl": "http://luckypierrot.jp/wp-content/uploads/2020/05/929a022f28121650b47150174148b1d9.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531495706whv1ss",
+    "spotName": "ハセガワストア 焼き鳥弁当",
+    "prefecture": "北海道",
+    "imageUrl": "https://www.hasesuto.co.jp/wp-content/uploads/2021/07/%E3%82%84%E3%81%8D%E3%81%A8%E3%82%8A%E5%BC%81%E5%BD%93%E3%81%AE%E7%A7%98%E5%AF%86.jpg",
+    "status": 404
+  },
+  {
+    "id": "17695314967073z3aon",
+    "spotName": "青い池",
+    "prefecture": "北海道",
+    "imageUrl": "https://lh3.googleusercontent.com/p/AF1QipMRvG8CjO9z6h_J9R8E3j2_l3D6yGk4wYq4bHk=s1360-w1360-h1020",
+    "status": 400
+  },
+  {
+    "id": "176953149709288wl8",
+    "spotName": "四季彩の丘",
+    "prefecture": "北海道",
+    "imageUrl": "https://www.shikisainooka.jp/wordpress/wp-content/uploads/2021/04/3-3.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531497471yvq67b",
+    "spotName": "旭山動物園",
+    "prefecture": "北海道",
+    "imageUrl": "https://www.city.asahikawa.hokkaido.jp/asahiyamazoo/images/mainvisual-03.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531497602og0mw8",
+    "spotName": "らーめん山頭火 本店",
+    "prefecture": "北海道",
+    "imageUrl": "https://www.santouka.co.jp/shop-list/japan/honten/images/main_img.jpg",
+    "status": 404
+  },
+  {
+    "id": "17695314980161b6jwr",
+    "spotName": "大湯沼川天然足湯",
+    "prefecture": "北海道",
+    "imageUrl": "http://noboribetsu-spa.jp/wp-content/uploads/2018/12/oyunuma_footbath_main.jpg",
+    "status": 500
+  },
+  {
+    "id": "17695314980642gh6c5",
+    "spotName": "味の大王 総本店",
+    "prefecture": "北海道",
+    "imageUrl": "http://www.ajino-daiou.com/shared/images/menu_01.jpg",
+    "status": "ERROR"
+  },
+  {
+    "id": "1769531498237udeca",
+    "spotName": "知床五湖",
+    "prefecture": "北海道",
+    "imageUrl": "https://www.goko.go.jp/images/index/img_main_visual_01.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531499165yc0tbn",
+    "spotName": "釧路湿原",
+    "prefecture": "北海道",
+    "imageUrl": "https://www.kushiro-shitsugen-np.jp/wp-content/uploads/2021/03/common_main-visual_sp_1-1.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531499610iyd8j5",
+    "spotName": "博物館 網走監獄",
+    "prefecture": "北海道",
+    "imageUrl": "https://www.kangoku.jp/img/ogp.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531499724ggoijj",
+    "spotName": "大通公園",
+    "prefecture": "北海道",
+    "imageUrl": "https://odori-park.jp/wp-content/uploads/2021/04/about_001.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531499791nk0dh",
+    "spotName": "北海道神宮",
+    "prefecture": "北海道",
+    "imageUrl": "http://www.hokkaidojingu.or.jp/images/top/main_image_sp.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531500178fvcv3o",
+    "spotName": "すみれ 札幌中の島本店",
+    "prefecture": "北海道",
+    "imageUrl": "https://sumireya.com/wp-content/uploads/2023/11/%E5%BA%97%E8%88%97%E4%B8%80%E8%A6%A7%E2%91%A0-1024x768.jpeg",
+    "status": "ERROR"
+  },
+  {
+    "id": "1769531501659eny72c",
+    "spotName": "三角市場",
+    "prefecture": "北海道",
+    "imageUrl": "http://www.otaru-sankaku.com/wp-content/themes/sankaku/images/top/img_mainvisual_sp_11.jpg",
+    "status": 404
+  },
+  {
+    "id": "17695315018005risyb",
+    "spotName": "旧函館区公会堂",
+    "prefecture": "北海道",
+    "imageUrl": "https://hakodate-kokaido.jp/wordpress/wp-content/uploads/2021/04/00-1-scaled.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531502038cb7e6p",
+    "spotName": "ふらのチーズ工房",
+    "prefecture": "北海道",
+    "imageUrl": "https://www.furanotourism.com/jp/assets/images/spot/D_69_1.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531502279vz7alj",
+    "spotName": "星野リゾート トマム 雲海テラス",
+    "prefecture": "北海道",
+    "imageUrl": "https://www.snowtomamu.jp/summer/unkai/common/img/top/kv_movie_poster_sp.jpg",
+    "status": 404
+  },
+  {
+    "id": "176953150241399nymm",
+    "spotName": "登別伊達時代村",
+    "prefecture": "北海道",
+    "imageUrl": "https://edo-wonderland.net/wp-content/uploads/2023/04/noboribetsu_mainvisual_sp-1.webp",
+    "status": "ERROR"
+  },
+  {
+    "id": "1769531503054lq0hw1",
+    "spotName": "オホーツク流氷館",
+    "prefecture": "北海道",
+    "imageUrl": "https://www.ryuhyokan.com/assets/img/index/main_visual01.jpg",
+    "status": 404
+  },
+  {
+    "id": "176953150386210a3",
+    "spotName": "横浜赤レンガ倉庫",
+    "prefecture": "神奈川県",
+    "imageUrl": "https://www.yokohama-akarenga.jp/img/top/main_visual_01.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531503973ivdb4p",
+    "spotName": "カップヌードルミュージアム 横浜",
+    "prefecture": "神奈川県",
+    "imageUrl": "https://www.cupnoodles-museum.jp/ja/yokohama/common/images/og.jpg",
+    "status": 404
+  },
+  {
+    "id": "17695315040885fvte",
+    "spotName": "横浜中華街",
+    "prefecture": "神奈川県",
+    "imageUrl": "https://www.chinatown.or.jp/wp-content/uploads/2020/02/main-visual_pc_02.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531504214d4vd3",
+    "spotName": "鎌倉高校前駅",
+    "prefecture": "神奈川県",
+    "imageUrl": "https://www.pref.kanagawa.jp/documents/10903/199120.jpg",
+    "status": 404
+  },
+  {
+    "id": "17695315044184np5t",
+    "spotName": "報国寺",
+    "prefecture": "神奈川県",
+    "imageUrl": "https://houkokuji.or.jp/wp-content/themes/houkokuji/assets/images/about/img01.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531504593uqx3i",
+    "spotName": "箱根 彫刻の森美術館",
+    "prefecture": "神奈川県",
+    "imageUrl": "https://www.hakone-oam.or.jp/ogp.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531505422jx1d0j6",
+    "spotName": "箱根神社",
+    "prefecture": "神奈川県",
+    "imageUrl": "http://hakonejinja.or.jp/images/common/img_mainvisual_s.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531505572hgi20a",
+    "spotName": "大涌谷",
+    "prefecture": "神奈川県",
+    "imageUrl": "https://www.kanagawa-kankou.or.jp/img/photos/1010.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531505685fuybms",
+    "spotName": "小田原城",
+    "prefecture": "神奈川県",
+    "imageUrl": "https://odawaracastle.com/asset/img/common/ogp.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531505952o0aakn",
+    "spotName": "bills 七里ガ浜",
+    "prefecture": "神奈川県",
+    "imageUrl": "https://media-cdn.tripadvisor.com/media/photo-s/1b/03/4f/2e/photo0-jpg.jpg",
+    "status": 404
+  },
+  {
+    "id": "176953150719456k23o",
+    "spotName": "LONCAFE 湘南江の島本店",
+    "prefecture": "神奈川県",
+    "imageUrl": "https://loncafe.jp/images/shop/shonan/photo_01.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531507884rgfr4bm",
+    "spotName": "YOKOHAMA AIR CABIN",
+    "prefecture": "神奈川県",
+    "imageUrl": "https://yokohama-air-cabin.jp/images/ogp.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531508014b6vun",
+    "spotName": "三溪園",
+    "prefecture": "神奈川県",
+    "imageUrl": "https://www.sankeien.or.jp/wordpress/wp-content/uploads/2023/12/sankeien-main-visual-pc-1.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531509255iq62gg",
+    "spotName": "どぶ板通り商店街",
+    "prefecture": "神奈川県",
+    "imageUrl": "https://dobuita-st.com/wp-content/uploads/2023/04/img_mainvisual_1_sp.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531510278432y7p",
+    "spotName": "藤子・F・不二雄ミュージアム",
+    "prefecture": "神奈川県",
+    "imageUrl": "https://fujiko-museum.com/images/ogp.png",
+    "status": 404
+  },
+  {
+    "id": "176953151058247pd2",
+    "spotName": "ミサキドーナツ 鎌倉駅前店",
+    "prefecture": "神奈川県",
+    "imageUrl": "https://misakidonuts.com/wp-content/uploads/2022/03/%E3%83%9F%E3%82%B5%E3%82%AD%E3%83%89%E3%83%BC%E3%83%8A%E3%83%84%E3%83%AD%E3%82%B4%E3%83%87%E3%83%BC%E3%82%BF.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531511175k52pa",
+    "spotName": "八坂庚申堂",
+    "prefecture": "京都府",
+    "imageUrl": "https://images.unsplash.com/photo-1594936336949-5e4be328223c?q=80&w=2671&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "status": 404
+  },
+  {
+    "id": "1769531511456iyhuer",
+    "spotName": "嵐山キモノフォレスト",
+    "prefecture": "京都府",
+    "imageUrl": "https://images.unsplash.com/photo-1545277189-353d94453a85?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "status": 404
+  },
+  {
+    "id": "1769531512073171z4",
+    "spotName": "清水寺",
+    "prefecture": "京都府",
+    "imageUrl": "https://images.unsplash.com/photo-1554152834-37a8216173a1?q=80&w=2669&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "status": 404
+  },
+  {
+    "id": "17695315123662s7zvd",
+    "spotName": "金閣寺（鹿苑寺）",
+    "prefecture": "京都府",
+    "imageUrl": "https://images.unsplash.com/photo-1528133499812-7a59e13e414c?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "status": 404
+  },
+  {
+    "id": "1769531512640f294lk",
+    "spotName": "南禅寺 水路閣",
+    "prefecture": "京都府",
+    "imageUrl": "https://images.unsplash.com/photo-1633454688226-ce3885c3514a?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "status": 404
+  },
+  {
+    "id": "17695315128359q2ta",
+    "spotName": "正寿院",
+    "prefecture": "京都府",
+    "imageUrl": "https://www.insidekyoto.com/wp-content/uploads/2019/08/shojuin-temple-kyoto-1.jpg",
+    "status": 403
+  },
+  {
+    "id": "1769531515643qdkoku",
+    "spotName": "喫茶ソワレ",
+    "prefecture": "京都府",
+    "imageUrl": "https://www.soiree-kyoto.com/images/menu_photo_jelly.jpg",
+    "status": 404
+  },
+  {
+    "id": "17695315190016ob4fo",
+    "spotName": "% ARABICA 京都 東山",
+    "prefecture": "京都府",
+    "imageUrl": "https://media.cntraveler.com/photos/5a70f034036307435e6a0d31/master/w_2580%2Cc_limit/Arabica-Kyoto-Higashiyama_2018_Arabica_Kurasu_01_25_2018_25.jpg",
+    "status": 500
+  },
+  {
+    "id": "1769531519309itz5c7",
+    "spotName": "eXcafe（イクスカフェ）京都嵐山本店",
+    "prefecture": "京都府",
+    "imageUrl": "https://www.inden-style.jp/excafe/wp-content/uploads/2021/04/%E3%81%8A%E5%9B%A3%E5%AD%90-1-1024x768.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531519857zp7k8l",
+    "spotName": "パンとエスプレッソと嵐山庭園",
+    "prefecture": "京都府",
+    "imageUrl": "https://bread-espresso.jp/wp-content/uploads/2019/06/DSC01940.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531520209metgr",
+    "spotName": "雲ノ茶カフェ 嵐山店",
+    "prefecture": "京都府",
+    "imageUrl": "https://www.kumonocha.com/wp-content/themes/kumonocha/assets/images/arashiyama/img_arashiyama01.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531521360lhis7c",
+    "spotName": "錦市場",
+    "prefecture": "京都府",
+    "imageUrl": "https://www.kyoto-nishiki.or.jp/upload/spot/1/1-20210217122114-1.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531521436tyzk9b",
+    "spotName": "平等院",
+    "prefecture": "京都府",
+    "imageUrl": "https://www.byodoin.or.jp/ja/assets/images/top/img-slide-sp-01.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531522090ov7ymp",
+    "spotName": "浮見堂",
+    "prefecture": "奈良県",
+    "imageUrl": "https://narashikanko.or.jp/wp-content/uploads/2022/10/833a693ce0d2d3e515d9051cbe572733.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531524277fb48sj",
+    "spotName": "石舞台古墳",
+    "prefecture": "奈良県",
+    "imageUrl": "https://www.asukabito.or.jp/wp-content/uploads/2021/03/ishibutai_main.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531525157ypyibn",
+    "spotName": "橿原神宮",
+    "prefecture": "奈良県",
+    "imageUrl": "https://kashiharajingu.or.jp/wp-content/themes/kashiharajingu/assets/img/ogp.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531525334jon51a",
+    "spotName": "室生寺",
+    "prefecture": "奈良県",
+    "imageUrl": "http://www.murouji.or.jp/hotori/img/hotori_main.jpg",
+    "status": "ERROR"
+  },
+  {
+    "id": "1769531526165iroqls",
+    "spotName": "鹿の舟",
+    "prefecture": "奈良県",
+    "imageUrl": "https://www.kuruminoki.co.jp/shikanofune/wp-content/uploads/2021/03/concept_img_01.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531526260e6iqr",
+    "spotName": "くるみの木",
+    "prefecture": "奈良県",
+    "imageUrl": "https://www.kuruminoki.co.jp/ichijyo/wp-content/uploads/2020/07/DSC_0109_1-1024x683.jpg",
+    "status": 404
+  },
+  {
+    "id": "17695315263646k7yg",
+    "spotName": "天極堂 奈良本店",
+    "prefecture": "奈良県",
+    "imageUrl": "https://www.kudzu.co.jp/wp-content/uploads/2020/09/DSC_0055_3-1024x683.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531527326h8xqzf",
+    "spotName": "大仏プリン本店",
+    "prefecture": "奈良県",
+    "imageUrl": "https://daibutsu-purin.com/wp-content/uploads/2021/04/DSC_0033-scaled.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531527368exj5v",
+    "spotName": "ほうせき箱",
+    "prefecture": "奈良県",
+    "imageUrl": "https://housekibaco.jp/wp-content/uploads/2021/04/DSC_0001-1-1024x683.jpg",
+    "status": "ERROR"
+  },
+  {
+    "id": "1769531527511gk0lvg",
+    "spotName": "あすか甘樫亭",
+    "prefecture": "奈良県",
+    "imageUrl": "https://www.asukabito.or.jp/wp-content/uploads/2021/03/amakashitei_main.jpg",
+    "status": 404
+  },
+  {
+    "id": "17695315276977002bb",
+    "spotName": "岡山後楽園",
+    "prefecture": "岡山県",
+    "imageUrl": "https://www.okayama-kanko.jp/image/rendering/attraction_image/11/keep/1200?v=75f1dcaf17fdc68f80e1f853f63ff3667be83301",
+    "status": 404
+  },
+  {
+    "id": "1769531528715p2n6nv",
+    "spotName": "児島ジーンズストリート",
+    "prefecture": "岡山県",
+    "imageUrl": "http://www.okayama-kanko.jp/image/rendering/attraction_image/4295/keep/1200?v=e50c96b259dc22abe47b7bc0a845ef1113e0f2b6",
+    "status": 404
+  },
+  {
+    "id": "17695315288103hpuvp",
+    "spotName": "吹屋ふるさと村",
+    "prefecture": "岡山県",
+    "imageUrl": "https://www.okayama-kanko.jp/image/rendering/attraction_image/759/keep/1200?v=8b4235c2350aa7953b235461e48f7ca5e99841d8",
+    "status": 404
+  },
+  {
+    "id": "1769531528952c3cran",
+    "spotName": "津山城（鶴山公園）",
+    "prefecture": "岡山県",
+    "imageUrl": "http://www.okayama-kanko.jp/image/rendering/attraction_image/8587/keep/1200?v=01904485ada75dd65f6dd4e37495a056d21521ad",
+    "status": 404
+  },
+  {
+    "id": "1769531529525c9nm2",
+    "spotName": "味司 野村",
+    "prefecture": "岡山県",
+    "imageUrl": "http://www.okayama-kanko.jp/image/rendering/attraction_image/5340/keep/1200?v=7fb017bffc28d168b25e2397677238433e256908",
+    "status": 404
+  },
+  {
+    "id": "176953152968633f48w",
+    "spotName": "犬島精錬所美術館",
+    "prefecture": "岡山県",
+    "imageUrl": "http://www.okayama-kanko.jp/image/rendering/attraction_image/213/keep/1200?v=f70224df2bd63bb7d7819103ad2f6557c27a6427",
+    "status": 404
+  },
+  {
+    "id": "1769531529771lcbdn6",
+    "spotName": "鷲羽山展望台",
+    "prefecture": "岡山県",
+    "imageUrl": "https://www.okayama-kanko.jp/image/rendering/attraction_image/3411/keep/1200?v=a79dcfd8510191858a0f68f9bbbefee60296412b",
+    "status": 404
+  },
+  {
+    "id": "1769531531327733wke",
+    "spotName": "岡山城",
+    "prefecture": "岡山県",
+    "imageUrl": "http://www.okayama-kanko.jp/image/rendering/attraction_image/7904/keep/1200?v=1743c007e0da8407371c86849964b737cc81a427",
+    "status": 404
+  },
+  {
+    "id": "1769531533132es9cfq",
+    "spotName": "国際通り",
+    "prefecture": "沖縄県",
+    "imageUrl": "https://naha-kokusaidori.okinawa/wp/wp-content/uploads/2019/07/about-img.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531533501773oaf",
+    "spotName": "ガンガラーの谷",
+    "prefecture": "沖縄県",
+    "imageUrl": "https://gangala.com/wp-content/themes/gangala/assets/images/common/ogp.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531533698ewlcpl",
+    "spotName": "おきなわワールド",
+    "prefecture": "沖縄県",
+    "imageUrl": "https://www.gyokusendo.co.jp/okinawaworld/wp-content/uploads/2021/04/okinawaworld-img.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531533917hsncs",
+    "spotName": "備瀬のフクギ並木",
+    "prefecture": "沖縄県",
+    "imageUrl": "https://www.town.motobu.okinawa.jp/storage/files/shares/kanko/bise.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531533963em85xv",
+    "spotName": "港川ステイツサイドタウン",
+    "prefecture": "沖縄県",
+    "imageUrl": "https://minatogawa-stateside-town.com/wp-content/uploads/2019/07/about-img.jpg",
+    "status": "ERROR"
+  },
+  {
+    "id": "1769531533987jweo",
+    "spotName": "首里城公園",
+    "prefecture": "沖縄県",
+    "imageUrl": "https://oki-park.jp/shurijo-park/wp-content/uploads/2021/04/shurijo-park-img.jpg",
+    "status": 404
+  },
+  {
+    "id": "17695315351257c6m7l",
+    "spotName": "川平湾",
+    "prefecture": "沖縄県",
+    "imageUrl": "https://www.ishigaki-navi.net/si/ph/kabirawan01.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531535403xb1fle",
+    "spotName": "伊良部大橋",
+    "prefecture": "沖縄県",
+    "imageUrl": "https://miyako-guide.net/wp-content/uploads/2019/04/irabu-ohashi-main.jpg",
+    "status": 404
+  },
+  {
+    "id": "17695315354537u3sd",
+    "spotName": "竹富島",
+    "prefecture": "沖縄県",
+    "imageUrl": "https://www.taketomi-island.jp/simg/taketomi-main.jpg",
+    "status": "ERROR"
+  },
+  {
+    "id": "1769531535941t34pg",
+    "spotName": "西表島",
+    "prefecture": "沖縄県",
+    "imageUrl": "https://www.iriomote.com/img/mainvisual_pc.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531536164m8cgey",
+    "spotName": "ポーたま 牧志市場店",
+    "prefecture": "沖縄県",
+    "imageUrl": "https://porktamago.com/wp-content/themes/porktamago/assets/images/concept/concept_slide_1.jpg",
+    "status": 404
+  },
+  {
+    "id": "17695315363395gnver",
+    "spotName": "ブルーシール 牧港本店",
+    "prefecture": "沖縄県",
+    "imageUrl": "https://www.blueseal.co.jp/wp-content/uploads/2021/04/blueseal-img.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531540350yfl40x",
+    "spotName": "タコライスcafe きじむなぁ 瀬長島ウミカジテラス店",
+    "prefecture": "沖縄県",
+    "imageUrl": "http://www.omutaco.com/images/menu/omutako01.jpg",
+    "status": 404
+  },
+  {
+    "id": "17695315410279mocbl",
+    "spotName": "ジャッキー ステーキハウス",
+    "prefecture": "沖縄県",
+    "imageUrl": "https://www.steak.co.jp/images/top_main.jpg",
+    "status": 404
+  },
+  {
+    "id": "17695315411156bbilf",
+    "spotName": "亜熱帯茶屋",
+    "prefecture": "沖縄県",
+    "imageUrl": "https://scontent-nrt1-1.cdninstagram.com/v/t51.2885-15/e35/118831343_188825222659020_8341852524458588880_n.jpg?_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_cat=109&_nc_ohc=...&oh=...&oe=...",
+    "status": 403
+  },
+  {
+    "id": "1769531541176so18ld",
+    "spotName": "浜辺の茶屋",
+    "prefecture": "沖縄県",
+    "imageUrl": "http://hamabenochaya.com/wp-content/uploads/2018/06/hamacha_main_visual.jpg",
+    "status": 403
+  },
+  {
+    "id": "17695315413458nkmrp",
+    "spotName": "KOURI SHRIMP",
+    "prefecture": "沖縄県",
+    "imageUrl": "https://kourishrimp.com/wp-content/uploads/2021/04/kourishrimp-img.jpg",
+    "status": "ERROR"
+  },
+  {
+    "id": "176953154199571exye",
+    "spotName": "砂山ビーチ",
+    "prefecture": "沖縄県",
+    "imageUrl": "https://miyako-guide.net/wp-content/uploads/2019/04/sunayama-beach-main.jpg",
+    "status": 404
+  },
+  {
+    "id": "17695315429504cehn",
+    "spotName": "玉取崎展望台",
+    "prefecture": "沖縄県",
+    "imageUrl": "https://www.ishigaki-navi.net/si/ph/tamatorizaki01.jpg",
+    "status": 404
+  },
+  {
+    "id": "1769531555445fo8xij",
+    "spotName": "ポポホットク",
+    "prefecture": "東京都",
+    "imageUrl": "https://sumifuku.net/wp-content/webpc-passthru.php?src=https://sumifuku.net/wp-content/uploads/2023/06/POPOO-1024x768.png&nocache=1",
+    "status": 404
+  }
+]

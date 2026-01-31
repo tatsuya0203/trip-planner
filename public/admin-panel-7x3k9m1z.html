@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅プランナー - 管理画面</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans h-full">
+
+    <div class="flex h-full">
+        <aside class="w-64 bg-gray-800 text-white flex flex-col flex-shrink-0">
+            <div class="p-6 text-center border-b border-gray-700">
+                <h1 class="text-2xl font-bold text-orange-500">管理者パネル</h1>
+                <p class="text-xs text-gray-400 mt-1">Trip Planner Admin</p>
+            </div>
+            <nav class="flex-grow p-4 space-y-2">
+                <button data-tab="dashboard" class="admin-tab-btn w-full text-left px-4 py-3 rounded hover:bg-gray-700 transition flex items-center gap-3 active-tab bg-gray-700">
+                    📊 ダッシュボード
+                </button>
+                <button data-tab="pending" class="admin-tab-btn w-full text-left px-4 py-3 rounded hover:bg-gray-700 transition flex items-center gap-3 relative">
+                    📩 承認待ちスポット
+                    <span id="pending-badge" class="hidden absolute right-4 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">0</span>
+                </button>
+                <button data-tab="spots" class="admin-tab-btn w-full text-left px-4 py-3 rounded hover:bg-gray-700 transition flex items-center gap-3">
+                    📍 スポット管理
+                </button>
+                <button data-tab="users" class="admin-tab-btn w-full text-left px-4 py-3 rounded hover:bg-gray-700 transition flex items-center gap-3">
+                    👥 ユーザー管理
+                </button>
+                <button data-tab="reports" class="admin-tab-btn w-full text-left px-4 py-3 rounded hover:bg-gray-700 transition flex items-center gap-3 relative">
+                    ⚠️ 通報・報告
+                    <span id="reports-badge" class="hidden absolute right-4 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">0</span>
+                </button>
+            </nav>
+            <div class="p-4 border-t border-gray-700">
+                <button id="admin-logout-btn" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded transition font-bold">ログアウト</button>
+            </div>
+        </aside>
+
+        <main class="flex-grow overflow-y-auto p-8 relative">
+            
+            <section id="tab-dashboard" class="admin-section">
+                <h2 class="text-2xl font-bold mb-6">ダッシュボード</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <h3 class="text-gray-500 text-sm font-bold">総スポット数</h3>
+                        <p id="stat-total-spots" class="text-4xl font-bold text-gray-800 mt-2">-</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <h3 class="text-gray-500 text-sm font-bold">承認待ち</h3>
+                        <p id="stat-pending-spots" class="text-4xl font-bold text-orange-500 mt-2">-</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                        <h3 class="text-gray-500 text-sm font-bold">総ユーザー数</h3>
+                        <p id="stat-total-users" class="text-4xl font-bold text-blue-500 mt-2">-</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-pending" class="admin-section hidden">
+                <h2 class="text-2xl font-bold mb-6 flex items-center gap-2">
+                    承認待ちスポット
+                    <button id="refresh-pending-btn" class="text-sm bg-gray-200 px-3 py-1 rounded hover:bg-gray-300">更新</button>
+                </h2>
+                <div id="pending-list-container" class="space-y-4">
+                    <p class="text-gray-500">読み込み中...</p>
+                </div>
+            </section>
+
+            <section id="tab-spots" class="admin-section hidden">
+                <h2 class="text-2xl font-bold mb-6">スポット一覧</h2>
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="p-4 border-b flex gap-4">
+                        <input type="text" id="admin-spot-search" placeholder="スポット名で検索" class="border p-2 rounded w-full max-w-md">
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="bg-gray-50 text-gray-700 text-sm uppercase">
+                                <tr>
+                                    <th class="p-4 border-b">ID</th>
+                                    <th class="p-4 border-b">画像</th>
+                                    <th class="p-4 border-b">名称</th>
+                                    <th class="p-4 border-b">都道府県</th>
+                                    <th class="p-4 border-b">カテゴリ</th>
+                                    <th class="p-4 border-b text-right">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-spots-table-body" class="text-sm"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-users" class="admin-section hidden">
+                <h2 class="text-2xl font-bold mb-6">ユーザー管理</h2>
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <table class="w-full text-left">
+                        <thead class="bg-gray-50 text-gray-700 text-sm">
+                            <tr>
+                                <th class="p-4 border-b">UID</th>
+                                <th class="p-4 border-b">名前</th>
+                                <th class="p-4 border-b">メール</th>
+                                <th class="p-4 border-b">権限</th>
+                                <th class="p-4 border-b text-right">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-users-table-body" class="text-sm"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="tab-reports" class="admin-section hidden">
+                <h2 class="text-2xl font-bold mb-6">画像リンク切れ・報告一覧</h2>
+                
+                <div class="mb-6 p-4 bg-white rounded-lg shadow-sm border border-gray-200">
+                    <h3 class="font-bold text-gray-700 mb-2">メンテナンスツール</h3>
+                    <button id="run-image-check-btn" class="bg-blue-600 text-white px-6 py-2 rounded-full font-bold hover:bg-blue-700 transition flex items-center gap-2">
+                        <span>🔍 画像リンク切れを一括チェック</span>
+                    </button>
+                    <p class="text-sm text-gray-500 mt-2">※全スポットの画像URLにアクセスして生存確認を行います。</p>
+                </div>
+
+                <div id="reports-list-container" class="space-y-4">
+                    </div>
+            </section>
+
+        </main>
+    </div>
+
+    <div id="admin-edit-modal" class="overlay-base z-[70] hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="modal-base max-w-2xl p-6 bg-white overflow-y-auto max-h-[90vh] rounded-lg shadow-xl w-full mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold" id="edit-modal-title">スポット編集</h3>
+                <button id="close-admin-edit-btn" class="text-2xl text-gray-500 hover:text-gray-800">×</button>
+            </div>
+            <form id="admin-edit-form" class="space-y-4">
+                <input type="hidden" id="edit-spot-id">
+                <div class="grid grid-cols-2 gap-4">
+                    <div><label class="block text-sm font-bold text-gray-700">スポット名</label><input type="text" id="edit-spot-name" class="w-full border p-2 rounded mt-1" required></div>
+                    <div><label class="block text-sm font-bold text-gray-700">都道府県</label><select id="edit-spot-pref" class="w-full border p-2 rounded mt-1"></select></div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div><label class="block text-sm font-bold text-gray-700">エリア</label><input type="text" id="edit-spot-area" class="w-full border p-2 rounded mt-1"></div>
+                    <div><label class="block text-sm font-bold text-gray-700">カテゴリ</label><select id="edit-spot-category" class="w-full border p-2 rounded mt-1"><option value="観光">観光</option><option value="グルメ">グルメ</option></select></div>
+                </div>
+                <div><label class="block text-sm font-bold text-gray-700">画像URL</label><input type="text" id="edit-spot-image" class="w-full border p-2 rounded mt-1"></div>
+                <div><label class="block text-sm font-bold text-gray-700">説明文</label><textarea id="edit-spot-desc" rows="4" class="w-full border p-2 rounded mt-1"></textarea></div>
+                <div class="flex justify-end gap-3 pt-4 border-t">
+                    <button type="button" id="delete-spot-btn" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">削除</button>
+                    <button type="submit" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600 font-bold">保存する</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="image-candidate-overlay" class="hidden fixed inset-0 bg-gray-900 bg-opacity-70 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-4xl h-[80vh] flex flex-col">
+            <h2 class="text-xl font-bold mb-4 text-gray-800 flex-shrink-0">新しい画像の候補 (Google画像検索)</h2>
+            <div id="image-candidate-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 overflow-y-auto p-2 flex-grow bg-gray-50 rounded border"></div>
+            <div class="flex justify-end gap-4 mt-4 pt-4 border-t flex-shrink-0">
+                <button id="image-candidate-cancel-btn" class="py-2 px-6 bg-gray-200 text-gray-700 rounded-lg font-bold hover:bg-gray-300">キャンセル</button>
+                <button id="image-candidate-confirm-btn" class="py-2 px-6 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 opacity-50 cursor-not-allowed transition" disabled>この画像に決定</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/admin.js"></script>
+</body>
+</html>

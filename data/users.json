@@ -1,0 +1,156 @@
+[
+  {
+    "uid": "b41b5a16-c319-485d-86f1-2b2bffcf712a",
+    "email": "tatsuyangkorn@outlook.jp",
+    "password": "487f3b80ea79d9fa47c7044185f4165ebaa3cea01797472eccbc7a56cb7b6ecd4acf6d854493bd22a8795e4bfbf775fe4c7a465c5264d5481267b1608481a0ce",
+    "salt": "51f57c475429e1dc941127b0a7c2d4be",
+    "displayName": "たつや",
+    "photoURL": "uploads/b41b5a16-c319-485d-86f1-2b2bffcf712a_1769601800488.png",
+    "role": "user",
+    "favorites": [
+      "桜井二見ヶ浦の夫婦岩",
+      "白い恋人パーク",
+      "PALM BEACH THE GARDENS",
+      "福岡タワー",
+      "篠栗九大の森",
+      "大砲ラーメン 本店",
+      "さっぽろテレビ塔",
+      "ユニバーサル・スタジオ・ジャパン",
+      "道頓堀",
+      "アメリカ村",
+      "梅田スカイビル・空中庭園展望台",
+      "海遊館"
+    ],
+    "createdAt": "2026-01-27T17:09:30.136Z",
+    "lastLoginAt": "2026-01-28T10:22:51.508Z",
+    "planSettings": {
+      "date": "2026-02-03",
+      "note": "iPhone"
+    },
+    "plans": [
+      {
+        "spotName": "桜井二見ヶ浦の夫婦岩",
+        "prefecture": "福岡県"
+      },
+      {
+        "spotName": "PALM BEACH THE GARDENS",
+        "prefecture": "福岡県"
+      },
+      {
+        "spotName": "ロンドンバスカフェ",
+        "prefecture": "福岡県"
+      },
+      {
+        "spotName": "またいちの塩 製塩所 工房とったん",
+        "prefecture": "福岡県"
+      }
+    ],
+    "plans_1": [
+      {
+        "spotName": "梅田スカイビル・空中庭園展望台",
+        "prefecture": "",
+        "day": 1
+      },
+      {
+        "spotName": "ユニバーサル・スタジオ・ジャパン",
+        "prefecture": "",
+        "day": 1
+      },
+      {
+        "spotName": "海遊館",
+        "prefecture": "",
+        "day": 2
+      },
+      {
+        "spotName": "アメリカ村",
+        "prefecture": "",
+        "day": 2
+      }
+    ],
+    "settings_1": {
+      "date": "2026-01-29",
+      "days": "2",
+      "note": ""
+    },
+    "history": [
+      {
+        "name": "ホテル エルシエント大阪",
+        "prefecture": "",
+        "tags": []
+      },
+      {
+        "name": "アメリカ村",
+        "prefecture": "",
+        "tags": []
+      },
+      {
+        "name": "海遊館",
+        "prefecture": "",
+        "tags": []
+      },
+      {
+        "name": "梅田スカイビル・空中庭園展望台",
+        "prefecture": "",
+        "tags": []
+      },
+      {
+        "name": "ユニバーサル・スタジオ・ジャパン",
+        "prefecture": "",
+        "tags": []
+      },
+      {
+        "name": "ホテルルートイン札幌北40条",
+        "prefecture": "",
+        "tags": []
+      },
+      {
+        "name": "モエレ沼公園",
+        "prefecture": "北海道",
+        "image": "https://www.sapporo.travel/cms/wp-content/uploads/2020/10/%E3%83%AA%E3%82%B5%E3%82%A4%E3%82%BA3.jpg",
+        "tags": [
+          "アート・建築",
+          "自然・癒し",
+          "絶景",
+          "おしゃれ",
+          "ユニーク",
+          "無料"
+        ]
+      },
+      {
+        "name": "ロンドンバスカフェ",
+        "prefecture": "福岡県",
+        "image": "https://s3-media0.fl.yelpcdn.com/bphoto/WfXCGogphokZo3D3mey6kg/348s.jpg",
+        "tags": [
+          "カフェ・喫茶店",
+          "スイーツ",
+          "インスタ映え",
+          "ユニーク",
+          "食べ歩き"
+        ]
+      },
+      {
+        "name": "PALM BEACH THE GARDENS",
+        "prefecture": "福岡県",
+        "image": "https://pix10.agoda.net/hotelImages/230475/-1/b5e7b1adcffa1f92479e626878164317.jpg?ce=0&s=1024x768",
+        "tags": [
+          "おしゃれ",
+          "インスタ映え",
+          "カフェ・喫茶店",
+          "ランチ",
+          "ショッピング"
+        ]
+      },
+      {
+        "name": "桜井二見ヶ浦の夫婦岩",
+        "prefecture": "福岡県",
+        "image": "https://newsatcl-pctr.c.yimg.jp/dk/expert-image/kenjotoshihiro/article/00248219/top_1654470221699.jpeg?exp=10800",
+        "tags": [
+          "絶景",
+          "インスタ映え",
+          "自然・癒し",
+          "定番スポット"
+        ]
+      }
+    ]
+  }
+]

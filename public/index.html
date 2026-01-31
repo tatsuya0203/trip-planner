@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Planner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="css/style.css"> 
+    <style>
+        ::-webkit-scrollbar { width: 8px; } 
+        ::-webkit-scrollbar-track { background: #f1f1f1; } 
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .active-filter { background-color: #f97316 !important; color: white !important; }
+        .view-section { display: none; } 
+        .view-section.active { display: block; }
+        
+        .draggable-item { cursor: grab; touch-action: none; }
+        .draggable-item:active { cursor: grabbing; }
+        .drop-zone { min-height: 100px; transition: background-color 0.2s; position: relative; z-index: 1; padding-bottom: 20px; }
+        .drop-zone.drag-over { background-color: #fff7ed; border-color: #f97316; }
+        .timeline-connector { position: absolute; left: 2.2rem; top: 100%; height: 2rem; border-left: 2px dashed #cbd5e1; z-index: 0; pointer-events: none; }
+        
+        .tab-active { border-bottom: 2px solid #4f46e5; color: #4f46e5; font-weight: bold; }
+        .tab-inactive { color: #6b7280; }
+
+        .custom-div-icon { background: none; border: none; }
+        .pin-inner {
+            background-color: #4f46e5; color: white; width: 24px; height: 24px;
+            border-radius: 50%; border: 2px solid white; text-align: center;
+            line-height: 20px; font-size: 12px; font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3); margin-left: -12px; margin-top: -12px;
+        }
+        .pin-inner.hotel-pin { background-color: #f59e0b; }
+    </style>
+</head>
+<body class="h-full font-sans text-gray-800 bg-gray-50">
+
+    <div id="auth-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-[9999] flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-xl p-8 max-w-sm w-full text-center">
+            <h2 id="auth-title" class="text-2xl font-bold text-orange-600 mb-4">ログイン</h2>
+            <div class="space-y-4">
+                <input type="text" id="display-name-input" class="w-full border rounded-lg px-4 py-2" placeholder="ユーザー名" style="display:none">
+                <input type="email" id="email-input" class="w-full border rounded-lg px-4 py-2" placeholder="メール">
+                <input type="password" id="password-input" class="w-full border rounded-lg px-4 py-2" placeholder="パスワード">
+            </div>
+            <button id="auth-btn" class="w-full bg-orange-500 text-white font-bold py-2 rounded-lg mt-6">ログイン</button>
+            <button id="guest-login-btn" class="w-full bg-gray-100 text-gray-600 font-bold py-2 rounded-lg mt-2">ゲスト</button>
+            <p class="mt-4 text-sm"><a href="#" id="auth-switch-link" class="text-orange-600">新規登録</a></p>
+        </div>
+    </div>
+
+    <div id="app-container" class="hidden min-h-screen flex flex-col">
+        <header class="bg-white shadow-sm sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+                <h1 class="text-xl font-bold text-gray-800">🍊 Trip Planner</h1>
+                <div class="flex items-center gap-2 md:gap-3">
+                    <button id="go-settings-btn" class="bg-indigo-600 text-white px-3 py-1.5 rounded-full font-bold text-xs md:text-sm shadow hover:bg-indigo-700 transition">🛠️ 編集・ホテル</button>
+                    
+                    <button id="plan-toggle-btn" class="bg-orange-50 text-orange-600 px-3 py-1.5 rounded-full font-bold text-xs md:text-sm border border-orange-100 hover:bg-orange-100 transition duration-200 cursor-pointer">
+                        プラン <span id="plan-badge-header" class="bg-red-500 text-white text-[10px] w-4 h-4 rounded-full inline-flex items-center justify-center">0</span>
+                    </button>
+                    
+                    <div class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition" id="user-profile-trigger">
+                        <img id="header-user-icon" src="https://placehold.co/100x100" class="w-8 h-8 rounded-full border object-cover">
+                    </div>
+                    <button id="logout-btn" class="bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full font-bold text-xs md:text-sm hover:bg-gray-200 transition">ログアウト</button>
+                </div>
+            </div>
+        </header>
+
+        <div id="main-view" class="view-section active container mx-auto p-4 flex-grow">
+            <nav class="bg-white/80 sticky top-16 z-30 p-4 rounded-xl shadow-sm mb-6">
+                <div class="flex flex-wrap gap-4 justify-between items-center">
+                    <div class="flex gap-2">
+                        <select id="prefecture-filter" class="bg-white border rounded-full px-3 py-1 text-sm font-bold"><option value="all">全国</option></select>
+                        <button id="open-prefecture-map-btn" class="p-1 bg-orange-50 text-orange-500 rounded-full hover:bg-orange-100">🗺️</button>
+                    </div>
+                    <div id="category-filters" class="flex gap-2 overflow-x-auto">
+                        <button data-filter="all" class="filter-btn active-filter px-4 py-1 rounded-full text-sm font-bold min-w-max transition">すべて</button>
+                        <button data-filter="観光" class="filter-btn bg-white px-4 py-1 rounded-full text-sm font-bold min-w-max transition">観光</button>
+                        <button data-filter="グルメ" class="filter-btn bg-white px-4 py-1 rounded-full text-sm font-bold min-w-max transition">グルメ</button>
+                        <button data-filter="favorites" class="filter-btn bg-white px-4 py-1 rounded-full text-sm font-bold text-pink-500 min-w-max transition">お気に入り</button>
+                    </div>
+                    <div class="flex gap-2 items-center w-full md:w-auto">
+                        <button id="add-spot-btn" class="text-xs bg-gray-100 px-3 py-1 rounded-full whitespace-nowrap hover:bg-gray-200">提案</button>
+                        <input type="text" id="search-input" placeholder="検索..." class="border rounded-full px-4 py-1 text-sm w-full">
+                    </div>
+                </div>
+            </nav>
+            <main>
+                <div id="spots-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pb-20"></div>
+            </main>
+        </div>
+
+        <div id="settings-view" class="view-section container mx-auto p-4 max-w-6xl flex-grow h-auto md:h-[calc(100vh-80px)]">
+            <div class="flex flex-col h-full bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="flex flex-col md:flex-row justify-between items-center p-4 border-b bg-gray-50 gap-2">
+                    <div class="flex flex-col md:flex-row items-center gap-2 md:gap-4 w-full md:w-auto">
+                        <h2 class="text-lg md:text-xl font-bold text-gray-800">旅程編集</h2>
+                        <div class="flex items-center gap-2">
+                            <div class="flex gap-1 bg-white border rounded-lg p-1">
+                                <button class="slot-btn px-3 py-1 text-xs font-bold rounded" data-slot="1">1</button>
+                                <button class="slot-btn px-3 py-1 text-xs font-bold rounded" data-slot="2">2</button>
+                                <button class="slot-btn px-3 py-1 text-xs font-bold rounded" data-slot="3">3</button>
+                            </div>
+                            <span id="current-slot-display" class="text-xs text-gray-500 font-bold">プラン1</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 w-full md:w-auto">
+                        <button id="calc-confirm-btn" class="bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-indigo-700 shadow flex items-center gap-2 text-sm w-full justify-center">
+                            <span>⚡ 確定計算</span>
+                        </button>
+                        <button id="back-to-main-btn" class="bg-white border text-gray-600 font-bold py-2 px-4 rounded-lg hover:bg-gray-50 text-sm whitespace-nowrap">閉じる</button>
+                    </div>
+                </div>
+
+                <div class="flex flex-col md:flex-row flex-grow overflow-hidden relative">
+                    <div class="w-full md:w-1/3 border-r bg-gray-50 flex flex-col overflow-hidden h-64 md:h-auto border-b md:border-b-0 sticky top-0 md:static z-20">
+                        <div class="flex border-b bg-white overflow-x-auto">
+                            <button class="source-tab flex-1 py-3 text-xs md:text-sm font-bold text-indigo-600 border-b-2 border-indigo-600 min-w-max px-2" data-target="plan">選択中</button>
+                            <button class="source-tab flex-1 py-3 text-xs md:text-sm font-bold text-gray-500 hover:bg-gray-50 min-w-max px-2" data-target="favorites">お気に入り</button>
+                            <button class="source-tab flex-1 py-3 text-xs md:text-sm font-bold text-gray-500 hover:bg-gray-50 min-w-max px-2" data-target="history">履歴</button>
+                        </div>
+                        <div class="flex-grow overflow-y-auto p-4" id="source-container">
+                            <div id="source-list" class="space-y-2"></div>
+                            <div id="hotel-search-form" class="hidden space-y-4"></div>
+                        </div>
+                    </div>
+
+                    <div class="w-full md:w-2/3 flex flex-col bg-white overflow-hidden h-full">
+                        <div class="p-3 border-b flex gap-4 items-center bg-white shadow-sm z-10 flex-wrap">
+                            <div class="flex items-center gap-2">
+                                <label class="text-xs font-bold text-gray-500">開始日</label>
+                                <input type="date" id="full-date-input" class="border rounded px-2 py-1 text-sm">
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <label class="text-xs font-bold text-gray-500">期間</label>
+                                <select id="full-days-input" class="border rounded px-2 py-1 text-sm font-bold bg-white">
+                                    <option value="1">日帰り</option>
+                                    <option value="2">1泊2日</option>
+                                    <option value="3">2泊3日</option>
+                                    <option value="4">3泊4日</option>
+                                </select>
+                            </div>
+                            <div style="display:none;"><textarea id="full-note-input"></textarea></div>
+                        </div>
+                        <div class="flex-grow overflow-y-auto p-4 md:p-6 bg-gray-100" id="timeline-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="plan-sidebar" class="fixed top-0 right-0 h-full w-full md:w-96 bg-white shadow-2xl z-[9990] transform translate-x-full transition-transform duration-300 flex flex-col">
+        <div class="p-4 border-b flex justify-between items-center bg-orange-50">
+            <div id="plan-summary-area" class="flex flex-col">
+                <h2 class="font-bold text-lg text-orange-700">クイック確認</h2>
+            </div>
+            <button id="close-plan-sidebar" class="text-2xl hover:text-orange-500">×</button>
+        </div>
+        <div id="plan-items-list" class="flex-grow overflow-y-auto p-4 space-y-2 bg-gray-50"></div>
+        <div class="p-4 border-t space-y-2 bg-white">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-xs font-bold text-gray-500">予想移動時間</span>
+                <span id="plan-total-time" class="text-lg font-bold text-indigo-600">0分</span>
+            </div>
+            <button id="advanced-calc-btn" class="w-full bg-blue-600 text-white text-sm font-bold py-2 rounded hover:bg-blue-700">⚡ 計算 & 保存</button>
+            <div class="grid grid-cols-2 gap-2"><button id="export-google-btn" class="bg-gray-100 text-gray-700 py-2 rounded text-xs font-bold hover:bg-gray-200">Googleカレ</button><button id="export-ical-btn" class="bg-gray-100 text-gray-700 py-2 rounded text-xs font-bold hover:bg-gray-200">iPhoneカレ</button></div>
+        </div>
+    </div>
+
+    <div id="confirm-plan-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 z-[9999] flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl w-full max-w-4xl relative flex flex-col h-[90vh] md:h-auto overflow-hidden">
+            <div class="flex md:hidden border-b bg-gray-50">
+                <button id="tab-map-btn" class="flex-1 py-3 text-sm tab-active">🗺️ 地図</button>
+                <button id="tab-list-btn" class="flex-1 py-3 text-sm tab-inactive">📝 詳細リスト</button>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-0 md:gap-4 overflow-hidden flex-grow">
+                <div id="map-section" class="w-full md:w-1/2 h-full md:h-[500px] bg-gray-200 relative">
+                    <div id="confirmation-map" class="absolute inset-0 w-full h-full"></div>
+                </div>
+                
+                <div id="list-section" class="w-full md:w-1/2 overflow-y-auto flex flex-col p-4 bg-white hidden md:flex">
+                    <h3 class="text-lg font-bold mb-3 text-center hidden md:block">プランの確定</h3>
+                    <div class="bg-gray-50 p-3 rounded-lg mb-3 flex-shrink-0">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-bold text-gray-500">総移動時間</span>
+                            <span id="confirm-total-time" class="text-xl font-bold text-indigo-600">--時間--分</span>
+                        </div>
+                    </div>
+                    
+                    <div id="confirm-route-details" class="text-sm text-gray-600 bg-white p-2 rounded border overflow-y-auto flex-grow mb-3 space-y-2"></div>
+
+                    <div class="border-t pt-3 mt-auto">
+                        <button id="open-google-maps-btn" class="w-full bg-green-500 text-white font-bold py-2 rounded-lg shadow mb-3 flex items-center justify-center gap-2 hover:bg-green-600">
+                            🗺️ Google Mapsアプリで開く
+                        </button>
+                        <div class="grid grid-cols-2 gap-2 mb-3">
+                            <button id="modal-google-calendar" class="bg-blue-50 text-blue-700 text-xs font-bold py-2 rounded hover:bg-blue-100">📅 カレンダー</button>
+                            <button id="modal-ical-calendar" class="bg-blue-50 text-blue-700 text-xs font-bold py-2 rounded hover:bg-blue-100">🍏 iPhone</button>
+                        </div>
+                        <div class="flex gap-2">
+                            <button id="do-save-plan-btn" class="flex-1 bg-indigo-600 text-white font-bold py-3 rounded-lg shadow hover:bg-indigo-700">保存して完了</button>
+                            <button id="cancel-save-plan-btn" class="flex-1 bg-gray-200 text-gray-700 font-bold py-3 rounded-lg hover:bg-gray-300">戻る</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="suggest-modal-overlay" class="hidden fixed inset-0 bg-black bg-opacity-60 z-[9999] flex items-center justify-center p-4"><div class="bg-white rounded-xl p-6 w-full max-w-md relative"><h3 class="font-bold mb-4">スポット提案</h3><input id="suggest-spot-name" class="w-full border rounded p-2 mb-2" placeholder="名前"><input id="suggest-spot-location" class="w-full border rounded p-2 mb-2" placeholder="場所"><input id="suggest-spot-map" class="w-full border rounded p-2 mb-2" placeholder="URL"><button id="submit-suggest-btn" class="w-full bg-green-500 text-white py-2 rounded font-bold hover:bg-green-600">送信</button><button id="close-suggest-modal" class="absolute top-4 right-4 text-2xl leading-none hover:text-gray-500">×</button></div></div>
+    <div id="prefecture-map-overlay" class="hidden fixed inset-0 bg-black bg-opacity-60 z-[9999] flex items-center justify-center p-4"><div class="bg-white rounded-xl w-full max-w-4xl p-6 h-[80vh] flex flex-col relative"><div class="flex justify-between mb-4"><h3 class="font-bold">都道府県選択</h3><button id="close-prefecture-map-btn" class="text-2xl hover:text-gray-500">×</button></div><div id="prefecture-map-container" class="overflow-y-auto flex-grow"></div></div></div>
+    <div id="cross-prefecture-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center p-4"><div class="bg-white rounded-xl p-6 text-center w-80 relative"><p id="cross-prefecture-message" class="mb-4 font-bold"></p><button id="cross-prefecture-add-btn" class="w-full bg-orange-500 text-white font-bold py-2 rounded mb-2 hover:bg-orange-600">追加</button><button id="cross-prefecture-cancel-btn" class="w-full bg-gray-200 font-bold py-2 rounded hover:bg-gray-300">やめる</button></div></div>
+    <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-70 z-[9999] flex items-center justify-center p-4"><div class="bg-white rounded-xl w-full max-w-4xl flex flex-col md:flex-row overflow-hidden max-h-[90vh] relative"><img id="modal-image" class="w-full md:w-1/2 h-64 md:h-auto object-cover bg-gray-200"><div class="p-6 md:w-1/2 overflow-y-auto"><button id="modal-close" class="absolute top-4 right-4 text-3xl md:relative md:float-right hover:text-gray-500">×</button><h3 id="modal-title" class="text-2xl font-bold mb-2"></h3><div id="modal-tags" class="flex gap-2 mb-4"></div><p id="modal-description" class="text-gray-600 mb-4"></p><div class="flex gap-4"><a id="modal-website" target="_blank" class="bg-red-400 text-white px-4 py-2 rounded font-bold cursor-pointer hover:bg-red-500">公式</a><a id="modal-map" target="_blank" class="bg-blue-500 text-white px-4 py-2 rounded font-bold cursor-pointer hover:bg-blue-600">地図</a></div></div></div></div>
+    <div id="app-report-overlay" class="hidden fixed inset-0 bg-black bg-opacity-60 z-[9999] flex items-center justify-center p-4"><div class="bg-white rounded-xl p-6 w-full max-w-md relative"><h3 class="font-bold mb-2">ご意見</h3><textarea id="app-report-description" class="w-full border rounded p-2 h-32"></textarea><div class="flex justify-end gap-2 mt-4"><button id="close-app-report-btn" class="text-gray-500 hover:text-gray-700">閉じる</button><button id="submit-app-report-btn" class="bg-blue-500 text-white px-4 py-2 rounded font-bold hover:bg-blue-600">送信</button></div></div></div>
+    <div id="news-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center p-4"><div class="bg-white rounded-xl w-full max-w-lg overflow-hidden relative"><div class="p-4 border-b flex justify-between items-center bg-gray-50"><h3 class="font-bold text-lg">🔔 お知らせ</h3><button id="close-news-btn" class="text-2xl hover:text-gray-500">×</button></div><div class="p-8 text-center text-gray-600"><p>現在、新しいお知らせはありません。</p></div></div></div>
+    <div id="profile-modal-overlay" class="hidden fixed inset-0 bg-black bg-opacity-60 z-[9999] flex items-center justify-center p-4"><div class="bg-white rounded-xl w-full max-w-md p-6 relative"><h3 class="font-bold mb-4">プロフィール</h3><div class="text-center mb-4"><div id="crop-container" class="hidden w-full h-64 bg-gray-100"><img id="crop-image-target" class="max-w-full"></div><div id="current-icon-view"><img id="profile-edit-icon" src="" class="w-24 h-24 rounded-full border mx-auto object-cover"></div><label class="block mt-2 cursor-pointer text-blue-500 text-sm font-bold hover:underline">写真を選択<input type="file" id="file-input" accept="image/*" class="hidden"></label></div><input type="text" id="profile-name" class="border w-full p-2 mb-2"><input id="profile-email" class="border w-full p-2 mb-4"><button id="save-profile-btn" class="bg-orange-500 text-white w-full py-2 rounded hover:bg-orange-600">保存</button><button id="close-profile-modal" class="absolute top-4 right-4 text-xl hover:text-gray-500">×</button></div></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+    <script type="module" src="js/main.js"></script> 
+</body>
+</html>
